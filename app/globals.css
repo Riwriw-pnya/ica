@@ -40,6 +40,26 @@
   --color-ink-400: #8C8078;
   --color-ink-700: #4A3D34;
   --color-ink-900: #231A14;
+
+  --color-sidebar: #FFFFFF;
+
+    /* Text & surface */
+  --color-text-primary: var(--color-ink-900);
+  --color-text-secondary: var(--color-ink-700);
+  --color-text-muted: var(--color-ink-400);
+  --color-border: var(--color-ink-100);
+  --color-surface: #FFFFFF;
+}
+
+@utility hover-lift {
+  transition-property: all;
+  transition-duration: 300ms;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  
+  &:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-xl);
+  }
 }
 
 @theme inline {

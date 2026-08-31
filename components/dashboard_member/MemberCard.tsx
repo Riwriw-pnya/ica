@@ -39,7 +39,7 @@ export default function MemberCard() {
           </p>
         </div>
 
-        <button className="rounded-full border border-[var(--color-brand-orange-500)] px-4 py-2 text-[11px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)]">
+        <button className="rounded-full border border-[var(--color-brand-orange-500)] px-4 py-2 text-[11px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-300)]">
           Lihat detail
         </button>
       </div>

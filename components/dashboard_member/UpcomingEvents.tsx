@@ -17,7 +17,7 @@ export default function UpcomingEvents() {
         {upcomingEvents.map((event) => (
           <article
             key={event.id}
-            className="flex items-center gap-3 rounded-lg border border-[var(--color-border)] p-2.5"
+            className="flex items-center gap-3 rounded-lg border border-[var(--color-border)] p-2.5 hover-lift"
           >
             <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[var(--color-brand-orange-50)]">
               <span className="text-xs font-semibold text-[var(--color-brand-orange-700)]">

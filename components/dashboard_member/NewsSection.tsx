@@ -13,11 +13,11 @@ export default function NewsSection() {
         </button>
       </div>
 
-      <div className="mt-3 divide-y divide-[var(--color-border)]">
+      <div className="mt-3 -mx-2 divide-y divide-[var(--color-border)]">
         {newsItems.map((item) => (
           <article
             key={item.id}
-            className="flex items-center gap-3 py-3"
+            className="flex items-center gap-3 rounded-lg px-2 py-3 transition-colors duration-200 hover:bg-[var(--color-brand-orange-50)]"
           >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]">
               <span className="text-xs">▧</span>
