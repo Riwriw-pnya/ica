@@ -9,11 +9,11 @@ export default function DashboardPage() {
       <div className="mx-auto max-w-[1200px] p-5 lg:p-6">
         {/* Welcome */}
         <section className="mb-5">
-          <h1 className="text-[22px] font-semibold tracking-tight text-[var(--color-text-primary)]">
+          <h1 className="font-heading text-[22px] font-semibold tracking-tight text-[var(--color-ink-900)]">
             Halo, Ayu
           </h1>
 
-          <p className="mt-1 text-[12px] text-[var(--color-text-secondary)]">
+          <p className="mt-1 font-body text-[12px] text-[var(--color-ink-700)]">
             Ringkasan keanggotaan dan kegiatan ICA untuk Anda.
           </p>
         </section>

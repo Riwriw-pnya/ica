@@ -2,8 +2,8 @@ import DashboardIcon from "./DashboardIcon";
 
 export default function Header() {
   return (
-    <header className="flex h-[54px] items-center justify-between border-b border-[var(--color-border)] bg-white px-5">
-      <h1 className="text-sm font-semibold text-[var(--color-text-primary)]">
+    <header className="flex h-[54px] items-center justify-between border-b border-[var(--color-ink-100)] bg-white px-5">
+      <h1 className="font-headingtext-sm font-semibold text-[var(--color-ink-900)]">
         Beranda
       </h1>
 
@@ -13,10 +13,10 @@ export default function Header() {
         </div>
 
         <div className="hidden sm:block">
-          <p className="text-[12px] font-semibold text-[var(--color-text-primary)]">
+          <p className="font-heading text-[12px] font-semibold text-[var(--color-ink-900)]">
             Ayu Prameswari
           </p>
-          <p className="text-[10px] text-[var(--color-text-muted)]">
+          <p className="font-body text-[10px] text-[var(--color-ink-700)]">
             ICA-M-004821
           </p>
         </div>

@@ -22,7 +22,7 @@ export default function MemberCard() {
           <h2 className="text-[17px] font-semibold text-[var(--color-brand-orange-900)]">
             Ayu Prameswari
           </h2>
-          <p className="mt-0.5 text-[11px] text-[var(--color-text-muted)]">
+          <p className="mt-0.5 text-[11px] text-[var(--color-ink-400)]">
             ICA-M-004821 · Jawa Barat
           </p>
         </div>
@@ -30,16 +30,16 @@ export default function MemberCard() {
 
       <div className="mt-10 flex items-end justify-between">
         <div>
-          <p className="text-[10px] text-[var(--color-text-muted)]">
+          <p className="text-[10px] text-[var(--color-ink-400)]">
             Berlaku hingga
           </p>
 
-          <p className="mt-0.5 text-xs font-semibold text-[var(--color-text-primary)]">
+          <p className="mt-0.5 text-xs font-semibold text-[var(--color-ink-900)]">
             31 Agu 2026
           </p>
         </div>
 
-        <button className="rounded-full border border-[var(--color-brand-orange-500)] px-4 py-2 text-[11px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-300)]">
+        <button className="cursor-pointer rounded-full border border-[var(--color-brand-orange-500)] px-4 py-2 text-[11px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-gradient-to-b hover:from-[var(--color-brand-orange-50)] hover:to-[var(--color-brand-orange-300)]">
           Lihat detail
         </button>
       </div>
