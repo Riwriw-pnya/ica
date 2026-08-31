@@ -3,6 +3,7 @@ export interface NewsItem {
   title: string;
   category: string;
   date: string;
+  href: string;
 }
 
 export interface EventItem {
@@ -11,10 +12,12 @@ export interface EventItem {
   month: string;
   title: string;
   location: string;
+  href: string;
 }
 
 export interface QuickAccessItem {
   id: number;
   title: string;
   icon: string;
+  href: string;
 }
