@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 export default function AboutSection() {
   return (
@@ -17,34 +18,44 @@ export default function AboutSection() {
             oleh para pemilik, penyayang dan pemerhati kucing dari kota kota besar yang ada di Indonesia, 
             seperti Bandung, Jakarta, Surabaya dan lain lain.
           </p>
-          <Link href="#" className="inline-flex items-center text-orange-600 font-medium text-sm hover:underline">
-            Kenali ICA lebih jauh &rarr;
+          
+          {/* Tautan dengan Animasi Underline Kiri ke Kanan & Icon Panah */}
+          <Link 
+            href="#" 
+            className="group inline-flex items-center gap-2 text-sm font-semibold text-[#C85A17] hover:text-[#EE6B28] transition relative w-fit py-1"
+          >
+            <span className="relative">
+              Kenali ICA lebih jauh
+              {/* Garis bawah animasi dari kiri ke kanan */}
+              <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
+            </span>
+            <svg 
+              className="w-4 h-4 transition-transform duration-300 group-hover:translate-x-1" 
+              fill="none" 
+              stroke="currentColor" 
+              strokeWidth="2.5" 
+              viewBox="0 0 24 24"
+            >
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+            </svg>
           </Link>
         </div>
 
-        <div className="md:col-span-5 bg-[#FFF6ED] rounded-3xl p-6 border border-orange-100 shadow-sm space-y-4">
-          <div className="bg-white rounded-2xl p-4 shadow-sm flex items-center gap-4">
-            <div className="w-12 h-12 bg-orange-100 rounded-xl flex items-center justify-center font-extrabold text-orange-600">ICA</div>
-            <div>
-              <h4 className="font-bold text-gray-900 text-sm">Indonesian Cat Association</h4>
-              <p className="text-xs text-gray-400">Connecting Cat Communities</p>
-            </div>
-          </div>
-          <div className="grid grid-cols-3 gap-3 text-center">
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
-              <span className="block text-xl font-bold text-orange-600">500+</span>
-              <span className="text-[11px] text-gray-400">Member</span>
-            </div>
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
-              <span className="block text-xl font-bold text-orange-600">100+</span>
-              <span className="text-[11px] text-gray-400">Cattery</span>
-            </div>
-            <div className="bg-white rounded-2xl p-4 shadow-sm">
-              <span className="block text-xl font-bold text-orange-600">50+</span>
-              <span className="text-[11px] text-gray-400">Event</span>
+        <div className="md:col-span-5 flex justify-center">
+          <div className="inline-block bg-white p-3 rounded-[32px] shadow-[0_12px_40px_rgba(0,0,0,0.08)] border border-gray-100">
+            <div className="relative rounded-[24px] overflow-hidden">
+              <Image 
+                src="/images/about.webp"
+                alt="Tentang ICA" 
+                width={500}
+                height={400}
+                className="w-auto h-auto max-h-[380px] object-contain rounded-[24px]"
+                priority
+              />
             </div>
           </div>
         </div>
+
       </div>
     </section>
   );

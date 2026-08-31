@@ -20,13 +20,22 @@ export default function Navbar() {
 
   return (
     <>
-      {/* Tinggi navbar dipangkas jadi h-18 agar lebih ramping */}
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#F3D1BD]/60 shadow-xs">
         <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
           
           <div className="flex items-center gap-8">
-            {/* Logo ICA */}
-            <Link href="/landing-page" className="flex items-center gap-2">
+            {/* Logo ICA dengan Smooth Scroll ke Atas */}
+            <a 
+              href="#" 
+              onClick={(e) => {
+                e.preventDefault();
+                window.scrollTo({
+                  top: 0,
+                  behavior: 'smooth'
+                });
+              }}
+              className="flex items-center gap-2 cursor-pointer"
+            >
               <Image
                 src="/images/LOGO-ICA.webp"
                 alt="ICA Logo"
@@ -34,10 +43,10 @@ export default function Navbar() {
                 height={42}
                 className="object-contain"
               />
-            </Link>
+            </a>
 
-            {/* Menu Navigasi yang Lebih Ringkas */}
-            <nav className="hidden lg:flex items-center gap-5 text-sm font-medium text-[#231812]">
+            {/* Menu Navigasi */}
+            <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-[#231812]">
               
               {/* Menu Utama: Company (Pusat Informasi & Organisasi) */}
               <div 
@@ -48,8 +57,12 @@ export default function Navbar() {
                   setActiveSubDropdown(null);
                 }}
               >
-                <button className="flex items-center gap-1 hover:text-[#C85A17] transition cursor-pointer">
-                  <span>Company</span>
+                <button className="flex items-center gap-1 hover:text-[#C85A17] transition cursor-pointer relative py-1">
+                  <span className="relative">
+                    Company
+                    {/* Animasi Underline Kiri ke Kanan */}
+                    <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
+                  </span>
                   <svg className={`w-3.5 h-3.5 transition-transform duration-200 ${isCompanyOpen ? "rotate-180" : ""}`} fill="none" stroke="currentColor" viewBox="0 0 24 24">
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 9l-7 7-7-7" />
                   </svg>
@@ -108,13 +121,58 @@ export default function Navbar() {
                 )}
               </div>
 
-              {/* Menu Utama Luar Lainnya (Dipilih yang paling sering diakses) */}
-              <Link href="#" className="hover:text-[#C85A17] transition">Tentang</Link>
-              <Link href="#" className="hover:text-[#C85A17] transition">Breed Standard</Link>
-              <Link href="#" className="hover:text-[#C85A17] transition">Cattery Names</Link>
-              <Link href="#" className="hover:text-[#C85A17] transition">Galeri</Link>
-              <Link href="#" className="hover:text-[#C85A17] transition">Contact</Link>
-              <Link href="#" className="hover:text-[#C85A17] transition">Store</Link>
+              {/* Menu Navigasi dengan Efek Underline Animasi Kiri ke Kanan */}
+              <Link 
+                href="https://fifeweb.org/cats/breeds/" 
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition"
+              >
+                <span className="relative">
+                  Breed Standard
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
+                </span>
+              </Link>
+
+              <Link 
+                href="#" 
+                className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition"
+              >
+                <span className="relative">
+                  Cattery Names
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
+                </span>
+              </Link>
+
+              <Link 
+                href="#" 
+                className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition"
+              >
+                <span className="relative">
+                  Galeri
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
+                </span>
+              </Link>
+
+              <Link 
+                href="#" 
+                className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition"
+              >
+                <span className="relative">
+                  Contact
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
+                </span>
+              </Link>
+
+              <Link 
+                href="#" 
+                className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition"
+              >
+                <span className="relative">
+                  Store
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
+                </span>
+              </Link>
 
             </nav>
           </div>

@@ -45,8 +45,22 @@ export default function NewsSection() {
     <section className="py-16 max-w-6xl mx-auto px-6">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900">Berita terbaru</h2>
-        <Link href="#" className="text-xs font-medium text-orange-600 hover:underline">
-          Lihat semua &rarr;
+        
+        {/* Tombol Lihat Semua dengan Icon Panah Sesuai Gambar */}
+        <Link 
+          href="#" 
+          className="group inline-flex items-center gap-2 text-xs font-semibold text-[#C85A17] hover:text-[#EE6B28] transition"
+        >
+          <span>Lihat semua</span>
+          <svg 
+            className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" 
+            fill="none" 
+            stroke="currentColor" 
+            strokeWidth="2.5" 
+            viewBox="0 0 24 24"
+          >
+            <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
+          </svg>
         </Link>
       </div>
 
