@@ -12,7 +12,7 @@ export default function UpcomingEvents() {
         <div className="px-3 rounded-lg hover:bg-[var(--color-brand-orange-50)] hover:text-[var(--color-brand-orange-700)]">
           <Link
           href="/dashboard_member/event"
-          className="text-[11px] font-body font-medium text-[var(--color-brand-orange-900]"
+          className="text-[11px] font-body font-medium text-[var(--color-brand-orange-700)] transition"
         >
           Semua →
         </Link>
