@@ -115,8 +115,8 @@ export default function Navbar() {
                       )}
                     </div>
 
-                    <Link href="#" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">Rules and Form</Link>
-                    <Link href="#" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">News</Link>
+                    <Link href="/rules" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">Rules and Form</Link>
+                    <Link href="/news" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">News</Link>
                     <Link href="#" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">Event</Link>
                   </div>
                 )}
@@ -129,7 +129,7 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              <Link href="#" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
+              <Link href="/catteryN" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
                 <span className="relative">
                   Cattery Names
                   <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
@@ -143,7 +143,7 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              <Link href="#" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
+              <Link href="/contact" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
                 <span className="relative">
                   Contact
                   <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>

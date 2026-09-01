@@ -48,7 +48,7 @@ export default function NewsSection() {
         
         {/* Tombol Lihat Semua dengan Icon Panah Sesuai Gambar */}
         <Link 
-          href="#" 
+          href="/news" 
           className="group inline-flex items-center gap-2 text-xs font-semibold text-[#C85A17] hover:text-[#EE6B28] transition"
         >
           <span>Lihat semua</span>
