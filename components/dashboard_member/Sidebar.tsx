@@ -1,8 +1,12 @@
 "use client";
 
+import { useRef } from "react";
 import Link from "next/link";
-import { usePathname } from "next/navigation";
+import { usePathname, useRouter } from "next/navigation";
 import DashboardIcon from "./DashboardIcon";
+import UserMenuDropdown from "./UserMenuDropdown";
+import { useUserMenu } from "@/context/UserMenuContext";
+import { useClickOutside } from "@/hooks/useClickOutside";
 
 const menus = [
   { label: "Beranda", icon: "dashboard", href: "/dashboard_member" },
@@ -15,6 +19,18 @@ const menus = [
 
 export default function Sidebar() {
   const pathname = usePathname();
+  const router = useRouter();
+  const { openMenu, toggleMenu, closeMenu } = useUserMenu();
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  useClickOutside(containerRef, closeMenu);
+
+  const isOpen = openMenu === "sidebar";
+
+  const handleLogout = () => {
+    closeMenu();
+    router.push("/login");
+  };
 
   return (
     <aside className="hidden w-[208px] shrink-0 border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] lg:flex lg:flex-col">
@@ -24,7 +40,7 @@ export default function Sidebar() {
           ICA
         </div>
 
-        <span className="text-sm font-semibold text-[var(--color-ink-900)]">
+        <span className="font-heading text-sm font-semibold text-[var(--color-ink-900)]">
           Member Portal
         </span>
       </div>
@@ -57,13 +73,16 @@ export default function Sidebar() {
       </nav>
 
       {/* Bottom profile */}
-      <div className="border-t border-[var(--color-ink-100)] p-3">
-        <div className="flex items-center gap-2">
+      <div ref={containerRef} className="relative border-t border-[var(--color-ink-100)] p-3">
+        <button
+          onClick={() => toggleMenu("sidebar")}
+          className="flex w-full items-center gap-2 rounded-lg p-1 transition hover:bg-[var(--color-brand-orange-50)]"
+        >
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[11px] font-medium text-[var(--color-brand-orange-700)]">
             AP
           </div>
 
-          <div className="min-w-0 flex-1">
+          <div className="min-w-0 flex-1 text-left">
             <p className="truncate text-[12px] font-semibold text-[var(--color-ink-900)]">
               Ayu Prameswari
             </p>
@@ -73,7 +92,16 @@ export default function Sidebar() {
           </div>
 
           <DashboardIcon name="chevron" size={14} />
-        </div>
+        </button>
+
+        {isOpen && (
+          <UserMenuDropdown
+            position="top"
+            widthClass="inset-x-0"
+            onNavigate={closeMenu}
+            onLogout={handleLogout}
+          />
+        )}
       </div>
     </aside>
   );
