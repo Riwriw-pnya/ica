@@ -129,7 +129,7 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              <Link href="#" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
+              <Link href="/catteryN" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
                 <span className="relative">
                   Cattery Names
                   <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
@@ -160,14 +160,14 @@ export default function Navbar() {
             </nav>
           </div>
 
-          <div className="flex items-center gap-3 text-sm font-semibold">
+          <div className="flex items-center gap-3 text-s font-semibold">
             <button onClick={() => openAuthModal("login")} className="text-[#C85A17] hover:text-[#EE6B28] px-3 py-2 transition cursor-pointer">
               Masuk
             </button>
             
             <button 
               onClick={() => openAuthModal("register")} 
-              className="px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
+              className="px-5 py-2 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-sm
               shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
               border-t border-[#FFE5D4]
               hover:-translate-y-0.5 hover:brightness-95 
