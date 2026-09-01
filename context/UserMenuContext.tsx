@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useState, useCallback, useMemo } from "react";
 
 type MenuSource = "header" | "sidebar" | null;
 
@@ -15,14 +15,19 @@ const UserMenuContext = createContext<UserMenuContextValue | null>(null);
 export function UserMenuProvider({ children }: { children: React.ReactNode }) {
   const [openMenu, setOpenMenu] = useState<MenuSource>(null);
 
-  const toggleMenu = (source: "header" | "sidebar") => {
+  const toggleMenu = useCallback((source: "header" | "sidebar") => {
     setOpenMenu((prev) => (prev === source ? null : source));
-  };
+  }, []);
 
-  const closeMenu = () => setOpenMenu(null);
+  const closeMenu = useCallback(() => setOpenMenu(null), []);
+
+  const value = useMemo(
+    () => ({ openMenu, toggleMenu, closeMenu }),
+    [openMenu, toggleMenu, closeMenu],
+  );
 
   return (
-    <UserMenuContext.Provider value={{ openMenu, toggleMenu, closeMenu }}>
+    <UserMenuContext.Provider value={value}>
       {children}
     </UserMenuContext.Provider>
   );
