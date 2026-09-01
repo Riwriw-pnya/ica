@@ -35,10 +35,10 @@ export default function ContactPage() {
           </h2>
 
           <div className="max-w-sm mx-auto bg-white rounded-2xl border border-[#E9E2DC] p-6 shadow-xs text-center space-y-4">
-            <div className="w-32 h-32 mx-auto rounded-2xl overflow-hidden bg-[#FFF6EC] border border-[#F3D1BD]/50 flex items-center justify-center">
+            <div className="w-40 h-40 mx-auto rounded-2xl overflow-hidden bg-[#FFF6EC] border border-[#F3D1BD]/50 flex items-center justify-center">
               {/* Gambar / Foto Admin Edward */}
               <img
-                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400" 
+                src="/images/edward.webp" 
                 alt="Edward - Admin Sekretariat"
                 className="w-full h-full object-cover"
               />

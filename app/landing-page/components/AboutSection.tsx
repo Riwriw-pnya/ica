@@ -19,14 +19,13 @@ export default function AboutSection() {
             seperti Bandung, Jakarta, Surabaya dan lain lain.
           </p>
           
-          {/* Tautan dengan Animasi Underline Kiri ke Kanan & Icon Panah */}
           <Link 
-            href="#" 
+            href="/organisasi/profil" 
             className="group inline-flex items-center gap-2 text-sm font-semibold text-[#C85A17] hover:text-[#EE6B28] transition relative w-fit py-1"
           >
-            <span className="relative">
+            <span 
+            className="relative">
               Kenali ICA lebih jauh
-              {/* Garis bawah animasi dari kiri ke kanan */}
               <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
             </span>
             <svg 
