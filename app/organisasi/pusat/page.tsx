@@ -40,7 +40,7 @@ export default function PengurusPusatPage() {
                 <span className="text-[#2D2421]">Pengurus</span> <span className="text-[#E86826]">Pusat</span>
               </h2>
               <p className="text-xs sm:text-sm text-[#66564B] font-medium">
-                Executive and Functionaries Board of ICA Periode / The Period 2024-2027
+                Executive and Functionaries Board of ICA (2024-2027)
               </p>
             </div>
             <div className="flex-1 h-[1px] bg-[#E2E8F0]"></div>
