@@ -59,7 +59,7 @@ export default function Footer() {
             <h5 className="font-bold text-xs text-white uppercase tracking-wider">Tentang Kami</h5>
             <ul className="space-y-1.5 text-xs text-neutral-400">
               <li><Link href="#" className="hover:text-orange-400 transition">Profil & Sejarah</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Dewan Pembina</Link></li>
+              <li><Link href="#" className="hover:text-orange-400 transition">Dewan Pengawas</Link></li>
               <li><Link href="#" className="hover:text-orange-400 transition">Dewan Pengurus Pusat</Link></li>
               <li><Link href="#" className="hover:text-orange-400 transition">Cabang ICA</Link></li>
               <li><Link href="#" className="hover:text-orange-400 transition">Daftar Juri</Link></li>
