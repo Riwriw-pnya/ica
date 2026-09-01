@@ -50,9 +50,9 @@ export default function NewsFilterGrid({ items }: NewsFilterGridProps) {
           <Link
             key={item.id}
             href={item.href}
-            className="group overflow-hidden rounded-xl border border-[var(--color-ink-100)] bg-white transition-shadow duration-200 hover:shadow-md"
+            className="group overflow-hidden rounded-xl border border-[var(--color-ink-100)] bg-white hover-lift"
           >
-            <div className="flex h-36 items-center justify-center bg-[var(--color-brand-orange-100)] transition-colors duration-200 group-hover:bg-[var(--color-brand-orange-300)]">
+            <div className="flex h-36 items-center justify-center bg-[var(--color-brand-orange-100)] transition-colors duration-200">
               <svg
                 width="36"
                 height="36"
