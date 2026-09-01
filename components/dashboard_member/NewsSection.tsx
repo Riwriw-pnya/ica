@@ -1,4 +1,5 @@
 import { newsItems } from "@/data/dashboard_member";
+import Link from "next/link";
 
 export default function NewsSection() {
   return (
@@ -8,16 +9,22 @@ export default function NewsSection() {
           Berita terbaru
         </h2>
 
-        <button className="cursor-pointer font-body text-[11px] font-medium text-[var(--color-brand-orange-700)]">
-          Semua berita →
-        </button>
+        <div className="px-3 rounded-lg hover:bg-[var(--color-brand-orange-50)] hover:text-[var(--color-brand-orange-700)]">
+          <Link
+          href="/dashboard_member/berita"
+          className="text-[11px] font-body font-medium text-[var(--color-brand-orange-900]"
+        >
+          Semua Berita →
+        </Link>
+        </div>
       </div>
 
       <div className="mt-3 -mx-2 divide-y divide-[var(--color-ink-100)]">
         {newsItems.map((item) => (
-          <article
+          <Link
             key={item.id}
-            className="cursor-pointer flex items-center gap-3 rounded-lg px-2 py-3 transition-colors duration-200 hover:bg-[var(--color-brand-orange-50)]"
+            href={item.href}
+            className="cursor-pointer halftone-hover flex items-center gap-3 rounded-lg px-2 py-3 transition-colors duration-200 hover:bg-[var(--color-brand-orange-50)]"
           >
             <div className="flex h-9 w-9 shrink-0 items-center justify-center rounded-md bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]">
               <span className="text-xs">▧</span>
@@ -32,7 +39,7 @@ export default function NewsSection() {
                 {item.category} · {item.date}
               </p>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

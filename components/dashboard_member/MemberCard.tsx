@@ -1,3 +1,5 @@
+import Link from "next/link";
+
 export default function MemberCard() {
   return (
     <section className="relative overflow-hidden rounded-xl border border-[var(--color-brand-orange-300)] bg-gradient-to-br from-[var(--color-brand-orange-100)] to-white p-5">
@@ -39,9 +41,12 @@ export default function MemberCard() {
           </p>
         </div>
 
-        <button className="cursor-pointer rounded-full border border-[var(--color-brand-orange-500)] px-4 py-2 text-[11px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-gradient-to-b hover:from-[var(--color-brand-orange-50)] hover:to-[var(--color-brand-orange-300)]">
+        <Link
+          href="/dashboard_member/keanggotaan"
+          className="halftone-hover rounded-full border border-[var(--color-brand-orange-500)] px-4 py-2 text-[11px] font-medium text-[var(--color-brand-orange-700)] transition-colors duration-200 hover:border-[var(--color-brand-orange-300)] hover:bg-gradient-to-b hover:from-white hover:to-[var(--color-brand-orange-100)]"
+        >
           Lihat detail
-        </button>
+        </Link>
       </div>
     </section>
   );

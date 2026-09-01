@@ -1,4 +1,5 @@
 import { upcomingEvents } from "@/data/dashboard_member";
+import Link from "next/link";
 
 export default function UpcomingEvents() {
   return (
@@ -8,16 +9,22 @@ export default function UpcomingEvents() {
           Event mendatang
         </h2>
 
-        <div className="cursor-pointer text-[11px] font-body text-[var(--color-brand-orange-700)]">
+        <div className="px-3 rounded-lg hover:bg-[var(--color-brand-orange-50)] hover:text-[var(--color-brand-orange-700)]">
+          <Link
+          href="/dashboard_member/event"
+          className="text-[11px] font-body font-medium text-[var(--color-brand-orange-900]"
+        >
           Semua →
+        </Link>
         </div>
       </div>
 
       <div className="mt-3 space-y-2 cursor-pointer">
         {upcomingEvents.map((event) => (
-          <article
+          <Link
             key={event.id}
-            className="cursor-pointer flex items-center gap-3 rounded-lg border border-[var(--color-ink-100)] p-2.5 hover-lift transition hover:bg-gradient-to-b hover:from-white hover:to-[var(--color-brand-orange-100)] hover:border-[var(--color-brand-orange-300)]"
+            href={event.href}
+            className="cursor-pointer halftone-hover flex items-center gap-3 rounded-lg border border-[var(--color-ink-100)] p-2.5 hover-lift transition hover:bg-gradient-to-b hover:from-white hover:to-[var(--color-brand-orange-100)] hover:border-[var(--color-brand-orange-300)]"
           >
             <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[var(--color-brand-orange-50)]">
               <span className="text-xs font-semibold text-[var(--color-brand-orange-700)]">
@@ -38,7 +45,7 @@ export default function UpcomingEvents() {
                 {event.location}
               </p>
             </div>
-          </article>
+          </Link>
         ))}
       </div>
     </section>

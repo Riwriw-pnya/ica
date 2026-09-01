@@ -1,37 +1,29 @@
 import { quickAccessItems } from "@/data/dashboard_member";
 import DashboardIcon from "./DashboardIcon";
+import Link from "next/link";
 
 export default function QuickAccess() {
   return (
-    <section className="rounded-xl border border-[var(--color-border)] bg-white p-5">
-      <h2 className="text-sm font-semibold text-[var(--color-text-primary)]">
+    <section className="rounded-xl border border-[var(--color-ink-100)] bg-white p-5">
+      <h2 className="text-sm font-semibold text-[var(--color-ink-900)]">
         Akses cepat
       </h2>
 
       <div className="mt-4 grid grid-cols-2 gap-2">
         {quickAccessItems.map((item) => (
-          <button
+          <Link
             key={item.id}
-            className="flex h-[64px] flex-col items-start justify-between rounded-lg border border-[var(--color-border)] p-3 text-left transition hover:border-[var(--color-brand-orange-300)] hover:bg-[var(--color-brand-orange-50)] hover-lift"
+            href={item.href}
+            className="halftone-hover group relative flex h-[64px] flex-col items-start justify-between overflow-hidden rounded-lg border border-[var(--color-ink-100)] p-3 text-left transition-colors duration-200 hover:border-[var(--color-brand-orange-300)] hover-lift hover:bg-gradient-to-b hover:from-white hover:to-[var(--color-brand-orange-100)]"
           >
-            <div
-              className="pointer-events-none absolute inset-0 opacity-0 transition-opacity duration-300 group-hover:opacity-100"
-              style={{
-                backgroundImage:
-                  "radial-gradient(var(--color-brand-orange-300) 1px, transparent 1px)",
-                backgroundSize: "8px 8px",
-                backgroundColor: "var(--color-brand-orange-50)",
-              }}
-            />
-
-            <span className="relative z-10 text-[var(--color-brand-orange-500)]">
+            <span className="text-[var(--color-brand-orange-500)]">
               <DashboardIcon name={item.icon} size={16} />
-            </span> 
+            </span>
 
             <span className="text-[11px] font-medium text-[var(--color-ink-900)]">
               {item.title}
             </span>
-          </button>
+          </Link>
         ))}
       </div>
     </section>
