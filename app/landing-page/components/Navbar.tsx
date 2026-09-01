@@ -89,9 +89,9 @@ export default function Navbar() {
                           <Link href="/organisasi/pengawas" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Dewan Pengawas</Link>
                           <Link href="/organisasi/pusat" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Pengurus Pusat</Link>
                           <Link href="/organisasi/cabang" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Cabang ICA</Link>
-                          <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Daftar Juri</Link>
-                          <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Bank Info</Link>
-                          <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Mail Hosting</Link>
+                          <Link href="/organisasi/juri" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Daftar Juri</Link>
+                          <Link href="/organisasi/bank" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Bank Info</Link>
+                          <Link href="https://srv101.niagahoster.com:2096/" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Mail Hosting</Link>
                         </div>
                       )}
                     </div>
