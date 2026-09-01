@@ -45,14 +45,13 @@
 }
 
 @utility hover-lift {
-  transition-property: all;
-  transition-duration: 300ms;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition: transform 300ms, 
+              box-shadow 300ms ease,;
   
   &:hover {
-    transform: translateY(-3px);
-    transform: translateY(-1px);
-    box-shadow: var(--shadow-xl);
+    transform: translateY(-2px); /* Atur tingginya di sini */
+    box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.2);
+    border-color: var(--color-brand-orange-300);
   }
 }
 
