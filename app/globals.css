@@ -50,7 +50,7 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   
   &:hover {
-    transform: translateY(-3px);
+    transform: translateY(-1px);
     box-shadow: var(--shadow-xl);
   }
 }
@@ -73,4 +73,29 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-body);
+}
+
+.halftone-hover {
+  position: relative;
+  overflow: hidden;
+}
+
+.halftone-hover::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.3s;
+  background-image: radial-gradient(var(--color-brand-orange-100) 1px, transparent 1px);
+  background-size: 8px 8px;
+}
+
+.halftone-hover:hover::after {
+  opacity: 1;
+}
+
+.halftone-hover > * {
+  position: relative;
+  z-index: 10;
 }
