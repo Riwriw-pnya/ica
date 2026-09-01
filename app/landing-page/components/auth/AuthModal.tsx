@@ -31,7 +31,6 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
         className="bg-white rounded-[28px] p-7 sm:p-8 max-w-[620px] w-full shadow-[0_20px_50px_rgba(0,0,0,0.12)] relative text-[#231A14] animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
       >
-        {/* Tombol Close */}
         <button
           onClick={onClose}
           className="absolute top-6 right-6 text-[#8C8078] hover:text-[#231A14] transition cursor-pointer p-1"
@@ -41,16 +40,12 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
           </svg>
         </button>
 
-        {/* Header Modal */}
         <h3 className="text-xl font-bold tracking-tight text-[#231A14]">Pilih tipe akun</h3>
         <p className="text-xs text-[#8C8078] mt-1 font-normal">
           Akses dan menu yang Anda lihat menyesuaikan tipe akun ini.
         </p>
 
-        {/* Opsi Kartu Pilihan */}
         <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 mt-6">
-          
-          {/* Opsi Member */}
           <div
             onClick={() => setSelectedType("member")}
             className={`cursor-pointer rounded-[22px] p-5 border-2 transition-all duration-200 relative select-none ${
@@ -82,7 +77,6 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
             </p>
           </div>
 
-          {/* Opsi Cattery */}
           <div
             onClick={() => setSelectedType("cattery")}
             className={`cursor-pointer rounded-[22px] p-5 border-2 transition-all duration-200 relative select-none ${
@@ -113,10 +107,8 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
               Kelola cattery: data kucing, mating report, dan pengajuan ke admin ICA.
             </p>
           </div>
-
         </div>
 
-        {/* Footer Actions */}
         <div className="mt-8 flex items-center justify-between pt-1">
           <p className="text-xs text-[#8C8078]">
             Anda akan masuk ke <span className="font-medium text-[#4A3D34]">{selectedType === "member" ? "Member Portal" : "Cattery Portal"}.</span>
@@ -125,14 +117,15 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
           <div className="flex gap-2.5 items-center">
             <button
               onClick={onClose}
-              className="px-6 py-2.5 rounded-full border border-transparent text-xs font-semibold text-[#4A3D34] hover:bg-white hover:border-[#E9E2DC] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all duration-200 cursor-pointer"
+              className="px-6 py-2.5 rounded-full bg-gradient-to-b from-white to-[#F2EFE9] text-[#7A6E65] font-bold text-xs shadow-[0_3px_8px_rgba(0,0,0,0.08)] border border-[#E9E2DC] hover:-translate-y-0.5 hover:text-[#231A14] hover:brightness-95 active:translate-y-0.5 active:shadow-[0_1px_4px_rgba(0,0,0,0.1)] transition-all duration-150 cursor-pointer"
             >
               Batal
             </button>
 
+            {/* Tombol Lanjutkan: Gradasi Soft Orange ke Orange + Teks Putih */}
             <button
               onClick={handleContinue}
-              className="px-7 py-2.5 rounded-full bg-gradient-to-r from-[#FFB16C] via-[#FF9F5C] to-[#EE6B28] text-white text-xs font-semibold shadow-[0_6px_16px_rgba(238,107,40,0.35)] hover:brightness-105 active:scale-95 transition cursor-pointer"
+              className="px-7 py-2.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs shadow-[0_4px_12px_rgba(238,107,40,0.25)] border-t border-[#FFE5D4] hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150 cursor-pointer"
             >
               Lanjutkan
             </button>

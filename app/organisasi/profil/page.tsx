@@ -58,8 +58,8 @@ export default function ProfilePage() {
             
             <div className="absolute inset-0 bg-black/10"></div>
 
-            <div className="absolute -bottom-4 left-1/2 transform -translate-x-1/2 z-30">
-              <span className="inline-block bg-[#FFEEDD] border border-[#FDE4D0] text-[#D96B27] text-xs font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-sm">
+            <div className="absolute -bottom-6 left-1/2 transform -translate-x-1/2 z-30">
+              <span className="inline-block bg-[#FFEEDD] border border-[#FDE4D0] text-[#D96B27] text-m font-bold px-5 py-2 rounded-full uppercase tracking-wider shadow-sm">
                 Tentang Organisasi
               </span>
             </div>
