@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 
 interface AuthModalProps {
   isOpen: boolean;
@@ -9,18 +10,23 @@ interface AuthModalProps {
 }
 
 export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
+  const router = useRouter();
   const [selectedType, setSelectedType] = useState<"member" | "cattery">("member");
 
   if (!isOpen) return null;
 
   const isLogin = mode === "login";
 
+  const handleContinue = () => {
+    onClose();
+    router.push(`/auth/${mode}/${selectedType}`);
+  };
+
   return (
     <div 
       className="fixed inset-0 z-50 flex items-center justify-center bg-black/35 backdrop-blur-[2px] p-4 animate-in fade-in duration-200"
       onClick={onClose}
     >
-      {/* Container Modal */}
       <div 
         className="bg-white rounded-[28px] p-7 sm:p-8 max-w-[620px] w-full shadow-[0_20px_50px_rgba(0,0,0,0.12)] relative text-[#231A14] animate-in zoom-in-95 duration-200"
         onClick={(e) => e.stopPropagation()}
@@ -53,12 +59,9 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
                 : "border-[#E9E2DC] bg-white hover:border-[#FFC894]"
             }`}
           >
-            {/* Circle Outline saat unselected untuk Member */}
             {selectedType !== "member" && (
               <div className="absolute top-4 right-4 w-6 h-6 rounded-full border-2 border-[#E9E2DC]" />
             )}
-
-            {/* Badge Centang saat selected untuk Member */}
             {selectedType === "member" && (
               <div className="absolute top-4 right-4 w-7 h-7 rounded-full bg-gradient-to-b from-[#FFB16C] to-[#FF9F5C] flex items-center justify-center text-white shadow-[0_4px_12px_rgba(255,159,92,0.45)]">
                 <svg className="w-3.5 h-3.5 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -66,13 +69,11 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
                 </svg>
               </div>
             )}
-
             <div className="w-11 h-11 rounded-2xl bg-[#FFEBD6] flex items-center justify-center text-[#C8601D] mb-4">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
               </svg>
             </div>
-
             <h4 className="font-bold text-sm text-[#231A14]">
               {isLogin ? "Login as Member" : "Daftar sebagai Member"}
             </h4>
@@ -90,12 +91,9 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
                 : "border-[#E9E2DC] bg-white hover:border-[#FFC894]"
             }`}
           >
-            {/* Circle Outline saat unselected untuk Cattery */}
             {selectedType !== "cattery" && (
               <div className="absolute top-4 right-4 w-6 h-6 rounded-full border-2 border-[#E9E2DC]" />
             )}
-
-            {/* Badge Centang saat selected untuk Cattery */}
             {selectedType === "cattery" && (
               <div className="absolute top-4 right-4 w-7 h-7 rounded-full bg-gradient-to-b from-[#FFB16C] to-[#FF9F5C] flex items-center justify-center text-white shadow-[0_4px_12px_rgba(255,159,92,0.45)]">
                 <svg className="w-3.5 h-3.5 stroke-[3]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -103,13 +101,11 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
                 </svg>
               </div>
             )}
-
             <div className="w-11 h-11 rounded-2xl bg-[#F7F4F1] flex items-center justify-center text-[#8C8078] mb-4">
               <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
               </svg>
             </div>
-
             <h4 className="font-bold text-sm text-[#231A14]">
               {isLogin ? "Login as Cattery" : "Daftar sebagai Cattery"}
             </h4>
@@ -127,7 +123,6 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
           </p>
 
           <div className="flex gap-2.5 items-center">
-            {/* Tombol Batal */}
             <button
               onClick={onClose}
               className="px-6 py-2.5 rounded-full border border-transparent text-xs font-semibold text-[#4A3D34] hover:bg-white hover:border-[#E9E2DC] hover:shadow-[0_4px_12px_rgba(0,0,0,0.06)] transition-all duration-200 cursor-pointer"
@@ -135,12 +130,8 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
               Batal
             </button>
 
-            {/* Tombol Lanjutkan */}
             <button
-              onClick={() => {
-                alert(`Lanjutkan ke ${mode} sebagai ${selectedType}`);
-                onClose();
-              }}
+              onClick={handleContinue}
               className="px-7 py-2.5 rounded-full bg-gradient-to-r from-[#FFB16C] via-[#FF9F5C] to-[#EE6B28] text-white text-xs font-semibold shadow-[0_6px_16px_rgba(238,107,40,0.35)] hover:brightness-105 active:scale-95 transition cursor-pointer"
             >
               Lanjutkan
