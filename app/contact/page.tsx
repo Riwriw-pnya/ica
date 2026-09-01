@@ -2,7 +2,6 @@
 
 import Navbar from "@/app/landing-page/components/Navbar";
 import Footer from "@/app/landing-page/components/Footer";
-import Image from "next/image";
 
 export default function ContactPage() {
   const cleanWhatsapp = "6281280543524";
@@ -36,13 +35,12 @@ export default function ContactPage() {
           </h2>
 
           <div className="max-w-sm mx-auto bg-white rounded-2xl border border-[#E9E2DC] p-6 shadow-xs text-center space-y-4">
-            <div className="w-32 h-32 mx-auto rounded-2xl overflow-hidden bg-[#FFF6EC] border border-[#F3D1BD]/50 relative flex items-center justify-center">
-              
-              <Image
-                src="/images/edward.webp" 
+            <div className="w-32 h-32 mx-auto rounded-2xl overflow-hidden bg-[#FFF6EC] border border-[#F3D1BD]/50 flex items-center justify-center">
+              {/* Gambar / Foto Admin Edward */}
+              <img
+                src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?auto=format&fit=crop&q=80&w=400" 
                 alt="Edward - Admin Sekretariat"
-                fill
-                className="object-cover"
+                className="w-full h-full object-cover"
               />
             </div>
             <div>
@@ -169,13 +167,11 @@ export default function ContactPage() {
         {/* Section 3: Informasi Rekening Bank Mandiri */}
         <section className="pt-4">
           <div className="max-w-xl mx-auto bg-white rounded-2xl border border-[#E9E2DC] p-6 sm:p-8 text-center space-y-4 shadow-xs">
-            
-            <div className="flex justify-center">
-              <img
-                src="/images/mandiri.png"
-                alt="Logo Bank Mandiri"
-                className="h-10 sm:h-12 object-contain"
-              />
+            {/* Logo Mandiri Text / Brand */}
+            <div className="space-y-1">
+              <span className="text-2xl sm:text-3xl font-black tracking-tight text-blue-900 font-sans">
+                mandiri
+              </span>
             </div>
 
             <div className="space-y-1 pt-2">
