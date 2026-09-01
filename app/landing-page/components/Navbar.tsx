@@ -87,8 +87,8 @@ export default function Navbar() {
                         <div className="absolute left-full top-0 w-48 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1">
                           <Link href="/organisasi/profil" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Profil & Sejarah</Link>
                           <Link href="/organisasi/pengawas" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Dewan Pengawas</Link>
+                          <Link href="/organisasi/pusat" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Pengurus Pusat</Link>
                           <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Cabang ICA</Link>
-                          <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Pengurus Pusat</Link>
                           <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Daftar Juri</Link>
                           <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Bank Info</Link>
                           <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Mail Hosting</Link>
