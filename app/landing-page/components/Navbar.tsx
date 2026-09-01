@@ -164,7 +164,16 @@ export default function Navbar() {
             <button onClick={() => openAuthModal("login")} className="text-[#C85A17] hover:text-[#EE6B28] px-3 py-2 transition cursor-pointer">
               Masuk
             </button>
-            <button onClick={() => openAuthModal("register")} className="bg-gradient-to-r from-[#F99F5D] to-[#EE6B28] text-white px-5 py-2 rounded-full shadow-md shadow-orange-500/15 hover:opacity-95 transition cursor-pointer text-xs">
+            
+            <button 
+              onClick={() => openAuthModal("register")} 
+              className="px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
+              shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
+              border-t border-[#FFE5D4]
+              hover:-translate-y-0.5 hover:brightness-95 
+              active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] 
+              transition-all duration-150 cursor-pointer"
+            >
               Daftar
             </button>
           </div>
