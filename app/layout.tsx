@@ -1,9 +1,16 @@
 import type { Metadata } from "next";
-import { Plus_Jakarta_Sans } from "next/font/google";
+import { Poppins, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
-// Menggunakan font Plus Jakarta Sans agar sesuai gaya tampilan UI modern
-const jakarta = Plus_Jakarta_Sans({
+// Konfigurasi font Poppins
+const poppins = Poppins({
+  subsets: ["latin"],
+  weight: ["400", "500", "600", "700", "800"],
+  variable: "--font-poppins",
+});
+
+// Konfigurasi font Plus Jakarta Sans
+const plusJakartaSans = Plus_Jakarta_Sans({
   subsets: ["latin"],
   weight: ["400", "500", "600", "700", "800"],
   variable: "--font-jakarta",
@@ -23,8 +30,11 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="id" className="scroll-smooth">
-      <body className={`${jakarta.className} antialiased`}>
+    <html
+      lang="id"
+      className={`${poppins.variable} ${plusJakartaSans.variable} scroll-smooth antialiased`}
+    >
+      <body className="min-h-screen flex flex-col font-jakarta bg-white text-gray-900">
         {children}
       </body>
     </html>
