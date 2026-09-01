@@ -50,6 +50,7 @@
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
   
   &:hover {
+    transform: translateY(-3px);
     transform: translateY(-1px);
     box-shadow: var(--shadow-xl);
   }
@@ -75,6 +76,7 @@ body {
   font-family: var(--font-body);
 }
 
+
 .halftone-hover {
   position: relative;
   overflow: hidden;
@@ -99,3 +101,4 @@ body {
   position: relative;
   z-index: 10;
 }
+
