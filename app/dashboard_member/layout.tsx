@@ -1,5 +1,6 @@
 import Sidebar from "@/components/dashboard_member/Sidebar";
 import Header from "@/components/dashboard_member/Header";
+import { UserMenuProvider } from "@/context/UserMenuContext";
 
 export default function DashboardLayout({
   children,
@@ -7,16 +8,18 @@ export default function DashboardLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <div className="flex h-screen overflow-hidden bg-[var(--color-sidebar)] ">
-      <Sidebar />
+    <UserMenuProvider>
+      <div className="flex h-screen overflow-hidden bg-[var(--color-sidebar)] ">
+        <Sidebar />
 
-      <div className="flex min-w-0 flex-1 flex-col">
-        <Header />
+        <div className="flex min-w-0 flex-1 flex-col">
+          <Header />
 
-        <div className="min-h-0 flex-1 overflow-auto">
-          {children}
+          <div className="min-h-0 flex-1 overflow-auto">
+            {children}
+          </div>
         </div>
       </div>
-    </div>
+    </UserMenuProvider>
   );
 }
