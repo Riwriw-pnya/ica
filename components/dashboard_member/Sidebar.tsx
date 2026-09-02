@@ -25,9 +25,11 @@ export default function Sidebar() {
   const { isSidebarOpen } = useSidebar();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(containerRef, closeMenu);
-
   const isOpen = openMenu === "sidebar";
+
+  useClickOutside(containerRef, () => {
+    if (isOpen) closeMenu();
+  });
 
   const handleLogout = () => {
     closeMenu();

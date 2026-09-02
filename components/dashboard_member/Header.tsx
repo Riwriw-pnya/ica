@@ -36,9 +36,11 @@ export default function Header() {
   const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
 
-  useClickOutside(containerRef, closeMenu);
-
   const isOpen = openMenu === "header";
+
+  useClickOutside(containerRef, () => {
+    if (isOpen) closeMenu();
+  });
   const title = getPageTitle(pathname);
 
   const handleLogout = () => {
