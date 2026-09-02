@@ -74,6 +74,7 @@ export default function Navbar() {
                 {isCompanyOpen && (
                   <div className="absolute top-full left-0 w-56 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-150">
                     
+                    {/* Sub Dropdown Organisasi */}
                     <div 
                       className="relative px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition cursor-pointer flex items-center justify-between"
                       onMouseEnter={() => setActiveSubDropdown("organisasi")}
@@ -85,7 +86,7 @@ export default function Navbar() {
                       </svg>
 
                       {activeSubDropdown === "organisasi" && (
-                        <div className="absolute left-full top-0 w-48 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1">
+                        <div className="absolute left-full top-0 w-48 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1 before:absolute before:-left-3 before:top-0 before:w-3 before:h-full before:content-['']">
                           <Link href="/organisasi/profil" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Profil & Sejarah</Link>
                           <Link href="/organisasi/pengawas" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Dewan Pengawas</Link>
                           <Link href="/organisasi/pusat" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Pengurus Pusat</Link>
@@ -97,6 +98,7 @@ export default function Navbar() {
                       )}
                     </div>
 
+                    {/* Sub Dropdown Cats Title */}
                     <div 
                       className="relative px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition cursor-pointer flex items-center justify-between"
                       onMouseEnter={() => setActiveSubDropdown("cats-title")}
@@ -108,7 +110,7 @@ export default function Navbar() {
                       </svg>
 
                       {activeSubDropdown === "cats-title" && (
-                        <div className="absolute left-full top-0 w-60 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1">
+                        <div className="absolute left-full top-0 w-60 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1 before:absolute before:-left-3 before:top-0 before:w-3 before:h-full before:content-['']">
                           <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Cat Title Status</Link>
                           <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Peserta World Winner Show</Link>
                         </div>
@@ -185,4 +187,3 @@ export default function Navbar() {
     </>
   );
 }
-
