@@ -3,6 +3,56 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
+
+  /* Brand */
+  --color-brand-orange-50: #fff6ec;
+  --color-brand-orange-100: #ffebd6;
+  --color-brand-orange-300: #ffc894;
+  --color-brand-orange-400: #ffb16c;
+  --color-brand-orange-500: #ff9f5c;
+  --color-brand-orange-700: #c8601d;
+  --color-brand-orange-900: #7a3a0f;
+
+  /* Rose */
+  --color-brand-rose-50: #fbedee;
+  --color-brand-rose-100: #f3dadb;
+  --color-brand-rose-500: #e8a9ac;
+
+  /* Semantic */
+  --color-success: #3C9A5F;
+  --color-success-bg: #E7F5EC;
+
+  --color-warning: #E2A33D;
+  --color-warning-bg: #FCF1DE;
+
+  --color-danger: #D64545;
+  --color-danger-bg: #FBE7E7;
+
+  --color-info: #4C7EA8;
+  --color-info-bg: #E8F1F8;
+
+  --color-neutral: #EDEAE6;
+  --color-neutral-bg: #6B625B;
+
+  /*Ink*/
+  --color-ink-50: #F7F4F1;
+  --color-ink-100: #E9E2DC;
+  --color-ink-400: #8C8078;
+  --color-ink-700: #4A3D34;
+  --color-ink-900: #231A14;
+
+  --color-sidebar: #FFFFFF;
+}
+
+@utility hover-lift {
+  transition: transform 300ms, 
+              box-shadow 300ms ease;
+  
+  &:hover {
+    transform: translateY(-2px); /* Atur tingginya di sini */
+    box-shadow: 0 10px 25px -5px rgba(249, 115, 22, 0.2);
+    border-color: var(--color-brand-orange-300);
+  }
 }
 
 @theme inline {

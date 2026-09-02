@@ -32,10 +32,10 @@ export default function NewsFilterGrid({ items }: NewsFilterGridProps) {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`rounded-full px-4 py-1.5 text-[12px] font-medium transition-colors duration-200 ${
+              className={`cursor-pointer rounded-full px-4 py-1.5 text-[12px] font-medium transition-colors duration-200 ${
                 isActive
-                  ? "bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]"
-                  : "border border-[var(--color-ink-100)] text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-50)]"
+                  ? "bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)] border border-[var(--color-brand-orange-300)]"
+                  : "border border-[var(--color-ink-100)] text-[var(--color-ink-700)] hover:text-[var(--color-brand-orange-700)]"
               }`}
             >
               {category}
@@ -50,9 +50,9 @@ export default function NewsFilterGrid({ items }: NewsFilterGridProps) {
           <Link
             key={item.id}
             href={item.href}
-            className="group overflow-hidden rounded-xl border border-[var(--color-ink-100)] bg-white transition-shadow duration-200 hover:shadow-md"
+            className="group overflow-hidden rounded-xl border border-[var(--color-ink-100)] bg-white hover-lift"
           >
-            <div className="flex h-36 items-center justify-center bg-[var(--color-brand-orange-100)] transition-colors duration-200 group-hover:bg-[var(--color-brand-orange-300)]">
+            <div className="flex h-36 items-center justify-center bg-[var(--color-brand-orange-100)] transition-colors duration-200">
               <svg
                 width="36"
                 height="36"
