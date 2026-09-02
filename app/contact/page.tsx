@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import Navbar from "@/app/landing-page/components/Navbar";
 import Footer from "@/app/landing-page/components/Footer";
 
@@ -36,7 +37,7 @@ export default function ContactPage() {
 
           <div className="max-w-sm mx-auto bg-white rounded-2xl border border-[#E9E2DC] p-6 shadow-xs text-center space-y-4">
             <div className="w-40 h-40 mx-auto rounded-2xl overflow-hidden bg-[#FFF6EC] border border-[#F3D1BD]/50 flex items-center justify-center">
-              {/* Gambar / Foto Admin Edward */}
+              {/*  Foto Admin */}
               <img
                 src="/images/edward.webp" 
                 alt="Edward - Admin Sekretariat"
@@ -167,11 +168,15 @@ export default function ContactPage() {
         {/* Section 3: Informasi Rekening Bank Mandiri */}
         <section className="pt-4">
           <div className="max-w-xl mx-auto bg-white rounded-2xl border border-[#E9E2DC] p-6 sm:p-8 text-center space-y-4 shadow-xs">
-            {/* Logo Mandiri Text / Brand */}
-            <div className="space-y-1">
-              <span className="text-2xl sm:text-3xl font-black tracking-tight text-blue-900 font-sans">
-                mandiri
-              </span>
+            {/* Logo Mandiri */}
+            <div className="flex justify-center items-center">
+              <Image
+                src="/images/mandiri.png"
+                alt="Bank Mandiri"
+                width={200}
+                height={60}
+                className="h-12 sm:h-16 w-auto object-contain"
+              />
             </div>
 
             <div className="space-y-1 pt-2">

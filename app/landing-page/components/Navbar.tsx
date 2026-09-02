@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import AuthModal from "./auth/AuthModal";
+import AuthModal from "../../../components/auth/AuthModal";
 
 export default function Navbar() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
@@ -74,6 +74,7 @@ export default function Navbar() {
                 {isCompanyOpen && (
                   <div className="absolute top-full left-0 w-56 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 animate-in fade-in slide-in-from-top-2 duration-150">
                     
+                    {/* Sub Dropdown Organisasi */}
                     <div 
                       className="relative px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition cursor-pointer flex items-center justify-between"
                       onMouseEnter={() => setActiveSubDropdown("organisasi")}
@@ -85,7 +86,7 @@ export default function Navbar() {
                       </svg>
 
                       {activeSubDropdown === "organisasi" && (
-                        <div className="absolute left-full top-0 w-48 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1">
+                        <div className="absolute left-full top-0 w-48 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1 before:absolute before:-left-3 before:top-0 before:w-3 before:h-full before:content-['']">
                           <Link href="/organisasi/profil" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Profil & Sejarah</Link>
                           <Link href="/organisasi/pengawas" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Dewan Pengawas</Link>
                           <Link href="/organisasi/pusat" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Pengurus Pusat</Link>
@@ -97,6 +98,7 @@ export default function Navbar() {
                       )}
                     </div>
 
+                    {/* Sub Dropdown Cats Title */}
                     <div 
                       className="relative px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition cursor-pointer flex items-center justify-between"
                       onMouseEnter={() => setActiveSubDropdown("cats-title")}
@@ -108,7 +110,7 @@ export default function Navbar() {
                       </svg>
 
                       {activeSubDropdown === "cats-title" && (
-                        <div className="absolute left-full top-0 w-60 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1">
+                        <div className="absolute left-full top-0 w-60 bg-white border border-[#E9E2DC] rounded-2xl shadow-xl py-2 ml-1 before:absolute before:-left-3 before:top-0 before:w-3 before:h-full before:content-['']">
                           <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Cat Title Status</Link>
                           <Link href="#" className="block px-4 py-2 text-xs text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17]">Peserta World Winner Show</Link>
                         </div>
@@ -117,7 +119,7 @@ export default function Navbar() {
 
                     <Link href="/rules" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">Rules and Form</Link>
                     <Link href="/news" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">News</Link>
-                    <Link href="#" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">Event</Link>
+                    <Link href="/event" className="block px-4 py-2 text-xs font-medium text-[#4A3D34] hover:bg-[#FFF6EC] hover:text-[#C85A17] transition">Event</Link>
                   </div>
                 )}
               </div>
@@ -136,13 +138,6 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              <Link href="#" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
-                <span className="relative">
-                  Galeri
-                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
-                </span>
-              </Link>
-
               <Link href="/contact" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
                 <span className="relative">
                   Contact
@@ -150,7 +145,14 @@ export default function Navbar() {
                 </span>
               </Link>
 
-              <Link href="#" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
+              <Link href="/galeri" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
+                <span className="relative">
+                  Galeri
+                  <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
+                </span>
+              </Link>
+
+              <Link href="/store" className="group relative py-2 text-gray-600 hover:text-[#C85A17] transition">
                 <span className="relative">
                   Store
                   <span className="absolute bottom-0 left-0 w-0 h-[2px] bg-[#EE6B28] transition-all duration-300 ease-out group-hover:w-full"></span>
@@ -185,4 +187,3 @@ export default function Navbar() {
     </>
   );
 }
-
