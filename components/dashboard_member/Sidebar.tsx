@@ -29,7 +29,7 @@ export default function Sidebar() {
 
   const handleLogout = () => {
     closeMenu();
-    router.push("/login");
+    router.push("/auth/login/member");
   };
 
   return (
@@ -58,9 +58,9 @@ export default function Sidebar() {
               <Link
                 key={menu.href}
                 href={menu.href}
-                className={`flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-[13px] transition ${
+                className={`flex w-full items-center gap-3 rounded-lg py-2.5 pl-[9px] pr-3 text-left text-[13px] transition ${
                 isActive
-                  ? "bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]"
+                  ? "border-[var(--color-brand-orange-500)] border-l-[3px] bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]"
                   : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-100)] hover:text-[var(--color-brand-orange-700)]"
               }`}
               >

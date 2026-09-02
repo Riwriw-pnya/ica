@@ -18,7 +18,7 @@ export default function Header() {
 
   const handleLogout = () => {
     closeMenu();
-    router.push("/login");
+    router.push("/auth/login/member");
   };
 
   return (
