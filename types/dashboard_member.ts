@@ -22,3 +22,15 @@ export interface QuickAccessItem {
   icon: string;
   href: string;
 }
+
+export interface CatteryItem {
+  id: number;
+  name: string;
+  status: "Terverifikasi" | "Dalam review";
+  region: string;
+  breeds: string[];
+  score: number;
+  whatsapp: string;
+  address: string;
+  href: string;
+}
