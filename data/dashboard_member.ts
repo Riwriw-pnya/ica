@@ -1,4 +1,4 @@
-import { CatteryItem, EventItem, NewsItem, QuickAccessItem } from "@/types/dashboard_member";
+import { CatteryItem, EventItem, MembershipHistoryItem, MembershipInfo, NewsItem, QuickAccessItem } from "@/types/dashboard_member";
 
 export const quickAccessItems: QuickAccessItem[] = [
   { id: 1, title: "Daftar event", icon: "calendar", href: "/dashboard_member/event" },
@@ -87,4 +87,19 @@ export const catteryItems: CatteryItem[] = [
     address: "Jl. Gatot Subroto No. 12, Medan 20115",
     href: "/dashboard_member/direktori/6",
   },
+];
+
+export const membershipInfo: MembershipInfo = {
+  name: "Ayu Prameswari",
+  memberId: "ICA-M-004821",
+  region: "Jawa Barat",
+  status: "Aktif",
+  startDate: "2025-09-01",
+  endDate: "2026-08-31",
+};
+
+export const membershipHistory: MembershipHistoryItem[] = [
+  { id: 1, title: "Perpanjangan keanggotaan 2025/2026 disetujui", date: "01 Sep 2025" },
+  { id: 2, title: "Pembayaran iuran diterima", date: "29 Agu 2025" },
+  { id: 3, title: "Pendaftaran member baru", date: "12 Agu 2024" },
 ];

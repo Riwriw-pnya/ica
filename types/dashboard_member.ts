@@ -34,3 +34,18 @@ export interface CatteryItem {
   address: string;
   href: string;
 }
+
+export interface MembershipInfo {
+  name: string;
+  memberId: string;
+  region: string;
+  status: "Aktif" | "Kedaluwarsa" | "Menunggu pembayaran";
+  startDate: string;
+  endDate: string;
+}
+
+export interface MembershipHistoryItem {
+  id: number;
+  title: string;
+  date: string;
+}
