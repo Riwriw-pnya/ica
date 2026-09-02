@@ -134,6 +134,13 @@ export default function DashboardIcon({
           </svg>
         );
 
+      case "menu":
+        return (
+          <svg {...commonProps}>
+            <path d="M4 6h16M4 12h16M4 18h16" />
+          </svg>
+        );
+
     default:
       return null;
   }
