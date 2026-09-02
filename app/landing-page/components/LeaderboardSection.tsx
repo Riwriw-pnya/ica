@@ -83,20 +83,6 @@ export default function LeaderboardSection() {
               Lihat cattery dengan performa terbaik berdasarkan penilaian dan aktivitas ICA.
             </p>
           </div>
-          <Link
-            href="#"
-            className="inline-flex items-center gap-1.5 text-xs font-bold text-[#C85A17] hover:text-[#EE6B28] transition group"
-          >
-            <span>Lihat semua</span>
-            <svg
-              className="w-4 h-4 transform group-hover:translate-x-1 transition-transform"
-              fill="none"
-              stroke="currentColor"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M14 5l7 7m0 0l-7 7m7-7H3" />
-            </svg>
-          </Link>
         </div>
 
         {/* Podium Top 3 */}

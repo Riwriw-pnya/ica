@@ -3,6 +3,7 @@
 import { use, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import AuthModal from "@/app/landing-page/components/auth/AuthModal";
 
 interface PageProps {
@@ -16,13 +17,18 @@ export default function AuthFormPage({ params }: PageProps) {
   const resolvedParams = use(params);
   const { mode, type } = resolvedParams;
 
+  const router = useRouter();
   const isLogin = mode === "login";
   const isMember = type === "member";
 
   const [isModalOpen, setIsModalOpen] = useState(false);
 
-  // Menampilkan input nama cattery hanya jika mode Register dan tipe Cattery
   const showCatteryName = !isLogin && !isMember;
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    router.push("/dashboard_member"); 
+  };
 
   return (
     <main className="h-screen w-full bg-white flex items-center justify-center relative overflow-hidden">
@@ -38,14 +44,14 @@ export default function AuthFormPage({ params }: PageProps) {
         </svg>
       </Link>
 
-      {/* Container Utama Split Screen (Tinggi dikunci h-screen, overflow hidden agar tidak ada layout shift) */}
+      {/* Container Utama Split Screen */}
       <div className="w-full h-full flex flex-col md:flex-row relative overflow-hidden">
         
-        {/* Sisi Kiri (Panel Informasi / Brand berlatar Cream) */}
+        {/* Sisi Kiri (Panel Informasi) */}
         <div className="w-full md:w-5/12 bg-[#FFF6EC] p-8 md:p-14 lg:p-16 flex flex-col justify-between border-r border-[#F3D1BD]/30 h-full overflow-y-auto">
           <div className="space-y-12">
             
-            {/* Header Logo & Nama Organisasi */}
+            {/* Header Logo */}
             <Link href="/" className="flex items-center gap-4 group cursor-pointer w-fit">
               <div className="flex items-center justify-center">
                 <Image
@@ -66,7 +72,7 @@ export default function AuthFormPage({ params }: PageProps) {
               </div>
             </Link>
 
-            {/* Teks Headline Sisi Kiri dengan min-height tetap agar tidak goyang */}
+            {/* Teks Headline */}
             <div className="space-y-4 max-w-md min-h-[160px]">
               <h1 className="text-2xl md:text-3xl lg:text-4xl font-black text-[#231A14] leading-[1.2]">
                 {isMember 
@@ -88,11 +94,11 @@ export default function AuthFormPage({ params }: PageProps) {
           </div>
         </div>
 
-        {/* Sisi Kanan (Form Input berlatar Putih) */}
+        {/* Sisi Kanan (Form Input) */}
         <div className="w-full md:w-7/12 p-8 md:p-14 lg:p-20 flex flex-col justify-center bg-white h-full overflow-y-auto">
           <div className="max-w-[460px] w-full mx-auto space-y-6 my-auto">
             
-            {/* Header Form dengan min-height tetap */}
+            {/* Header Form */}
             <div className="space-y-1.5 min-h-[70px]">
               <h2 className="text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">
                 {isLogin 
@@ -107,9 +113,9 @@ export default function AuthFormPage({ params }: PageProps) {
             </div>
 
             {/* Form Utama */}
-            <form onSubmit={(e) => e.preventDefault()} className="space-y-4">
+            <form onSubmit={handleSubmit} className="space-y-4">
               
-              {/* Input Nama Cattery dengan Grid Animation */}
+              {/* Input Nama Cattery */}
               <div className={`grid transition-all duration-200 ease-in-out ${showCatteryName ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"}`}>
                 <div className="overflow-hidden space-y-1.5">
                   <label className="text-xs font-semibold text-[#4A3D34]">Nama Cattery</label>
@@ -137,7 +143,6 @@ export default function AuthFormPage({ params }: PageProps) {
                 <div className="flex justify-between items-center">
                   <label className="text-xs font-semibold text-[#4A3D34]">Kata sandi</label>
                   
-                  {/* Lupa Kata Sandi */}
                   <div className={`grid transition-all duration-200 ${isLogin ? "grid-cols-[1fr] opacity-100" : "grid-cols-[0fr] opacity-0 pointer-events-none"}`}>
                     <div className="overflow-hidden text-right">
                       <a href="#" className="text-xs text-[#EE6B28] hover:underline font-medium whitespace-nowrap">
@@ -185,7 +190,7 @@ export default function AuthFormPage({ params }: PageProps) {
               </div>
             </form>
 
-            {/* Bagian Tautan Navigasi Bawah */}
+            {/* Navigasi Bawah */}
             <div className="text-center space-y-2.5 pt-1">
               <p className="text-xs text-[#7A6E65]">
                 {isLogin ? (

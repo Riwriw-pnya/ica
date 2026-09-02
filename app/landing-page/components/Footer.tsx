@@ -58,12 +58,12 @@ export default function Footer() {
           <div className="md:col-span-3 space-y-3">
             <h5 className="font-bold text-xs text-white uppercase tracking-wider">Tentang Kami</h5>
             <ul className="space-y-1.5 text-xs text-neutral-400">
-              <li><Link href="#" className="hover:text-orange-400 transition">Profil & Sejarah</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Dewan Pengawas</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Dewan Pengurus Pusat</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Cabang ICA</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Daftar Juri</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Bank Info</Link></li>
+              <li><Link href="/profil" className="hover:text-orange-400 transition">Profil & Sejarah</Link></li>
+              <li><Link href="/organisasi/pengawas" className="hover:text-orange-400 transition">Dewan Pengawas</Link></li>
+              <li><Link href="/organisasi/pusat" className="hover:text-orange-400 transition">Dewan Pengurus Pusat</Link></li>
+              <li><Link href="/organisasi/cabang" className="hover:text-orange-400 transition">Cabang ICA</Link></li>
+              <li><Link href="/organisasi/juri" className="hover:text-orange-400 transition">Daftar Juri</Link></li>
+              <li><Link href="/organisasi/bank" className="hover:text-orange-400 transition">Bank Info</Link></li>
             </ul>
           </div>
 
@@ -71,12 +71,12 @@ export default function Footer() {
           <div className="md:col-span-2 space-y-3">
             <h5 className="font-bold text-xs text-white uppercase tracking-wider">Informasi</h5>
             <ul className="space-y-1.5 text-xs text-neutral-400">
-              <li><Link href="#" className="hover:text-orange-400 transition">Rules & Form</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Breed Standard</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Cattery Names</Link></li>
+              <li><Link href="/rules" className="hover:text-orange-400 transition">Rules & Form</Link></li>
+              <li><Link href="https://fifeweb.org/cats/breeds/" className="hover:text-orange-400 transition">Breed Standard</Link></li>
+              <li><Link href="/catteryN" className="hover:text-orange-400 transition">Cattery Names</Link></li>
               <li><Link href="#" className="hover:text-orange-400 transition">Event</Link></li>
               <li><Link href="#" className="hover:text-orange-400 transition">Galeri</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Contact</Link></li>
+              <li><Link href="/contact" className="hover:text-orange-400 transition">Contact</Link></li>
               <li><Link href="#" className="hover:text-orange-400 transition">Store</Link></li>
             </ul>
           </div>
