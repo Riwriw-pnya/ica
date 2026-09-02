@@ -54,7 +54,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
 
   return (
     <>
-      <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-5">
+      <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-5 shadow-md">
         <div className="relative">
           <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[var(--color-ink-400)]">
             <DashboardIcon name="search" size={16} />
@@ -120,7 +120,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
           </p>
           <button
             onClick={handleReset}
-            className="rounded-lg border border-[var(--color-ink-100)] px-3 py-1.5 text-[12px] font-medium text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
+            className="rounded-lg border border-[var(--color-ink-100)] px-3 py-1.5 text-[12px] font-medium text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50) hover:border-[var(--color-brand-orange-300)]"
           >
             Reset filter
           </button>
@@ -156,7 +156,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
                       {item.status}
                     </span>
                   </div>
-                  <p className="mt-0.5 flex items-center gap-1 text-[12px] text-[var(--color-ink-400)]">
+                  <p className="mt-0.5 flex items-center gap-1 text-[12px] text-[var(--color-ink-700)]">
                     <DashboardIcon name="pin" size={12} />
                     {item.region} · {item.breeds.join(", ")}
                   </p>
@@ -184,7 +184,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
 
                   <button
                     onClick={() => setExpandedId(isExpanded ? null : item.id)}
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-ink-100)] text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-ink-100)] text-[var(--color-ink-700)] transition cursor-pointer"
                     aria-label="Lihat detail"
                   >
                     <span className={`inline-block transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}>
@@ -195,7 +195,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
               </div>
 
               {isExpanded && (
-                <div className="border-t border-[var(--color-ink-100)] bg-[var(--color-brand-orange-50)] px-4 py-4">
+                <div className="border-t border-[var(--color-ink-100)] bg-[var(--color-ink-50)] px-4 py-4">
                   <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
                     <div>
                       <p className="text-[11px] text-[var(--color-ink-400)]">Alamat lengkap</p>
@@ -208,7 +208,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
                         {item.breeds.map((b) => (
                           <span
                             key={b}
-                            className="rounded-full bg-[var(--color-brand-orange-100)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-brand-orange-700)]"
+                            className="rounded-full bg-[var(--color-brand-orange-100)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-brand-orange-900)]"
                           >
                             {b}
                           </span>

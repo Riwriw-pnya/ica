@@ -13,7 +13,7 @@ export default function DirektoriPage() {
             Cattery terdaftar ICA — filter berdasarkan wilayah, ras, dan skor cattery.
           </p>
         </section>
-
+        
         <CatteryDirectory items={catteryItems} />
       </div>
     </main>
