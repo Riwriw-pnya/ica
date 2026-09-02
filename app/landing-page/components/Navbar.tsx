@@ -4,7 +4,7 @@ import { useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import AuthModal from "./auth/AuthModal";
+import AuthModal from "../../../components/auth/AuthModal";
 
 export default function Navbar() {
   const [isAuthOpen, setIsAuthOpen] = useState(false);
