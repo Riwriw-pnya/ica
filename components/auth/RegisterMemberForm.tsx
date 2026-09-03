@@ -38,11 +38,19 @@ export default function RegisterMemberForm() {
       <div className="w-full max-w-3xl space-y-8 my-auto">
         {/* Stepper Header */}
         <div className="flex items-center justify-between max-w-md mx-auto relative px-6">
-          <div className="absolute top-4 left-12 right-12 h-[2px] bg-gray-200 -z-0" />
-          <div
-            className="absolute top-4 left-12 h-[2px] bg-[#EE6B28] transition-all duration-300 -z-0"
-            style={{ width: step === 1 ? "0%" : step === 2 ? "50%" : "100%" }}
-          />
+          {/* Wrapper khusus garis agar berhenti tepat di pusat lingkaran 1 dan 3 */}
+          <div className="absolute top-4 left-12 right-12 h-[2px] -z-0">
+            {/* Garis Latar Belakang Abu-abu */}
+            <div className="absolute inset-0 bg-gray-200" />
+            
+            {/* Garis Progres Oren */}
+            <div
+              className="absolute inset-y-0 left-0 bg-[#EE6B28] transition-all duration-300"
+              style={{
+                width: step === 1 ? "0%" : step === 2 ? "50%" : "100%",
+              }}
+            />
+          </div>
 
           {[
             { num: 1, label: "Data Diri" },
@@ -187,14 +195,19 @@ export default function RegisterMemberForm() {
                 <div className="flex flex-col sm:flex-row items-center justify-end gap-3 pt-6 border-t border-gray-100">
                   <Link
                     href="/auth/login/member"
-                    className="w-full sm:w-auto px-6 py-2.5 rounded-full border border-gray-200 text-gray-700 font-medium text-xs text-center hover:bg-gray-50"
+                    className="w-full sm:w-auto px-6 py-3.5 rounded-full border border-gray-200 text-gray-700 font-medium text-xs text-center hover:bg-gray-50 transition"
                   >
                     Sudah punya akun
                   </Link>
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="w-full sm:w-auto px-6 py-2.5 rounded-full bg-gradient-to-r from-[#FF884B] to-[#EE6B28] text-white font-medium text-xs shadow-md shadow-[#EE6B28]/20 hover:opacity-95"
+                    className="w-full sm:w-auto px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
+                    shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
+                    border-t border-[#FFE5D4]
+                    hover:-translate-y-0.5 hover:brightness-95 
+                    active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] 
+                    transition-all duration-150 cursor-pointer"
                   >
                     Lanjut ke pembayaran
                   </button>
@@ -214,10 +227,23 @@ export default function RegisterMemberForm() {
                 <p>• Biaya Registrasi Keanggotaan ICA: <span className="font-bold text-[#EE6B28]">Rp 150.000</span></p>
               </div>
               <div className="flex items-center justify-between pt-4 border-t border-gray-100">
-                <button type="button" onClick={() => setStep(1)} className="px-6 py-2.5 rounded-full border border-gray-200 text-gray-700 font-medium text-xs">
+                <button 
+                  type="button" 
+                  onClick={() => setStep(1)} 
+                  className="px-6 py-3.5 rounded-full border border-gray-200 text-gray-700 font-medium text-xs hover:bg-gray-50 transition cursor-pointer"
+                >
                   Kembali
                 </button>
-                <button type="button" onClick={() => setStep(3)} className="px-6 py-2.5 rounded-full bg-[#EE6B28] text-white font-medium text-xs">
+                <button 
+                  type="button" 
+                  onClick={() => setStep(3)} 
+                  className="px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
+                  shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
+                  border-t border-[#FFE5D4]
+                  hover:-translate-y-0.5 hover:brightness-95 
+                  active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] 
+                  transition-all duration-150 cursor-pointer"
+                >
                   Konfirmasi Pembayaran
                 </button>
               </div>
