@@ -73,6 +73,8 @@ export default function Sidebar() {
           <button
             onClick={toggleSidebar}
             className="flex h-7 w-6 shrink-0 items-center justify-center rounded-md text-[#db874b] transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer"
+            aria-label="Close sidebar"
+            title="Close sidebar"
           >
             <DashboardIcon name="panel" size={17} />
           </button>
