@@ -176,7 +176,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
                     href={`https://wa.me/${item.whatsapp.replace(/[^0-9]/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100)]"
                     aria-label={`Chat WhatsApp ${item.name}`}
                   >
                     <DashboardIcon name="chat" size={16} />
