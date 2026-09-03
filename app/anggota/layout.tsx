@@ -1,5 +1,5 @@
-import Sidebar from "@/components/dashboard_member/Sidebar";
-import Header from "@/components/dashboard_member/Header";
+import Sidebar from "@/components/anggota/Sidebar";
+import Header from "@/components/anggota/Header";
 import { UserMenuProvider } from "@/context/UserMenuContext";
 import { SidebarProvider } from "@/context/SidebarContext";
 

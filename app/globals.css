@@ -55,15 +55,15 @@
   }
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
+  @theme inline {
+    --color-background: var(--background);
+    --color-foreground: var(--foreground);
 
-  /* Samakan dengan variabel CSS dari layout.tsx */
-  --font-display: var(--font-poppins), sans-serif;
-  --font-jakarta: var(--font-jakarta), sans-serif;
-  --font-sans: var(--font-jakarta), sans-serif;
-}
+    /* Samakan dengan variabel CSS dari layout.tsx */
+    --font-display: var(--font-poppins), sans-serif;
+    --font-jakarta: var(--font-jakarta), sans-serif;
+    --font-sans: var(--font-jakarta), sans-serif;
+  }
 
 @media (prefers-color-scheme: dark) {
   :root {

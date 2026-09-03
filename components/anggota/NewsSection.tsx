@@ -1,17 +1,17 @@
-import { newsItems } from "@/data/dashboard_member";
+import { newsItems } from "@/data/anggota";
 import Link from "next/link";
 
 export default function NewsSection() {
   return (
     <section className="rounded-xl border border-[var(--color-ink-100)] bg-white p-5">
       <div className="flex items-center justify-between">
-        <h2 className="font-heading text-sm font-semibold text-[var(--color-ink-900)]">
+        <h2 className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
           Berita terbaru
         </h2>
 
         <div className="px-3 rounded-lg hover:bg-[var(--color-brand-orange-50)] hover:text-[var(--color-brand-orange-700)]">
           <Link
-          href="/dashboard_member/berita"
+          href="/anggota/berita"
           className="text-[11px] font-body font-medium text-[var(--color-brand-orange-700)] transition"
         >
           Semua Berita →

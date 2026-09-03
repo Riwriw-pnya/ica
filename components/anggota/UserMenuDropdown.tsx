@@ -23,7 +23,7 @@ export default function UserMenuDropdown({
       }`}
     >
       <div className="border-b border-[var(--color-ink-100)] px-3 py-2.5">
-        <p className="font-heading text-[13px] font-semibold text-[var(--color-ink-900)]">
+        <p className="font-display text-[13px] font-semibold text-[var(--color-ink-900)]">
           Ayu Prameswari
         </p>
         <p className="text-[11px] text-[var(--color-ink-400)]">
@@ -33,7 +33,7 @@ export default function UserMenuDropdown({
 
       <div className="py-1.5">
         <Link
-          href="/dashboard_member/keanggotaan"
+          href="/anggota/keanggotaan"
           onClick={onNavigate}
           className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
         >
@@ -42,7 +42,7 @@ export default function UserMenuDropdown({
         </Link>
 
         <Link
-          href="/dashboard_member/pengaturan"
+          href="/anggota/pengaturan"
           onClick={onNavigate}
           className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
         >

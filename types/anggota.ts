@@ -5,15 +5,7 @@ export interface NewsItem {
   category: string;
   date: string;
   href: string;
-}
-
-export interface EventItem {
-  id: number;
-  day: string;
-  month: string;
-  title: string;
-  location: string;
-  href: string;
+  image?: string; // path lokal ("/images/news/xxx.jpg") atau URL penuh
 }
 
 export interface QuickAccessItem {
@@ -48,4 +40,30 @@ export interface MembershipHistoryItem {
   id: number;
   title: string;
   date: string;
+}
+
+export type EventStatus = "Pendaftaran dibuka" | "Segera dibuka" | "Draft jadwal";
+
+export interface EventListItem {
+  id: number;
+  day: string;
+  month: string;
+  title: string;
+  location: string;
+  scope: string;
+  quota: number;
+  status: EventStatus;
+  registerHref: string;
+}
+
+export type LeaderboardCategory = "Kitten" | "Adult" | "Household Pet";
+
+export interface LeaderboardEntry {
+  id: number;
+  rank: number;
+  catName: string;
+  breed: string;
+  category: LeaderboardCategory;
+  cattery: string;
+  points: number;
 }

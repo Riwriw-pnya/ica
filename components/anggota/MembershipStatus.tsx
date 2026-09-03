@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { MembershipInfo, MembershipHistoryItem } from "@/types/dashboard_member";
+import type { MembershipInfo, MembershipHistoryItem } from "@/types/anggota";
 
 interface MembershipStatusProps {
   info: MembershipInfo;
@@ -48,7 +48,7 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
               AP
             </div>
             <div>
-              <h2 className="font-heading text-[16px] font-semibold text-[var(--color-ink-900)]">
+              <h2 className="font-display text-[16px] font-semibold text-[var(--color-ink-900)]">
                 {info.name}
               </h2>
               <p className="text-[12px] text-[var(--color-ink-400)]">
@@ -119,7 +119,7 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
       <section className="mt-4 rounded-xl border border-[var(--color-brand-orange-300)] bg-[var(--color-brand-orange-50)] p-5">
         <div className="flex flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <div>
-            <h3 className="font-heading text-[15px] font-semibold text-[var(--color-ink-900)]">
+            <h3 className="font-display text-[15px] font-semibold text-[var(--color-ink-900)]">
               Ingin mendaftarkan cattery Anda?
             </h3>
             <p className="mt-1 max-w-xl text-[12px] text-[var(--color-ink-700)]">
@@ -130,7 +130,7 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
           </div>
 
           <Link
-            href="/dashboard_member/keanggotaan/ajukan-cattery"
+            href="/anggota/keanggotaan/ajukan-cattery"
             className="shrink-0 rounded-full px-6 py-3.5 bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
               shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
               border-t border-[#FFE5D4]
@@ -145,7 +145,7 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
 
       {/* Riwayat keanggotaan */}
       <section className="mt-4 rounded-xl border border-[var(--color-ink-100)] bg-white p-5">
-        <h3 className="font-heading text-sm font-semibold text-[var(--color-ink-900)]">
+        <h3 className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
           Riwayat keanggotaan
         </h3>
 

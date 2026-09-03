@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image"; 
 import { usePathname, useRouter } from "next/navigation";
 import DashboardIcon from "./DashboardIcon";
 import UserMenuDropdown from "./UserMenuDropdown";
@@ -10,12 +11,12 @@ import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 const menus = [
-  { label: "Beranda", icon: "dashboard", href: "/dashboard_member" },
-  { label: "Berita", icon: "news", href: "/dashboard_member/berita" },
-  { label: "Direktori Cattery", icon: "users", href: "/dashboard_member/direktori" },
-  { label: "Keanggotaan", icon: "shield", href: "/dashboard_member/keanggotaan" },
-  { label: "Event", icon: "calendar", href: "/dashboard_member/event" },
-  { label: "Leaderboard", icon: "trophy", href: "/dashboard_member/leaderboard" },
+  { label: "Beranda", icon: "dashboard", href: "/anggota" },
+  { label: "Berita", icon: "news", href: "/anggota/berita" },
+  { label: "Direktori Cattery", icon: "users", href: "/anggota/direktori" },
+  { label: "Keanggotaan", icon: "shield", href: "/anggota/keanggotaan" },
+  { label: "Event", icon: "calendar", href: "/anggota/event" },
+  { label: "Leaderboard", icon: "trophy", href: "/anggota/leaderboard" },
 ];
 
 export default function Sidebar() {
@@ -45,10 +46,15 @@ export default function Sidebar() {
       <div className="flex w-[208px] flex-1 flex-col">
         {/* Logo */}
         <div className="flex h-[54px] items-center gap-3 border-b border-[var(--color-ink-100)] px-4">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--color-brand-orange-500)] text-xs font-bold text-white">
-            ICA
-          </div>
-          <span className="font-heading text-sm font-semibold text-[var(--color-ink-900)]">
+            <Image
+              src="/images/LOGO-ICA.webp"
+              alt="ICA Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+
+          <span className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
             Member Portal
           </span>
         </div>
@@ -58,7 +64,7 @@ export default function Sidebar() {
           <div className="space-y-1">
             {menus.map((menu) => {
               const isActive =
-                menu.href === "/dashboard_member"
+                menu.href === "/anggota"
                   ? pathname === menu.href
                   : pathname === menu.href || pathname.startsWith(`${menu.href}/`);
 
@@ -66,10 +72,10 @@ export default function Sidebar() {
                 <Link
                   key={menu.href}
                   href={menu.href}
-                  className={`flex w-full items-center gap-3 rounded-lg py-2.5 pl-[9px] pr-3 text-left text-[13px] transition ${
+                  className={`flex w-full items-center gap-3 rounded-lg py-2.5 pl-[9px] pr-3 text-left text-[13px] transition font-sans font-semibold ${
                     isActive
-                      ? "border-l-[3px] border-[var(--color-brand-orange-500)] bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]"
-                      : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-100)] hover:text-[var(--color-brand-orange-700)]"
+                      ? "border-l-[3px] border-[var(--color-brand-orange-500)] bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white text-[var(--color-brand-orange-700)]"
+                      : "text-[var(--color-ink-700)] hover:bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white"
                   }`}
                 >
                   <DashboardIcon name={menu.icon} size={17} />

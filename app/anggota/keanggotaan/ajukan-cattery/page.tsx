@@ -19,7 +19,7 @@ export default function AjukanCatteryPage() {
           </svg>
         </div>
 
-        <h1 className="font-heading mt-4 text-[17px] font-semibold text-[var(--color-ink-900)]">
+        <h1 className="font-display mt-4 text-[17px] font-semibold text-[var(--color-ink-900)]">
           Pengajuan cattery dimulai
         </h1>
 
@@ -41,7 +41,7 @@ export default function AjukanCatteryPage() {
         </Link>
 
         <Link
-          href="/dashboard_member/keanggotaan"
+          href="/anggota/keanggotaan"
           className="mt-3 block text-[12px] font-medium text-[var(--color-ink-400)] hover:text-[var(--color-ink-700)]"
         >
           Kembali ke keanggotaan
