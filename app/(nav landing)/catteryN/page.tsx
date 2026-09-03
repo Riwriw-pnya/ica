@@ -19,9 +19,7 @@ const initialCatteries: Cattery[] = [
     whatsapp: "0812-8890-1122",
     mapsUrl: "https://maps.google.com",
     images: [
-      "https://picsum.photos/seed/auroria1/600/450",
-      "https://picsum.photos/seed/auroria2/600/450",
-      "https://picsum.photos/seed/auroria3/600/450",
+      "/images/cat2.png",
     ],
   },
   {
@@ -35,8 +33,7 @@ const initialCatteries: Cattery[] = [
     whatsapp: "0813-5544-7788",
     mapsUrl: "https://maps.google.com",
     images: [
-      "https://picsum.photos/seed/bintang1/600/450",
-      "https://picsum.photos/seed/bintang2/600/450",
+      "/images/cat1.png",
     ],
   },
   {
@@ -49,7 +46,7 @@ const initialCatteries: Cattery[] = [
     breeds: ["British Shorthair"],
     whatsapp: "0818-9922-3344",
     mapsUrl: "https://maps.google.com",
-    images: ["https://picsum.photos/seed/cendana1/600/450"],
+    images: ["/images/cattt.jpg"],
   },
   {
     id: 4,
@@ -62,10 +59,7 @@ const initialCatteries: Cattery[] = [
     whatsapp: "0821-3344-5566",
     mapsUrl: "https://maps.google.com",
     images: [
-      "https://picsum.photos/seed/velvet1/600/450",
-      "https://picsum.photos/seed/velvet2/600/450",
-      "https://picsum.photos/seed/velvet3/600/450",
-      "https://picsum.photos/seed/velvet4/600/450",
+      "/images/cat1.png",
     ],
   },
 ];
