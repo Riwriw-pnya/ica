@@ -22,3 +22,30 @@ export interface QuickAccessItem {
   icon: string;
   href: string;
 }
+
+export interface CatteryItem {
+  id: number;
+  name: string;
+  status: "Terverifikasi" | "Dalam review";
+  region: string;
+  breeds: string[];
+  score: number;
+  whatsapp: string;
+  address: string;
+  href: string;
+}
+
+export interface MembershipInfo {
+  name: string;
+  memberId: string;
+  region: string;
+  status: "Aktif" | "Kedaluwarsa" | "Menunggu pembayaran";
+  startDate: string;
+  endDate: string;
+}
+
+export interface MembershipHistoryItem {
+  id: number;
+  title: string;
+  date: string;
+}

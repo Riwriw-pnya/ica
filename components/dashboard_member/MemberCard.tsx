@@ -2,7 +2,7 @@ import Link from "next/link";
 
 export default function MemberCard() {
   return (
-    <section className="relative overflow-hidden rounded-xl border border-[var(--color-brand-orange-300)] bg-gradient-to-br from-[var(--color-brand-orange-100)] to-white p-5">
+    <section className="shadow-[0_10px_25px_-5px_rgba(249,115,22,0.3)] relative overflow-hidden rounded-xl border border-[var(--color-brand-orange-300)] bg-gradient-to-br from-[var(--color-brand-orange-100)] to-white p-5">
       <div className="flex items-start justify-between">
         <div>
           <p className="text-[10px] font-semibold uppercase tracking-wide text-[var(--color-brand-orange-700)] hover:bg-[var(--color-brand-orange-100)]">

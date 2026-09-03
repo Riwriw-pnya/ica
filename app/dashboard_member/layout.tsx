@@ -1,6 +1,7 @@
 import Sidebar from "@/components/dashboard_member/Sidebar";
 import Header from "@/components/dashboard_member/Header";
 import { UserMenuProvider } from "@/context/UserMenuContext";
+import { SidebarProvider } from "@/context/SidebarContext";
 
 export default function DashboardLayout({
   children,
@@ -9,17 +10,15 @@ export default function DashboardLayout({
 }>) {
   return (
     <UserMenuProvider>
-      <div className="flex h-screen overflow-hidden bg-[var(--color-sidebar)] ">
-        <Sidebar />
-
-        <div className="flex min-w-0 flex-1 flex-col">
-          <Header />
-
-          <div className="min-h-0 flex-1 overflow-auto">
-            {children}
+      <SidebarProvider>
+        <div className="flex h-screen overflow-hidden bg-[var(--color-sidebar)]">
+          <Sidebar />
+          <div className="flex min-w-0 flex-1 flex-col">
+            <Header />
+            <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
           </div>
         </div>
-      </div>
+      </SidebarProvider>
     </UserMenuProvider>
   );
 }
