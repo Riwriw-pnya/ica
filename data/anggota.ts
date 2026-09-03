@@ -1,4 +1,4 @@
-import { CatteryItem, EventListItem, MembershipHistoryItem, MembershipInfo, NewsItem, QuickAccessItem } from "@/types/anggota";
+import { CatteryItem, EventListItem, LeaderboardEntry, MembershipHistoryItem, MembershipInfo, NewsItem, QuickAccessItem } from "@/types/anggota";
 
 export const quickAccessItems: QuickAccessItem[] = [
   { id: 1, title: "Daftar event", icon: "calendar", href: "/anggota/event" },
@@ -143,4 +143,14 @@ export const eventListItems: EventListItem[] = [
     status: "Draft jadwal",
     registerHref: "/anggota/event/4",
   },
+];
+
+export const leaderboardEntries: LeaderboardEntry[] = [
+  { id: 1, rank: 1, catName: "Auroria Kimi", breed: "Persian", category: "Adult", cattery: "Auroria Cattery", points: 1480 },
+  { id: 2, rank: 2, catName: "Bintang Nova", breed: "Maine Coon", category: "Adult", cattery: "Bintang Kecil", points: 1395 },
+  { id: 3, rank: 3, catName: "Cendana Momo", breed: "British Shorthair", category: "Kitten", cattery: "Cendana Cats", points: 1310 },
+  { id: 4, rank: 4, catName: "Elang Suki", breed: "Ragdoll", category: "Adult", cattery: "Elang Ragdoll", points: 1244 },
+  { id: 5, rank: 5, catName: "Fortuna Rio", breed: "Bengal", category: "Household Pet", cattery: "Fortuna Cattery", points: 1180 },
+  { id: 6, rank: 6, catName: "Meong Manis Luna", breed: "Persian", category: "Kitten", cattery: "Meong Manis Cattery", points: 1120 },
+  { id: 7, rank: 7, catName: "Nusantara Coco", breed: "Exotic Shorthair", category: "Household Pet", cattery: "Nusantara Feline", points: 1065 },
 ];

@@ -54,7 +54,7 @@ export default function EventList({ items }: EventListProps) {
 
             <div className="flex shrink-0 items-center gap-2.5 pl-[68px] sm:pl-0">
               <Link
-                href="/anggota/leaderboard"
+                href={`/anggota/leaderboard?event=${event.id}`}
                 className="rounded-full border border-[var(--color-ink-100)] px-4 py-2 text-[12px] font-medium text-[var(--color-ink-700)]
                 bg-gradient-to-b from-[var(--color-ink-300)] to-white shadow-sm shadow-black/5
                 hover:shadow-md 

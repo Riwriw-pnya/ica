@@ -141,6 +141,14 @@ export default function DashboardIcon({
           </svg>
         );
 
+      case "cat":
+        return (
+          <svg {...commonProps}>
+            <path d="M4 8l3-4 2 3h6l2-3 3 4v9a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V8z" />
+            <path d="M9 14h.01M15 14h.01M10 17c.6.6 1.4 1 2 1s1.4-.4 2-1" />
+          </svg>
+        );
+
     default:
       return null;
   }

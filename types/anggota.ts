@@ -54,3 +54,15 @@ export interface EventListItem {
   status: EventStatus;
   registerHref: string;
 }
+
+export type LeaderboardCategory = "Kitten" | "Adult" | "Household Pet";
+
+export interface LeaderboardEntry {
+  id: number;
+  rank: number;
+  catName: string;
+  breed: string;
+  category: LeaderboardCategory;
+  cattery: string;
+  points: number;
+}
