@@ -24,7 +24,7 @@ export const catteryItems: CatteryItem[] = [
     score: 92,
     whatsapp: "0812-8890-1122",
     address: "Jl. Cimanuk No. 24, Citarum, Bandung Wetan, Kota Bandung 40115",
-    href: "/anggota/direktori/1",
+    href: "/anggota/direktori",
   },
   {
     id: 2,
@@ -35,7 +35,7 @@ export const catteryItems: CatteryItem[] = [
     score: 88,
     whatsapp: "0813-2233-4455",
     address: "Jl. Kemang Raya No. 10, Kemang, Jakarta Selatan 12730",
-    href: "/anggota/direktori/2",
+    href: "/anggota/direktori",
   },
   {
     id: 3,
@@ -46,7 +46,7 @@ export const catteryItems: CatteryItem[] = [
     score: 85,
     whatsapp: "0857-6677-8899",
     address: "Jl. Darmo Permai No. 5, Surabaya 60226",
-    href: "/anggota/direktori/3",
+    href: "/anggota/direktori",
   },
   {
     id: 4,
@@ -57,7 +57,7 @@ export const catteryItems: CatteryItem[] = [
     score: 74,
     whatsapp: "0821-3344-5566",
     address: "Jl. Setiabudi No. 88, Bandung 40154",
-    href: "/anggota/direktori/4",
+    href: "/anggota/direktori",
   },
   {
     id: 5,
@@ -68,7 +68,7 @@ export const catteryItems: CatteryItem[] = [
     score: 90,
     whatsapp: "0819-9988-7766",
     address: "Jl. Sunset Road No. 45, Kuta, Badung, Bali 80361",
-    href: "/anggota/direktori/5",
+    href: "/anggota/direktori",
   },
   {
     id: 6,
@@ -79,7 +79,7 @@ export const catteryItems: CatteryItem[] = [
     score: 70,
     whatsapp: "0852-1122-3344",
     address: "Jl. Gatot Subroto No. 12, Medan 20115",
-    href: "/anggota/direktori/6",
+    href: "/anggota/direktori",
   },
 ];
 
