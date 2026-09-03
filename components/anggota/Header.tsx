@@ -31,7 +31,7 @@ function getPageTitle(pathname: string): string {
 
 export default function Header() {
   const { openMenu, toggleMenu, closeMenu } = useUserMenu();
-  const { toggleSidebar } = useSidebar();
+  const { isSidebarOpen, toggleSidebar } = useSidebar();
   const router = useRouter();
   const pathname = usePathname();
   const containerRef = useRef<HTMLDivElement>(null);
@@ -51,14 +51,6 @@ export default function Header() {
   return (
     <header className="flex h-[54px] items-center justify-between border-b border-[var(--color-ink-100)] bg-white px-5">
       <div className="flex items-center gap-3">
-        <button
-          onClick={toggleSidebar}
-          className="flex h-8 w-8 items-center justify-center rounded-lg text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)]"
-          aria-label="Toggle sidebar"
-        >
-          <DashboardIcon name="menu" size={18} />
-        </button>
-
         <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
           {title}
         </h1>
@@ -67,7 +59,7 @@ export default function Header() {
       <div ref={containerRef} className="relative">
         <button
           onClick={() => toggleMenu("header")}
-          className="flex items-center gap-2.5 rounded-lg px-1.5 py-1 transition hover:bg-[var(--color-brand-orange-50)]"
+          className="flex items-center gap-2.5 rounded-lg px-1.5 py-1 transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer"
         >
           <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[11px] font-medium text-[var(--color-brand-orange-700)]">
             AP

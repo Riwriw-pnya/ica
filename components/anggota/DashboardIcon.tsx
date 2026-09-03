@@ -134,10 +134,12 @@ export default function DashboardIcon({
           </svg>
         );
 
-      case "menu":
+      case "panel":
         return (
           <svg {...commonProps}>
-            <path d="M4 6h16M4 12h16M4 18h16" />
+            <rect x="3" y="4" width="18" height="16" rx="2" />
+            <path d="M9 4v16" />
+            <rect x="4.5" y="5.5" width="3" height="13" rx="0.5" fill="currentColor" stroke="none" />
           </svg>
         );
 
