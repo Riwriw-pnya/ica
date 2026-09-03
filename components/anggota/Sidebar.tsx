@@ -75,7 +75,7 @@ export default function Sidebar() {
                   className={`flex w-full items-center gap-3 rounded-lg py-2.5 pl-[9px] pr-3 text-left text-[13px] transition font-sans font-semibold ${
                     isActive
                       ? "border-l-[3px] border-[var(--color-brand-orange-500)] bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white text-[var(--color-brand-orange-700)]"
-                      : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-100)] hover:text-[var(--color-brand-orange-700)]"
+                      : "text-[var(--color-ink-700)] hover:bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white"
                   }`}
                 >
                   <DashboardIcon name={menu.icon} size={17} />
