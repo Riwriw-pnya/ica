@@ -49,3 +49,17 @@ export interface MembershipHistoryItem {
   title: string;
   date: string;
 }
+
+export type EventStatus = "Pendaftaran dibuka" | "Segera dibuka" | "Draft jadwal";
+
+export interface EventListItem {
+  id: number;
+  day: string;
+  month: string;
+  title: string;
+  location: string;
+  scope: string;
+  quota: number;
+  status: EventStatus;
+  registerHref: string;
+}
