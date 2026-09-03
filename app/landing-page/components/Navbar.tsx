@@ -35,21 +35,28 @@ export default function Navbar() {
       <header className="sticky top-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#F3D1BD]/60 shadow-xs">
         <div className="max-w-7xl mx-auto px-6 h-18 flex items-center justify-between">
           
-          <div className="flex items-center gap-8">
-            <Link 
-              href="/landing-page" 
-              onClick={handleLogoClick}
-              className="flex items-center gap-2 cursor-pointer"
-            >
-              <Image
-                src="/images/LOGO-ICA.webp"
-                alt="ICA Logo"
-                width={42}
-                height={42}
-                className="object-contain"
-              />
-            </Link>
+          {/* Logo & Nama Organisasi */}
+          <Link 
+            href="/landing-page" 
+            onClick={handleLogoClick}
+            className="flex items-center gap-3 cursor-pointer group"
+          >
+            <Image
+              src="/images/LOGO-ICA.webp"
+              alt="ICA Logo"
+              width={42}
+              height={42}
+              className="object-contain"
+            />
+            <span className="font-extrabold text-sm sm:text-base tracking-tight leading-tight">
+              <span className="text-[#231812]">Indonesian </span>
+              <span className="text-[#F05A22]">Cat Association</span>
+            </span>
+          </Link>
 
+          {/* Navigasi & Auth Action (Di Kanan) */}
+          <div className="flex items-center gap-6">
+            
             {/* Menu Navigasi */}
             <nav className="hidden lg:flex items-center gap-6 text-sm font-medium text-[#231812]">
               
@@ -160,24 +167,29 @@ export default function Navbar() {
               </Link>
 
             </nav>
-          </div>
 
-          <div className="flex items-center gap-3 text-sm font-semibold">
-            <button onClick={() => openAuthModal("login")} className="text-[#C85A17] hover:text-[#EE6B28] px-3 py-2 transition cursor-pointer">
-              Masuk
-            </button>
-            
-            <button 
-              onClick={() => openAuthModal("register")} 
-              className="px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
-              shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
-              border-t border-[#FFE5D4]
-              hover:-translate-y-0.5 hover:brightness-95 
-              active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] 
-              transition-all duration-150 cursor-pointer"
-            >
-              Daftar
-            </button>
+            {/* Strip Pembatas Vertikal */}
+            <div className="hidden lg:block w-[1.5px] h-6 bg-gray-300/80"></div>
+
+            {/* Tombol Auth */}
+            <div className="flex items-center gap-3 text-sm font-semibold">
+              <button onClick={() => openAuthModal("login")} className="text-[#C85A17] hover:text-[#EE6B28] px-3 py-2 transition cursor-pointer">
+                Masuk
+              </button>
+              
+              <button 
+                onClick={() => openAuthModal("register")} 
+                className="px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
+                shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
+                border-t border-[#FFE5D4]
+                hover:-translate-y-0.5 hover:brightness-95 
+                active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] 
+                transition-all duration-150 cursor-pointer"
+              >
+                Daftar
+              </button>
+            </div>
+
           </div>
 
         </div>
@@ -186,4 +198,4 @@ export default function Navbar() {
       <AuthModal isOpen={isAuthOpen} onClose={() => setIsAuthOpen(false)} mode={authMode} />
     </>
   );
-}
+} 
