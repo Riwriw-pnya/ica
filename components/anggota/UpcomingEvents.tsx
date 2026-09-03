@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { EventListItem } from "@/types/dashboard_member";
+import type { EventListItem } from "@/types/anggota";
 
 interface UpcomingEventsProps {
   items: EventListItem[];
@@ -9,12 +9,12 @@ export default function UpcomingEvents({ items }: UpcomingEventsProps) {
   return (
     <section className="rounded-xl border border-[var(--color-ink-100)] bg-white p-5">
       <div className="flex items-center justify-between">
-        <h2 className="font-heading text-sm font-semibold text-[var(--color-ink-900)]">
+        <h2 className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
           Event mendatang
         </h2>
 
         <Link
-          href="/dashboard_member/event"
+          href="/anggota/event"
           className="text-[11px] font-medium text-[var(--color-brand-orange-700)] rounded-lg px-3 py-1 transition hover:bg-[var(--color-brand-orange-50)]"
         >
           Semua →

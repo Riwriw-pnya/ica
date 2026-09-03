@@ -235,7 +235,7 @@ export default function RegisterMemberForm() {
               <p className="text-xs md:text-sm text-gray-500 max-w-sm mx-auto">
                 Data diri dan status pendaftaran anggota kamu telah diproses.
               </p>
-              <button type="button" onClick={() => router.push("/dashboard_member")} className="px-6 py-2.5 rounded-full bg-[#EE6B28] text-white font-medium text-xs">
+              <button type="button" onClick={() => router.push("/anggota")} className="px-6 py-2.5 rounded-full bg-[#EE6B28] text-white font-medium text-xs">
                 Masuk ke Dashboard
               </button>
             </div>

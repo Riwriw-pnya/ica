@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import type { NewsItem } from "@/types/dashboard_member";
+import type { NewsItem } from "@/types/anggota";
 
 interface NewsFilterGridProps {
   items: NewsItem[];

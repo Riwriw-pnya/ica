@@ -9,13 +9,13 @@ import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 const pageTitles: Record<string, string> = {
-  "/dashboard_member": "Beranda",
-  "/dashboard_member/berita": "Berita",
-  "/dashboard_member/direktori": "Direktori Cattery",
-  "/dashboard_member/keanggotaan": "Keanggotaan",
-  "/dashboard_member/event": "Event",
-  "/dashboard_member/leaderboard": "Leaderboard",
-  "/dashboard_member/pengaturan": "Pengaturan akun",
+  "/anggota": "Beranda",
+  "/anggota/berita": "Berita",
+  "/anggota/direktori": "Direktori Cattery",
+  "/anggota/keanggotaan": "Keanggotaan",
+  "/anggota/event": "Event",
+  "/anggota/leaderboard": "Leaderboard",
+  "/anggota/pengaturan": "Pengaturan akun",
 };
 
 function getPageTitle(pathname: string): string {
@@ -23,7 +23,7 @@ function getPageTitle(pathname: string): string {
 
   // Cari prefix match terpanjang buat halaman detail/dinamis (mis. /berita/1)
   const match = Object.keys(pageTitles)
-    .filter((path) => path !== "/dashboard_member" && pathname.startsWith(`${path}/`))
+    .filter((path) => path !== "/anggota" && pathname.startsWith(`${path}/`))
     .sort((a, b) => b.length - a.length)[0];
 
   return match ? pageTitles[match] : "Beranda";
@@ -59,7 +59,7 @@ export default function Header() {
           <DashboardIcon name="menu" size={18} />
         </button>
 
-        <h1 className="font-heading text-sm font-semibold text-[var(--color-ink-900)]">
+        <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
           {title}
         </h1>
       </div>

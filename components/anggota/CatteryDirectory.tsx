@@ -3,7 +3,7 @@
 import { useMemo, useState } from "react";
 import Link from "next/link";
 import DashboardIcon from "./DashboardIcon";
-import type { CatteryItem } from "@/types/dashboard_member";
+import type { CatteryItem } from "@/types/anggota";
 
 interface CatteryDirectoryProps {
   items: CatteryItem[];

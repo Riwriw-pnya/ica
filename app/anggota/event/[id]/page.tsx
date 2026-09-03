@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { eventListItems } from "@/data/dashboard_member";
+import { eventListItems } from "@/data/anggota";
 
 interface PageProps {
   params: Promise<{ id: string }>;
@@ -21,14 +21,14 @@ export default async function EventDetailPage({ params }: PageProps) {
     <main className="min-h-full bg-[var(--color-background)]">
       <div className="mx-auto max-w-[700px] p-5 lg:p-6">
         <Link
-          href="/dashboard_member/event"
+          href="/anggota/event"
           className="text-[12px] font-medium text-[var(--color-brand-orange-700)] hover:underline"
         >
           ← Kembali ke Event
         </Link>
 
         <div className="mt-4 rounded-xl border border-[var(--color-ink-100)] bg-white p-6">
-          <h1 className="font-heading text-[20px] font-semibold text-[var(--color-ink-900)]">
+          <h1 className="font-display text-[20px] font-semibold text-[var(--color-ink-900)]">
             {event.title}
           </h1>
           <p className="mt-1 text-[13px] text-[var(--color-ink-700)]">

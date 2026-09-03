@@ -10,12 +10,12 @@ import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 const menus = [
-  { label: "Beranda", icon: "dashboard", href: "/dashboard_member" },
-  { label: "Berita", icon: "news", href: "/dashboard_member/berita" },
-  { label: "Direktori Cattery", icon: "users", href: "/dashboard_member/direktori" },
-  { label: "Keanggotaan", icon: "shield", href: "/dashboard_member/keanggotaan" },
-  { label: "Event", icon: "calendar", href: "/dashboard_member/event" },
-  { label: "Leaderboard", icon: "trophy", href: "/dashboard_member/leaderboard" },
+  { label: "Beranda", icon: "dashboard", href: "/anggota" },
+  { label: "Berita", icon: "news", href: "/anggota/berita" },
+  { label: "Direktori Cattery", icon: "users", href: "/anggota/direktori" },
+  { label: "Keanggotaan", icon: "shield", href: "/anggota/keanggotaan" },
+  { label: "Event", icon: "calendar", href: "/anggota/event" },
+  { label: "Leaderboard", icon: "trophy", href: "/anggota/leaderboard" },
 ];
 
 export default function Sidebar() {
@@ -48,7 +48,7 @@ export default function Sidebar() {
           <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--color-brand-orange-500)] text-xs font-bold text-white">
             ICA
           </div>
-          <span className="font-heading text-sm font-semibold text-[var(--color-ink-900)]">
+          <span className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
             Member Portal
           </span>
         </div>
@@ -58,7 +58,7 @@ export default function Sidebar() {
           <div className="space-y-1">
             {menus.map((menu) => {
               const isActive =
-                menu.href === "/dashboard_member"
+                menu.href === "/anggota"
                   ? pathname === menu.href
                   : pathname === menu.href || pathname.startsWith(`${menu.href}/`);
 

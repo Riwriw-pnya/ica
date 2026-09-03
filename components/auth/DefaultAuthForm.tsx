@@ -21,7 +21,7 @@ export default function DefaultAuthForm({ mode, type }: DefaultAuthFormProps) {
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    router.push("/dashboard_member");
+    router.push("/anggota");
   };
 
   return (

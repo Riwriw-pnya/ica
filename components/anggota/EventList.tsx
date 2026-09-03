@@ -1,5 +1,5 @@
 import Link from "next/link";
-import type { EventListItem, EventStatus } from "@/types/dashboard_member";
+import type { EventListItem, EventStatus } from "@/types/anggota";
 
 interface EventListProps {
   items: EventListItem[];
@@ -54,7 +54,7 @@ export default function EventList({ items }: EventListProps) {
 
             <div className="flex shrink-0 items-center gap-2.5 pl-[68px] sm:pl-0">
               <Link
-                href="/dashboard_member/leaderboard"
+                href="/anggota/leaderboard"
                 className="rounded-full border border-[var(--color-ink-100)] px-4 py-2 text-[12px] font-medium text-[var(--color-ink-700)]
                 bg-gradient-to-b from-[var(--color-ink-300)] to-white shadow-sm shadow-black/5
                 hover:shadow-md 

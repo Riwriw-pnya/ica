@@ -1,4 +1,4 @@
-import { quickAccessItems } from "@/data/dashboard_member";
+import { quickAccessItems } from "@/data/anggota";
 import DashboardIcon from "./DashboardIcon";
 import Link from "next/link";
 
