@@ -4,7 +4,7 @@ export default function PengaturanPage() {
       <h1 className="font-display text-[22px] font-semibold text-[var(--color-ink-900)]">
         Pengaturan akun
       </h1>
-      <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
+      <p className="mt-1 text-[16px] text-[var(--color-ink-700)]">
         Halaman ini masih dalam pengembangan.
       </p>
     </main>

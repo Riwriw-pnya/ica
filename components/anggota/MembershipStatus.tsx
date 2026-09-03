@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { MembershipInfo, MembershipHistoryItem } from "@/types/anggota";
+import DashboardIcon from "./DashboardIcon";
 
 interface MembershipStatusProps {
   info: MembershipInfo;
@@ -64,19 +65,25 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
 
         <div className="mt-6 grid grid-cols-3 gap-4">
           <div>
-            <p className="text-[11px] text-[var(--color-ink-400)]">Mulai berlaku</p>
+            <p className="flex items-center gap-1 text-[11px] text-[var(--color-ink-400)]">
+              Mulai berlaku
+            </p>
             <p className="mt-0.5 text-[13px] font-semibold text-[var(--color-ink-900)]">
               {formatDate(info.startDate)}
             </p>
           </div>
           <div>
-            <p className="text-[11px] text-[var(--color-ink-400)]">Berakhir</p>
+            <p className="flex items-center gap-1 text-[11px] text-[var(--color-ink-400)]">
+              Berakhir
+            </p>
             <p className="mt-0.5 text-[13px] font-semibold text-[var(--color-ink-900)]">
               {formatDate(info.endDate)}
             </p>
           </div>
           <div>
-            <p className="text-[11px] text-[var(--color-ink-400)]">Sisa masa berlaku</p>
+            <p className="flex items-center gap-1 text-[11px] text-[var(--color-ink-400)]">
+              Sisa masa berlaku
+            </p>
             <p className="mt-0.5 text-[13px] font-semibold text-[var(--color-ink-900)]">
               {daysLeft} hari
             </p>
