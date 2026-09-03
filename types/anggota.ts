@@ -5,6 +5,7 @@ export interface NewsItem {
   category: string;
   date: string;
   href: string;
+  image?: string; // path lokal ("/images/news/xxx.jpg") atau URL penuh
 }
 
 export interface QuickAccessItem {
