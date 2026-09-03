@@ -7,15 +7,6 @@ export interface NewsItem {
   href: string;
 }
 
-export interface EventItem {
-  id: number;
-  day: string;
-  month: string;
-  title: string;
-  location: string;
-  href: string;
-}
-
 export interface QuickAccessItem {
   id: number;
   title: string;

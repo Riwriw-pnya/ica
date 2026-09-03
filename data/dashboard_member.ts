@@ -1,4 +1,4 @@
-import { CatteryItem, EventItem, MembershipHistoryItem, MembershipInfo, NewsItem, QuickAccessItem } from "@/types/dashboard_member";
+import { CatteryItem, EventListItem, MembershipHistoryItem, MembershipInfo, NewsItem, QuickAccessItem } from "@/types/dashboard_member";
 
 export const quickAccessItems: QuickAccessItem[] = [
   { id: 1, title: "Daftar event", icon: "calendar", href: "/dashboard_member/event" },
@@ -12,12 +12,6 @@ export const newsItems: NewsItem[] = [
   { id: 2, title: "Hasil ICA National Cat Show Bandung 2026", category: "Event", date: "18 Agu 2026", href: "/dashboard_member/berita/2", excerpt: "Simak hasil lengkap ICA National Cat Show yang diselenggarakan di Bandung." },
   { id: 3, title: "Kartu member kini tersedia dalam format digital", category: "Keanggotaan", date: "9 Agu 2026", href: "/dashboard_member/berita/3", excerpt: "Kini member ICA bisa mengakses kartu keanggotaan dalam bentuk digital." },
   { id: 4, title: "Workshop Keanggotaan ICA", category: "Pengumuman", date: "5 Sep 2026", href: "/dashboard_member/berita/4", excerpt: "Ikuti workshop tentang keanggotaan ICA yang akan diselenggarakan pada tanggal 5 September 2026." },
-];
-
-export const upcomingEvents: EventItem[] = [
-  { id: 1, day: "12", month: "SEP", title: "ICA Regional Cat Show — Bandung", location: "Bandung", href: "/dashboard_member/event/1" },
-  { id: 2, day: "04", month: "OKT", title: "ICA Kitten Fest", location: "Jakarta", href: "/dashboard_member/event/2" },
-  { id: 3, day: "22", month: "NOV", title: "ICA National Championship", location: "Surabaya", href: "/dashboard_member/event/3" },
 ];
 
 export const catteryItems: CatteryItem[] = [
@@ -102,4 +96,51 @@ export const membershipHistory: MembershipHistoryItem[] = [
   { id: 1, title: "Perpanjangan keanggotaan 2025/2026 disetujui", date: "01 Sep 2025" },
   { id: 2, title: "Pembayaran iuran diterima", date: "29 Agu 2025" },
   { id: 3, title: "Pendaftaran member baru", date: "12 Agu 2024" },
+];
+
+export const eventListItems: EventListItem[] = [
+  {
+    id: 1,
+    day: "12",
+    month: "SEP",
+    title: "ICA Regional Cat Show — Bandung",
+    location: "Bandung",
+    scope: "Regional",
+    quota: 120,
+    status: "Pendaftaran dibuka",
+    registerHref: "/dashboard_member/event/1",
+  },
+  {
+    id: 2,
+    day: "04",
+    month: "OKT",
+    title: "ICA Kitten Fest",
+    location: "Jakarta",
+    scope: "Regional",
+    quota: 80,
+    status: "Segera dibuka",
+    registerHref: "/dashboard_member/event/2",
+  },
+  {
+    id: 3,
+    day: "22",
+    month: "NOV",
+    title: "ICA National Championship",
+    location: "Surabaya",
+    scope: "Nasional",
+    quota: 240,
+    status: "Segera dibuka",
+    registerHref: "/dashboard_member/event/3",
+  },
+  {
+    id: 4,
+    day: "13",
+    month: "DES",
+    title: "ICA Year-End Exhibition",
+    location: "Medan",
+    scope: "Eksibisi",
+    quota: 100,
+    status: "Draft jadwal",
+    registerHref: "/dashboard_member/event/4",
+  },
 ];
