@@ -2,6 +2,7 @@
 
 import { useRef } from "react";
 import Link from "next/link";
+import Image from "next/image"; 
 import { usePathname, useRouter } from "next/navigation";
 import DashboardIcon from "./DashboardIcon";
 import UserMenuDropdown from "./UserMenuDropdown";
@@ -45,9 +46,14 @@ export default function Sidebar() {
       <div className="flex w-[208px] flex-1 flex-col">
         {/* Logo */}
         <div className="flex h-[54px] items-center gap-3 border-b border-[var(--color-ink-100)] px-4">
-          <div className="flex h-7 w-7 items-center justify-center rounded-md bg-[var(--color-brand-orange-500)] text-xs font-bold text-white">
-            ICA
-          </div>
+            <Image
+              src="/images/LOGO-ICA.webp"
+              alt="ICA Logo"
+              width={40}
+              height={40}
+              className="object-contain"
+            />
+
           <span className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
             Member Portal
           </span>
@@ -66,7 +72,7 @@ export default function Sidebar() {
                 <Link
                   key={menu.href}
                   href={menu.href}
-                  className={`flex w-full items-center gap-3 rounded-lg py-2.5 pl-[9px] pr-3 text-left text-[13px] transition ${
+                  className={`flex w-full items-center gap-3 rounded-lg py-2.5 pl-[9px] pr-3 text-left text-[13px] transition font-sans font-semibold ${
                     isActive
                       ? "border-l-[3px] border-[var(--color-brand-orange-500)] bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white text-[var(--color-brand-orange-700)]"
                       : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-100)] hover:text-[var(--color-brand-orange-700)]"

@@ -26,7 +26,7 @@ export default function UpcomingEvents({ items }: UpcomingEventsProps) {
           <Link
             key={event.id}
             href={event.registerHref}
-            className="halftone-hover hover-lift flex items-center gap-3 rounded-lg border border-[var(--color-ink-100)] p-2.5 hover:bg-gradient-to-b hover:from-white hover:to-[var(--color-brand-orange-100)]"
+            className="halftone-hover hover-lift flex items-center gap-3 rounded-lg border border-[var(--color-ink-100)] p-2.5 hover:bg-gradient-to-b hover:from-white hover:to-[var(--color-brand-orange-50)]"
           >
             <div className="flex h-10 w-10 shrink-0 flex-col items-center justify-center rounded-lg bg-[var(--color-brand-orange-50)]">
               <span className="text-xs font-semibold text-[var(--color-brand-orange-700)]">
