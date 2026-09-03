@@ -18,7 +18,7 @@ export default async function EventDetailPage({ params }: PageProps) {
   }
 
   return (
-    <main className="min-h-full bg-[var(--color-background)]">
+    <main className="min-h-full bg-[var(--color-ink-50)]">
       <div className="mx-auto max-w-[700px] p-5 lg:p-6">
         <Link
           href="/anggota/event"
@@ -35,7 +35,7 @@ export default async function EventDetailPage({ params }: PageProps) {
             {event.location} · {event.scope} · Kuota {event.quota} peserta
           </p>
 
-          <div className="mt-6 rounded-lg bg-[var(--color-background)] p-4 text-center text-[12px] text-[var(--color-ink-400)]">
+          <div className="mt-6 rounded-lg bg-[var(--color-brand-orange-500)] p-4 text-center text-[12px] font-sans font-semibold text-[var(--color-ink-50)]">
             Formulir pendaftaran event masih dalam pengembangan.
           </div>
         </div>

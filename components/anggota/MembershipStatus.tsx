@@ -1,5 +1,6 @@
 import Link from "next/link";
 import type { MembershipInfo, MembershipHistoryItem } from "@/types/anggota";
+import DashboardIcon from "./DashboardIcon";
 
 interface MembershipStatusProps {
   info: MembershipInfo;
@@ -64,19 +65,25 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
 
         <div className="mt-6 grid grid-cols-3 gap-4">
           <div>
-            <p className="text-[11px] text-[var(--color-ink-400)]">Mulai berlaku</p>
+            <p className="flex items-center gap-1 text-[11px] text-[var(--color-ink-400)]">
+              Mulai berlaku
+            </p>
             <p className="mt-0.5 text-[13px] font-semibold text-[var(--color-ink-900)]">
               {formatDate(info.startDate)}
             </p>
           </div>
           <div>
-            <p className="text-[11px] text-[var(--color-ink-400)]">Berakhir</p>
+            <p className="flex items-center gap-1 text-[11px] text-[var(--color-ink-400)]">
+              Berakhir
+            </p>
             <p className="mt-0.5 text-[13px] font-semibold text-[var(--color-ink-900)]">
               {formatDate(info.endDate)}
             </p>
           </div>
           <div>
-            <p className="text-[11px] text-[var(--color-ink-400)]">Sisa masa berlaku</p>
+            <p className="flex items-center gap-1 text-[11px] text-[var(--color-ink-400)]">
+              Sisa masa berlaku
+            </p>
             <p className="mt-0.5 text-[13px] font-semibold text-[var(--color-ink-900)]">
               {daysLeft} hari
             </p>
@@ -130,7 +137,7 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
           </div>
 
           <Link
-            href="/anggota/keanggotaan/ajukan-cattery"
+            href="/anggota/keanggotaan"
             className="shrink-0 rounded-full px-6 py-3.5 bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
               shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
               border-t border-[#FFE5D4]
