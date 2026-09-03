@@ -130,7 +130,7 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
           </div>
 
           <Link
-            href="/anggota/keanggotaan/ajukan-cattery"
+            href="/anggota/keanggotaan"
             className="shrink-0 rounded-full px-6 py-3.5 bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
               shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
               border-t border-[#FFE5D4]
