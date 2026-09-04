@@ -8,4 +8,5 @@ export interface Cattery {
   breeds: string[];
   whatsapp: string;
   mapsUrl: string;
+  images: string[];
 }
