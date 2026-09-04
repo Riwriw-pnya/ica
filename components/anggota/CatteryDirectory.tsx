@@ -176,7 +176,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
                     href={`https://wa.me/${item.whatsapp.replace(/[^0-9]/g, "")}`}
                     target="_blank"
                     rel="noopener noreferrer"
-                    className="flex h-9 w-9 items-center justify-center rounded-full border border-[var(--color-success)] text-[var(--color-success)] transition hover:bg-[var(--color-success-bg)]"
+                    className="flex h-9 w-9 items-center justify-center rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100)]"
                     aria-label={`Chat WhatsApp ${item.name}`}
                   >
                     <DashboardIcon name="chat" size={16} />
@@ -232,7 +232,7 @@ export default function CatteryDirectory({ items }: CatteryDirectoryProps) {
                       href={`https://wa.me/${item.whatsapp.replace(/[^0-9]/g, "")}`}
                       target="_blank"
                       rel="noopener noreferrer"
-                      className="flex items-center gap-2 rounded-full border border-[var(--color-success)] bg-[var(--color-success-bg)] px-4 py-2 text-[12px] font-medium text-[var(--color-success)] transition hover:brightness-95"
+                      className="flex items-center gap-2 rounded-full border border-emerald-200 bg-emerald-50 text-emerald-600 transition hover:bg-emerald-100 px-4 py-2 text-[12px] font-medium"
                     >
                       <DashboardIcon name="chat" size={14} />
                       Cek WhatsApp {item.whatsapp}
