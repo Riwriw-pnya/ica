@@ -11,7 +11,7 @@ import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 const menus = [
-  { label: "Dashboard", icon: "dashboard", href: "/cattery/dashboard" },
+  { label: "Dashboard", icon: "dashboard", href: "/cattery" },
   { label: "My Cats", icon: "cat", href: "/cattery/my-cats" },
   { label: "Applications", icon: "news", href: "/cattery/applications" },
   { label: "Mating Reports", icon: "users", href: "/cattery/mating-reports" },
