@@ -97,7 +97,7 @@ export default function Sidebar() {
           />
           {isSidebarOpen && (
             <span className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
-              Member Portal
+              Cattery Portal
             </span>
           )}
         </button>

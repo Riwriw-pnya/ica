@@ -1,3 +1,5 @@
+"use client";
+
 import { catItems } from "@/data/cattery";
 import CatCard from "@/app/cattery/my-cats/components/CatCard";
 

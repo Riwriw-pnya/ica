@@ -36,3 +36,21 @@ export interface MatingReport {
   status: MatingReportStatus;
   updatedAt: string;
 }
+
+export type CatQualityBadge = "Excellent" | "Good" | "BOB";
+export type PedigreeStatus = "Terverifikasi" | "Menunggu verifikasi" | "Belum diajukan";
+
+export interface CatItem {
+  id: number;
+  name: string;
+  gender: "Male" | "Female";
+  breed: string;
+  regCode: string;
+  healthScore: number;
+  paidShows: number;
+  image?: string;
+  qualityBadge?: CatQualityBadge;
+  pedigreeStatus: PedigreeStatus;
+  sireName?: string;
+  damName?: string;
+}
