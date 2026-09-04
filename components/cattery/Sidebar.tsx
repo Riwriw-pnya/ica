@@ -76,6 +76,7 @@ export default function Sidebar() {
         isSidebarOpen ? "w-[208px]" : "w-[64px]"
       }`}
     >
+      {/* Logo — sekaligus tombol toggle */}
       <div
         className={`flex h-[54px] items-center border-b border-[var(--color-ink-100)] ${
           isSidebarOpen ? "justify-between gap-3 px-4" : "justify-center px-2"
@@ -83,16 +84,20 @@ export default function Sidebar() {
       >
         <button
           onClick={toggleSidebar}
-          className="flex shrink-0 items-center gap-3 rounded-md transition"
-          aria-label={isSidebarOpen ? "Sembunyikan sidebar" : "Tampilkan sidebar"}
-          title={isSidebarOpen ? "Sembunyikan sidebar" : "Tampilkan sidebar"}
+          className="flex shrink-0 items-center gap-3 rounded-md transition cursor-pointer"
+          aria-label={isSidebarOpen ? "" : "Open sidebar"}
+          title={isSidebarOpen ? "" : "Open sidebar"}
         >
-          <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[var(--color-brand-orange-500)] text-xs font-bold text-white">
-            ICA
-          </div>
+          <Image
+            src="/images/LOGO-ICA.webp"
+            alt="ICA Logo"
+            width={32}
+            height={32}
+            className="object-contain"
+          />
           {isSidebarOpen && (
             <span className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
-              Cattery Portal
+              Member Portal
             </span>
           )}
         </button>
@@ -100,8 +105,9 @@ export default function Sidebar() {
         {isSidebarOpen && (
           <button
             onClick={toggleSidebar}
-            className="flex h-7 w-7 shrink-0 items-center justify-center rounded-md text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
-            aria-label="Sembunyikan sidebar"
+            className="flex h-7 w-6 shrink-0 items-center justify-center rounded-md text-[#db874b] transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer"
+            aria-label="Close sidebar"
+            title="Close sidebar"
           >
             <DashboardIcon name="panel" size={17} />
           </button>
