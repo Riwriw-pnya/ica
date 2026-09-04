@@ -4,7 +4,7 @@ export const quickAccessItems: QuickAccessItem[] = [
   { id: 1, title: "Daftar event", icon: "calendar", href: "/anggota/event" },
   { id: 2, title: "Cari cattery", icon: "search", href: "/anggota/direktori" },
   { id: 3, title: "Berita ICA", icon: "news", href: "/anggota/berita" },
-  { id: 4, title: "Ajukan cattery", icon: "home", href: "/anggota/ajukan" },
+  { id: 4, title: "Ajukan cattery", icon: "home", href: "/anggota/keanggotaan/ajukan-cattery" },
 ];
 
 export const newsItems: NewsItem[] = [
