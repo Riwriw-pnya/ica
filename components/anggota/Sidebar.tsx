@@ -17,6 +17,7 @@ const menus = [
   { label: "Keanggotaan", icon: "shield", href: "/anggota/keanggotaan" },
   { label: "Event", icon: "calendar", href: "/anggota/event" },
   { label: "Leaderboard", icon: "trophy", href: "/anggota/leaderboard" },
+  { label: "Shop", icon: "shopping-cart", href: "/anggota/shop" },
 ];
 
 export default function Sidebar() {

@@ -1,4 +1,4 @@
-import type { CatItem, CatteryProfile, MaleCat, } from "@/types/cattery";
+import type { CatItem, CatteryProfile, MaleCat, NotificationItem, } from "@/types/cattery";
 
 export const catItems: CatItem[] = [
   { id: 1, name: "Bagas of Rumah Hana", gender: "Male", breed: "Persian", regCode: "EMS PER n 22", healthScore: 94, paidShows: 2, qualityBadge: "Excellent", pedigreeStatus: "Terverifikasi", sireName: "Kaisar of Melati", damName: "Ratu Bilqis" },
@@ -21,4 +21,10 @@ export const maleCats: MaleCat[] = [
   { id: 2, name: "Rimba Anggara", breed: "Maine Coon", birthDate: "2 Jun 2021", regCode: "ICA-PD-3980", emsCode: "MCO ns 24", certStatus: "Aktif" },
   { id: 3, name: "Gala Pradipta", breed: "Persian", birthDate: "8 Sep 2023", regCode: "ICA-PD-5120", emsCode: "PER d 03", certStatus: "Aktif" },
   { id: 4, name: "Wira Santana", breed: "British Shorthair", birthDate: "19 Jan 2020", regCode: "ICA-PD-2210", emsCode: "BRI a", certStatus: "Perlu perpanjangan" },
+];
+
+export const initialNotifications: NotificationItem[] = [
+  { id: "n1", type: "event", title: "Pendaftaran event dibuka", message: "ICA Regional Cat Show — Bandung sudah bisa didaftarkan.", time: "2 jam lalu", isRead: false, url: "/cattery/event" },
+  { id: "n2", type: "pedigree", title: "Pedigree disetujui", message: "Pedigree Bagas of Rumah Hana telah diverifikasi Admin ICA.", time: "Kemarin", isRead: false, url: "/cattery/pedigree" },
+  { id: "n3", type: "mating", title: "Mating report menunggu review", message: "Laporan Bagas × Nara Kencana sedang diproses.", time: "3 hari lalu", isRead: true, url: "/cattery/mating" },
 ];

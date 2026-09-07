@@ -151,6 +151,23 @@ export default function DashboardIcon({
           </svg>
         );
 
+      case "bell":
+        return (
+          <svg {...commonProps}>
+            <path d="M6 8a6 6 0 1 1 12 0c0 3.5 1.2 5 2 6H4c.8-1 2-2.5 2-6z" />
+            <path d="M9.5 18a2.5 2.5 0 0 0 5 0" />
+          </svg>
+        );
+
+      case "shopping-cart":
+        return (
+          <svg {...commonProps}>
+            <circle cx="9" cy="21" r="1" />
+            <circle cx="20" cy="21" r="1" />
+            <path d="M1 1h4l2.68 13.39a2 2 0 0 0 1.98.16L15.5 8H5M5 8v4h7m-7-4h7v4H5z" />
+          </svg>
+        );
+
     default:
       return null;
   }

@@ -18,6 +18,7 @@ const menus = [
   { label: "Documents", icon: "news", href: "/cattery/documents" },
   { label: "Leaderboard", icon: "trophy", href: "/cattery/leaderboard" },
   { label: "Events", icon: "calendar", href: "/cattery/events" },
+  { label: "Shop", icon: "shopping-cart", href: "/cattery/shop" },
 ];
 
 const secondaryMenus = [

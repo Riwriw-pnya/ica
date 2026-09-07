@@ -2,11 +2,11 @@
 
 import { createContext, useContext, useState, useCallback, useMemo } from "react";
 
-type MenuSource = "header" | "sidebar" | null;
+type MenuSource = "header" | "sidebar" | "notifications" | null;
 
 interface UserMenuContextValue {
   openMenu: MenuSource;
-  toggleMenu: (source: "header" | "sidebar") => void;
+  toggleMenu: (source: "header" | "sidebar" | "notifications") => void;
   closeMenu: () => void;
 }
 
@@ -15,7 +15,7 @@ const UserMenuContext = createContext<UserMenuContextValue | null>(null);
 export function UserMenuProvider({ children }: { children: React.ReactNode }) {
   const [openMenu, setOpenMenu] = useState<MenuSource>(null);
 
-  const toggleMenu = useCallback((source: "header" | "sidebar") => {
+  const toggleMenu = useCallback((source: "header" | "sidebar" | "notifications") => {
     setOpenMenu((prev) => (prev === source ? null : source));
   }, []);
 
