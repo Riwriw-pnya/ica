@@ -1,8 +1,10 @@
 "use client";
 
 import { use } from "react";
-import RegisterMemberForm from "@/components/auth/RegisterMemberForm";
-import DefaultAuthForm from "@/components/auth/DefaultAuthForm";
+import LoginMember from "@/components/auth/LoginMember";
+import RegisterMember from "@/components/auth/RegisterMember";
+import LoginCattery from "@/components/auth/LoginCattery";
+import RegisterCattery from "@/components/auth/RegisterCattery";
 
 interface PageProps {
   params: Promise<{
@@ -15,9 +17,15 @@ export default function AuthFormPage({ params }: PageProps) {
   const resolvedParams = use(params);
   const { mode, type } = resolvedParams;
 
-  if (mode === "register" && type === "member") {
-    return <RegisterMemberForm />;
+  if (mode === "login") {
+    if (type === "member") return <LoginMember />;
+    if (type === "cattery") return <LoginCattery />;
   }
 
-  return <DefaultAuthForm mode={mode} type={type} />;
+  if (mode === "register") {
+    if (type === "member") return <RegisterMember />;
+    if (type === "cattery") return <RegisterCattery />;
+  }
+
+  return null;
 }

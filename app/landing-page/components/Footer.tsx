@@ -74,10 +74,10 @@ export default function Footer() {
               <li><Link href="/rules" className="hover:text-orange-400 transition">Rules & Form</Link></li>
               <li><Link href="https://fifeweb.org/cats/breeds/" className="hover:text-orange-400 transition">Breed Standard</Link></li>
               <li><Link href="/catteryN" className="hover:text-orange-400 transition">Cattery Names</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Event</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Galeri</Link></li>
+              <li><Link href="/event" className="hover:text-orange-400 transition">Event</Link></li>
+              <li><Link href="/galeri" className="hover:text-orange-400 transition">Galeri</Link></li>
               <li><Link href="/contact" className="hover:text-orange-400 transition">Contact</Link></li>
-              <li><Link href="#" className="hover:text-orange-400 transition">Store</Link></li>
+              <li><Link href="/store" className="hover:text-orange-400 transition">Store</Link></li>
             </ul>
           </div>
 
