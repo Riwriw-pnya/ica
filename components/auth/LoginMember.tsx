@@ -79,7 +79,7 @@ export default function LoginMember() {
     setPasswordError(null);
   };
 
-  // Handler Submit Form Login (Demo & Validasi)
+  // Handler Submit Form Login
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setEmailError(null);
@@ -114,13 +114,8 @@ export default function LoginMember() {
       return;
     }
 
+    // Tampilkan loading button tanpa toast sukses
     setIsLoading(true);
-
-    // Toast Berhasil & Redirect Demo
-    setToast({
-      title: "Login Berhasil!",
-      message: "Mengalihkan Anda ke Dashboard Member...",
-    });
 
     setTimeout(() => {
       router.push("/anggota");
@@ -129,7 +124,7 @@ export default function LoginMember() {
 
   return (
     <main className="h-screen w-full bg-white flex items-center justify-center relative overflow-hidden font-sans">
-      {/* Toast Notification (Top Right) */}
+      {/* Toast Notification (Hanya muncul jika ada error) */}
       {toast && (
         <div className="fixed top-6 right-6 z-[9999] bg-white border border-[#F0E6E6] shadow-xl rounded-xl p-4 max-w-sm w-full overflow-hidden flex items-start gap-3 border-l-4 border-l-[#EA4335] transition-all animate-bounce-once">
           <div className="w-5 h-5 rounded-full bg-[#FCE8E6] text-[#EA4335] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
@@ -215,7 +210,7 @@ export default function LoginMember() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Field Email dengan Ring Fill */}
+                  {/* Field Email */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-[#4A3D34]">
                       Email Anggota
@@ -245,7 +240,7 @@ export default function LoginMember() {
                     )}
                   </div>
 
-                  {/* Field Password dengan Ring Fill */}
+                  {/* Field Password */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center">
                       <label className="text-xs font-semibold text-[#4A3D34]">
@@ -392,7 +387,7 @@ export default function LoginMember() {
             )}
           </div>
 
-          {/* Footer Switcher & Demo Info (Hanya muncul saat di halaman login) */}
+          {/* Footer Switcher & Demo Info */}
           <div className="w-full text-center space-y-1.5 pt-6 border-t border-[#F5F0EB]">
             {viewState === "login" && (
               <div className="flex items-center justify-center gap-1.5">
