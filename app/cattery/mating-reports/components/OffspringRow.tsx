@@ -1,7 +1,16 @@
 "use client";
 
 import DashboardIcon from "@/components/anggota/DashboardIcon";
-import type { OffspringItem } from "@/types/cattery";
+interface OffspringItem {
+  name: string;
+  gender: "Jantan" | "Betina";
+  color: string;
+  birthDate: string;
+  birthWeight: string;
+  breed: string;
+  status: "Hidup" | "Mati";
+  photoName?: string;
+}
 
 interface OffspringRowProps {
   index: number;

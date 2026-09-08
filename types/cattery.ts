@@ -40,7 +40,8 @@ export interface MaleCat {
   birthDate: string;
   regCode: string;
   emsCode: string;
-  certStatus: "Aktif" | "Perlu perpanjangan";
+  certStatus: "Aktif" | "Perlu perpanjangan" | "Belum diajukan" | "Belum cukup umur" ;
+  certificateFile?: CatCertificateFile;
 }
 
 export interface FemaleCat {
@@ -51,6 +52,7 @@ export interface FemaleCat {
   regCode: string;
   emsCode: string;
   certStatus: "Aktif" | "Perlu perpanjangan";
+  certificateFile?: CatCertificateFile;
 }
 
 export type MatingReportStatus = "Draft" | "Menunggu review" | "Disetujui" | "Ditolak";
@@ -110,4 +112,25 @@ export interface NotificationItem {
   time: string;
   isRead: boolean;
   url?: string;
+}
+
+export interface CatCertificateFile {
+  fileName: string;
+  uploadedDate: string;
+  sizeLabel: string;
+}
+
+export type OffspringGender = "Jantan" | "Betina" | "Male" | "Female" | "";
+export type OffspringStatus = "Hidup" | "Mati";
+
+export interface OffspringItem {
+  id: number;
+  name: string;
+  gender: OffspringGender;
+  color: string;
+  birthDate: string;
+  birthWeight: string;
+  breed: string;
+  status: OffspringStatus;
+  photoName?: string;
 }

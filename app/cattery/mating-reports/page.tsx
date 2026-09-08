@@ -1,6 +1,8 @@
 "use client";
 
+import { toast } from "sonner";
 import { useState } from "react";
+import { useRouter } from "next/navigation";
 import { catteryProfile, maleCats, femaleCats } from "@/data/cattery";
 import Stepper from "./components/Stepper";
 import StepFooter from "./components/StepFooter";
@@ -10,12 +12,13 @@ import StepPilihInduk from "./components/StepPilihInduk";
 import StepMatingInformation from "./components/StepMatingInformation";
 import StepAddOffspring from "./components/StepAddOffspring";
 import StepUploadDokumen, { toFileInfo } from "./components/StepUploadDocument";
-import StepPlaceholder from "./components/StepPlaceholder";
+import StepReviewSubmit from "./components/StepReviewSubmit";
 import { CatCertificateFile, OffspringItem } from "@/types/cattery";
 
 const stepTitles = ["Data Cattery", "Pilih Pejantan", "Pilih Induk", "Mating Information", "Add Offspring", "Upload Dokumen", "Review & Submit"];
 
 export default function MatingReportsPage() {
+  const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedMaleId, setSelectedMaleId] = useState<number | null>(null);
   const [selectedFemaleId, setSelectedFemaleId] = useState<number | null>(null);
@@ -56,7 +59,6 @@ export default function MatingReportsPage() {
     return true;
   };
 
-
   const canGoNext = isStepValid(currentStep);
 
   const goBack = () => setCurrentStep((s) => Math.max(1, s - 1));
@@ -69,6 +71,39 @@ export default function MatingReportsPage() {
   const goToStep = (step: number) => {
     if (step < currentStep) setCurrentStep(step); // cuma izinkan mundur (dobel-jaga, Stepper juga sudah cegah)
   };
+
+  const handleNextStep = () => {
+  if (currentStep === 2) {
+    if(!selectedMale){
+      toast.error("Kucing belum dipilih")
+    }
+  }
+
+    if (currentStep === 3) {
+    if(!selectedFemale){
+      toast.error("Kucing belum dipilih")
+    }
+  }
+
+  if (currentStep === 4) {
+    if (!matingDate) {
+      toast.error("Tanggal mating belum diisi");
+      return;
+    }
+
+    if (!estimatedBirthDate) {
+      toast.error("Estimasi tanggal lahir belum diisi");
+      return;
+    }
+
+    if (!witnessName.trim()) {
+      toast.error("Nama saksi belum diisi");
+      return;
+    }
+  }
+
+  setCurrentStep((prev) => prev + 1);
+};
 
   return (
     <main className="min-h-full bg-[var(--color-ink-50)]">
@@ -116,16 +151,46 @@ export default function MatingReportsPage() {
               onPaymentProofRemove={() => setPaymentProof(null)}
             />
           )}
-          {currentStep >= 7 && <StepPlaceholder title={stepTitles[currentStep - 1]} />}
+          {currentStep === 7 && (
+            <StepReviewSubmit
+              maleName={selectedMale?.name ?? "-"}
+              femaleName={selectedFemale?.name ?? "-"}
+              maleRegCode={selectedMale?.regCode ?? "-"}
+              femaleRegCode={selectedFemale?.regCode ?? "-"}
+              matingDate={matingDate}
+              estimatedBirthDate={estimatedBirthDate}
+              witnessName={witnessName}
+              offspringItems={offspringItems}
+              documents={[
+                { label: "Sertifikat pedigree pejantan", file: selectedMale?.certificateFile ?? null },
+                { label: "Sertifikat pedigree induk", file: selectedFemale?.certificateFile ?? null },
+                { label: "Foto mating / kandang", file: matingPhoto },
+                { label: "Foto tiap kitten", file: kittenPhotos },
+                { label: "Surat keterangan dokter hewan", file: vetLetter },
+                { label: "Bukti pembayaran", file: paymentProof },
+              ]}
+              onEditStep={goToStep}
+              onSubmit={async () => {
+                // Sementara, sebelum API tersedia
+                const code = `MR-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+
+                router.push(`/cattery/mating-reports/success?code=${code}`);
+
+                return code;
+              }}
+            />
+          )}
         </div>
 
-        <StepFooter
-          currentStep={currentStep}
-          totalSteps={totalSteps}
-          onBack={goBack}
-          onNext={goNext}
-          nextDisabled={!canGoNext}
-        />
+        {currentStep < 7 && (
+          <StepFooter
+            currentStep={currentStep}
+            totalSteps={totalSteps}
+            onBack={goBack}
+            onNext={handleNextStep}
+            nextDisabled={!canGoNext}
+          />
+        )}
       </div>
     </main>
   );

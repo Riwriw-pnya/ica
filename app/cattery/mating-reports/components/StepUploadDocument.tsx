@@ -1,63 +1,7 @@
 "use client";
 
+import DocumentItem from "./DocumentItem";
 import type { CatCertificateFile } from "@/types/cattery";
-
-interface DocumentItemProps {
-  label: string;
-  isRequired: boolean;
-  isAuto?: boolean;
-  file: CatCertificateFile | null;
-  onPick?: (file: File) => void;
-  onRemove?: () => void;
-}
-
-function DocumentItem({
-  label,
-  isRequired,
-  isAuto = false,
-  file,
-  onPick,
-  onRemove,
-}: DocumentItemProps) {
-  const inputId = `document-${label.toLowerCase().replace(/[^a-z0-9]+/g, "-")}`;
-
-  return (
-    <div className="flex items-center justify-between gap-3 rounded-lg border border-[var(--color-ink-100)] p-3">
-      <div className="min-w-0">
-        <p className="text-[12px] font-medium text-[var(--color-ink-900)]">
-          {label} {isRequired && <span className="text-red-500">*</span>}
-        </p>
-        <p className="truncate text-[11px] text-[var(--color-ink-700)]">
-          {file ? `${file.fileName} · ${file.sizeLabel}` : "Belum ada file"}
-        </p>
-      </div>
-      {isAuto ? (
-        <span className="shrink-0 text-[11px] text-[var(--color-ink-400)]">Otomatis</span>
-      ) : file ? (
-        <button type="button" onClick={onRemove} className="shrink-0 text-[11px] text-red-600">
-          Hapus
-        </button>
-      ) : (
-        <label
-          htmlFor={inputId}
-          className="shrink-0 cursor-pointer rounded-md border border-[var(--color-ink-200)] px-3 py-1.5 text-[11px] text-[var(--color-ink-700)]"
-        >
-          Pilih file
-          <input
-            id={inputId}
-            type="file"
-            className="sr-only"
-            onChange={(event) => {
-              const selectedFile = event.currentTarget.files?.[0];
-              if (selectedFile) onPick?.(selectedFile);
-              event.currentTarget.value = "";
-            }}
-          />
-        </label>
-      )}
-    </div>
-  );
-}
 
 interface ManualDoc {
   file: CatCertificateFile | null;
@@ -101,42 +45,51 @@ export default function StepUploadDokumen(props: StepUploadDokumenProps) {
       <div className="mt-4 space-y-2.5 border-t border-[var(--color-ink-100)] pt-4">
         <DocumentItem
           label="Sertifikat pedigree pejantan"
+          icon="cat"
           isRequired
           isAuto
           file={props.maleCertFile}
         />
         <DocumentItem
           label="Sertifikat pedigree induk"
+          icon="cat"
           isRequired
           isAuto
           file={props.femaleCertFile}
         />
         <DocumentItem
           label="Foto mating / kandang"
+          icon="upload"
           isRequired
           file={props.matingPhoto.file}
-          onPick={(f) => props.onMatingPhotoChange(f)}
+          onPick={props.onMatingPhotoChange}
           onRemove={props.onMatingPhotoRemove}
         />
         <DocumentItem
           label="Foto tiap kitten"
+          description="Satu foto per kitten, wajah terlihat jelas."
+          icon="upload"
           isRequired={false}
           file={props.kittenPhotos.file}
-          onPick={(f) => props.onKittenPhotosChange(f)}
+          onPick={props.onKittenPhotosChange}
           onRemove={props.onKittenPhotosRemove}
         />
         <DocumentItem
           label="Surat keterangan dokter hewan"
+          description="Memperkuat hasil verifikasi admin."
+          icon="upload"
           isRequired={false}
           file={props.vetLetter.file}
-          onPick={(f) => props.onVetLetterChange(f)}
+          onPick={props.onVetLetterChange}
           onRemove={props.onVetLetterRemove}
         />
         <DocumentItem
           label="Bukti pembayaran"
+          description="Biaya penerbitan pedigree."
+          icon="upload"
           isRequired={false}
           file={props.paymentProof.file}
-          onPick={(f) => props.onPaymentProofChange(f)}
+          onPick={props.onPaymentProofChange}
           onRemove={props.onPaymentProofRemove}
         />
       </div>

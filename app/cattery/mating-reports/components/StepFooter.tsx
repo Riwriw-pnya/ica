@@ -13,7 +13,8 @@ export default function StepFooter({ currentStep, totalSteps, onBack, onNext }: 
       <button
         onClick={onBack}
         disabled={currentStep === 1}
-        className="rounded-full border border-[var(--color-ink-100)] px-6 py-2.5 text-[13px] font-medium text-[var(--color-ink-700)] transition hover:bg-[var(--color-ink-100)] disabled:cursor-not-allowed disabled:opacity-40"
+        className="rounded-full border border-[var(--color-ink-100)] px-6 py-2.5 text-[13px] font-medium text-[var(--color-ink-700)] disabled:cursor-not-allowed disabled:opacity-40 
+        bg-gradient-to-b from-white to-[var(--color-ink-300)] shadow-black/5 hover:shadow-md hover:-translate-y-0.5 hover:brightness-95 transition-all duration-150"
       >
         Kembali
       </button>
