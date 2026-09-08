@@ -17,10 +17,10 @@ export default function StepDataCattery({ profile }: { profile: CatteryProfile }
         <Field label="Penanggung jawab" value={profile.personInCharge} />
       </div>
 
-      <div className="mt-5 rounded-lg border border-[var(--color-warning)]/30 bg-[var(--color-warning-bg)] p-4 text-[12px] text-[var(--color-warning)]">
+      <div className="mt-5 rounded-lg border border-[var(--color-warning)]/30 bg-[var(--color-warning-bg)] p-4 text-[12px] text-[var(--color-background)]">
         Data ini diambil dari profil cattery dan tidak bisa diubah di sini. Kalau ada yang
         salah, perbaiki lewat{" "}
-        <a href="/cattery/profil" className="font-semibold underline">
+        <a href="/cattery/profil" className="font-semibold underline text-[var(--color-brand-orange-700)]">
           Profil Cattery
         </a>{" "}
         sebelum mengirim report.

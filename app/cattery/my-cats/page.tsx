@@ -9,11 +9,11 @@ export default function MyCatsPage() {
       <div className="mx-auto max-w-[1200px] p-5 lg:p-6">
         <section className="mb-5 flex items-start justify-between gap-4">
           <div>
-            <h1 className="font-display text-[22px] font-semibold tracking-tight text-[var(--color-ink-900)]">
+            <h1 className="font-display text-[24px] font-semibold tracking-tight text-[var(--color-ink-900)]">
               My Cats
             </h1>
-            <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
-              Kucing milik Rumah Hana Cattery. Foto kucing dipakai di leaderboard dan mating report.
+            <p className="mt-1 font-sans text-[15px] text-[var(--color-ink-700)]">
+              Kucing milik Rumah Hana Cattery.
             </p>
           </div>
 

@@ -1,4 +1,5 @@
 import { CatteryItem, EventListItem, LeaderboardEntry, MembershipHistoryItem, MembershipInfo, NewsItem, QuickAccessItem } from "@/types/anggota";
+import { NotificationItem } from "@/types/cattery";
 
 export const quickAccessItems: QuickAccessItem[] = [
   { id: 1, title: "Daftar event", icon: "calendar", href: "/anggota/event" },
@@ -195,3 +196,9 @@ export const leaderboardEntries: LeaderboardEntry[] = [
   { id: 6, rank: 6, catName: "Meong Manis Luna", breed: "Persian", category: "Kitten", cattery: "Meong Manis Cattery", points: 1120 },
   { id: 7, rank: 7, catName: "Nusantara Coco", breed: "Exotic Shorthair", category: "Household Pet", cattery: "Nusantara Feline", points: 1065 },
 ];
+
+export const initialNotifications: NotificationItem[] = [
+  { id: "n1", type: "general", title: "Keanggotaan akan berakhir", message: "Masa berlaku keanggotaan Anda tersisa 14 hari lagi.", time: "10 menit lalu", isRead: false, url: "/anggota/keanggotaan" },
+  { id: "n2", type: "event", title: "Pendaftaran event dibuka", message: "ICA Regional Cat Show — Bandung sudah bisa didaftarkan.", time: "2 jam lalu", isRead: false, url: "/anggota/event" },
+  { id: "n3", type: "pedigree", title: "Pedigree disetujui", message: "Pedigree Bagas of Rumah Hana telah diverifikasi Admin ICA.", time: "Kemarin", isRead: true, url: "/anggota/keanggotaan" },
+]

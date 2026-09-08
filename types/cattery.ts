@@ -54,3 +54,13 @@ export interface CatItem {
   sireName?: string;
   damName?: string;
 }
+
+export interface NotificationItem {
+  id: string;
+  type: "event" | "pedigree" | "mating" | "general";
+  title: string;
+  message: string;
+  time: string;
+  isRead: boolean;
+  url?: string;
+}

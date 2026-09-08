@@ -111,7 +111,7 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
               transition-all duration-150 cursor-pointer">
             Perpanjang keanggotaan
           </button>
-          <button className="border border-[var(--color-ink-100)] text-[13px] font-medium text-[var(--color-ink-700)]
+          <button className="border border-[var(--color-ink-100)] text-[12px] font-semibold font-sans text-[var(--color-ink-700)]
           px-6 py-3.5 rounded-full bg-gradient-to-b from-[var(--color-ink-300)] to-white shadow-sm shadow-black/5
               hover:shadow-md 
               hover:-translate-y-0.5 hover:brightness-95 
