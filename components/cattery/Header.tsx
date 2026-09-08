@@ -19,6 +19,7 @@ const pageTitles: Record<string, string> = {
   "/cattery/documents": "Documents",
   "/cattery/leaderboard": "Leaderboard",
   "/cattery/events": "Events",
+  "/cattery/store": "Store",
   "/cattery/profil": "Profil Cattery",
   "/cattery/settings": "Settings",
 };
