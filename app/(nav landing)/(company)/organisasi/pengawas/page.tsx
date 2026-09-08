@@ -7,24 +7,69 @@ import Footer from "@/app/landing-page/components/Footer";
 export default function SupervisoryBoardPage() {
   const boardMembers = [
     null,
-    { name: "Suharno Eliandi, SE Ak, MSc., CA", role: "Ketua Pengawas", isHeader: true },
+    { 
+      name: "Suharno Eliandi, SE Ak, MSc., CA", 
+      role: "Ketua Pengawas", 
+      isHeader: true,
+      image: "/images/pengawas/suharno.webp" 
+    },
     null,
 
-    { name: "DR. Drh. M. Munawaroh, MM", role: "Ketua Bidang Pengawas AD ART dan Kode Etik" },
+    { 
+      name: "DR. Drh. M. Munawaroh, MM", 
+      role: "Ketua Bidang Pengawas AD ART dan Kode Etik",
+      image: "/images/pengawas/munawaroh.webp" 
+    },
     null,
-    { name: "Herry Marwanto", role: "Ketua Bidang Pengawas Operasional" },
+    { 
+      name: "Herry Marwanto", 
+      role: "Ketua Bidang Pengawas Operasional",
+      image: "/images/pengawas/herry.webp" 
+    },
 
-    { name: "Amsul Nababan (Alm.)", role: "Anggota Pengawas" },
-    { name: "Ratih S.Umiyati", role: "Anggota Pengawas" },
-    { name: "Ermita Hadi", role: "Anggota Pengawas" },
+    { 
+      name: "Amsul Nababan (Alm.)", 
+      role: "Anggota Pengawas",
+      image: "/images/pengawas/amsul.webp" 
+    },
+    { 
+      name: "Ratih S.Umiyati", 
+      role: "Anggota Pengawas",
+      image: "/images/pengawas/ratih.webp" 
+    },
+    { 
+      name: "Ermita Hadi", 
+      role: "Anggota Pengawas",
+      image: "/images/pengawas/ermita.webp" 
+    },
 
-    { name: "Rita Irianti", role: "Anggota Pengawas" },
-    { name: "Henny Retnowati", role: "Anggota Pengawas" },
-    { name: "H. Herry Mulyadi", role: "Anggota Pengawas" },
+    { 
+      name: "Rita Irianti", 
+      role: "Anggota Pengawas",
+      image: "/images/pengawas/rita.webp" 
+    },
+    { 
+      name: "Henny Retnowati", 
+      role: "Anggota Pengawas",
+      image: "/images/pengawas/henny.webp" 
+    },
+    { 
+      name: "H. Herry Mulyadi", 
+      role: "Anggota Pengawas",
+      image: "/images/pengawas/h.herry.webp" 
+    },
 
-    { name: "Betty Setiawati", role: "Anggota Pengawas" },
+    { 
+      name: "Betty Setiawati", 
+      role: "Anggota Pengawas",
+      image: "/images/pengawas/betty.webp" 
+    },
     null,
-    { name: "Lanny", role: "Anggota Pengawas" },
+    { 
+      name: "Lanny", 
+      role: "Anggota Pengawas",
+      image: "/images/pengawas/lanny.webp" 
+    },
   ];
 
   const tableData = [
@@ -89,8 +134,9 @@ export default function SupervisoryBoardPage() {
 
         </section>
 
-        <section className="max-w-3xl mx-auto px-6">
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-x-4 gap-y-3">
+        {/* Section Card Anggota Dewan */}
+        <section className="max-w-4xl mx-auto px-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-5">
             {boardMembers.map((item, index) => {
               if (!item) {
                 return <div key={index} className="hidden md:block" />;
@@ -101,8 +147,20 @@ export default function SupervisoryBoardPage() {
                   key={index} 
                   className="bg-white p-5 rounded-2xl border border-[#FDE4D0] shadow-xs text-center space-y-3 flex flex-col justify-between cursor-pointer transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-[#FFF0E5] hover:border-[#FA9856]/70 hover:shadow-md hover:-translate-y-0.5"
                 >
-                  <div className="w-20 h-20 mx-auto rounded-full bg-[#FFF3EA] border-2 border-[#F99F5D]/30 overflow-hidden relative flex items-center justify-center text-gray-400 text-xs shrink-0 transition-colors duration-300">
-                    <span>Foto</span>
+                  {/* Container Foto (Ukuran Disesuaikan: 96px/112px) */}
+                  <div className="w-24 h-24 sm:w-28 sm:h-28 mx-auto rounded-full bg-[#FFF3EA] border-2 border-[#F99F5D]/30 overflow-hidden relative flex items-center justify-center text-gray-400 text-xs shrink-0 transition-colors duration-300 shadow-xs">
+                    {item.image ? (
+                      <img 
+                        src={item.image} 
+                        alt={item.name} 
+                        className="w-full h-full object-cover"
+                        onError={(e) => {
+                          e.currentTarget.style.display = 'none';
+                        }}
+                      />
+                    ) : (
+                      <span>Foto</span>
+                    )}
                   </div>
                   <div>
                     <h4 className="font-bold text-sm text-[#4A3D34] leading-snug">
@@ -164,11 +222,8 @@ export default function SupervisoryBoardPage() {
             <div className="overflow-hidden rounded-2xl border border-[#FDE4D0] bg-white shadow-xs">
               <div className="overflow-x-auto">
                 <table className="w-full text-left border-collapse">
-                  
-                  {/* Header Gradasi Horizontal Clean */}
                   <thead>
                     <tr className="bg-gradient-to-r from-[#FA9856] via-[#F58338] to-[#F27329] text-white text-xs md:text-sm font-semibold select-none">
-                      
                       <th className="p-4 font-bold tracking-wide w-[40%]">
                         <div className="flex items-center gap-1.5 cursor-pointer hover:opacity-85 transition">
                           <span>Nama</span>
@@ -189,11 +244,9 @@ export default function SupervisoryBoardPage() {
                           <span className="text-[10px] opacity-75">↑↓</span>
                         </div>
                       </th>
-
                     </tr>
                   </thead>
 
-                  {/* Body Table */}
                   <tbody className="divide-y divide-[#FDE4D0]/60 bg-white text-xs md:text-sm">
                     {displayedData.length > 0 ? (
                       displayedData.map((row, idx) => (
@@ -226,7 +279,7 @@ export default function SupervisoryBoardPage() {
               </div>
             </div>
 
-            {/* Pagination UI Dinamis & Compact */}
+            {/* Pagination UI */}
             <div className="flex flex-col sm:flex-row justify-between items-center gap-4 text-xs text-[#7C6A5D] pt-1">
               <div>
                 Menampilkan <span className="font-bold text-[#4A3D34]">{filteredData.length > 0 ? (currentPage - 1) * entriesPerPage + 1 : 0}</span> sampai{" "}
@@ -235,7 +288,6 @@ export default function SupervisoryBoardPage() {
               </div>
               
               <div className="flex items-center gap-1.5">
-                {/* Prev Arrow */}
                 <button 
                   onClick={() => setCurrentPage((prev) => Math.max(prev - 1, 1))}
                   disabled={currentPage === 1}
@@ -251,7 +303,6 @@ export default function SupervisoryBoardPage() {
                   </svg>
                 </button>
 
-                {/* Page Buttons */}
                 {Array.from({ length: totalPages }, (_, i) => i + 1).map((page) => (
                   <button 
                     key={page}
@@ -266,7 +317,6 @@ export default function SupervisoryBoardPage() {
                   </button>
                 ))}
 
-                {/* Next Arrow */}
                 <button 
                   onClick={() => setCurrentPage((prev) => Math.min(prev + 1, totalPages))}
                   disabled={currentPage === totalPages}

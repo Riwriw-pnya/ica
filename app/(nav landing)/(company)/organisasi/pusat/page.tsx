@@ -4,18 +4,18 @@ import Footer from "@/app/landing-page/components/Footer";
 
 export default function PengurusPusatPage() {
   const pengurusPusat = [
-    { nama: "Russy Idroes", jabatan: "Ketua umum / President", cattery: "Rafflesia", image: "/images/pengurus/russy.png" },
-    { nama: "M. Pasca Zakky Muhajir Ridlwan", jabatan: "Wakil ketua umum / Vice-President", cattery: "Lucky Jack", image: "/images/pengurus/pasca.png" },
-    { nama: "Linda Paramita", jabatan: "Sekretaris umum / General Secretary", cattery: "-", image: "/images/pengurus/linda.png" },
-    { nama: "Hudwiyanti, SE", jabatan: "Bendahara umum / Treasurer", cattery: "Layar", image: "/images/pengurus/hudwiyanti.png" },
-    { nama: "Niniek Susanty", jabatan: "Wakil Bendahara umum / Vice-Treasurer", cattery: "Teecee", image: "/images/pengurus/niniek.png" },
-    { nama: "dr. Supratikto Sp.OG (K)", jabatan: "Ketua komisi disiplin / Disciplinary Commission", cattery: "Pikijonas", image: "/images/pengurus/supratikto.png" },
-    { nama: "drg. Gunawan Firdaus", jabatan: "Ketua komisi kontes / Show Commission", cattery: "Dentica", image: "/images/pengurus/gunawan.png" },
-    { nama: "Riski Nanda Aditya", jabatan: "Ketua komisi pembiakan dan registrasi / Breeding & Registration Commission", cattery: "Maubran", image: "/images/pengurus/riski.png" },
-    { nama: "Juliana Ratri Purnama", jabatan: "Ketua komisi Pendidikan dan pengembangan / Education and Training commission", cattery: "-", image: "/images/pengurus/juliana.png" },
-    { nama: "drh.Iswan Haryanto M.Si", jabatan: "Ketua komisi Kesehatan dan kesejahteraan / Health & Welfare Commission", cattery: "Veterina", image: "/images/pengurus/iswan.png" },
-    { nama: "dr. Rifki Yusup", jabatan: "Ketua komisi hubungan masyarakat / Commission for Public Relations", cattery: "Buitenzorg", image: "/images/pengurus/rifki.png" },
-    { nama: "Yunita Yasmine P.", jabatan: "Ketua Komisi Juri / Judges Commission", cattery: "Lovers Kiss", image: "/images/pengurus/yunita.png" },
+    { nama: "Russy Idroes", jabatan: "Ketua umum / President", cattery: "Rafflesia", image: "/images/pusat/russy.webp" },
+    { nama: "M. Pasca Zakky Muhajir Ridlwan", jabatan: "Wakil ketua umum / Vice-President", cattery: "Lucky Jack", image: "/images/pusat/pasca.webp" },
+    { nama: "Linda Paramita", jabatan: "Sekretaris umum / General Secretary", cattery: "-", image: "/images/pusat/linda.webp" },
+    { nama: "Hudwiyanti, SE", jabatan: "Bendahara umum / Treasurer", cattery: "Layar", image: "/images/pusat/hudwiyanti.webp" },
+    { nama: "Niniek Susanty", jabatan: "Wakil Bendahara umum / Vice-Treasurer", cattery: "Teecee", image: "/images/pusat/niniek.webp" },
+    { nama: "dr. Supratikto Sp.OG (K)", jabatan: "Ketua komisi disiplin / Disciplinary Commission", cattery: "Pikijonas", image: "/images/pusat/supratikto.webp" },
+    { nama: "drg. Gunawan Firdaus", jabatan: "Ketua komisi kontes / Show Commission", cattery: "Dentica", image: "/images/pusat/gunawan.webp" },
+    { nama: "Riski Nanda Aditya", jabatan: "Ketua komisi pembiakan dan registrasi / Breeding & Registration Commission", cattery: "Maubran", image: "/images/pusat/riski.webp" },
+    { nama: "Juliana Ratri Purnama", jabatan: "Ketua komisi Pendidikan dan pengembangan / Education and Training commission", cattery: "-", image: "/images/pusat/juliana.webp" },
+    { nama: "drh.Iswan Haryanto M.Si", jabatan: "Ketua komisi Kesehatan dan kesejahteraan / Health & Welfare Commission", cattery: "Veterina", image: "/images/pusat/iswan.webp" },
+    { nama: "dr. Rifki Yusup", jabatan: "Ketua komisi hubungan masyarakat / Commission for Public Relations", cattery: "Buitenzorg", image: "/images/pusat/rifki.webp" },
+    { nama: "Yunita Yasmine P.", jabatan: "Ketua Komisi Juri / Judges Commission", cattery: "Lovers Kiss", image: "/images/pusat/yunita.webp" },
   ];
 
   return (
@@ -57,9 +57,9 @@ export default function PengurusPusatPage() {
                 key={index}
                 className="bg-white p-5 rounded-3xl border border-[#FDE4D0] shadow-xs text-center space-y-3 flex flex-col items-center justify-between w-full max-w-xs mx-auto cursor-pointer transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-[#FFF0E5] hover:border-[#FA9856]/70 hover:shadow-md hover:-translate-y-0.5"
               >
-                <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
                   {pengurus.image ? (
-                    <Image src={pengurus.image} alt="foto" fill className="object-cover" />
+                    <Image src={pengurus.image} alt={pengurus.nama} fill className="object-cover" />
                   ) : (
                     <span className="text-xs text-[#E86826] font-bold">foto</span>
                   )}
@@ -83,9 +83,9 @@ export default function PengurusPusatPage() {
                 key={index + 2}
                 className="bg-white p-5 rounded-3xl border border-[#FDE4D0] shadow-xs text-center space-y-3 flex flex-col items-center justify-between w-full max-w-xs mx-auto cursor-pointer transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-[#FFF0E5] hover:border-[#FA9856]/70 hover:shadow-md hover:-translate-y-0.5"
               >
-                <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
                   {pengurus.image ? (
-                    <Image src={pengurus.image} alt="foto" fill className="object-cover" />
+                    <Image src={pengurus.image} alt={pengurus.nama} fill className="object-cover" />
                   ) : (
                     <span className="text-xs text-[#E86826] font-bold">foto</span>
                   )}
@@ -106,9 +106,9 @@ export default function PengurusPusatPage() {
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 max-w-xl mx-auto">
             <div className="hidden sm:block"></div>
             <div className="bg-white p-5 rounded-3xl border border-[#FDE4D0] shadow-xs text-center space-y-3 flex flex-col items-center justify-between w-full max-w-xs mx-auto cursor-pointer transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-[#FFF0E5] hover:border-[#FA9856]/70 hover:shadow-md hover:-translate-y-0.5">
-              <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
                 {pengurusPusat[4].image ? (
-                  <Image src={pengurusPusat[4].image} alt="foto" fill className="object-cover" />
+                  <Image src={pengurusPusat[4].image} alt={pengurusPusat[4].nama} fill className="object-cover" />
                 ) : (
                   <span className="text-xs text-[#E86826] font-bold">foto</span>
                 )}
@@ -124,16 +124,16 @@ export default function PengurusPusatPage() {
             </div>
           </div>
 
-          {/* Baris 4: Komisi Kesehatan, Kontes, Pembiakan */}
+          {/* Baris 4: Komisi Disiplin, Kontes, Pembiakan */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {pengurusPusat.slice(5, 8).map((pengurus, index) => (
               <div 
                 key={index + 5}
                 className="bg-white p-5 rounded-3xl border border-[#FDE4D0] shadow-xs text-center space-y-3 flex flex-col items-center justify-between w-full max-w-xs mx-auto cursor-pointer transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-[#FFF0E5] hover:border-[#FA9856]/70 hover:shadow-md hover:-translate-y-0.5"
               >
-                <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
                   {pengurus.image ? (
-                    <Image src={pengurus.image} alt="foto" fill className="object-cover" />
+                    <Image src={pengurus.image} alt={pengurus.nama} fill className="object-cover" />
                   ) : (
                     <span className="text-xs text-[#E86826] font-bold">foto</span>
                   )}
@@ -150,16 +150,16 @@ export default function PengurusPusatPage() {
             ))}
           </div>
 
-          {/* Baris 5: Komisi Pendidikan, Disiplin, Humas */}
+          {/* Baris 5: Komisi Pendidikan, Kesehatan, Humas */}
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
             {pengurusPusat.slice(8, 11).map((pengurus, index) => (
               <div 
                 key={index + 8}
                 className="bg-white p-5 rounded-3xl border border-[#FDE4D0] shadow-xs text-center space-y-3 flex flex-col items-center justify-between w-full max-w-xs mx-auto cursor-pointer transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-[#FFF0E5] hover:border-[#FA9856]/70 hover:shadow-md hover:-translate-y-0.5"
               >
-                <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
+                <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
                   {pengurus.image ? (
-                    <Image src={pengurus.image} alt="foto" fill className="object-cover" />
+                    <Image src={pengurus.image} alt={pengurus.nama} fill className="object-cover" />
                   ) : (
                     <span className="text-xs text-[#E86826] font-bold">foto</span>
                   )}
@@ -180,9 +180,9 @@ export default function PengurusPusatPage() {
           <div className="grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-4xl mx-auto">
             <div className="hidden sm:block"></div>
             <div className="bg-white p-5 rounded-3xl border border-[#FDE4D0] shadow-xs text-center space-y-3 flex flex-col items-center justify-between w-full max-w-xs mx-auto cursor-pointer transition-all duration-300 hover:bg-gradient-to-b hover:from-white hover:to-[#FFF0E5] hover:border-[#FA9856]/70 hover:shadow-md hover:-translate-y-0.5">
-              <div className="relative w-24 h-24 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
+              <div className="relative w-24 h-24 sm:w-28 sm:h-28 rounded-full overflow-hidden border-2 border-[#F99F5D]/30 shrink-0 bg-[#FFF3EA] flex items-center justify-center transition-colors duration-300">
                 {pengurusPusat[11].image ? (
-                  <Image src={pengurusPusat[11].image} alt="foto" fill className="object-cover" />
+                  <Image src={pengurusPusat[11].image} alt={pengurusPusat[11].nama} fill className="object-cover" />
                 ) : (
                   <span className="text-xs text-[#E86826] font-bold">foto</span>
                 )}
