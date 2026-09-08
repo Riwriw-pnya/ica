@@ -17,9 +17,9 @@ export default function LeaderboardSection() {
     if (rank === 1) {
       return (
         <div className="flex flex-col items-center gap-1">
-          {/* Medali Emas SVG (Warna Emas Soft) */}
+          {/* Medali Emas SVG */}
           <svg
-            className="w-8 h-8 text-amber-400 filter drop-shadow-[0_2px_5px_rgba(251,191,36,0.4)]"
+            className="w-8 h-8 text-amber-500 filter drop-shadow-[0_2px_5px_rgba(245,158,11,0.5)]"
             viewBox="0 0 24 24"
             fill="none"
             stroke="currentColor"
@@ -27,7 +27,7 @@ export default function LeaderboardSection() {
             <circle cx="12" cy="9" r="5" strokeWidth="1.8" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M9 13.5L7 21l5-2.5L17 21l-2-7.5" />
           </svg>
-          <span className="font-extrabold text-[#C85A17] text-2xl">1</span>
+          <span className="font-extrabold text-amber-600 text-2xl">1</span>
         </div>
       );
     }
@@ -44,7 +44,7 @@ export default function LeaderboardSection() {
             <circle cx="12" cy="9" r="5" strokeWidth="1.8" />
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M9 13.5L7 21l5-2.5L17 21l-2-7.5" />
           </svg>
-          <span className="font-extrabold text-[#C85A17] text-xl">2</span>
+          <span className="font-extrabold text-slate-500 text-xl">2</span>
         </div>
       );
     }
@@ -52,7 +52,7 @@ export default function LeaderboardSection() {
       <div className="flex flex-col items-center gap-1">
         {/* Medali Perunggu SVG */}
         <svg
-          className="w-7 h-7 text-amber-700/70 drop-shadow-sm"
+          className="w-7 h-7 text-amber-800/80 drop-shadow-sm"
           viewBox="0 0 24 24"
           fill="none"
           stroke="currentColor"
@@ -60,7 +60,7 @@ export default function LeaderboardSection() {
           <circle cx="12" cy="9" r="5" strokeWidth="1.8" />
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M9 13.5L7 21l5-2.5L17 21l-2-7.5" />
         </svg>
-        <span className="font-extrabold text-[#C85A17] text-xl">3</span>
+        <span className="font-extrabold text-amber-800 text-xl">3</span>
       </div>
     );
   };
@@ -89,11 +89,14 @@ export default function LeaderboardSection() {
         <div className="grid grid-cols-3 gap-4 md:gap-6 items-end mb-10 max-w-2xl mx-auto">
           {topThree.map((item) => {
             const isFirst = item.rank === 1;
+            const isSecond = item.rank === 2;
+            const isThird = item.rank === 3;
+
             return (
               <div
                 key={item.rank}
                 className={`flex flex-col items-center ${
-                  isFirst ? "-order-none mb-0" : item.rank === 2 ? "-order-1" : "order-1"
+                  isFirst ? "-order-none mb-0" : isSecond ? "-order-1" : "order-1"
                 }`}
               >
                 {/* Avatar Wrapper with Crown Overlay for #1 */}
@@ -110,11 +113,15 @@ export default function LeaderboardSection() {
                       </svg>
                     </div>
                   )}
+
+                  {/* Avatar Circle Gradient & Stroke */}
                   <div
-                    className={`rounded-full flex items-center justify-center font-bold text-[#C85A17] transition ${
+                    className={`rounded-full flex items-center justify-center font-extrabold transition ${
                       isFirst
-                        ? "w-16 h-16 text-xl bg-gradient-to-tr from-[#FDEEE3] to-white border-2 border-amber-400 shadow-md ring-4 ring-[#FDEEE3]"
-                        : "w-14 h-14 text-base bg-[#FDEEE3] border-2 border-[#F3D1BD] shadow-sm"
+                        ? "w-16 h-16 text-xl text-amber-700 bg-gradient-to-tr from-amber-200 via-yellow-100 to-amber-300 border-2 border-amber-400 ring-4 ring-amber-100/80 shadow-md"
+                        : isSecond
+                        ? "w-14 h-14 text-base text-slate-700 bg-gradient-to-tr from-slate-200 via-slate-100 to-slate-300 border-2 border-slate-400 ring-4 ring-slate-100 shadow-sm"
+                        : "w-14 h-14 text-base text-amber-900 bg-gradient-to-tr from-amber-200/60 via-amber-100/70 to-amber-300/60 border-2 border-amber-700/60 ring-4 ring-amber-900/10 shadow-sm"
                     }`}
                   >
                     {item.letter}
@@ -134,14 +141,14 @@ export default function LeaderboardSection() {
                   <span className="text-[10px] text-[#6E625A] font-normal">/100</span>
                 </div>
 
-                {/* Podium Pillar */}
+                {/* Podium Pillar Gradient & Stroke */}
                 <div
-                  className={`w-full rounded-t-2xl bg-[#FFFDFB] border border-[#F3D1BD] flex items-center justify-center shadow-sm transition ${
+                  className={`w-full rounded-t-2xl flex items-center justify-center shadow-sm transition ${
                     isFirst
-                      ? "h-36 border-t-2 border-t-amber-400 bg-gradient-to-b from-[#FFFDFB] to-[#FDEEE3]/50"
-                      : item.rank === 2
-                      ? "h-28"
-                      : "h-24"
+                      ? "h-36 border-t-4 border-amber-400 border-x border-b border-amber-200/80 bg-gradient-to-b from-amber-100/70 via-[#FFFDFB] to-amber-100/30"
+                      : isSecond
+                      ? "h-28 border-t-4 border-slate-400 border-x border-b border-slate-200/80 bg-gradient-to-b from-slate-200/60 via-[#FFFDFB] to-slate-100/40"
+                      : "h-24 border-t-4 border-amber-700/60 border-x border-b border-amber-900/15 bg-gradient-to-b from-amber-200/40 via-[#FFFDFB] to-amber-100/30"
                   }`}
                 >
                   {renderPodiumBadge(item.rank)}
