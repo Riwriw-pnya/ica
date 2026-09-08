@@ -20,6 +20,7 @@ const initialCatteries: Cattery[] = [
     mapsUrl: "https://maps.google.com",
     images: [
       "/images/cat2.png",
+      "/images/cattt.jpg",
     ],
   },
   {

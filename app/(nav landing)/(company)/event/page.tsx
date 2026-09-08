@@ -1,8 +1,17 @@
 "use client";
 
 import { useState } from "react";
+import Image from "next/image";
 import Navbar from "@/app/landing-page/components/Navbar";
 import Footer from "@/app/landing-page/components/Footer";
+
+// Data Foto Banner / Carousel
+const EVENT_IMAGES = [
+  "/images/event/1.webp",
+  "/images/event/2.jpg",
+  "/images/event/3.jpg",
+  "/images/event/4.jpg",
+];
 
 // Data Kalender Kegiatan 2026
 const EVENT_DATA = [
@@ -29,6 +38,14 @@ export default function EventPage() {
   const [entries, setEntries] = useState(10);
   const [activeSlide, setActiveSlide] = useState(0);
 
+  const handlePrevSlide = () => {
+    setActiveSlide((prev) => (prev === 0 ? EVENT_IMAGES.length - 1 : prev - 1));
+  };
+
+  const handleNextSlide = () => {
+    setActiveSlide((prev) => (prev === EVENT_IMAGES.length - 1 ? 0 : prev + 1));
+  };
+
   const filteredEvents = EVENT_DATA.filter(
     (item) =>
       item.title.toLowerCase().includes(searchQuery.toLowerCase()) ||
@@ -42,7 +59,7 @@ export default function EventPage() {
         <Navbar />
 
         {/* Hero Section */}
-        <section className="bg-gradient-to-b from-[#FFF6EC] to-[#FDFBF9] border-b border-[#F3D1BD]/40 py-12 md:py-16 px-4 md:px-6">
+        <section className="bg-gradient-to-b from-[#FFF6EC] to-[#FDFBF9] border-b border-[#F3D1BD]/40 py-10 md:py-14 px-4 md:px-6">
           <div className="max-w-6xl mx-auto text-center space-y-3">
             <span className="inline-block px-4 py-1 rounded-full bg-[#EE6B28]/10 text-[#EE6B28] text-xs font-bold tracking-widest uppercase">
               ICA Partners
@@ -56,24 +73,45 @@ export default function EventPage() {
           </div>
         </section>
 
-        {/* Carousel / Banner Dokumentasi */}
-        <section className="max-w-4xl mx-auto px-4 md:px-6 -mt-8">
-          <div className="relative rounded-2xl overflow-hidden shadow-md border border-[#E9E2DC] bg-white">
-            <div className="relative h-56 sm:h-72 md:h-80 w-full bg-[#FAF4F0] flex items-center justify-center">
-              <div className="text-center p-6 space-y-2">
-                <div className="w-16 h-16 bg-[#EE6B28]/10 text-[#EE6B28] rounded-full flex items-center justify-center mx-auto mb-1">
-                  <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M6.827 6.175A2.31 2.31 0 015.186 7.23c-.38.054-.757.112-1.134.175C2.999 7.58 2.25 8.507 2.25 9.574V18a2.25 2.25 0 002.25 2.25h15A2.25 2.25 0 0021.75 18V9.574c0-1.067-.75-1.994-1.802-2.169a47.865 47.865 0 00-1.134-.175 2.31 2.31 0 01-1.64-1.055l-.822-1.316a2.192 2.192 0 00-1.736-1.039 48.774 48.774 0 00-5.232 0c-.653.054-1.25.43-1.602 1.038l-.834 1.336z" />
-                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M16.5 12.75a4.5 4.5 0 11-9 0 4.5 4.5 0 019 0z" />
-                  </svg>
-                </div>
-                <p className="text-sm font-bold text-[#7A6E65]">Dokumentasi Penyerahan Sertifikat & Awarding Event</p>
-              </div>
+        {/* Banner Carousel - Ukuran Diperbesar (max-w-2xl) */}
+        <section className="max-w-md sm:max-w-xl md:max-w-2xl mx-auto px-4 md:px-6 -mt-6">
+          <div className="relative rounded-2xl overflow-hidden p-2.5 md:p-3 border-2 border-dashed border-[#EE6B28]/60 bg-white shadow-xs">
+            
+            <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-[#FFF6EC] flex items-center justify-center">
+              <Image
+                src={EVENT_IMAGES[activeSlide]}
+                alt={`Dokumentasi Event ${activeSlide + 1}`}
+                fill
+                className="object-cover transition-all duration-300"
+                priority
+              />
             </div>
 
-            {/* Carousel Dots */}
-            <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/20 backdrop-blur-md px-3 py-1.5 rounded-full">
-              {[0, 1, 2, 3].map((dot) => (
+            {/* Tombol Panah Kiri (<) */}
+            <button
+              onClick={handlePrevSlide}
+              aria-label="Previous Slide"
+              className="absolute left-5 top-1/2 -translate-y-1/2 z-10 p-2.5 md:p-3 rounded-full bg-black/50 hover:bg-[#EE6B28] text-white backdrop-blur-md transition-all duration-200 shadow-md group"
+            >
+              <svg className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
+              </svg>
+            </button>
+
+            {/* Tombol Panah Kanan (>) */}
+            <button
+              onClick={handleNextSlide}
+              aria-label="Next Slide"
+              className="absolute right-5 top-1/2 -translate-y-1/2 z-10 p-2.5 md:p-3 rounded-full bg-black/50 hover:bg-[#EE6B28] text-white backdrop-blur-md transition-all duration-200 shadow-md group"
+            >
+              <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
+              </svg>
+            </button>
+
+            {/* Carousel Indicator Dots */}
+            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-full z-10 border border-white/10">
+              {EVENT_IMAGES.map((_, dot) => (
                 <button
                   key={dot}
                   onClick={() => setActiveSlide(dot)}
@@ -83,11 +121,12 @@ export default function EventPage() {
                 />
               ))}
             </div>
+
           </div>
         </section>
 
         {/* Table Content */}
-        <main className="max-w-6xl mx-auto px-4 md:px-6 py-12 space-y-6">
+        <main className="max-w-6xl mx-auto px-4 md:px-6 py-10 space-y-6">
           <div className="text-center">
             <h2 className="text-xl md:text-3xl font-black text-[#EE6B28] tracking-tight">
               Kalender Kegiatan Periode Januari 2026 - Desember 2026
