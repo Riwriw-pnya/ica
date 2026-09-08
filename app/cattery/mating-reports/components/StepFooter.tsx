@@ -3,7 +3,9 @@ interface StepFooterProps {
   totalSteps: number;
   onBack: () => void;
   onNext: () => void;
+  nextDisabled?: boolean;
 }
+
 
 export default function StepFooter({ currentStep, totalSteps, onBack, onNext }: StepFooterProps) {
   return (
