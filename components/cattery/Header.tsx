@@ -113,8 +113,9 @@ export default function Header() {
               notifications={notifications}
               onMarkAllRead={handleMarkAllAsRead}
               onMarkOneRead={(id: string) =>
-                setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)))
+                setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))) 
               }
+              onClose={closeMenu}
             />
           )}
         </div>    
