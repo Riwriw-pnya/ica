@@ -25,7 +25,7 @@ export default function Footer() {
             {/* Social Icons */}
             <div className="flex items-center gap-2 pt-1">
               <a
-                href="#"
+                href="https://www.youtube.com/@indonesiancatassociation"
                 aria-label="YouTube"
                 className="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition"
               >
@@ -34,7 +34,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://www.instagram.com/indonesian.cat.association/"
                 aria-label="Instagram"
                 className="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition"
               >
@@ -43,7 +43,7 @@ export default function Footer() {
                 </svg>
               </a>
               <a
-                href="#"
+                href="https://web.facebook.com/INDONESIAN-CAT-ASSOCIATION-85218488395"
                 aria-label="Facebook"
                 className="w-8 h-8 rounded-full bg-neutral-900 border border-neutral-800 flex items-center justify-center text-neutral-400 hover:text-white hover:bg-orange-600 hover:border-orange-600 transition"
               >
