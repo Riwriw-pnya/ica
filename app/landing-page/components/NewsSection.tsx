@@ -46,7 +46,6 @@ export default function NewsSection() {
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900">Berita terbaru</h2>
         
-        {/* Tombol Lihat Semua dengan Icon Panah Sesuai Gambar */}
         <Link 
           href="/news" 
           className="group inline-flex items-center gap-2 text-xs font-semibold text-[#C85A17] hover:text-[#EE6B28] transition"

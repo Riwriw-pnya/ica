@@ -344,15 +344,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
                       Daftar akun cattery
                     </button>
                   </p>
-                  <div>
-                    <button 
-                      type="button"
-                      onClick={() => setIsModalOpen(true)} 
-                      className="text-xs text-[#7A6E65] hover:text-[#EE6B28] font-medium transition cursor-pointer"
-                    >
-                      Ganti tipe akun
-                    </button>
-                  </div>
                 </div>
               </>
             ) : (
