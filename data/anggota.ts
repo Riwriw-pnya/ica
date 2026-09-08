@@ -8,10 +8,51 @@ export const quickAccessItems: QuickAccessItem[] = [
 ];
 
 export const newsItems: NewsItem[] = [
-  { id: 1, title: "Pendaftaran keanggotaan periode 2026/2027 resmi dibuka", category: "Pengumuman", date: "24 Agu 2026", href: "/anggota/berita/", excerpt: "Pendaftaran keanggotaan ICA periode 2026/2027 kini resmi dibuka untuk umum." , image: "/images/cattt.jpg"},
-  { id: 2, title: "Hasil ICA National Cat Show Bandung 2026", category: "Event", date: "18 Agu 2026", href: "/anggota/berita/", excerpt: "Simak hasil lengkap ICA National Cat Show yang diselenggarakan di Bandung." , image: "/images/cattt.jpg"},
-  { id: 3, title: "Kartu member kini tersedia dalam format digital", category: "Keanggotaan", date: "9 Agu 2026", href: "/anggota/berita/", excerpt: "Kini member ICA bisa mengakses kartu keanggotaan dalam bentuk digital." , image: "/images/cattt.jpg"},
-  { id: 4, title: "Workshop Keanggotaan ICA", category: "Pengumuman", date: "5 Sep 2026", href: "/anggota/berita/", excerpt: "Ikuti workshop tentang keanggotaan ICA yang akan diselenggarakan pada tanggal 5 September 2026." , image: "/images/cattt.jpg"},
+  {
+    id: 1,
+    title: "Pertolongan Pertama Ketika Kucing Sakit",
+    category: "Kesehatan",
+    date: "05 Sep 2026",
+    href: "https://ica.or.id/pertolongan-pertama-ketika-kucing-sakit/",
+    excerpt: "Langkah awal dan tindakan darurat yang harus dilakukan saat kucing kesayangan menunjukkan gejala sakit.",
+    image: "/images/cattt.jpg",
+  },
+  {
+    id: 2,
+    title: "Biaya Vaksin Kucing Sesuai Umur dan Jenisnya",
+    category: "Kesehatan & Perawatan",
+    date: "01 Sep 2026",
+    href: "https://ica.or.id/biaya-vaksin-kucing-sesuai-umur-dan-jenisnya-lindungi-hewan-kesayangan-dari-penyakit/",
+    excerpt: "Panduan estimasi biaya dan jadwal vaksinasi wajib untuk melindungi kucing dari penyakit berbahaya.",
+    image: "/images/twinC.jpg",
+  },
+  {
+    id: 3,
+    title: "Propaganda Cat Show, Fun Cat Show & Lomba Kucing Sehat ICA",
+    category: "Event & Show",
+    date: "25 Agu 2026",
+    href: "https://ica.or.id/propaganda-cat-show-fun-cat-show-lomba-kucing-sehat-indonesian-cat-association/",
+    excerpt: "Mengenal berbagai jenis ajang kontes kucing resmi yang diselenggarakan oleh Indonesian Cat Association.",
+    image: "/images/cat.jpg",
+  },
+  {
+    id: 4,
+    title: "Ketentuan dan Aturan National Winner (NW) ICA",
+    category: "Regulasi",
+    date: "18 Agu 2026",
+    href: "https://ica.or.id/national-winner-rules/",
+    excerpt: "Syarat, perhitungan poin, dan regulasi resmi untuk meraih predikat National Winner.",
+    image: "/images/cattt.jpg",
+  },
+  {
+    id: 5,
+    title: "Ketentuan dan Aturan International Winner (IW)",
+    category: "Regulasi",
+    date: "10 Agu 2026",
+    href: "https://ica.or.id/international-winner-rules/",
+    excerpt: "Aturan dan standar penilaian untuk meraih gelar prestisius International Winner dalam pameran FIFe.",
+    image: "/images/twinC.jpg",
+  },
 ];
 
 export const catteryItems: CatteryItem[] = [
