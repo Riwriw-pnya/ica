@@ -2,6 +2,33 @@
 
 import React from "react";
 
+const matingReports = [
+  {
+    id: "MR-2026-0142",
+    pair: "Bagas × Nara",
+    meta: "Dikirim 21 Agu 2026 · 4 kitten · 6 dokumen",
+    status: "Sedang direview",
+    statusStyle: "bg-[#ebf3fa] text-[#2b71b1]",
+    action: "Detail",
+  },
+  {
+    id: "MR-2026-0138",
+    pair: "Rimba × Sekar",
+    meta: "Dikirim 12 Agu 2026 · 3 kitten · sertifikat induk kurang jelas",
+    status: "Perlu revisi",
+    statusStyle: "bg-[#fde9e9] text-[#c23c3c]",
+    action: "Perbaiki",
+  },
+  {
+    id: "MR-2026-0131",
+    pair: "Bagas × Kirana",
+    meta: "Dikirim 2 Agu 2026 · 5 kitten · pedigree diterbitkan",
+    status: "Disetujui",
+    statusStyle: "bg-[#eaf8f0] text-[#1b804d]",
+    action: "Detail",
+  },
+];
+
 export default function DashboardPage() {
   return (
     <main className="min-h-screen bg-[#faf8f5] text-[#2d2825] p-4 sm:p-6 lg:p-8 font-sans">
@@ -16,19 +43,11 @@ export default function DashboardPage() {
             </div>
             <div className="space-y-1">
               <div className="flex flex-wrap items-center gap-2">
-                <h2 className="text-xl sm:text-2xl font-bold text-[#1a1513]">
-                  Rumah Hana Cattery
-                </h2>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#eaf8f0] text-[#1b804d] text-xs font-semibold">
-                  Aktif
-                </span>
-                <span className="px-2.5 py-0.5 rounded-full bg-[#f4efe9] text-[#6b5f54] text-xs font-medium">
-                  Bandung
-                </span>
+                <h2 className="text-xl sm:text-2xl font-bold text-[#1a1513]">Rumah Hana Cattery</h2>
+                <span className="px-2.5 py-0.5 rounded-full bg-[#eaf8f0] text-[#1b804d] text-xs font-semibold">Aktif</span>
+                <span className="px-2.5 py-0.5 rounded-full bg-[#f4efe9] text-[#6b5f54] text-xs font-medium">Bandung</span>
               </div>
-              <p className="text-xs sm:text-sm text-[#7e7267]">
-                Reg. ICA-CTY-2024-0188 · masa berlaku sampai 31 Des 2026
-              </p>
+              <p className="text-xs sm:text-sm text-[#7e7267]">Reg. ICA-CTY-2024-0188 · masa berlaku sampai 31 Des 2026</p>
             </div>
           </div>
 
@@ -111,56 +130,58 @@ export default function DashboardPage() {
           <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
             <div>
               <h2 className="text-lg font-bold text-[#1a1513]">Progres pengajuan terakhir</h2>
-              <p className="text-xs sm:text-sm text-[#8c8074]">
-                MR-2026-0142 · Bagas × Nara · dikirim 21 Agu 2026
-              </p>
+              <p className="text-xs sm:text-sm text-[#8c8074]">MR-2026-0142 · Bagas × Nara · dikirim 21 Agu 2026</p>
             </div>
             <div className="flex items-center gap-3">
-              <span className="px-3 py-1 rounded-full bg-[#ebf3fa] text-[#2b71b1] text-xs font-semibold">
-                Sedang direview
-              </span>
+              <span className="px-3 py-1 rounded-full bg-[#ebf3fa] text-[#2b71b1] text-xs font-semibold">Sedang direview</span>
               <button className="px-4 py-2 rounded-full border border-[#eedfd5] text-xs font-semibold text-[#544940] hover:bg-[#fff7f2] hover:border-[#f05a1b]/40 hover:text-[#f05a1b] transition shrink-0">
                 Semua pengajuan
               </button>
             </div>
           </div>
 
-          {/* Stepper Timeline */}
-          <div className="py-4">
-            <div className="relative flex items-center justify-between w-full max-w-4xl mx-auto">
-              {/* Progress Line */}
-              <div className="absolute top-1/2 left-0 right-0 h-1 bg-[#eadecd] -translate-y-1/2 z-0" />
-              <div className="absolute top-1/2 left-0 w-1/3 h-1 bg-[#f05a1b] -translate-y-1/2 z-0" />
+            {/* Stepper Timeline */}
+<div className="py-4">
+  <div className="relative flex items-start justify-between w-full max-w-4xl mx-auto px-2">
+    {/* Garis, berhenti tepat di tengah circle pertama & terakhir */}
+    <div
+      className="absolute left-12 right-12 top-3.5 h-[2.5px] rounded-full"
+      style={{
+        background:
+          "linear-gradient(90deg, #E4611B 0%, #EE6B28 18%, #f0d9c8 38%, #eadecd 55%, #eadecd 100%)",
+      }}
+    />
 
-              {/* Step 1 */}
-              <div className="relative z-10 flex flex-col items-center gap-2 bg-white px-2">
-                <div className="w-7 h-7 rounded-full bg-[#f05a1b] text-white flex items-center justify-center font-bold text-xs shadow-xs">
-                  ✓
-                </div>
-                <span className="text-xs font-medium text-[#1a1513]">Dikirim</span>
-              </div>
+    {/* Step 1: Dikirim (selesai) */}
+    <div className="relative z-10 flex flex-col items-center gap-1.5 w-24">
+      <div className="relative w-7 h-7 rounded-full shrink-0 flex items-center justify-center overflow-hidden bg-gradient-to-b from-[#FFAD75] via-[#F2803D] to-[#E4611B] shadow-[0_2px_4px_rgba(214,84,20,0.4)]">
+        <span className="absolute top-[2px] left-[6px] w-3 h-1.5 rounded-full bg-white/35 blur-[1px]" />
+        <svg viewBox="0 0 24 24" className="w-3 h-3 relative z-10" fill="none" stroke="white" strokeWidth="3.5" strokeLinecap="round" strokeLinejoin="round">
+          <polyline points="20 6 9 17 4 12" />
+        </svg>
+      </div>
+      <span className="text-[11px] font-medium text-[#1a1513] text-center whitespace-nowrap">Dikirim</span>
+    </div>
 
-              {/* Step 2 */}
-              <div className="relative z-10 flex flex-col items-center gap-2 bg-white px-2">
-                <div className="w-7 h-7 rounded-full border-2 border-[#f05a1b] bg-white flex items-center justify-center">
-                  <div className="w-3 h-3 rounded-full bg-[#f05a1b]" />
-                </div>
-                <span className="text-xs font-bold text-[#1a1513]">Review admin</span>
-              </div>
+    {/* Step 2: Review admin (aktif) */}
+    <div className="relative z-10 flex flex-col items-center gap-1.5 w-24">
+      <div className="w-7 h-7 rounded-full shrink-0 bg-white border-[2.5px] border-[#EE6B28]" />
+      <span className="text-[11px] font-bold text-[#1a1513] text-center whitespace-nowrap">Review admin</span>
+    </div>
 
-              {/* Step 3 */}
-              <div className="relative z-10 flex flex-col items-center gap-2 bg-white px-2">
-                <div className="w-7 h-7 rounded-full border-2 border-[#dcd1c4] bg-white" />
-                <span className="text-xs font-medium text-[#8c8074]">Verifikasi dokumen</span>
-              </div>
+    {/* Step 3: Verifikasi dokumen (belum) */}
+    <div className="relative z-10 flex flex-col items-center gap-1.5 w-24">
+      <div className="w-5 h-5 rounded-full border-2 border-[#dcd1c4] bg-white mt-1" />
+      <span className="text-[11px] font-medium text-[#8c8074] text-center whitespace-nowrap">Verifikasi dokumen</span>
+    </div>
 
-              {/* Step 4 */}
-              <div className="relative z-10 flex flex-col items-center gap-2 bg-white px-2">
-                <div className="w-7 h-7 rounded-full border-2 border-[#dcd1c4] bg-white" />
-                <span className="text-xs font-medium text-[#8c8074]">Disetujui</span>
-              </div>
-            </div>
-          </div>
+    {/* Step 4: Disetujui (belum) */}
+    <div className="relative z-10 flex flex-col items-center gap-1.5 w-24">
+      <div className="w-5 h-5 rounded-full border-2 border-[#dcd1c4] bg-white mt-1" />
+      <span className="text-[11px] font-medium text-[#8c8074] text-center whitespace-nowrap">Disetujui</span>
+    </div>
+  </div>
+</div>
 
           <p className="text-xs text-[#a09488]">
             Timeline status bersifat informasi (read-only) — perubahan status dilakukan oleh admin ICA.
@@ -169,7 +190,6 @@ export default function DashboardPage() {
 
         {/* Section 4: Stat Indicator Cards (4 Grid Cards) */}
         <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-          {/* Card 1 */}
           <div className="bg-white rounded-2xl p-5 border border-[#eedfd5] shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="absolute top-0 left-0 right-0 h-1 bg-[#f05a1b]" />
             <div>
@@ -189,7 +209,6 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Card 2 */}
           <div className="bg-white rounded-2xl p-5 border border-[#eedfd5] shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="absolute top-0 left-0 right-0 h-1 bg-[#22a559]" />
             <div>
@@ -209,7 +228,6 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Card 3 */}
           <div className="bg-white rounded-2xl p-5 border border-[#eedfd5] shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="absolute top-0 left-0 right-0 h-1 bg-[#f05a1b]" />
             <div>
@@ -229,7 +247,6 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Card 4 */}
           <div className="bg-white rounded-2xl p-5 border border-[#eedfd5] shadow-xs relative overflow-hidden flex flex-col justify-between">
             <div className="absolute top-0 left-0 right-0 h-1 bg-[#8c8074]" />
             <div>
@@ -264,7 +281,6 @@ export default function DashboardPage() {
                     Mating report yang belum selesai diisi — lanjutkan dari langkah terakhir.
                   </p>
                 </div>
-                {/* Secondary CTA updated with exact button styling */}
                 <button className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] shrink-0">
                   + Draft baru
                 </button>
@@ -276,16 +292,10 @@ export default function DashboardPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-bold text-sm text-[#1a1513]">
-                          MR-2026-0147 · Rimba × Kirana
-                        </h3>
-                        <span className="px-2 py-0.5 rounded-md bg-[#f4efe9] text-[#786c60] text-[11px] font-semibold">
-                          Draft
-                        </span>
+                        <h3 className="font-bold text-sm text-[#1a1513]">MR-2026-0147 · Rimba × Kirana</h3>
+                        <span className="px-2 py-0.5 rounded-md bg-[#f4efe9] text-[#786c60] text-[11px] font-semibold">Draft</span>
                       </div>
-                      <p className="text-xs text-[#8c8074] mt-1">
-                        Terhenti di: Step 4 — Mating Information · tersimpan hari ini 14:32
-                      </p>
+                      <p className="text-xs text-[#8c8074] mt-1">Terhenti di: Step 4 — Mating Information · tersimpan hari ini 14:32</p>
                     </div>
 
                     <button className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] shrink-0">
@@ -293,7 +303,6 @@ export default function DashboardPage() {
                     </button>
                   </div>
 
-                  {/* Progress Line */}
                   <div className="space-y-1">
                     <div className="w-full bg-[#f4efe9] h-1.5 rounded-full overflow-hidden">
                       <div className="bg-[#f05a1b] h-full w-[57%]" />
@@ -311,16 +320,10 @@ export default function DashboardPage() {
                   <div className="flex items-start justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2 flex-wrap">
-                        <h3 className="font-bold text-sm text-[#1a1513]">
-                          MR-2026-0146 · Bagas × Sekar
-                        </h3>
-                        <span className="px-2 py-0.5 rounded-md bg-[#f4efe9] text-[#786c60] text-[11px] font-semibold">
-                          Draft
-                        </span>
+                        <h3 className="font-bold text-sm text-[#1a1513]">MR-2026-0146 · Bagas × Sekar</h3>
+                        <span className="px-2 py-0.5 rounded-md bg-[#f4efe9] text-[#786c60] text-[11px] font-semibold">Draft</span>
                       </div>
-                      <p className="text-xs text-[#8c8074] mt-1">
-                        Terhenti di: Step 2 — Pilih Male · tersimpan 26 Agu 2026 09:10
-                      </p>
+                      <p className="text-xs text-[#8c8074] mt-1">Terhenti di: Step 2 — Pilih Male · tersimpan 26 Agu 2026 09:10</p>
                     </div>
 
                     <button className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] shrink-0">
@@ -328,7 +331,6 @@ export default function DashboardPage() {
                     </button>
                   </div>
 
-                  {/* Progress Line */}
                   <div className="space-y-1">
                     <div className="w-full bg-[#f4efe9] h-1.5 rounded-full overflow-hidden">
                       <div className="bg-[#f05a1b] h-full w-[29%]" />
@@ -349,9 +351,7 @@ export default function DashboardPage() {
             <div className="space-y-4">
               <div className="flex items-start justify-between gap-2">
                 <div>
-                  <h2 className="text-base font-bold text-[#1a1513]">
-                    Top 5 kucing — skor kesehatan
-                  </h2>
+                  <h2 className="text-base font-bold text-[#1a1513]">Top 5 kucing — skor kesehatan</h2>
                   <p className="text-xs text-[#8c8074] mt-1">
                     Hanya kucing milik cattery ini. Skor diisi Admin ICA — tampil read-only di sisi cattery.
                   </p>
@@ -361,127 +361,84 @@ export default function DashboardPage() {
                 </span>
               </div>
 
-              {/* Cat List */}
               <div className="space-y-3">
-                {/* Cat 1 */}
-                <div className="flex items-center justify-between p-2.5 rounded-2xl bg-[#faf6f0]/60 hover:bg-[#faf6f0] transition">
-                  <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-[#fff4eb] text-[#f05a1b] font-bold text-xs flex items-center justify-center shrink-0">
-                      1
-                    </span>
-                    <div className="w-8 h-8 rounded-xl bg-[#f4efe9] flex items-center justify-center text-[#8c8074] shrink-0">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 5c-3.866 0-7 2.239-7 5 0 1.933 1.523 3.616 3.82 4.414-.148.868-.535 2.126-1.82 3.086 2.383 0 4.138-1.258 5-2.5 1 .833 2.5 1 3.5 1 3.866 0 7-2.239 7-5s-3.134-5-7-5z" />
-                      </svg>
+                {[
+                  { rank: 1, name: "Bagas of Rumah Hana", breed: "Persian · PER n 22", score: 94, active: true },
+                  { rank: 2, name: "Kirana of Rumah Hana", breed: "Persian · PER f 22", score: 91, active: true },
+                  { rank: 3, name: "Nara Kencana", breed: "Exotic Shorthair · EXO d 03", score: 88, active: true },
+                  { rank: 4, name: "Rimba of Rumah Hana", breed: "Persian · PER a 21", score: 84, active: false },
+                  { rank: 5, name: "Sekar Ayu", breed: "Exotic Shorthair · EXO n 24", score: 80, active: false },
+                ].map((cat) => (
+                  <div key={cat.rank} className="flex items-center justify-between p-2.5 rounded-2xl bg-[#faf6f0]/60 hover:bg-[#faf6f0] transition">
+                    <div className="flex items-center gap-3">
+                      <span
+                        className={`w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center shrink-0 ${
+                          cat.active ? "bg-[#fff4eb] text-[#f05a1b]" : "bg-[#f4efe9] text-[#8c8074]"
+                        }`}
+                      >
+                        {cat.rank}
+                      </span>
+                      <div className="w-8 h-8 rounded-xl bg-[#f4efe9] flex items-center justify-center text-[#8c8074] shrink-0">
+                        <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+                          <path d="M12 5c-3.866 0-7 2.239-7 5 0 1.933 1.523 3.616 3.82 4.414-.148.868-.535 2.126-1.82 3.086 2.383 0 4.138-1.258 5-2.5 1 .833 2.5 1 3.5 1 3.866 0 7-2.239 7-5s-3.134-5-7-5z" />
+                        </svg>
+                      </div>
+                      <div>
+                        <h3 className="font-bold text-xs text-[#1a1513]">{cat.name}</h3>
+                        <p className="text-[11px] text-[#8c8074]">{cat.breed}</p>
+                      </div>
                     </div>
-                    <div>
-                      <h3 className="font-bold text-xs text-[#1a1513]">Bagas of Rumah Hana</h3>
-                      <p className="text-[11px] text-[#8c8074]">Persian · PER n 22</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-black text-base text-[#f05a1b]">94</span>
-                    <span className="block text-[10px] text-[#a09488]">skor</span>
-                  </div>
-                </div>
-
-                {/* Cat 2 */}
-                <div className="flex items-center justify-between p-2.5 rounded-2xl bg-[#faf6f0]/60 hover:bg-[#faf6f0] transition">
-                  <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-[#fff4eb] text-[#f05a1b] font-bold text-xs flex items-center justify-center shrink-0">
-                      2
-                    </span>
-                    <div className="w-8 h-8 rounded-xl bg-[#f4efe9] flex items-center justify-center text-[#8c8074] shrink-0">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 5c-3.866 0-7 2.239-7 5 0 1.933 1.523 3.616 3.82 4.414-.148.868-.535 2.126-1.82 3.086 2.383 0 4.138-1.258 5-2.5 1 .833 2.5 1 3.5 1 3.866 0 7-2.239 7-5s-3.134-5-7-5z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-xs text-[#1a1513]">Kirana of Rumah Hana</h3>
-                      <p className="text-[11px] text-[#8c8074]">Persian · PER f 22</p>
+                    <div className="text-right">
+                      <span className="font-black text-base text-[#f05a1b]">{cat.score}</span>
+                      <span className="block text-[10px] text-[#a09488]">skor</span>
                     </div>
                   </div>
-                  <div className="text-right">
-                    <span className="font-black text-base text-[#f05a1b]">91</span>
-                    <span className="block text-[10px] text-[#a09488]">skor</span>
-                  </div>
-                </div>
-
-                {/* Cat 3 */}
-                <div className="flex items-center justify-between p-2.5 rounded-2xl bg-[#faf6f0]/60 hover:bg-[#faf6f0] transition">
-                  <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-[#fff4eb] text-[#f05a1b] font-bold text-xs flex items-center justify-center shrink-0">
-                      3
-                    </span>
-                    <div className="w-8 h-8 rounded-xl bg-[#f4efe9] flex items-center justify-center text-[#8c8074] shrink-0">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 5c-3.866 0-7 2.239-7 5 0 1.933 1.523 3.616 3.82 4.414-.148.868-.535 2.126-1.82 3.086 2.383 0 4.138-1.258 5-2.5 1 .833 2.5 1 3.5 1 3.866 0 7-2.239 7-5s-3.134-5-7-5z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-xs text-[#1a1513]">Nara Kencana</h3>
-                      <p className="text-[11px] text-[#8c8074]">Exotic Shorthair · EXO d 03</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-black text-base text-[#f05a1b]">88</span>
-                    <span className="block text-[10px] text-[#a09488]">skor</span>
-                  </div>
-                </div>
-
-                {/* Cat 4 */}
-                <div className="flex items-center justify-between p-2.5 rounded-2xl bg-[#faf6f0]/60 hover:bg-[#faf6f0] transition">
-                  <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-[#f4efe9] text-[#8c8074] font-bold text-xs flex items-center justify-center shrink-0">
-                      4
-                    </span>
-                    <div className="w-8 h-8 rounded-xl bg-[#f4efe9] flex items-center justify-center text-[#8c8074] shrink-0">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 5c-3.866 0-7 2.239-7 5 0 1.933 1.523 3.616 3.82 4.414-.148.868-.535 2.126-1.82 3.086 2.383 0 4.138-1.258 5-2.5 1 .833 2.5 1 3.5 1 3.866 0 7-2.239 7-5s-3.134-5-7-5z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-xs text-[#1a1513]">Rimba of Rumah Hana</h3>
-                      <p className="text-[11px] text-[#8c8074]">Persian · PER a 21</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-black text-base text-[#f05a1b]">84</span>
-                    <span className="block text-[10px] text-[#a09488]">skor</span>
-                  </div>
-                </div>
-
-                {/* Cat 5 */}
-                <div className="flex items-center justify-between p-2.5 rounded-2xl bg-[#faf6f0]/60 hover:bg-[#faf6f0] transition">
-                  <div className="flex items-center gap-3">
-                    <span className="w-8 h-8 rounded-xl bg-[#f4efe9] text-[#8c8074] font-bold text-xs flex items-center justify-center shrink-0">
-                      5
-                    </span>
-                    <div className="w-8 h-8 rounded-xl bg-[#f4efe9] flex items-center justify-center text-[#8c8074] shrink-0">
-                      <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                        <path d="M12 5c-3.866 0-7 2.239-7 5 0 1.933 1.523 3.616 3.82 4.414-.148.868-.535 2.126-1.82 3.086 2.383 0 4.138-1.258 5-2.5 1 .833 2.5 1 3.5 1 3.866 0 7-2.239 7-5s-3.134-5-7-5z" />
-                      </svg>
-                    </div>
-                    <div>
-                      <h3 className="font-bold text-xs text-[#1a1513]">Sekar Ayu</h3>
-                      <p className="text-[11px] text-[#8c8074]">Exotic Shorthair · EXO n 24</p>
-                    </div>
-                  </div>
-                  <div className="text-right">
-                    <span className="font-black text-base text-[#f05a1b]">80</span>
-                    <span className="block text-[10px] text-[#a09488]">skor</span>
-                  </div>
-                </div>
+                ))}
               </div>
             </div>
 
             <div className="flex items-center justify-between border-t border-[#f4efe9] pt-3 text-xs text-[#8c8074]">
               <span>Read-only · tidak ada aksi edit skor di sisi cattery.</span>
-              <a href="/leaderboard" className="font-bold text-[#f05a1b] hover:underline">
+              <a href="/cattery/leaderboard" className="font-bold text-[#f05a1b] hover:underline">
                 Leaderboard →
               </a>
             </div>
           </div>
+        </section>
+
+        {/* Section 6: Mating Report Terakhir */}
+        <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-xs space-y-5">
+          <div className="flex items-center justify-between">
+            <h2 className="text-lg font-bold text-[#1a1513]">Mating report terakhir</h2>
+            <a href="#" className="text-xs sm:text-sm font-bold text-[#f05a1b] hover:underline">
+              Lihat semua
+            </a>
+          </div>
+
+          <div className="divide-y divide-[#f4efe9]">
+            {matingReports.map((r) => (
+              <div key={r.id} className="flex items-center justify-between gap-4 py-4 first:pt-0 last:pb-0">
+                <div className="min-w-0">
+                  <h3 className="font-bold text-sm text-[#1a1513] truncate">
+                    {r.id} · {r.pair}
+                  </h3>
+                  <p className="text-xs text-[#8c8074] mt-0.5 truncate">{r.meta}</p>
+                </div>
+                <div className="flex items-center gap-4 sm:gap-6 shrink-0">
+                  <span className={`px-3 py-1 rounded-full text-xs font-semibold whitespace-nowrap ${r.statusStyle}`}>
+                    {r.status}
+                  </span>
+                  <a href="#" className="text-xs sm:text-sm font-bold text-[#f05a1b] hover:underline whitespace-nowrap">
+                    {r.action}
+                  </a>
+                </div>
+              </div>
+            ))}
+          </div>
+
+          <p className="text-xs text-[#a09488] border-t border-[#f4efe9] pt-4">
+            Angka pada card di atas masih data contoh — <span className="font-semibold text-[#786c60]">[PRD TBD]</span> untuk sumber & definisi tiap metric (mis. apakah "Disetujui" dihitung per tahun berjalan atau seumur cattery).
+          </p>
         </section>
       </div>
     </main>
