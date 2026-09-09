@@ -7,19 +7,12 @@ import type { CatItem } from "@/types/cattery";
 
 export default function CatCard({ cat }: { cat: CatItem }) {
   return (
-    <Link
-      href={`/cattery/my-cats/${cat.id}`}
-      className="block overflow-hidden rounded-xl border border-[var(--color-ink-100)] bg-white transition hover:shadow-md hover:border-[var(--color-brand-orange-300)] hover:shadow-orange-300/50"
-    >
+    <div className="overflow-hidden rounded-xl border border-[var(--color-ink-100)] bg-white transition hover:shadow-md hover:border-[var(--color-brand-orange-300)] hover:shadow-orange-300/50">
       <div className="relative flex h-32 flex-col items-center justify-center gap-1 rounded-t-xl text-[var(--color-brand-orange-500)] border-b border-[var(--color-ink-100)] bg-[var(--color-brand-orange-100)]">
         <DashboardIcon name="cat" size={24} />
         <p className="text-[11px] text-[var(--color-ink-700)]">Foto belum diunggah</p>
 
         <button
-          onClick={(e) => {
-            e.preventDefault();
-            e.stopPropagation();
-          }}
           className="absolute bottom-2 right-2 flex items-center gap-1 rounded-full border border-[var(--color-brand-orange-300)] bg-white px-2.5 py-1 text-[10px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)]"
         >
           <DashboardIcon name="upload" size={11} />
@@ -60,7 +53,14 @@ export default function CatCard({ cat }: { cat: CatItem }) {
             <span className="font-medium text-[var(--color-ink-700)]">{cat.paidShows} event</span>
           </p>
         </div>
+
+        <Link
+          href={`/cattery/my-cats/${cat.id}`}
+          className="mt-4 block w-full rounded-full border border-[var(--color-ink-100)] py-2 text-center text-[12px] font-medium text-[var(--color-ink-900)] transition hover:border-[var(--color-brand-orange-300)] hover:bg-[var(--color-brand-orange-50)]"
+        >
+          Lihat detail
+        </Link>
       </div>
-    </Link>
+    </div>
   );
 }

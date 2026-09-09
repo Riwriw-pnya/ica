@@ -1,25 +1,40 @@
 "use client";
 
 import DashboardIcon from "@/components/anggota/DashboardIcon";
-import type { MaleCat } from "@/types/cattery";
+import type { FemaleCat, FemaleCertStatus } from "@/types/cattery";
 
-interface StepPilihPejantanProps {
-  cats: MaleCat[];
+interface StepPilihIndukProps {
+  cats: FemaleCat[];
   selectedId: number | null;
   onSelect: (id: number) => void;
   showError?: boolean;
 }
 
-export default function StepPilihPejantan({ cats, selectedId, onSelect, showError = false }: StepPilihPejantanProps) {
+function getStatusStyle(status: FemaleCertStatus) {
+  switch (status) {
+    case "Aktif":
+      return "bg-[var(--color-success-bg)] text-[var(--color-success)]";
+    case "Perlu perpanjangan":
+      return "bg-[var(--color-warning-bg)] text-[var(--color-warning)]";
+    case "Belum cukup umur":
+      return "bg-[var(--color-ink-100)] text-[var(--color-ink-700)]";
+  }
+}
+
+function getStatusLabel(status: FemaleCertStatus) {
+  return status === "Aktif" ? "Sertifikat aktif" : status;
+}
+
+export default function StepPilihInduk({ cats, selectedId, onSelect, showError = false }: StepPilihIndukProps) {
   const isInvalid = showError && selectedId === null;
 
   return (
     <div className="rounded-xl border bg-white p-6 transition">
       <h2 className="font-display text-[16px] font-semibold text-[var(--color-ink-900)]">
-        Pilih pejantan
+        Pilih induk
       </h2>
       <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
-        Hanya kucing terdaftar dengan sertifikat aktif yang bisa dipilih.
+        Pilih satu induk dari daftar kucing female cattery Anda.
       </p>
 
       <div className="mt-4 space-y-2 border-t border-[var(--color-ink-100)] pt-4">
@@ -35,9 +50,9 @@ export default function StepPilihPejantan({ cats, selectedId, onSelect, showErro
               onClick={() => onSelect(cat.id)}
               className={`flex w-full items-center gap-3 rounded-xl border p-3.5 text-left transition ${
                 isSelected
-                  ? "border-[var(--color-brand-orange-500)] bg-[var(--color-brand-orange-50)]"
+                  ? "border-[var(--color-brand-orange-500)] bg-[var(--color-brand-orange-100)]"
                   : isInvalid
-                    ? "border-[var(--color-danger)]/40 hover:bg-[var(--color-brand-orange-50)]"
+                    ? "border-[var(--color-danger)]/80 hover:bg-[var(--color-brand-orange-50)]"
                     : "border-[var(--color-ink-100)] hover:bg-[var(--color-brand-orange-50)]"
               } ${!isEligible ? "opacity-60" : ""}`}
             >
@@ -60,8 +75,8 @@ export default function StepPilihPejantan({ cats, selectedId, onSelect, showErro
                 <span className="rounded-full bg-[var(--color-ink-100)] px-2 py-0.5 text-[10px] font-medium text-[var(--color-ink-700)]">
                   {cat.emsCode}
                 </span>
-                <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${isEligible ? "bg-[var(--color-success-bg)] text-[var(--color-success)]" : "bg-[var(--color-warning-bg)] text-[var(--color-warning)]"}`}>
-                  {isEligible ? "Sertifikat aktif" : "Perlu perpanjangan"}
+                <span className={`rounded-full px-2 py-0.5 text-[10px] font-medium ${getStatusStyle(cat.certStatus)}`}>
+                  {getStatusLabel(cat.certStatus)}
                 </span>
               </span>
             </button>
