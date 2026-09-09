@@ -1,6 +1,5 @@
 "use client";
-
-import { toast } from "sonner";
+import { showErrorToast } from "@/lib/toast";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { catteryProfile, maleCats, femaleCats } from "@/data/cattery";
@@ -26,6 +25,38 @@ export default function MatingReportsPage() {
   const [matingDate, setMatingDate] = useState("");
   const [estimatedBirthDate, setEstimatedBirthDate] = useState("");
   const [witnessName, setWitnessName] = useState("");
+
+  const [isEstimateAuto, setIsEstimateAuto] = useState(true);
+
+  function formatSingleDate(dateStr: string, days: number) {
+    const d = new Date(dateStr);
+    d.setDate(d.getDate() + days);
+    return d.toISOString().slice(0, 10); // format YYYY-MM-DD buat <input type="date">
+  }
+
+  function formatDateRangeLabel(dateStr: string, minDays: number, maxDays: number) {
+    const base = new Date(dateStr);
+    const min = new Date(base);
+    min.setDate(min.getDate() + minDays);
+    const max = new Date(base);
+    max.setDate(max.getDate() + maxDays);
+
+    const minLabel = min.toLocaleDateString("id-ID", { day: "numeric" });
+    const maxLabel = max.toLocaleDateString("id-ID", { day: "numeric", month: "short", year: "numeric" });
+    return `${minLabel}–${maxLabel}`;
+  }
+
+  const handleMatingDateChange = (value: string) => {
+    setMatingDate(value);
+    if (isEstimateAuto && value) {
+      setEstimatedBirthDate(formatSingleDate(value, 64)); // titik tengah 60-68 hari
+    }
+  };
+
+  const handleEstimatedBirthDateChange = (value: string) => {
+    setEstimatedBirthDate(value);
+    setIsEstimateAuto(false);
+  };
 
   const [offspringItems, setOffspringItems] = useState<OffspringItem[]>([
     { id: 1, name: "", gender: "", color: "", birthDate: "", birthWeight: "", breed: "", status: "Hidup" },
@@ -53,7 +84,7 @@ export default function MatingReportsPage() {
     if (step === 1) return true;
     if (step === 2) return selectedMaleId !== null;
     if (step === 3) return selectedFemaleId !== null;
-    if (step === 4) return matingDate !== "" && estimatedBirthDate !== "";
+    if (step === 4) return matingDate !== "" && estimatedBirthDate !== "" && witnessName.trim() !== "";
     if (step === 5) return offspringItems.some((k) => k.name && k.gender && k.birthDate);
     if (step === 6) return matingPhoto !== null;
     return true;
@@ -61,49 +92,48 @@ export default function MatingReportsPage() {
 
   const canGoNext = isStepValid(currentStep);
 
-  const goBack = () => setCurrentStep((s) => Math.max(1, s - 1));
+const [showError, setShowError] = useState(false);
 
-  const goNext = () => {
-    if (!canGoNext) return;
-    setCurrentStep((s) => Math.min(totalSteps, s + 1));
+const goNext = () => {
+  if (!canGoNext) {
+    setShowError(true);
+
+    if (currentStep === 2) {
+      showErrorToast("Kucing pejantan belum dipilih", "Pilih satu pejantan sebelum melanjutkan.");
+    } else if (currentStep === 3) {
+      showErrorToast("Kucing induk belum dipilih", "Pilih satu induk sebelum melanjutkan.");
+    } else if (currentStep === 4) {
+      if (!matingDate) {
+        showErrorToast("Tanggal mating belum diisi", "Lengkapi tanggal mating terlebih dahulu.");
+      } else if (!estimatedBirthDate) {
+        showErrorToast("Estimasi tanggal lahir belum diisi", "Lengkapi estimasi tanggal lahir terlebih dahulu.");
+      } else if (!witnessName.trim()) {
+        showErrorToast("Nama saksi belum diisi", "Lengkapi nama saksi / breeder pendamping.");
+      }
+    } else if (currentStep === 5) {
+      showErrorToast("Data kitten belum lengkap", "Minimal satu kitten wajib diisi nama, jenis kelamin, dan tanggal lahir.");
+    } else if (currentStep === 6) {
+      showErrorToast("Dokumen wajib belum lengkap", "Foto mating / kandang wajib diunggah.");
+    }
+
+    return;
+  }
+
+  setShowError(false);
+  setCurrentStep((s) => Math.min(totalSteps, s + 1));
+};
+
+  const goBack = () => {
+    setShowError(false);
+    setCurrentStep((s) => Math.max(1, s - 1));
   };
 
   const goToStep = (step: number) => {
-    if (step < currentStep) setCurrentStep(step); // cuma izinkan mundur (dobel-jaga, Stepper juga sudah cegah)
+    if (step < currentStep) {
+      setShowError(false);
+      setCurrentStep(step);
+    }
   };
-
-  const handleNextStep = () => {
-  if (currentStep === 2) {
-    if(!selectedMale){
-      toast.error("Kucing belum dipilih")
-    }
-  }
-
-    if (currentStep === 3) {
-    if(!selectedFemale){
-      toast.error("Kucing belum dipilih")
-    }
-  }
-
-  if (currentStep === 4) {
-    if (!matingDate) {
-      toast.error("Tanggal mating belum diisi");
-      return;
-    }
-
-    if (!estimatedBirthDate) {
-      toast.error("Estimasi tanggal lahir belum diisi");
-      return;
-    }
-
-    if (!witnessName.trim()) {
-      toast.error("Nama saksi belum diisi");
-      return;
-    }
-  }
-
-  setCurrentStep((prev) => prev + 1);
-};
 
   return (
     <main className="min-h-full bg-[var(--color-ink-50)]">
@@ -113,25 +143,28 @@ export default function MatingReportsPage() {
         <div className="mt-4">
           {currentStep === 1 && <StepDataCattery profile={catteryProfile} />}
           {currentStep === 2 && (
-            <StepPilihPejantan cats={maleCats} selectedId={selectedMaleId} onSelect={setSelectedMaleId} />
+            <StepPilihPejantan cats={maleCats} selectedId={selectedMaleId} onSelect={setSelectedMaleId} showError={showError}/>
           )}
           {currentStep === 3 && (
-            <StepPilihInduk cats={femaleCats} selectedId={selectedFemaleId} onSelect={setSelectedFemaleId} />
+            <StepPilihInduk cats={femaleCats} selectedId={selectedFemaleId} onSelect={setSelectedFemaleId} showError={showError}/>
           )}
           {currentStep === 4 && (
             <StepMatingInformation
               maleRegCode={selectedMale?.regCode ?? "-"}
               femaleRegCode={selectedFemale?.regCode ?? "-"}
               matingDate={matingDate}
-              onMatingDateChange={setMatingDate}
+              onMatingDateChange={handleMatingDateChange}
               estimatedBirthDate={estimatedBirthDate}
-              onEstimatedBirthDateChange={setEstimatedBirthDate}
+              onEstimatedBirthDateChange={handleEstimatedBirthDateChange}
+              isEstimateAuto={isEstimateAuto}
+              rangeLabel={matingDate ? formatDateRangeLabel(matingDate, 60, 68) : ""}
               witnessName={witnessName}
               onWitnessNameChange={setWitnessName}
+              showError={showError}
             />
           )}
           {currentStep === 5 && (
-            <StepAddOffspring items={offspringItems} onChangeItems={setOffspringItems} defaultBreed={breedLabel} />
+            <StepAddOffspring items={offspringItems} onChangeItems={setOffspringItems} defaultBreed={breedLabel} showError={showError}/>
           )}
           {currentStep === 6 && (
             <StepUploadDokumen
@@ -149,6 +182,7 @@ export default function MatingReportsPage() {
               paymentProof={{ file: paymentProof }}
               onPaymentProofChange={(f) => setPaymentProof(toFileInfo(f))}
               onPaymentProofRemove={() => setPaymentProof(null)}
+              showError={showError}
             />
           )}
           {currentStep === 7 && (
@@ -187,7 +221,7 @@ export default function MatingReportsPage() {
             currentStep={currentStep}
             totalSteps={totalSteps}
             onBack={goBack}
-            onNext={handleNextStep}
+            onNext={goNext}
             nextDisabled={!canGoNext}
           />
         )}

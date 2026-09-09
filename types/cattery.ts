@@ -3,6 +3,8 @@ export type PedigreeStatus = "Terverifikasi" | "Menunggu verifikasi" | "Belum di
 export type VaccinationStatus = "Vaksin lengkap" | "Vaksin sebagian" | "Belum vaksin";
 export type PedigreeReviewStatus = "Menunggu review" | "Disetujui" | "Ditolak";
 export type EventResultBadge = "Best of Breed" | "Best in Show" | "Nominasi" | "Tanpa gelar";
+export type FemaleCertStatus = "Aktif" | "Perlu perpanjangan" | "Belum cukup umur";
+export type MaleCertStatus = "Aktif" | "Perlu perpanjangan" | "Belum cukup umur";
 
 export interface CatItem {
   id: number;
@@ -40,7 +42,7 @@ export interface MaleCat {
   birthDate: string;
   regCode: string;
   emsCode: string;
-  certStatus: "Aktif" | "Perlu perpanjangan" | "Belum diajukan" | "Belum cukup umur" ;
+  certStatus: MaleCertStatus;
   certificateFile?: CatCertificateFile;
 }
 
@@ -51,7 +53,7 @@ export interface FemaleCat {
   birthDate: string;
   regCode: string;
   emsCode: string;
-  certStatus: "Aktif" | "Perlu perpanjangan";
+  certStatus: FemaleCertStatus;
   certificateFile?: CatCertificateFile;
 }
 

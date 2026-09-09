@@ -7,6 +7,7 @@ interface StepPilihIndukProps {
   cats: FemaleCat[];
   selectedId: number | null;
   onSelect: (id: number) => void;
+  showError?: boolean;
 }
 
 function getStatusStyle(status: FemaleCertStatus) {
@@ -24,9 +25,11 @@ function getStatusLabel(status: FemaleCertStatus) {
   return status === "Aktif" ? "Sertifikat aktif" : status;
 }
 
-export default function StepPilihInduk({ cats, selectedId, onSelect }: StepPilihIndukProps) {
+export default function StepPilihInduk({ cats, selectedId, onSelect, showError = false }: StepPilihIndukProps) {
+  const isInvalid = showError && selectedId === null;
+
   return (
-    <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-6">
+    <div className="rounded-xl border bg-white p-6 transition">
       <h2 className="font-display text-[16px] font-semibold text-[var(--color-ink-900)]">
         Pilih induk
       </h2>
@@ -41,15 +44,17 @@ export default function StepPilihInduk({ cats, selectedId, onSelect }: StepPilih
 
           return (
             <button
-                key={cat.id}
-                type="button"
-                disabled={!isEligible}
-                onClick={() => onSelect(cat.id)}
-                className={`flex w-full items-center gap-3 rounded-xl border p-3.5 text-left transition ${
+              key={cat.id}
+              type="button"
+              disabled={!isEligible}
+              onClick={() => onSelect(cat.id)}
+              className={`flex w-full items-center gap-3 rounded-xl border p-3.5 text-left transition ${
                 isSelected
-                    ? "border-[var(--color-brand-orange-500)] bg-[var(--color-brand-orange-100)]"
+                  ? "border-[var(--color-brand-orange-500)] bg-[var(--color-brand-orange-100)]"
+                  : isInvalid
+                    ? "border-[var(--color-danger)]/80 hover:bg-[var(--color-brand-orange-50)]"
                     : "border-[var(--color-ink-100)] hover:bg-[var(--color-brand-orange-50)]"
-                } ${!isEligible ? "opacity-60" : ""}`}
+              } ${!isEligible ? "opacity-60" : ""}`}
             >
               <span className={`flex h-4 w-4 shrink-0 items-center justify-center rounded-full border-2 ${isSelected ? "border-[var(--color-brand-orange-500)]" : "border-[var(--color-ink-100)]"}`}>
                 {isSelected && <span className="h-2 w-2 rounded-full bg-[var(--color-brand-orange-500)]" />}

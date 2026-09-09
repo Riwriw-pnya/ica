@@ -49,13 +49,13 @@ export default async function MatingReportSuccessPage({ searchParams }: SuccessP
 
         <div className="mt-6 space-y-2">
           <Link
-            href={`/cattery/application`}
+            href="/cattery/applications"
             className="block w-full rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-6 py-2.5 text-sm font-semibold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)]"
           >
             Lihat status aplikasi
           </Link>
           <Link
-            href="/cattery"
+            href="/cattery/dashboard"
             className="block w-full rounded-full border border-[var(--color-ink-100)] px-6 py-2.5 text-sm font-semibold text-[var(--color-ink-900)]"
           >
             Kembali ke dashboard

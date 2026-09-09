@@ -22,6 +22,7 @@ interface StepUploadDokumenProps {
   paymentProof: ManualDoc;
   onPaymentProofChange: (file: File) => void;
   onPaymentProofRemove: () => void;
+  showError?: boolean;
 }
 
 function toFileInfo(file: File): CatCertificateFile {
@@ -33,6 +34,8 @@ function toFileInfo(file: File): CatCertificateFile {
 }
 
 export default function StepUploadDokumen(props: StepUploadDokumenProps) {
+  const isInvalid = (props.showError ?? false) && props.matingPhoto.file === null;
+
   return (
     <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-6">
       <h2 className="font-display text-[16px] font-semibold text-[var(--color-ink-900)]">
@@ -43,28 +46,19 @@ export default function StepUploadDokumen(props: StepUploadDokumenProps) {
       </p>
 
       <div className="mt-4 space-y-2.5 border-t border-[var(--color-ink-100)] pt-4">
-        <DocumentItem
-          label="Sertifikat pedigree pejantan"
-          icon="cat"
-          isRequired
-          isAuto
-          file={props.maleCertFile}
-        />
-        <DocumentItem
-          label="Sertifikat pedigree induk"
-          icon="cat"
-          isRequired
-          isAuto
-          file={props.femaleCertFile}
-        />
+        <DocumentItem label="Sertifikat pedigree pejantan" icon="cat" isRequired isAuto file={props.maleCertFile} />
+        <DocumentItem label="Sertifikat pedigree induk" icon="cat" isRequired isAuto file={props.femaleCertFile} />
+
         <DocumentItem
           label="Foto mating / kandang"
           icon="upload"
           isRequired
+          isInvalid={isInvalid}
           file={props.matingPhoto.file}
           onPick={props.onMatingPhotoChange}
           onRemove={props.onMatingPhotoRemove}
         />
+
         <DocumentItem
           label="Foto tiap kitten"
           description="Satu foto per kitten, wajah terlihat jelas."

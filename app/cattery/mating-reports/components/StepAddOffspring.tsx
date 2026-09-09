@@ -8,12 +8,20 @@ interface StepAddOffspringProps {
   items: OffspringItem[];
   onChangeItems: (items: OffspringItem[]) => void;
   defaultBreed: string;
+  showError?: boolean;
 }
 
 let nextId = 100;
 
-export default function StepAddOffspring({ items, onChangeItems, defaultBreed }: StepAddOffspringProps) {
+function isRowComplete(item: OffspringItem) {
+  return Boolean(item.name && item.gender && item.birthDate);
+}
+
+export default function StepAddOffspring({ items, onChangeItems, defaultBreed, showError = false }: StepAddOffspringProps) {
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
+
+  const hasValidRow = items.some(isRowComplete);
+  const isInvalid = showError && !hasValidRow;
 
   const toggleExpand = (id: number) => {
     setExpandedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
@@ -44,7 +52,7 @@ export default function StepAddOffspring({ items, onChangeItems, defaultBreed }:
   };
 
   return (
-    <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-6">
+    <div className="rounded-xl border bg-white p-6 transition">
       <h2 className="font-display text-[16px] font-semibold text-[var(--color-ink-900)]">
         Add offspring
       </h2>
@@ -52,7 +60,11 @@ export default function StepAddOffspring({ items, onChangeItems, defaultBreed }:
         Isi baris untuk setiap kitten. Buka baris detail untuk berat, ras, status, dan foto.
       </p>
 
-      <div className="mt-4 overflow-hidden rounded-lg border border-[var(--color-ink-100)]">
+      <div
+        className={`mt-4 overflow-hidden rounded-lg border ${
+          isInvalid ? "border-[var(--color-danger)]/80" : "border-[var(--color-ink-100)]"
+        }`}
+      >
         <div className="hidden items-center gap-3 border-b border-[var(--color-ink-100)] bg-gray-50 px-4 py-2.5 text-[10px] font-semibold uppercase tracking-wide text-[var(--color-ink-400)] sm:flex">
           <span className="sm:w-5" />
           <span className="flex-1">Nama Kitten</span>
@@ -64,7 +76,7 @@ export default function StepAddOffspring({ items, onChangeItems, defaultBreed }:
 
         {items.map((item, index) => (
           <OffspringRow
-            key={item.id}
+            key={`${item.id}-${index}`}
             index={index}
             item={item}
             isExpanded={expandedIds.includes(item.id)}
@@ -77,7 +89,7 @@ export default function StepAddOffspring({ items, onChangeItems, defaultBreed }:
 
       <button
         onClick={handleAdd}
-        className="mt-3 rounded-full border border-[var(--color-brand-orange-300)] px-4 py-2 text-[12px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)]"
+        className="cursor-pointer mt-3 rounded-full bg-gradient-to-b from-white to-[var] border border-[var(--color-brand-orange-300)] px-4 py-2 text-[12px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)]"
       >
         + Tambah kitten
       </button>

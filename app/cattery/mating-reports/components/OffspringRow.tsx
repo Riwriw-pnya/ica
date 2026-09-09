@@ -1,15 +1,16 @@
 "use client";
 
+import { useState } from "react";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
-interface OffspringItem {
-  name: string;
-  gender: "Jantan" | "Betina";
-  color: string;
-  birthDate: string;
-  birthWeight: string;
-  breed: string;
-  status: "Hidup" | "Mati";
-  photoName?: string;
+import type { OffspringItem } from "@/types/cattery";
+
+interface OffspringRowProps {
+  index: number;
+  item: OffspringItem;
+  isExpanded: boolean;
+  onToggleExpand: () => void;
+  onChange: (updated: OffspringItem) => void;
+  onRemove: () => void;
 }
 
 interface OffspringRowProps {
