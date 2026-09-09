@@ -13,6 +13,7 @@ import { useClickOutside } from "@/hooks/useClickOutside";
 
 const pageTitles: Record<string, string> = {
   "/cattery": "Dashboard",
+  "/cattery/dashboard": "Dashboard",
   "/cattery/my-cats": "My Cats",
   "/cattery/my-cats/[id]": "Detail Kucing",
   "/cattery/applications": "Applications",
@@ -45,6 +46,7 @@ export default function Header() {
   const notifRef = useRef<HTMLDivElement>(null);
 
   const isMatingReportForm = pathname.startsWith("/cattery/mating-reports");
+  const isDashboard = pathname === "/cattery" || pathname === "/cattery/dashboard";
   const isUserMenuOpen = openMenu === "header";
   const isNotifOpen = openMenu === "notifications";
   const unreadCount = notifications.filter((n) => !n.isRead).length;
@@ -79,7 +81,17 @@ export default function Header() {
         )}
       </div>
 
-      <div className="flex items-center gap-4">
+      <div className="flex items-center gap-3">
+        {isDashboard && (
+          <button
+            onClick={() => router.push("/cattery/mating-reports")}
+            className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)]"
+          >
+            + Buat Mating Report
+          </button>
+        )}
+
+        {/* Kondisi saat berada di Form Mating Report */}
         {isMatingReportForm && (
           <>
             <span className="text-[11px] text-[var(--color-ink-400)]">Tersimpan otomatis 14:32</span>
@@ -87,7 +99,7 @@ export default function Header() {
               Simpan draft
             </button>
             <button
-              onClick={() => router.push("/cattery")}
+              onClick={() => router.push("/cattery/dashboard")}
               className="text-[12px] font-medium text-[var(--color-ink-700)] hover:text-[var(--color-ink-900)]"
             >
               Keluar
@@ -95,6 +107,7 @@ export default function Header() {
           </>
         )}
 
+        {/* Notifikasi Dropdown */}
         <div ref={notifRef} className="relative">
           <button
             onClick={() => toggleMenu("notifications")}
@@ -103,7 +116,7 @@ export default function Header() {
           >
             <DashboardIcon name="bell" size={20} />
             {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-[9px] font-bold leading-none text-white shadow-sm">
+              <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
                 {unreadCount}
               </span>
             )}
@@ -114,22 +127,25 @@ export default function Header() {
               notifications={notifications}
               onMarkAllRead={handleMarkAllAsRead}
               onMarkOneRead={(id: string) =>
-                setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))) 
+                setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)))
               }
               onClose={closeMenu}
             />
           )}
-        </div>    
+        </div>
 
+        {/* Profil Menu Dropdown */}
         <div ref={containerRef} className="relative">
           <button
             onClick={() => toggleMenu("header")}
-            className="flex items-center gap-2.5 rounded-lg px-1.5 py-1 transition hover:bg-[var(--color-brand-orange-50)]"
+            className="flex items-center gap-2 rounded-full border border-[#E2D7CC] bg-gradient-to-b from-white to-[#F7F3ED] px-2 py-1 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.06),0_2px_4px_rgba(0,0,0,0.04)] hover:border-[#D1C2B3] hover:from-white hover:to-[#F0E7DC] active:scale-98"
           >
-            <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[11px] font-medium text-[var(--color-brand-orange-700)]">
+            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-b from-[#FFCF9E] to-[#F26E27] text-[10px] font-bold text-white shadow-xs">
               RH
             </div>
-            <DashboardIcon name="chevron" size={14} />
+            <span className="text-[#6E6359] flex items-center">
+              <DashboardIcon name="chevron" size={12} />
+            </span>
           </button>
 
           {isUserMenuOpen && (

@@ -52,68 +52,69 @@ export default function RegisterMember() {
       {/* Main Stepper Container */}
       <div className="w-full max-w-4xl mx-auto px-4 pb-16 flex-1 flex flex-col items-center">
         
-        {/* Stepper Header Indicator - Segmented Layout */}
-        <div className="w-full max-w-md mb-10 flex items-start justify-between relative px-2">
-          {/* Step 1 */}
-          <div className="flex flex-col items-center z-10 w-20">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
-              step > 1 
-                ? "bg-[#EE6B28] text-white shadow-sm shadow-[#EE6B28]/30" 
-                : "bg-white border-2 border-[#EE6B28] text-[#EE6B28]"
-            }`}>
-              {step > 1 ? "✓" : "1"}
-            </div>
-            <span className={`text-xs mt-2 text-center ${step === 1 ? "font-bold text-[#231A14]" : "font-semibold text-[#7A6E65]"}`}>
-              Data Diri
-            </span>
-          </div>
+        {/* Stepper Header Indicator - Subtle Skeuomorphic Style */}
+<div className="w-full max-w-md mb-10 flex items-center justify-between relative px-2">
+  {/* Step 1 */}
+  <div
+    className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
+      step >= 1
+        ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
+        : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
+    }`}
+  >
+    {step > 1 ? (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    ) : (
+      "1"
+    )}
+  </div>
 
-          {/* Garis Penghubung 1-2 */}
-          <div className="flex-1 h-[3px] bg-[#E9E2DC] relative mt-4 overflow-hidden">
-            <div 
-              className="absolute inset-0 bg-[#EE6B28] transition-all duration-300"
-              style={{ width: step >= 2 ? "100%" : "0%" }}
-            />
-          </div>
+  {/* Garis 1-2 */}
+  <div className="flex-1 h-[3px] mx-1 bg-[#E9E2DC] relative overflow-hidden rounded-full">
+    <div
+      className="absolute inset-0 bg-gradient-to-r from-[#EE6B28] to-[#FFC299] transition-all duration-300"
+      style={{ width: step >= 2 ? "100%" : "0%" }}
+    />
+  </div>
 
-          {/* Step 2 */}
-          <div className="flex flex-col items-center z-10 w-20">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
-              step > 2 
-                ? "bg-[#EE6B28] text-white shadow-sm shadow-[#EE6B28]/30" 
-                : step === 2
-                ? "bg-white border-2 border-[#EE6B28] text-[#EE6B28]"
-                : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
-            }`}>
-              {step > 2 ? "✓" : "2"}
-            </div>
-            <span className={`text-xs mt-2 text-center ${step === 2 ? "font-bold text-[#231A14]" : "font-semibold text-[#7A6E65]"}`}>
-              Pembayaran
-            </span>
-          </div>
+  {/* Step 2 */}
+  <div
+    className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
+      step >= 2
+        ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
+        : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
+    }`}
+  >
+    {step > 2 ? (
+      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+        <polyline points="20 6 9 17 4 12" />
+      </svg>
+    ) : (
+      "2"
+    )}
+  </div>
 
-          {/* Garis Penghubung 2-3 */}
-          <div className="flex-1 h-[3px] bg-[#E9E2DC] relative mt-4 overflow-hidden">
-            <div 
-              className="absolute inset-0 bg-[#EE6B28] transition-all duration-300"
-              style={{ width: step >= 3 ? "100%" : "0%" }}
-            />
-          </div>
+  {/* Garis 2-3 */}
+  <div className="flex-1 h-[3px] mx-1 bg-[#E9E2DC] relative overflow-hidden rounded-full">
+    <div
+      className="absolute inset-0 bg-gradient-to-r from-[#EE6B28] to-[#FFC299] transition-all duration-300"
+      style={{ width: step >= 3 ? "100%" : "0%" }}
+    />
+  </div>
 
-          {/* Step 3 */}
-          <div className="flex flex-col items-center z-10 w-20">
-            <div className={`w-8 h-8 rounded-full flex items-center justify-center font-bold text-xs ${
-              step === 3 
-                ? "bg-white border-2 border-[#EE6B28] text-[#EE6B28]" 
-                : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
-            }`}>
-              3
-            </div>
-            <span className={`text-xs mt-2 text-center ${step === 3 ? "font-bold text-[#231A14]" : "font-semibold text-[#7A6E65]"}`}>
-              Selesai
-            </span>
-          </div>
-        </div>
+  {/* Step 3 */}
+  <div
+    className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
+      step >= 3
+        ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
+        : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
+    }`}
+  >
+    3
+  </div>
+</div>
 
         {/* Card Content Area */}
         <div className="w-full bg-white rounded-3xl shadow-sm border border-[#E9E2DC] p-6 md:p-10 transition-all">

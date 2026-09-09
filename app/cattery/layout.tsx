@@ -7,7 +7,7 @@ export default function CatteryLayout({ children }: { children: React.ReactNode 
   return (
     <UserMenuProvider>
       <SidebarProvider>
-        <div className="flex h-screen overflow-hidden bg-[var(--color-sidebar)]">
+        <div className="flex h-screen overflow-hidden bg-[var(--color-ink-50)]">
           <Sidebar />
           <div className="flex min-w-0 flex-1 flex-col">
             <Header />

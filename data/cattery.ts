@@ -190,3 +190,56 @@ export const catEventResults: CatEventResult[] = [
 
   { id: "ev6-1", catId: 6, eventName: "ICA Kitten Fest 2026", date: "14 Mar 2026", ring: "Ring 1", category: "Junior", result: "Nominasi" },
 ];
+
+import { ApplicationItem } from "@/types/cattery";
+
+export const mockApplications: ApplicationItem[] = [
+  {
+    id: "1",
+    code: "MR-2026-0142",
+    title: "Bagas × Nara",
+    subtitle: "Dikirim 21 Agu 2026 · 4 kitten · 6 dokumen",
+    status: "review",
+    statusLabel: "Sedang direview",
+    currentStep: 2,
+    timeline: [
+      {
+        title: "Report dikirim ke admin wilayah Bandung",
+        date: "21 Agu 2026",
+        actor: "Rumah Hana Cattery",
+      },
+      {
+        title: "Masuk antrean review admin",
+        date: "21 Agu 2026",
+        actor: "Sistem",
+      },
+    ],
+  },
+  {
+    id: "2",
+    code: "MR-2026-0138",
+    title: "Rimba × Sekar",
+    subtitle: "Dikirim 12 Agu 2026 · 3 kitten · 5 dokumen",
+    status: "revision",
+    statusLabel: "Perlu revisi",
+    currentStep: 3,
+  },
+  {
+    id: "3",
+    code: "MR-2026-0131",
+    title: "Bagas × Kirana",
+    subtitle: "Dikirim 02 Agu 2026 · 5 kitten · 6 dokumen",
+    status: "approved",
+    statusLabel: "Disetujui",
+    currentStep: 4,
+  },
+  {
+    id: "4",
+    code: "CTY-2026-0071",
+    title: "Pengajuan cattery — Rumah Hana",
+    subtitle: "Dikirim 18 Jul 2026 · 4 dokumen",
+    status: "approved",
+    statusLabel: "Disetujui",
+    currentStep: 4,
+  },
+];

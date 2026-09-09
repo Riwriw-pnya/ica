@@ -170,7 +170,7 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
         return;
       }
 
-      router.push("/anggota");
+      router.push("/cattery");
     }, 1000);
   };
 
