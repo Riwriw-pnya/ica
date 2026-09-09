@@ -477,7 +477,7 @@ export default function DashboardPage() {
 
             <div className="flex items-center justify-between border-t border-[#f4efe9] pt-3 text-xs text-[#8c8074]">
               <span>Read-only · tidak ada aksi edit skor di sisi cattery.</span>
-              <a href="#" className="font-bold text-[#f05a1b] hover:underline">
+              <a href="/leaderboard" className="font-bold text-[#f05a1b] hover:underline">
                 Leaderboard →
               </a>
             </div>

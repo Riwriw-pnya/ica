@@ -17,7 +17,7 @@ const menus = [
   { label: "Mating Reports", icon: "users", href: "/cattery/mating-reports" },
   { label: "Documents", icon: "news", href: "/cattery/documents" },
   { label: "Leaderboard", icon: "trophy", href: "/cattery/leaderboard" },
-  { label: "Events", icon: "calendar", href: "/cattery/events" },
+  { label: "Events", icon: "calendar", href: "/cattery/event" },
   { label: "Store", icon: "shopping-cart", href: "/cattery/store" },
 ];
 
