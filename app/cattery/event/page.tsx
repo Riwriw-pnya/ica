@@ -1,152 +1,253 @@
 "use client";
 
-import React from "react";
+import React, { useState } from "react";
+import EventDetailDropdown from "./components/EventDetailDropdown";
+import EventCheckoutView from "./components/EventCheckoutView";
+import EventPaymentView from "./components/EventPaymentView";
+import EventCatRegistrationView from "./components/EventCatRegistration";
+import EventCatSubmittedView from "./components/EventCatSubmitted";
+import Toast from "./components/Toast";
 
-interface EventItem {
-  id: string;
-  day: string;
-  month: string;
-  title: string;
-  details: string;
-  statusBadge: { label: string; type: "green" | "orange" };
-  categoryBadge: string;
-  slotBadge: { label: string; type: "orange" | "red" | "green" };
-}
-
-const eventsData: EventItem[] = [
-  {
-    id: "1",
-    day: "18",
-    month: "OKT",
-    title: "ICA Cat Show Bandung 2026",
-    details: "18–19 Okt 2026 · Trans Convention Center, Bandung · Rp 150.000",
-    statusBadge: { label: "Pendaftaran dibuka", type: "green" },
-    categoryBadge: "Kuota Cattery",
-    slotBadge: { label: "2 slot tersisa", type: "orange" },
-  },
-  {
-    id: "2",
-    day: "04",
-    month: "NOV",
-    title: "ICA Kitten Fest Jakarta",
-    details: "4 Nov 2026 · Kuningan City Hall, Jakarta · Rp 120.000",
-    statusBadge: { label: "Pendaftaran dibuka", type: "green" },
-    categoryBadge: "Kuota Cattery",
-    slotBadge: { label: "Kuota penuh", type: "red" },
-  },
-  {
-    id: "3",
-    day: "12",
-    month: "DES",
-    title: "Diklat Breeder Pemula — Batch 4",
-    details: "12–14 Des 2026 · Daring · Zoom · Rp 250.000",
-    statusBadge: { label: "Segera dibuka", type: "orange" },
-    categoryBadge: "Kuota Cattery",
-    slotBadge: { label: "20 slot tersisa", type: "green" },
-  },
-];
+type FlowStep =
+  | "list"
+  | "checkout"
+  | "payment"
+  | "cat-registration"
+  | "cat-submitted";
 
 export default function EventsPage() {
-  const getBadgeStyle = (type: "green" | "orange" | "red" | "neutral") => {
-    switch (type) {
-      case "green":
-        return "bg-[#eaf6ed] text-[#28844b]";
-      case "orange":
-        return "bg-[#fff4e5] text-[#c26d0a]";
-      case "red":
-        return "bg-[#fce8e6] text-[#c5221f]";
-      case "neutral":
-      default:
-        return "bg-[#f1ede8] text-[#6b5f54]";
-    }
+  const [step, setStep] = useState<FlowStep>("list");
+  const [openEventId, setOpenEventId] = useState<string | null>("1");
+  const [showToast, setShowToast] = useState<boolean>(false);
+
+  const handlePaymentSuccess = () => {
+    setShowToast(true);
+    setStep("cat-registration");
   };
 
   return (
-    <div className="min-h-screen bg-[#F8F6F2] text-[#2d2825] font-sans">
-      <main className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto">
-        {/* Header Section */}
-        <div className="space-y-1">
-          <h1 className="text-xl sm:text-2xl font-bold text-[#1a1513]">
-            Event &amp; Cat Show
-          </h1>
-          <p className="text-xs sm:text-sm text-[#7e7267] leading-relaxed max-w-3xl">
-            Kuota tiket dibagi per kategori peserta. Akun cattery hanya bisa
-            membeli dari kuota kategori <span className="font-semibold text-[#1a1513]">Cattery</span>.
-            Slot ditahan sementara saat checkout dan dilepas otomatis kalau
-            pembayaran melewati batas waktu.
-          </p>
+    <div className="min-h-screen bg-[#F8F6F2] text-[#2D2825] font-sans relative">
+      {/* Toast Notification Container */}
+      {showToast && (
+        <div className="fixed top-5 right-5 z-50 animate-fadeIn">
+          <Toast
+            title="Pembayaran diterima."
+            message="Slot Anda terkunci. Lanjut isi data kucing."
+            duration={4000}
+            onClose={() => setShowToast(false)}
+          />
         </div>
+      )}
 
-        {/* Event List */}
-        <div className="space-y-4 pt-2">
-          {eventsData.map((event) => (
-            <div
-              key={event.id}
-              className="bg-white rounded-2xl border border-[#eedfd5] p-4 sm:p-5 shadow-xs flex flex-col sm:flex-row sm:items-center justify-between gap-4 hover:border-[#f05a1b]/30 transition"
-            >
-              {/* Left Side: Date Box + Content */}
-              <div className="flex items-start gap-4">
-                {/* Date Box */}
-                <div className="w-14 h-14 rounded-2xl bg-[#fff2e8] flex flex-col items-center justify-center shrink-0 border border-[#fce3d2]">
-                  <span className="text-lg font-black text-[#f05a1b] leading-none">
-                    {event.day}
-                  </span>
-                  <span className="text-[10px] font-bold text-[#f05a1b] tracking-wider mt-0.5">
-                    {event.month}
-                  </span>
-                </div>
+      <main className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
+        {step === "checkout" && (
+          <EventCheckoutView
+            onBack={() => setStep("list")}
+            onNext={() => setStep("payment")}
+          />
+        )}
 
-                {/* Event Details */}
-                <div className="space-y-1.5">
-                  {/* Badges Container */}
-                  <div className="flex flex-wrap items-center gap-1.5">
-                    <span
-                      className={`px-2.5 py-0.5 rounded-md text-[11px] font-semibold ${getBadgeStyle(
-                        event.statusBadge.type
-                      )}`}
-                    >
-                      {event.statusBadge.label}
-                    </span>
+        {step === "payment" && (
+          <EventPaymentView
+            onBack={() => setStep("checkout")}
+            onNext={handlePaymentSuccess}
+          />
+        )}
 
-                    <span
-                      className={`px-2.5 py-0.5 rounded-md text-[11px] font-semibold ${getBadgeStyle(
-                        "neutral"
-                      )}`}
-                    >
-                      {event.categoryBadge}
-                    </span>
+        {step === "cat-registration" && (
+          <EventCatRegistrationView onNext={() => setStep("cat-submitted")} />
+        )}
 
-                    <span
-                      className={`px-2.5 py-0.5 rounded-md text-[11px] font-semibold ${getBadgeStyle(
-                        event.slotBadge.type
-                      )}`}
-                    >
-                      {event.slotBadge.label}
-                    </span>
+        {step === "cat-submitted" && (
+          <EventCatSubmittedView
+            onBackToEvent={() => setStep("list")}
+            onEditCatData={() => setStep("cat-registration")}
+          />
+        )}
+
+        {step === "list" && (
+          <div className="space-y-6">
+            <div className="space-y-1">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#1A1513]">
+                Event &amp; Cat Show
+              </h1>
+              <p className="text-xs sm:text-sm text-[#7E7267] leading-relaxed max-w-3xl">
+                Kuota tiket dibagi per kategori peserta. Akun cattery hanya bisa
+                membeli dari kuota kategori{" "}
+                <span className="font-semibold text-[#1A1513]">Cattery</span>.
+              </p>
+            </div>
+
+            {/* List Event */}
+            <div className="space-y-4">
+              {/* Event 1 */}
+              <div className="bg-white rounded-2xl border border-[#EEDFD5] p-4 sm:p-5 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-[#FFF2E8] flex flex-col items-center justify-center shrink-0 border border-[#FCE3D2]">
+                      <span className="text-lg font-black text-[#F05A1B] leading-none">
+                        18
+                      </span>
+                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">
+                        OKT
+                      </span>
+                    </div>
+                    <div>
+                      <div className="flex items-center gap-1.5 mb-1">
+                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#EAF6ED] text-[#28844B]">
+                          Pendaftaran dibuka
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#FFF4E5] text-[#C26D0A]">
+                          2 slot tersisa
+                        </span>
+                      </div>
+                      <h2 className="font-bold text-base text-[#1A1513]">
+                        ICA Cat Show Bandung 2026
+                      </h2>
+                      <p className="text-xs text-[#8C8074]">
+                        18–19 Okt 2026 · Trans Convention Center, Bandung · Rp
+                        150.000
+                      </p>
+                    </div>
                   </div>
 
-                  {/* Title */}
-                  <h2 className="font-bold text-base text-[#1a1513]">
-                    {event.title}
-                  </h2>
-
-                  {/* Subtitle Info */}
-                  <p className="text-xs text-[#8c8074]">{event.details}</p>
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenEventId(openEventId === "1" ? null : "1")
+                    }
+                    className={`cursor-pointer rounded-full px-5 py-2.5 text-xs font-bold transition-all duration-150 shrink-0 ${
+                      openEventId === "1"
+                        ? "border border-[#EEDFD5] bg-white text-[#574D45] hover:bg-[#FAF7F5]"
+                        : "border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5"
+                    }`}
+                  >
+                    {openEventId === "1" ? "Tutup detail" : "Ikut"}
+                  </button>
                 </div>
+
+                {openEventId === "1" && (
+                  <EventDetailDropdown
+                    eventId="1"
+                    onCheckout={() => setStep("checkout")}
+                  />
+                )}
               </div>
 
-              {/* Right Side: Action Button dengan Style Sesuai Request */}
-              <div className="self-end sm:self-center shrink-0">
-                <button
-                  type="button"
-                  className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)]"
-                >
-                  Ikut
-                </button>
+              {/* Event 2 */}
+              <div className="bg-white rounded-2xl border border-[#EEDFD5] p-4 sm:p-5 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-[#FFF2E8] flex flex-col items-center justify-center shrink-0 border border-[#FCE3D2]">
+                      <span className="text-lg font-black text-[#F05A1B] leading-none">
+                        04
+                      </span>
+                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">
+                        NOV
+                      </span>
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#EAF6ED] text-[#28844B]">
+                          Pendaftaran dibuka
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#F5EBE2] text-[#7E7267]">
+                          Kuota Cattery
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#FEE2E2] text-[#DC2626]">
+                          Kuota penuh
+                        </span>
+                      </div>
+                      <h2 className="font-bold text-base text-[#1A1513]">
+                        ICA Kitten Fest Jakarta
+                      </h2>
+                      <p className="text-xs text-[#8C8074]">
+                        4 Nov 2026 · Kuningan City Hall, Jakarta · Rp 120.000
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenEventId(openEventId === "2" ? null : "2")
+                    }
+                    className={`cursor-pointer rounded-full px-5 py-2.5 text-xs font-bold transition-all duration-150 shrink-0 ${
+                      openEventId === "2"
+                        ? "border border-[#EEDFD5] bg-white text-[#574D45] hover:bg-[#FAF7F5]"
+                        : "border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5"
+                    }`}
+                  >
+                    {openEventId === "2" ? "Tutup detail" : "Ikut"}
+                  </button>
+                </div>
+
+                {openEventId === "2" && (
+                  <EventDetailDropdown
+                    eventId="2"
+                    onCheckout={() => setStep("checkout")}
+                  />
+                )}
+              </div>
+
+              {/* Event 3 */}
+              <div className="bg-white rounded-2xl border border-[#EEDFD5] p-4 sm:p-5 shadow-xs">
+                <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+                  <div className="flex items-start gap-4">
+                    <div className="w-14 h-14 rounded-2xl bg-[#FFF2E8] flex flex-col items-center justify-center shrink-0 border border-[#FCE3D2]">
+                      <span className="text-lg font-black text-[#F05A1B] leading-none">
+                        12
+                      </span>
+                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">
+                        DES
+                      </span>
+                    </div>
+                    <div>
+                      <div className="flex flex-wrap items-center gap-1.5 mb-1">
+                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#FFF4E5] text-[#C26D0A]">
+                          Segera dibuka
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#F5EBE2] text-[#7E7267]">
+                          Kuota Cattery
+                        </span>
+                        <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#EAF6ED] text-[#28844B]">
+                          20 slot tersisa
+                        </span>
+                      </div>
+                      <h2 className="font-bold text-base text-[#1A1513]">
+                        Diklat Breeder Pemula — Batch 4
+                      </h2>
+                      <p className="text-xs text-[#8C8074]">
+                        12–14 Des 2026 · Daring · Zoom · Rp 250.000
+                      </p>
+                    </div>
+                  </div>
+
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setOpenEventId(openEventId === "3" ? null : "3")
+                    }
+                    className={`cursor-pointer rounded-full px-5 py-2.5 text-xs font-bold transition-all duration-150 shrink-0 ${
+                      openEventId === "3"
+                        ? "border border-[#EEDFD5] bg-white text-[#574D45] hover:bg-[#FAF7F5]"
+                        : "border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5"
+                    }`}
+                  >
+                    {openEventId === "3" ? "Tutup detail" : "Ikut"}
+                  </button>
+                </div>
+
+                {openEventId === "3" && (
+                  <EventDetailDropdown
+                    eventId="3"
+                    onCheckout={() => setStep("checkout")}
+                  />
+                )}
               </div>
             </div>
-          ))}
-        </div>
+          </div>
+        )}
       </main>
     </div>
   );
