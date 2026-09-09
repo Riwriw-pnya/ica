@@ -149,7 +149,7 @@ function ProductCard({ product, onAddToCart }: ProductCardProps) {
       <div className="p-3.5 pt-0">
         <button
           onClick={() => onAddToCart(product)}
-          className="w-full rounded-xl bg-[var(--color-brand-orange-500)] py-2 text-xs font-bold text-white transition hover:bg-[var(--color-brand-orange-700)] active:scale-95"
+          className="w-full rounded-xl bg-[#EE6B28] py-2 text-xs font-bold text-white transition hover:bg-[var(--color-brand-orange-700)] active:scale-95"
         >
           + Beli
         </button>
@@ -215,22 +215,7 @@ export default function StorePage() {
     <div className="min-h-screen bg-[#FDFBF9] text-[#231A14] flex flex-col justify-between font-sans relative">
       <div>
 
-        {/* HERO BANNER SECTION */}
-        <section className="relative border-b border-[var(--color-brand-orange-100)] bg-gradient-to-r from-[#FFF6EC] via-[#FDFBF9] to-[#FFF6EC] py-10 md:py-14 px-4 md:px-6 overflow-hidden">
-          <div className="absolute right-0 top-0 w-96 h-96 bg-[var(--color-brand-orange-500)]/5 rounded-full blur-3xl pointer-events-none" />
-          <div className="max-w-6xl mx-auto text-center space-y-2 relative z-10">
-            <span className="inline-block px-4 py-1.5 rounded-full bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)] text-xs font-bold tracking-widest uppercase">
-              Merchandise & Official Shop
-            </span>
-            <h1 className="text-3xl md:text-5xl font-black tracking-tight">
-              <span>ICA </span>
-              <span className="text-[var(--color-brand-orange-500)]">Store</span>
-            </h1>
-            <p className="text-xs md:text-sm text-[var(--color-ink-700)] max-w-md mx-auto">
-              Belanja produk resmi, tiket event, dan perlengkapan kucing terpercaya.
-            </p>
-          </div>
-        </section>
+       
 
         {/* MAIN STORE CONTENT */}
         <main className="max-w-6xl mx-auto px-4 md:px-6 py-8 md:py-12">
@@ -263,7 +248,7 @@ export default function StorePage() {
       {/* FLOATING CART BUTTON */}
       <button
         onClick={() => setIsCartOpen(true)}
-        className="fixed bottom-6 right-6 z-40 bg-[var(--color-brand-orange-500)] hover:bg-[var(--color-brand-orange-700)] text-white p-4 rounded-full shadow-xl flex items-center gap-2 transition-transform active:scale-90"
+        className="fixed bottom-6 right-6 z-40 bg-[#EE6B28] hover:bg-[var(--color-brand-orange-700)] text-white p-4 rounded-full shadow-xl flex items-center gap-2 transition-transform active:scale-90"
         aria-label="Buka Keranjang"
       >
         <svg className="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
