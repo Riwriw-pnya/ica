@@ -81,7 +81,6 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Tombol Buat Mating Report - Style plek ketiplek StepFooter */}
         {isDashboard && (
           <button
             onClick={() => router.push("/cattery/mating-reports")}
