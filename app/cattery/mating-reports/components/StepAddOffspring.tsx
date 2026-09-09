@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import OffspringRow from "./OffspringRow";
 import type { OffspringItem } from "@/types/cattery";
 
@@ -11,31 +11,48 @@ interface StepAddOffspringProps {
   showError?: boolean;
 }
 
-let nextId = 100;
-
-function isRowComplete(item: OffspringItem) {
-  return Boolean(item.name && item.gender && item.birthDate);
-}
-
-export default function StepAddOffspring({ items, onChangeItems, defaultBreed, showError = false }: StepAddOffspringProps) {
+export default function StepAddOffspring({
+  items,
+  onChangeItems,
+  defaultBreed,
+  showError = false,
+}: StepAddOffspringProps) {
   const [expandedIds, setExpandedIds] = useState<number[]>([]);
 
-  const hasValidRow = items.some(isRowComplete);
+  const hasValidRow = items.some(
+    (item) => Boolean(item.name && item.gender && item.birthDate)
+  );
   const isInvalid = showError && !hasValidRow;
 
+  // Sync Otomatis: Mengisi field breed yang masih kosong dengan defaultBreed
+  useEffect(() => {
+    if (!defaultBreed) return;
+
+    const hasEmptyBreed = items.some((item) => !item.breed);
+    if (hasEmptyBreed) {
+      const updatedItems = items.map((item) => ({
+        ...item,
+        breed: item.breed || defaultBreed,
+      }));
+      onChangeItems(updatedItems);
+    }
+  }, [defaultBreed, items, onChangeItems]);
+
   const toggleExpand = (id: number) => {
-    setExpandedIds((prev) => (prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]));
+    setExpandedIds((prev) =>
+      prev.includes(id) ? prev.filter((x) => x !== id) : [...prev, id]
+    );
   };
 
   const handleAdd = () => {
     const newItem: OffspringItem = {
-      id: nextId++,
+      id: Date.now(), // Memakai timestamp agar ID dijamin unik
       name: "",
       gender: "",
       color: "",
       birthDate: "",
       birthWeight: "",
-      breed: defaultBreed,
+      breed: defaultBreed, // Otomatis terisi saat tambah baris baru
       status: "Hidup",
     };
     onChangeItems([...items, newItem]);
@@ -76,7 +93,7 @@ export default function StepAddOffspring({ items, onChangeItems, defaultBreed, s
 
         {items.map((item, index) => (
           <OffspringRow
-            key={`${item.id}-${index}`}
+            key={`${item.id}-${index}`} // Menghindari warning key duplikat
             index={index}
             item={item}
             isExpanded={expandedIds.includes(item.id)}
@@ -88,8 +105,9 @@ export default function StepAddOffspring({ items, onChangeItems, defaultBreed, s
       </div>
 
       <button
+        type="button"
         onClick={handleAdd}
-        className="cursor-pointer mt-3 rounded-full bg-gradient-to-b from-white to-[var] border border-[var(--color-brand-orange-300)] px-4 py-2 text-[12px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)]"
+        className="mt-3 cursor-pointer rounded-full border border-[var(--color-brand-orange-300)] bg-white px-4 py-2 text-[12px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)]"
       >
         + Tambah kitten
       </button>

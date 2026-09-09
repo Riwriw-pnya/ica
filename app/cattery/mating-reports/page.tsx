@@ -58,10 +58,6 @@ export default function MatingReportsPage() {
     setIsEstimateAuto(false);
   };
 
-  const [offspringItems, setOffspringItems] = useState<OffspringItem[]>([
-    { id: 1, name: "", gender: "", color: "", birthDate: "", birthWeight: "", breed: "", status: "Hidup" },
-  ]);
-
   const [matingPhoto, setMatingPhoto] = useState<CatCertificateFile | null>(null);
   const [kittenPhotos, setKittenPhotos] = useState<CatCertificateFile | null>(null);
   const [vetLetter, setVetLetter] = useState<CatCertificateFile | null>(null);
@@ -69,6 +65,23 @@ export default function MatingReportsPage() {
 
   const selectedMale = maleCats.find((c) => c.id === selectedMaleId);
   const selectedFemale = femaleCats.find((c) => c.id === selectedFemaleId);
+
+    // Ambil ras dari selectedMale atau selectedFemale yang sudah dideklarasikan di baris 82
+  const selectedBreed = selectedMale?.breed || selectedFemale?.breed || "";
+
+  // Inisialisasi state offspring dengan variabel yang benar
+  const [offspringItems, setOffspringItems] = useState<OffspringItem[]>([
+    {
+      id: Date.now(),
+      name: "",
+      gender: "",
+      color: "",
+      birthDate: "",
+      birthWeight: "",
+      breed: selectedBreed,
+      status: "Hidup",
+    },
+  ]);
 
   const totalSteps = stepTitles.length;
 
