@@ -64,3 +64,22 @@ export interface NotificationItem {
   isRead: boolean;
   url?: string;
 }
+
+export type ApplicationStatus = 'review' | 'revision' | 'approved' | 'rejected';
+
+export interface ApplicationTimeline {
+  title: string;
+  date: string;
+  actor: string;
+}
+
+export interface ApplicationItem {
+  id: string;
+  code: string;
+  title: string;
+  subtitle: string;
+  status: ApplicationStatus;
+  statusLabel: string;
+  currentStep: number; // 1: Dikirim, 2: Review admin, 3: Verifikasi dokumen, 4: Disetujui
+  timeline?: ApplicationTimeline[];
+}
