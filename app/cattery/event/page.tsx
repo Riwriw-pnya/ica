@@ -6,7 +6,7 @@ import EventCheckoutView from "./components/EventCheckoutView";
 import EventPaymentView from "./components/EventPaymentView";
 import EventCatRegistrationView from "./components/EventCatRegistration";
 import EventCatSubmittedView from "./components/EventCatSubmitted";
-import Toast from "./components/Toast";
+import { useToast } from "@/context/ToastContext";
 
 type FlowStep =
   | "list"
@@ -16,29 +16,17 @@ type FlowStep =
   | "cat-submitted";
 
 export default function EventsPage() {
+  const { showToast } = useToast();
   const [step, setStep] = useState<FlowStep>("list");
   const [openEventId, setOpenEventId] = useState<string | null>("1");
-  const [showToast, setShowToast] = useState<boolean>(false);
 
   const handlePaymentSuccess = () => {
-    setShowToast(true);
+    showToast("Pembayaran diterima.", "Slot Anda terkunci. Lanjut isi data kucing.");
     setStep("cat-registration");
   };
 
   return (
     <div className="min-h-screen bg-[#F8F6F2] text-[#2D2825] font-sans relative">
-      {/* Toast Notification Container */}
-      {showToast && (
-        <div className="fixed top-5 right-5 z-50 animate-fadeIn">
-          <Toast
-            title="Pembayaran diterima."
-            message="Slot Anda terkunci. Lanjut isi data kucing."
-            duration={4000}
-            onClose={() => setShowToast(false)}
-          />
-        </div>
-      )}
-
       <main className="p-4 sm:p-6 lg:p-8 max-w-5xl mx-auto">
         {step === "checkout" && (
           <EventCheckoutView
@@ -78,19 +66,13 @@ export default function EventsPage() {
               </p>
             </div>
 
-            {/* List Event */}
             <div className="space-y-4">
-              {/* Event 1 */}
               <div className="bg-white rounded-2xl border border-[#EEDFD5] p-4 sm:p-5 shadow-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-[#FFF2E8] flex flex-col items-center justify-center shrink-0 border border-[#FCE3D2]">
-                      <span className="text-lg font-black text-[#F05A1B] leading-none">
-                        18
-                      </span>
-                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">
-                        OKT
-                      </span>
+                      <span className="text-lg font-black text-[#F05A1B] leading-none">18</span>
+                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">OKT</span>
                     </div>
                     <div>
                       <div className="flex items-center gap-1.5 mb-1">
@@ -101,21 +83,16 @@ export default function EventsPage() {
                           2 slot tersisa
                         </span>
                       </div>
-                      <h2 className="font-bold text-base text-[#1A1513]">
-                        ICA Cat Show Bandung 2026
-                      </h2>
+                      <h2 className="font-bold text-base text-[#1A1513]">ICA Cat Show Bandung 2026</h2>
                       <p className="text-xs text-[#8C8074]">
-                        18–19 Okt 2026 · Trans Convention Center, Bandung · Rp
-                        150.000
+                        18–19 Okt 2026 · Trans Convention Center, Bandung · Rp 150.000
                       </p>
                     </div>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() =>
-                      setOpenEventId(openEventId === "1" ? null : "1")
-                    }
+                    onClick={() => setOpenEventId(openEventId === "1" ? null : "1")}
                     className={`cursor-pointer rounded-full px-5 py-2.5 text-xs font-bold transition-all duration-150 shrink-0 ${
                       openEventId === "1"
                         ? "border border-[#EEDFD5] bg-white text-[#574D45] hover:bg-[#FAF7F5]"
@@ -127,24 +104,16 @@ export default function EventsPage() {
                 </div>
 
                 {openEventId === "1" && (
-                  <EventDetailDropdown
-                    eventId="1"
-                    onCheckout={() => setStep("checkout")}
-                  />
+                  <EventDetailDropdown eventId="1" onCheckout={() => setStep("checkout")} />
                 )}
               </div>
 
-              {/* Event 2 */}
               <div className="bg-white rounded-2xl border border-[#EEDFD5] p-4 sm:p-5 shadow-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-[#FFF2E8] flex flex-col items-center justify-center shrink-0 border border-[#FCE3D2]">
-                      <span className="text-lg font-black text-[#F05A1B] leading-none">
-                        04
-                      </span>
-                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">
-                        NOV
-                      </span>
+                      <span className="text-lg font-black text-[#F05A1B] leading-none">04</span>
+                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">NOV</span>
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-1.5 mb-1">
@@ -158,20 +127,14 @@ export default function EventsPage() {
                           Kuota penuh
                         </span>
                       </div>
-                      <h2 className="font-bold text-base text-[#1A1513]">
-                        ICA Kitten Fest Jakarta
-                      </h2>
-                      <p className="text-xs text-[#8C8074]">
-                        4 Nov 2026 · Kuningan City Hall, Jakarta · Rp 120.000
-                      </p>
+                      <h2 className="font-bold text-base text-[#1A1513]">ICA Kitten Fest Jakarta</h2>
+                      <p className="text-xs text-[#8C8074]">4 Nov 2026 · Kuningan City Hall, Jakarta · Rp 120.000</p>
                     </div>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() =>
-                      setOpenEventId(openEventId === "2" ? null : "2")
-                    }
+                    onClick={() => setOpenEventId(openEventId === "2" ? null : "2")}
                     className={`cursor-pointer rounded-full px-5 py-2.5 text-xs font-bold transition-all duration-150 shrink-0 ${
                       openEventId === "2"
                         ? "border border-[#EEDFD5] bg-white text-[#574D45] hover:bg-[#FAF7F5]"
@@ -183,24 +146,16 @@ export default function EventsPage() {
                 </div>
 
                 {openEventId === "2" && (
-                  <EventDetailDropdown
-                    eventId="2"
-                    onCheckout={() => setStep("checkout")}
-                  />
+                  <EventDetailDropdown eventId="2" onCheckout={() => setStep("checkout")} />
                 )}
               </div>
 
-              {/* Event 3 */}
               <div className="bg-white rounded-2xl border border-[#EEDFD5] p-4 sm:p-5 shadow-xs">
                 <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
                   <div className="flex items-start gap-4">
                     <div className="w-14 h-14 rounded-2xl bg-[#FFF2E8] flex flex-col items-center justify-center shrink-0 border border-[#FCE3D2]">
-                      <span className="text-lg font-black text-[#F05A1B] leading-none">
-                        12
-                      </span>
-                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">
-                        DES
-                      </span>
+                      <span className="text-lg font-black text-[#F05A1B] leading-none">12</span>
+                      <span className="text-[10px] font-bold text-[#F05A1B] tracking-wider mt-0.5">DES</span>
                     </div>
                     <div>
                       <div className="flex flex-wrap items-center gap-1.5 mb-1">
@@ -214,20 +169,14 @@ export default function EventsPage() {
                           20 slot tersisa
                         </span>
                       </div>
-                      <h2 className="font-bold text-base text-[#1A1513]">
-                        Diklat Breeder Pemula — Batch 4
-                      </h2>
-                      <p className="text-xs text-[#8C8074]">
-                        12–14 Des 2026 · Daring · Zoom · Rp 250.000
-                      </p>
+                      <h2 className="font-bold text-base text-[#1A1513]">Diklat Breeder Pemula — Batch 4</h2>
+                      <p className="text-xs text-[#8C8074]">12–14 Des 2026 · Daring · Zoom · Rp 250.000</p>
                     </div>
                   </div>
 
                   <button
                     type="button"
-                    onClick={() =>
-                      setOpenEventId(openEventId === "3" ? null : "3")
-                    }
+                    onClick={() => setOpenEventId(openEventId === "3" ? null : "3")}
                     className={`cursor-pointer rounded-full px-5 py-2.5 text-xs font-bold transition-all duration-150 shrink-0 ${
                       openEventId === "3"
                         ? "border border-[#EEDFD5] bg-white text-[#574D45] hover:bg-[#FAF7F5]"
@@ -239,10 +188,7 @@ export default function EventsPage() {
                 </div>
 
                 {openEventId === "3" && (
-                  <EventDetailDropdown
-                    eventId="3"
-                    onCheckout={() => setStep("checkout")}
-                  />
+                  <EventDetailDropdown eventId="3" onCheckout={() => setStep("checkout")} />
                 )}
               </div>
             </div>
