@@ -1,5 +1,5 @@
 "use client";
-import { showErrorToast } from "@/lib/toast";
+import { useToast } from "@/context/ToastContext";
 import { useState } from "react";
 import { useRouter } from "next/navigation";
 import { catteryProfile, maleCats, femaleCats } from "@/data/cattery";
@@ -17,6 +17,7 @@ import { CatCertificateFile, OffspringItem } from "@/types/cattery";
 const stepTitles = ["Data Cattery", "Pilih Pejantan", "Pilih Induk", "Mating Information", "Add Offspring", "Upload Dokumen", "Review & Submit"];
 
 export default function MatingReportsPage() {
+  const { showToast } = useToast();
   const router = useRouter();
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedMaleId, setSelectedMaleId] = useState<number | null>(null);
@@ -107,34 +108,34 @@ export default function MatingReportsPage() {
 
 const [showError, setShowError] = useState(false);
 
-const goNext = () => {
-  if (!canGoNext) {
-    setShowError(true);
+  const goNext = () => {
+    if (!canGoNext) {
+      setShowError(true);
 
-    if (currentStep === 2) {
-      showErrorToast("Kucing pejantan belum dipilih", "Pilih satu pejantan sebelum melanjutkan.");
-    } else if (currentStep === 3) {
-      showErrorToast("Kucing induk belum dipilih", "Pilih satu induk sebelum melanjutkan.");
-    } else if (currentStep === 4) {
-      if (!matingDate) {
-        showErrorToast("Tanggal mating belum diisi", "Lengkapi tanggal mating terlebih dahulu.");
-      } else if (!estimatedBirthDate) {
-        showErrorToast("Estimasi tanggal lahir belum diisi", "Lengkapi estimasi tanggal lahir terlebih dahulu.");
-      } else if (!witnessName.trim()) {
-        showErrorToast("Nama saksi belum diisi", "Lengkapi nama saksi / breeder pendamping.");
+      if (currentStep === 2) {
+        showToast("Kucing pejantan belum dipilih", "Pilih satu pejantan sebelum melanjutkan.", { tone: "error" });
+      } else if (currentStep === 3) {
+        showToast("Kucing induk belum dipilih", "Pilih satu induk sebelum melanjutkan.", { tone: "error" });
+      } else if (currentStep === 4) {
+        if (!matingDate) {
+          showToast("Tanggal mating belum diisi", "Lengkapi tanggal mating terlebih dahulu.", { tone: "error" });
+        } else if (!estimatedBirthDate) {
+          showToast("Estimasi tanggal lahir belum diisi", "Lengkapi estimasi tanggal lahir terlebih dahulu.", { tone: "error" });
+        } else if (!witnessName.trim()) {
+          showToast("Nama saksi belum diisi", "Lengkapi nama saksi / breeder pendamping.", { tone: "error" });
+        }
+      } else if (currentStep === 5) {
+        showToast("Data kitten belum lengkap", "Minimal satu kitten wajib diisi nama, jenis kelamin, dan tanggal lahir.", { tone: "error" });
+      } else if (currentStep === 6) {
+        showToast("Dokumen wajib belum lengkap", "Foto mating / kandang wajib diunggah.", { tone: "error" });
       }
-    } else if (currentStep === 5) {
-      showErrorToast("Data kitten belum lengkap", "Minimal satu kitten wajib diisi nama, jenis kelamin, dan tanggal lahir.");
-    } else if (currentStep === 6) {
-      showErrorToast("Dokumen wajib belum lengkap", "Foto mating / kandang wajib diunggah.");
+
+      return;
     }
 
-    return;
-  }
-
-  setShowError(false);
-  setCurrentStep((s) => Math.min(totalSteps, s + 1));
-};
+    setShowError(false);
+    setCurrentStep((s) => Math.min(totalSteps, s + 1));
+  };
 
   const goBack = () => {
     setShowError(false);

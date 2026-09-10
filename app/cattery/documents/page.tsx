@@ -1,7 +1,6 @@
 "use client";
 
-import { useState } from "react";
-import Toast from "./components/Toast";
+import { useToast } from "@/context/ToastContext";
 
 interface DocItem {
   id: string;
@@ -11,43 +10,18 @@ interface DocItem {
 }
 
 const DOCUMENTS: DocItem[] = [
-  {
-    id: "1",
-    title: "Sertifikat registrasi cattery",
-    subtitle: "ICA-CTY-2024-0188 · terbit 24 Jul 2026 · PDF",
-    status: "Aktif",
-  },
-  {
-    id: "2",
-    title: "Sertifikat pedigree MR-2026-0131",
-    subtitle: "ICA-PD-5581 · terbit 09 Agu 2026 · PDF",
-    status: "Aktif",
-  },
-  {
-    id: "3",
-    title: "Berkas pengajuan MR-2026-0142",
-    subtitle: "6 dokumen · dikirim 21 Agu 2026",
-    status: "Sedang direview",
-  },
-  {
-    id: "4",
-    title: "Berkas pengajuan MR-2026-0138",
-    subtitle: "5 dokumen · dikirim 12 Agu 2026",
-    status: "Perlu revisi",
-  },
-  {
-    id: "5",
-    title: "KTP pemilik cattery",
-    subtitle: "Diunggah 18 Jul 2026 · JPG",
-    status: "Terverifikasi",
-  },
+  { id: "1", title: "Sertifikat registrasi cattery", subtitle: "ICA-CTY-2024-0188 · terbit 24 Jul 2026 · PDF", status: "Aktif" },
+  { id: "2", title: "Sertifikat pedigree MR-2026-0131", subtitle: "ICA-PD-5581 · terbit 09 Agu 2026 · PDF", status: "Aktif" },
+  { id: "3", title: "Berkas pengajuan MR-2026-0142", subtitle: "6 dokumen · dikirim 21 Agu 2026", status: "Sedang direview" },
+  { id: "4", title: "Berkas pengajuan MR-2026-0138", subtitle: "5 dokumen · dikirim 12 Agu 2026", status: "Perlu revisi" },
+  { id: "5", title: "KTP pemilik cattery", subtitle: "Diunggah 18 Jul 2026 · JPG", status: "Terverifikasi" },
 ];
 
 export default function DocumentsPage() {
-  const [toast, setToast] = useState<{ show: boolean; title: string }>({ show: false, title: "" });
+  const { showToast } = useToast();
 
   const handleDownload = (docTitle: string) => {
-    setToast({ show: true, title: docTitle });
+    showToast(`${docTitle} diunduh.`, "PDF hasil generate otomatis — placeholder prototype.");
   };
 
   const getStatusBadge = (status: DocItem["status"]) => {
@@ -64,14 +38,6 @@ export default function DocumentsPage() {
 
   return (
     <div className="p-8">
-      {toast.show && (
-        <Toast
-          message="Sertifikat diunduh."
-          submessage="PDF hasil generate otomatis — placeholder prototype."
-          onClose={() => setToast({ show: false, title: "" })}
-        />
-      )}
-
       <h1 className="font-display text-2xl font-bold text-[var(--color-ink-900)]">Documents</h1>
       <p className="mt-1 text-xs text-[var(--color-ink-400)]">
         Sertifikat, berkas pengajuan, dan dokumen cattery.
