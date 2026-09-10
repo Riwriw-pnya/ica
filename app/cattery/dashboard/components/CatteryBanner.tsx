@@ -6,7 +6,7 @@ export default function CatteryBanner() {
   return (
     <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div className="flex items-start sm:items-center gap-4">
-        <div className="w-14 h-14 rounded-2xl bg-[#fff6ed] border border-[#fce3cf] flex items-center justify-center shrink-0">
+        <div className="w-14 h-14 rounded-2xl bg-gradient-to-b from-white to-[#fff6ed] border border-[#fce3cf] flex items-center justify-center shrink-0">
           <svg className="w-7 h-7 text-[#f05a1b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
             <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
           </svg>

@@ -137,7 +137,6 @@ export interface OffspringItem {
   photoName?: string;
 }
 
-
 export type ApplicationStatus = 'review' | 'revision' | 'approved' | 'rejected';
 
 export interface ApplicationTimeline {

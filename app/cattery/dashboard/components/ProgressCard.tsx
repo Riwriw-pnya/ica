@@ -13,9 +13,11 @@ export default function LatestProgressCard() {
         </div>
         <div className="flex items-center gap-3">
           <span className="px-3 py-1 rounded-full bg-[#ebf3fa] text-[#2b71b1] text-xs font-semibold">Sedang direview</span>
-          <button className="px-4 py-2 rounded-full border border-[#eedfd5] text-xs font-semibold text-[#544940] hover:bg-[#fff7f2] hover:border-[#f05a1b]/40 hover:text-[#f05a1b] transition shrink-0">
-            Semua pengajuan
-          </button>
+          <a href="/cattery/my-cats">
+            <button className="px-4 py-2 rounded-full border border-[#eedfd5] text-xs font-semibold text-[#544940] hover:bg-[#fff7f2] hover:border-[#f05a1b]/40 hover:text-[#f05a1b] transition shrink-0">
+              Semua pengajuan
+            </button>
+          </a>
         </div>
       </div>
 
