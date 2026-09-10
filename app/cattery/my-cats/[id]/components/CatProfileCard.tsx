@@ -1,5 +1,9 @@
+"use client";
+
+import { useState, useRef, ChangeEvent } from "react";
 import Image from "next/image";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
+import { useToast } from "@/context/ToastContext";
 import type { CatProfileDetail } from "@/types/cattery";
 import { StatusBadge } from "./StatusBadge";
 import {
@@ -15,12 +19,40 @@ interface CatProfileCardProps {
 }
 
 export function CatProfileCard({ cat }: CatProfileCardProps) {
+  const [imagePreview, setImagePreview] = useState<string | null>(cat.image || null);
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const { showToast } = useToast();
+
+  const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    if (file) {
+      if (!file.type.startsWith("image/")) {
+        showToast("Format Tidak Sesuai", "Harap unggah file gambar (JPG, PNG, WebP).", {
+          tone: "error",
+        });
+        return;
+      }
+      const previewUrl = URL.createObjectURL(file);
+      setImagePreview(previewUrl);
+      showToast("Foto Diunggah", `Foto profil ${cat.name} berhasil diperbarui.`);
+    }
+  };
+
   return (
     <div className="rounded-2xl border border-[var(--color-ink-100)] bg-white p-5 shadow-sm">
+      {/* Input File Tersembunyi */}
+      <input
+        type="file"
+        ref={fileInputRef}
+        onChange={handleFileChange}
+        accept="image/*"
+        className="hidden"
+      />
+
       {/* Container Foto */}
-      <div className="relative flex aspect-[4/3] w-full flex-col items-center justify-center rounded-xl border border-dashed border-[var(--color-ink-100)] bg-[var(--color-ink-50)] text-[var(--color-ink-400)]">
-        {cat.image ? (
-          <Image src={cat.image} alt={cat.name} fill className="rounded-xl object-cover" />
+      <div className="relative flex aspect-[4/3] w-full flex-col items-center justify-center overflow-hidden rounded-xl border border-dashed border-[var(--color-ink-100)] bg-[var(--color-ink-50)] text-[var(--color-ink-400)]">
+        {imagePreview ? (
+          <Image src={imagePreview} alt={cat.name} fill className="object-cover" />
         ) : (
           <>
             <DashboardIcon name="cat" size={32} />
@@ -29,9 +61,10 @@ export function CatProfileCard({ cat }: CatProfileCardProps) {
         )}
         <button
           type="button"
+          onClick={() => fileInputRef.current?.click()}
           className="absolute bottom-3 right-3 rounded-xl border border-[var(--color-brand-orange-300)] bg-white px-3 py-1 text-[11px] font-medium text-[var(--color-brand-orange-700)] shadow-xs transition hover:bg-[var(--color-brand-orange-50)]"
         >
-          Unggah foto
+          {imagePreview ? "Ubah foto" : "Unggah foto"}
         </button>
       </div>
 
