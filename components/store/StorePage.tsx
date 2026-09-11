@@ -335,7 +335,7 @@ export default function StorePage() {
                 </div>
                 <button
                   onClick={() => alert("Lanjut ke pembayaran!")}
-                  className="w-full py-2.5 bg-[var(--color-brand-orange-500)] hover:bg-[var(--color-brand-orange-600)] text-white font-bold text-xs rounded-xl transition-colors shadow-xs"
+                  className="w-full py-2.5 bg-[var(--color-brand-orange-500)] hover:bg-[var(--color-brand-orange-700)] text-white font-bold text-xs rounded-xl transition-colors shadow-xs"
                 >
                   Lanjut ke Pembayaran
                 </button>
