@@ -163,3 +163,18 @@ export interface ApplicationItem {
   currentStep: number; // 1: Dikirim, 2: Review admin, 3: Verifikasi dokumen, 4: Disetujui
   timeline?: ApplicationTimeline[];
 }
+
+export interface MatingReportDraft {
+  id: string;
+  code: string;
+  pair: string;
+  savedAt: string;
+  currentStep: number; // step terakhir yang lagi dikerjakan pas disimpan
+  selectedMaleId: number | null;
+  selectedFemaleId: number | null;
+  matingDate: string;
+  estimatedBirthDate: string;
+  isEstimateAuto: boolean;
+  witnessName: string;
+  offspringItems: OffspringItem[];
+}

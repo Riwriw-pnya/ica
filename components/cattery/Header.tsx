@@ -10,6 +10,7 @@ import { initialNotifications } from "@/data/cattery";
 import { useUserMenu } from "@/context/UserMenuContext";
 import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { useHeaderAction } from "@/context/HeaderActionContext";
 
 const pageTitles: Record<string, string> = {
   "/cattery": "Dashboard",
@@ -35,6 +36,7 @@ function getPageTitle(pathname: string): string {
 }
 
 export default function Header() {
+  const { customAction } = useHeaderAction();
   const { openMenu, toggleMenu, closeMenu } = useUserMenu();
   const { isSidebarOpen, toggleSidebar } = useSidebar();
   const router = useRouter();
@@ -95,10 +97,17 @@ export default function Header() {
         {isMatingReportForm && (
           <>
             <span className="text-[11px] text-[var(--color-ink-400)]">Tersimpan otomatis 14:32</span>
-            <button className="rounded-full border border-[var(--color-brand-orange-300)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)]">
+            <button
+              type="button"
+              onClick={() => {
+                if (customAction) customAction();
+              }}
+              className="cursor-pointer rounded-full border border-[var(--color-brand-orange-300)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)] active:scale-95"
+                >
               Simpan draft
             </button>
             <button
+              type="button"
               onClick={() => router.push("/cattery/dashboard")}
               className="text-[12px] font-medium text-[var(--color-ink-700)] hover:text-[var(--color-ink-900)]"
             >

@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardIcon from "@/components/anggota/DashboardIcon";
 import React, { useState } from "react";
 
 interface CatLeaderboardItem {
@@ -82,11 +83,6 @@ export default function LeaderboardPage() {
               Peringkat kucing Rumah Hana Cattery beserta cat show yang sudah dibayar.
             </p>
           </div>
-
-          {/* Status Pill Badge */}
-          <span className="self-start sm:self-center px-3 py-1 rounded-full bg-[#fff4e5] text-[#c26d0a] text-xs font-semibold">
-            P2 / di luar MVP — pending konfirmasi PO
-          </span>
         </div>
 
         {/* Dropdown Filters */}
@@ -142,11 +138,7 @@ export default function LeaderboardPage() {
 
                 {/* Cat Avatar Icon */}
                 <div className="w-12 h-12 rounded-2xl bg-[#f7f2ed] border border-[#eae0d5] flex items-center justify-center text-[#8c8074] shrink-0">
-                  <svg className="w-6 h-6" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8">
-                    <path d="M12 5c-3.866 0-7 2.239-7 5 0 1.933 1.523 3.616 3.82 4.414-.148.868-.535 2.126-1.82 3.086 2.383 0 4.138-1.258 5-2.5 1 .833 2.5 1 3.5 1 3.866 0 7-2.239 7-5s-3.134-5-7-5z" />
-                    <circle cx="9" cy="9.5" r="1" fill="currentColor" />
-                    <circle cx="15" cy="9.5" r="1" fill="currentColor" />
-                  </svg>
+                  <DashboardIcon name="cat" size={22} />
                 </div>
 
                 {/* Information */}

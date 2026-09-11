@@ -1,5 +1,6 @@
 "use client";
 
+import DashboardIcon from "@/components/anggota/DashboardIcon";
 import React from "react";
 
 const catsScoreData = [
@@ -26,9 +27,9 @@ export default function TopHealthScoresCard() {
           </span>
         </div>
 
-        <div className="space-y-3">
+        <div className="space-y-3 border-t border-[var(--color-ink-100)]">
           {catsScoreData.map((cat) => (
-            <div key={cat.rank} className="flex items-center justify-between p-2.5 rounded-2xl bg-[#faf6f0]/60 hover:bg-[#faf6f0] transition">
+            <div key={cat.rank} className="flex items-center justify-between p-2.5 rounded-2xl">
               <div className="flex items-center gap-3">
                 <span
                   className={`w-8 h-8 rounded-xl font-bold text-xs flex items-center justify-center shrink-0 ${
@@ -38,9 +39,7 @@ export default function TopHealthScoresCard() {
                   {cat.rank}
                 </span>
                 <div className="w-8 h-8 rounded-xl bg-[#f4efe9] flex items-center justify-center text-[#8c8074] shrink-0">
-                  <svg className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                    <path d="M12 5c-3.866 0-7 2.239-7 5 0 1.933 1.523 3.616 3.82 4.414-.148.868-.535 2.126-1.82 3.086 2.383 0 4.138-1.258 5-2.5 1 .833 2.5 1 3.5 1 3.866 0 7-2.239 7-5s-3.134-5-7-5z" />
-                  </svg>
+                  <DashboardIcon name="cat" size={22} />
                 </div>
                 <div>
                   <h3 className="font-bold text-xs text-[#1a1513]">{cat.name}</h3>
