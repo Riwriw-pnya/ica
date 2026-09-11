@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { ToastProvider } from "@/context/ToastContext";
+import { Toaster } from "sonner";
 import { Poppins, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -36,7 +37,11 @@ export default function RootLayout({
       className={`${poppins.variable} ${plusJakartaSans.variable} scroll-smooth antialiased`}
     >
       <body className="min-h-screen flex flex-col font-jakarta bg-white text-gray-900">
-        <ToastProvider>{children}</ToastProvider>
+        <ToastProvider>
+          {children}
+        </ToastProvider>
+
+        <Toaster position="top-right" richColors />
       </body>
     </html>
   );
