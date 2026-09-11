@@ -19,7 +19,7 @@ export const products: Product[] = [
     seller: "ICA Official",
     location: "Jakarta Selatan",
     categoryId: "perlengkapan-kucing",
-    image: "/images/cattt.jpg",
+    image: "/images/store/sisir.jpg",
   },
   {
     id: 2,
@@ -30,7 +30,7 @@ export const products: Product[] = [
     seller: "ICA Official",
     location: "Jakarta Selatan",
     categoryId: "perlengkapan-kucing",
-    image: "/images/twinC.jpg",
+    image: "/images/store/sampo.jpg",
   },
   {
     id: 3,
@@ -41,7 +41,7 @@ export const products: Product[] = [
     seller: "ICA Official",
     location: "Bandung",
     categoryId: "perlengkapan-kucing",
-    image: "/images/cat.jpg",
+    image: "/images/store/bowl.jpg",
   },
   {
     id: 4,
@@ -52,7 +52,7 @@ export const products: Product[] = [
     seller: "ICA Event Organizers",
     location: "Jakarta Pusat",
     categoryId: "tiket-event",
-    image: "/images/cattt.jpg",
+    image: "/images/store/tiket.jpg",
   },
   {
     id: 5,
@@ -63,7 +63,7 @@ export const products: Product[] = [
     seller: "ICA Event Organizers",
     location: "Jakarta Pusat",
     categoryId: "tiket-event",
-    image: "/images/twinC.jpg",
+    image: "/images/store/tiket.jpg",
   },
   {
     id: 6,
@@ -74,7 +74,7 @@ export const products: Product[] = [
     seller: "ICA Store",
     location: "Surabaya",
     categoryId: "uncategorized",
-    image: "/images/cat.jpg",
+    image: "/images/store/ganci.jpg",
   },
   {
     id: 7,
@@ -85,6 +85,6 @@ export const products: Product[] = [
     seller: "ICA Store",
     location: "Surabaya",
     categoryId: "uncategorized",
-    image: "/images/cattt.jpg",
+    image: "/images/store/sticker.jpg",
   },
 ];
