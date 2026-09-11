@@ -33,6 +33,14 @@ export interface CatteryProfile {
   regNumber: string;
   region: string;
   personInCharge: string;
+  ownerName?: string;
+  memberCode?: string;
+  whatsapp?: string;
+  address?: string;
+  breeds?: string[];
+  placePhotoUrl?: string;
+  profilePhotoUrl?: string;
+  provinceRegion?: string;
 }
 
 export interface MaleCat {

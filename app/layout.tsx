@@ -1,6 +1,5 @@
 import type { Metadata } from "next";
 import { ToastProvider } from "@/context/ToastContext";
-import { Toaster } from "sonner";
 import { Poppins, Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 
@@ -40,8 +39,6 @@ export default function RootLayout({
         <ToastProvider>
           {children}
         </ToastProvider>
-
-        <Toaster position="top-right" richColors />
       </body>
     </html>
   );

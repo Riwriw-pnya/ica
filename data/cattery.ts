@@ -22,8 +22,14 @@ export const catItems: CatItem[] = [
 export const catteryProfile: CatteryProfile = {
   name: "Rumah Hana Cattery",
   regNumber: "ICA-CTY-2024-0188",
-  region: "Bandung",
+  region: "Bandung", 
   personInCharge: "Hana Prameswari",
+  ownerName: "Hana Prameswari",
+  memberCode: "ICA-M-003912",
+  whatsapp: "0812-7788-4400",
+  address: "Jl. Sukajadi No. 118, Sukagalih, Sukajadi, Kota Bandung 40163",
+  breeds: ["Persian", "Exotic Shorthair"],
+  provinceRegion: "Jawa Barat · Bandung", // baru, khusus halaman profil
 };
 
 export const maleCats: MaleCat[] = [
