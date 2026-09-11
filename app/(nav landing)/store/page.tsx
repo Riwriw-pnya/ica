@@ -27,7 +27,7 @@ const DUMMY_PRODUCTS: Product[] = [
     name: "Sisir Premium Grooming ICA Edition",
     category: "perlengkapan",
     price: 85000,
-    image: "/images/cattt.jpg",
+    image: "/images/store/sisir.jpg",
     badge: "Terlaris",
   },
   {
@@ -35,21 +35,21 @@ const DUMMY_PRODUCTS: Product[] = [
     name: "Shampo Kucing Anti-Kutu & Jamur 250ml",
     category: "perlengkapan",
     price: 65000,
-    image: "/images/twinC.jpg",
+    image: "/images/store/sampo.jpg",
   },
   {
     id: "p3",
     name: "Mangkok Makan Ergonomis Anti-Tumpah",
     category: "perlengkapan",
     price: 45000,
-    image: "/images/cat.jpg",
+    image: "/images/store/bowl.jpg",
   },
   {
     id: "t1",
     name: "Tiket Masuk ICA National Cat Show 2026",
     category: "tiket",
     price: 50000,
-    image: "/images/cattt.jpg",
+    image: "/images/store/tiket.jpg",
     badge: "Event",
   },
   {
@@ -57,7 +57,7 @@ const DUMMY_PRODUCTS: Product[] = [
     name: "Pass VIP Workshop Grooming & Health Kucing",
     category: "tiket",
     price: 150000,
-    image: "/images/twinC.jpg",
+    image: "/images/store/tiket.jpg",
     badge: "Terbatas",
   },
   {
@@ -65,14 +65,14 @@ const DUMMY_PRODUCTS: Product[] = [
     name: "Gantungan Kunci Akrilik Logo ICA",
     category: "uncategorized",
     price: 15000,
-    image: "/images/cat.jpg",
+    image: "/images/store/ganci.jpg",
   },
   {
     id: "u2",
     name: "Sticker Pack Official ICA Cat Lovers",
     category: "uncategorized",
     price: 20000,
-    image: "/images/cattt.jpg",
+    image: "/images/store/sticker.jpg",
   },
 ];
 
