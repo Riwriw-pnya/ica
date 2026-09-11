@@ -13,9 +13,11 @@ export default function SavedDraftsCard() {
               Mating report yang belum selesai diisi — lanjutkan dari langkah terakhir.
             </p>
           </div>
-          <button className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] shrink-0">
-            + Draft baru
-          </button>
+          <a href="/cattery/mating-reports">
+            <button className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] shrink-0">
+              + Draft baru
+            </button>
+          </a>
         </div>
 
         <div className="space-y-5 divide-y divide-[#f4efe9]">

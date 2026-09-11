@@ -34,7 +34,7 @@ export default function MatingReportsCard() {
     <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-xs space-y-5">
       <div className="flex items-center justify-between">
         <h2 className="text-lg font-bold text-[#1a1513]">Mating report terakhir</h2>
-        <a href="#" className="text-xs sm:text-sm font-bold text-[#f05a1b] hover:underline">
+        <a href="/cattery/applications" className="text-xs sm:text-sm font-bold text-[#f05a1b] hover:underline">
           Lihat semua
         </a>
       </div>

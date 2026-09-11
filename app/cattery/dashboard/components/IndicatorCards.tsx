@@ -74,7 +74,7 @@ export default function StatIndicatorCards() {
             </div>
           </div>
           <span className="text-3xl font-black text-[#1a1513] mt-2 block">2</span>
-          <a href="#" className="text-xs text-[#8c8074] hover:text-[#f05a1b] font-medium mt-1 inline-block transition">
+          <a href="/cattery/draft" className="text-xs text-[#8c8074] hover:text-[#f05a1b] font-medium mt-1 inline-block transition">
             Lihat draft tersimpan →
           </a>
         </div>
