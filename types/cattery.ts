@@ -33,6 +33,14 @@ export interface CatteryProfile {
   regNumber: string;
   region: string;
   personInCharge: string;
+  ownerName?: string;
+  memberCode?: string;
+  whatsapp?: string;
+  address?: string;
+  breeds?: string[];
+  placePhotoUrl?: string;
+  profilePhotoUrl?: string;
+  provinceRegion?: string;
 }
 
 export interface MaleCat {
@@ -154,4 +162,19 @@ export interface ApplicationItem {
   statusLabel: string;
   currentStep: number; // 1: Dikirim, 2: Review admin, 3: Verifikasi dokumen, 4: Disetujui
   timeline?: ApplicationTimeline[];
+}
+
+export interface MatingReportDraft {
+  id: string;
+  code: string;
+  pair: string;
+  savedAt: string;
+  currentStep: number; // step terakhir yang lagi dikerjakan pas disimpan
+  selectedMaleId: number | null;
+  selectedFemaleId: number | null;
+  matingDate: string;
+  estimatedBirthDate: string;
+  isEstimateAuto: boolean;
+  witnessName: string;
+  offspringItems: OffspringItem[];
 }

@@ -55,8 +55,8 @@ export default function NotificationDropdown({
             <div
               key={notif.id}
               onClick={() => handleItemClick(notif)}
-              className={`flex cursor-pointer gap-2.5 px-4 py-3 transition hover:bg-[var(--color-ink-50)] ${
-                !notif.isRead ? "bg-[var(--color-brand-orange-50)]" : ""
+              className={`flex cursor-pointer gap-2.5 px-4 py-3 transition hover:bg-[var(--color-brand-orange-50)] ${
+                !notif.isRead ? "bg-tranparent" : ""
               }`}
             >
               <span
