@@ -73,11 +73,11 @@ export default function Header() {
   };
 
   return (
-    <header className="flex h-[54px] items-center justify-between border-b border-[var(--color-ink-100)] bg-white px-5">
+    <header className="flex h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5">
       <div className="flex items-center gap-3">
-        <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900)]">{title}</h1>
+        <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900,#231A14)]">{title}</h1>
         {isMatingReportForm && (
-          <span className="rounded-full bg-[var(--color-ink-100)] px-2.5 py-0.5 text-[10px] font-medium text-[var(--color-ink-700)]">
+          <span className="rounded-full bg-[var(--color-ink-100,#F5EFE9)] px-2.5 py-0.5 text-[10px] font-medium text-[var(--color-ink-700,#7A6E65)]">
             Draft
           </span>
         )}
@@ -93,23 +93,23 @@ export default function Header() {
           </button>
         )}
 
-        {/* Kondisi saat berada di Form Mating Report */}
+        {/* Kondisi Form Mating Report */}
         {isMatingReportForm && (
           <>
-            <span className="text-[11px] text-[var(--color-ink-400)]">Tersimpan otomatis 14:32</span>
+            <span className="text-[11px] text-[var(--color-ink-400,#A89F95)]">Tersimpan otomatis 14:32</span>
             <button
               type="button"
               onClick={() => {
                 if (customAction) customAction();
               }}
-              className="cursor-pointer rounded-full border border-[var(--color-brand-orange-300)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-50)] active:scale-95"
-                >
+              className="cursor-pointer rounded-full border border-[var(--color-brand-orange-300,#D95D1E)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-brand-orange-700,#D95D1E)] transition hover:bg-[var(--color-brand-orange-50,#FBE3D5)] active:scale-95"
+            >
               Simpan draft
             </button>
             <button
               type="button"
               onClick={() => router.push("/cattery/dashboard")}
-              className="text-[12px] font-medium text-[var(--color-ink-700)] hover:text-[var(--color-ink-900)]"
+              className="text-[12px] font-medium text-[var(--color-ink-700,#7A6E65)] hover:text-[var(--color-ink-900,#231A14)]"
             >
               Keluar
             </button>
@@ -120,12 +120,12 @@ export default function Header() {
         <div ref={notifRef} className="relative">
           <button
             onClick={() => toggleMenu("notifications")}
-            className="relative flex h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
+            className="relative flex h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
             aria-label="Notifikasi"
           >
             <DashboardIcon name="bell" size={20} />
             {unreadCount > 0 && (
-              <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[var(--color-danger)] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
+              <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
                 {unreadCount}
               </span>
             )}
@@ -143,16 +143,16 @@ export default function Header() {
           )}
         </div>
 
-        {/* Profil Menu Dropdown */}
+        {/* Style Profile Pill khas Cattery Portal (Sesuai Gambar 2) */}
         <div ref={containerRef} className="relative">
           <button
             onClick={() => toggleMenu("header")}
             className="flex items-center gap-2 rounded-full border border-[#E2D7CC] bg-gradient-to-b from-white to-[#F7F3ED] px-2 py-1 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.06),0_2px_4px_rgba(0,0,0,0.04)] hover:border-[#D1C2B3] hover:from-white hover:to-[#F0E7DC] active:scale-98"
           >
-            <div className="flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-b from-[#FFCF9E] to-[#F26E27] text-[10px] font-bold text-white shadow-xs">
+            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#FFCF9E] to-[#F26E27] text-[10px] font-bold text-white shadow-xs shrink-0">
               RH
             </div>
-            <span className="text-[#6E6359] flex items-center">
+            <span className="text-[#6E6359] flex items-center pr-1">
               <DashboardIcon name="chevron" size={12} />
             </span>
           </button>

@@ -15,7 +15,7 @@ const menus = [
   { label: "Berita", icon: "news", href: "/anggota/berita" },
   { label: "Direktori Cattery", icon: "users", href: "/anggota/direktori" },
   { label: "Keanggotaan", icon: "shield", href: "/anggota/keanggotaan" },
-  { label: "Event", icon: "calendar", href: "/anggota/event" },
+  { label: "Events", icon: "calendar", href: "/anggota/event" },
   { label: "Leaderboard", icon: "trophy", href: "/anggota/leaderboard" },
   { label: "Store", icon: "shopping-cart", href: "/anggota/store" },
 ];
@@ -40,7 +40,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`flex shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 ${
+      className={`flex min-h-screen shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 ${
         isSidebarOpen ? "w-[208px]" : "w-[64px]"
       }`}
     >
@@ -82,7 +82,7 @@ export default function Sidebar() {
         )}
       </div>
 
-      {/* Menu */}
+      {/* Menu (flex-1 akan mengisi sisa ruang vertikal) */}
       <nav className={`flex-1 py-3 ${isSidebarOpen ? "px-2.5" : "px-2"}`}>
         <div className="space-y-1">
           {menus.map((menu) => {
@@ -114,7 +114,7 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      {/* Bottom profile */}
+      {/* Bottom profile (Otomatis terdorong ke dasar) */}
       <div
         ref={containerRef}
         className={`relative border-t border-[var(--color-ink-100)] p-3 ${

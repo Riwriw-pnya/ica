@@ -1,12 +1,12 @@
 "use client";
 
 import React, { useState } from "react";
-import EventDetailDropdown from "./components/EventDetailDropdown";
-import EventCheckoutView from "./components/EventCheckoutView";
-import EventPaymentView from "./components/EventPaymentView";
-import EventCatRegistrationView from "./components/EventCatRegistration";
-import EventCatSubmittedView from "./components/EventCatSubmitted";
-import IcaBadgeCard from "./components/IcaBadgeCard";
+import EventDetailDropdown from "../../../components/cattery/event/EventDetailDropdown";
+import EventCheckoutView from "../../../components/cattery/event/EventCheckoutView";
+import EventPaymentView from "../../../components/cattery/event/EventPaymentView";
+import EventCatRegistrationView from "../../../components/cattery/event/EventCatRegistration";
+import EventCatSubmittedView from "../../../components/cattery/event/EventCatSubmitted";
+import IcaBadgeCard from "../../../components/cattery/event/IcaBadgeCard";
 import { useToast } from "@/context/ToastContext";
 
 type FlowStep =

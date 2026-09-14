@@ -3,6 +3,7 @@ import MemberCard from "@/components/anggota/MemberCard";
 import QuickAccess from "@/components/anggota/QuickAccess";
 import NewsSection from "@/components/anggota/NewsSection";
 import UpcomingEvents from "@/components/anggota/UpcomingEvents";
+import StoreSection from "@/components/store/StoreSection";
 
 export default function DashboardPage() {
   return (
@@ -25,6 +26,11 @@ export default function DashboardPage() {
         <section className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
           <NewsSection />
           <UpcomingEvents items={eventListItems.slice(0, 3)} />
+        </section>
+
+        {/* Store ICA Section */}
+        <section className="mt-4">
+          <StoreSection />
         </section>
       </div>
     </main>
