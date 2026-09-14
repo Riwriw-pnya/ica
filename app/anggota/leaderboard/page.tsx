@@ -18,25 +18,23 @@ export default async function LeaderboardPage({ searchParams }: PageProps) {
     : "/anggota/event";
 
   return (
-    <main className="min-h-full bg-[var(--color-ink-50)]">
-      <div className="mx-auto max-w-[1200px] p-5 lg:p-6">
-        <Link
-          href={backHref}
-          className="text-[12px] font-sans font-medium text-[var(--color-brand-orange-700)] hover:underline"
-        >
-          ←  Kembali ke event
-        </Link>
+    <div className="mx-auto max-w-[1200px]">
+      <Link
+        href={backHref}
+        className="text-[12px] font-sans font-medium text-[var(--color-brand-orange-700)] hover:underline"
+      >
+        ← Kembali ke event
+      </Link>
 
-        <section className="mb-5 mt-2 flex items-start justify-between gap-4">
-          <div>
-            <h1 className="font-display text-[24px] font-semibold tracking-tight text-[var(--color-ink-900)]">
-              {title}
-            </h1>
-          </div>
-        </section>
+      <section className="mb-5 mt-2 flex items-start justify-between gap-4">
+        <div>
+          <h1 className="font-display text-[24px] font-semibold tracking-tight text-[var(--color-ink-900)]">
+            {title}
+          </h1>
+        </div>
+      </section>
 
-        <LeaderboardTable entries={leaderboardEntries} />
-      </div>
-    </main>
+      <LeaderboardTable entries={leaderboardEntries} />
+    </div>
   );
 }

@@ -88,113 +88,114 @@ export default function StoreMemberPage() {
   const totalCartPrice = cart.reduce((acc, item) => acc + item.product.price * item.quantity, 0);
 
   return (
-    <div className="min-h-screen bg-[#FAF7F2] p-6 text-[#231A14] font-sans">
-      <div className="max-w-6xl mx-auto space-y-6">
+    <div className="mx-auto max-w-[1200px] space-y-6">
+      {/* HEADER STORE */}
+      <div>
+        <h1 className="font-display text-[22px] font-semibold tracking-tight text-[var(--color-ink-900)]">
+          Store ICA
+        </h1>
+        <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
+          Merchandise dan perlengkapan resmi organisasi Indonesian Cat Association.
+        </p>
+      </div>
 
-        {/* HEADER STORE */}
-        <div className="flex items-center justify-between">
-          <h1 className="text-xl md:text-2xl font-bold tracking-tight text-[#231A14]">
-            Store ICA
-          </h1>
+      {/* KATEGORI FILTER */}
+      <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
+        {INITIAL_CATEGORIES.map((cat) => {
+          const isActive = activeCategory === cat.id;
+          return (
+            <button
+              key={cat.id}
+              type="button"
+              onClick={() => setActiveCategory(cat.id)}
+              className={`cursor-pointer px-4 py-1.5 rounded-full text-xs font-medium transition-all whitespace-nowrap ${
+                isActive
+                  ? "bg-[#FFF2E8] text-[#F05A1B] border border-[#FCE3D2] font-semibold"
+                  : "bg-white text-[#7E7267] border border-[#EEDFD5] hover:bg-[#FAF7F5]"
+              }`}
+            >
+              {cat.label}
+            </button>
+          );
+        })}
+      </div>
+
+      {/* GRID PRODUK 3 KOLOM */}
+      {filteredProducts.length === 0 ? (
+        <div className="bg-white rounded-2xl border border-[#EEDFD5] py-16 text-center">
+          <p className="text-sm font-semibold text-[#1A1513]">Barang tidak ditemukan</p>
+          <p className="text-xs text-[#8C8074] mt-1">Belum ada produk untuk kategori ini.</p>
         </div>
+      ) : (
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
+          {filteredProducts.map((product) => (
+            <div
+              key={product.id}
+              onClick={() => addToCart(product)}
+              className="bg-white rounded-2xl border border-[#EEDFD5] overflow-hidden flex flex-col justify-between hover:shadow-xs transition-all duration-200 cursor-pointer group"
+            >
+              {/* Visual Placeholder Sesuai Foto */}
+              <div className="relative h-36 bg-[#FFF8EE] flex flex-col items-center justify-center p-4 border-b border-[#F7F2EB]">
+                {product.image ? (
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    fill
+                    className="object-cover group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center gap-1.5 text-[#C8BDB2]">
+                    <svg className="w-7 h-7 stroke-[1.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                    <span className="text-[11px] font-medium text-[#B5A89B]">Foto produk belum diunggah</span>
+                  </div>
+                )}
 
-        {/* KATEGORI FILTER */}
-        <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none">
-          {INITIAL_CATEGORIES.map((cat) => {
-            const isActive = activeCategory === cat.id;
-            return (
-              <button
-                key={cat.id}
-                onClick={() => setActiveCategory(cat.id)}
-                className={`px-4 py-1.5 rounded-full text-xs font-semibold transition-all whitespace-nowrap ${
-                  isActive
-                    ? "bg-[#FBE3D5] text-[#D95D1E]"
-                    : "bg-white text-[#7A6E65] border border-[#EFE9E1] hover:bg-[#F5EFE9]"
-                }`}
-              >
-                {cat.label}
-              </button>
-            );
-          })}
-        </div>
+                {product.badge && (
+                  <span className="absolute bottom-3 bg-[#FFF2E8] text-[#F05A1B] border border-[#FCE3D2] text-[10px] font-semibold px-3 py-0.5 rounded-full">
+                    {product.badge}
+                  </span>
+                )}
+              </div>
 
-        {/* GRID PRODUK 3 KOLOM */}
-        {filteredProducts.length === 0 ? (
-          <div className="bg-white rounded-2xl border border-[#EFE9E1] py-16 text-center">
-            <p className="text-sm font-semibold text-[#231A14]">Barang tidak ditemukan</p>
-            <p className="text-xs text-[#A89F95] mt-1">Belum ada produk untuk kategori ini.</p>
-          </div>
-        ) : (
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 md:gap-5">
-            {filteredProducts.map((product) => (
-              <div
-                key={product.id}
-                onClick={() => addToCart(product)}
-                className="bg-white rounded-2xl border border-[#EFE9E1] overflow-hidden flex flex-col justify-between hover:shadow-xs transition-all duration-200 cursor-pointer group"
-              >
-                {/* Visual Placeholder Sesuai Foto */}
-                <div className="relative h-36 bg-[#FFF8EE] flex flex-col items-center justify-center p-4 border-b border-[#F7F2EB]">
-                  {product.image ? (
-                    <Image
-                      src={product.image}
-                      alt={product.title}
-                      fill
-                      className="object-cover group-hover:scale-105 transition-transform duration-300"
-                    />
-                  ) : (
-                    <div className="flex flex-col items-center gap-1.5 text-[#C8BDB2]">
-                      <svg className="w-7 h-7 stroke-[1.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-                      </svg>
-                      <span className="text-[11px] font-medium text-[#B5A89B]">Foto produk belum diunggah</span>
-                    </div>
-                  )}
-
-                  {product.badge && (
-                    <span className="absolute bottom-3 bg-[#FBE3D5] text-[#D95D1E] text-[10px] font-semibold px-3 py-0.5 rounded-full">
-                      {product.badge}
-                    </span>
-                  )}
+              {/* Info Produk */}
+              <div className="p-4 flex flex-col justify-between flex-1">
+                <div>
+                  <span className="text-[11px] text-[#8C8074] font-medium">
+                    {product.categoryLabel}
+                  </span>
+                  <h2 className="text-sm font-bold text-[#1A1513] mt-0.5 leading-snug line-clamp-1">
+                    {product.title}
+                  </h2>
                 </div>
 
-                {/* Info Produk */}
-                <div className="p-4 flex flex-col justify-between flex-1">
-                  <div>
-                    <span className="text-[11px] text-[#A89F95] font-medium">
-                      {product.categoryLabel}
-                    </span>
-                    <h3 className="text-sm font-bold text-[#231A14] mt-0.5 leading-snug line-clamp-1">
-                      {product.title}
-                    </h3>
-                  </div>
-
-                  {/* Harga & Status Stok */}
-                  <div className="flex items-center justify-between mt-4">
-                    <span className="text-sm font-extrabold text-[#D95D1E]">
-                      {formatRupiah(product.price)}
-                    </span>
-                    <span className="text-xs text-[#A89F95] font-medium">
-                      Stok {product.stock}
-                    </span>
-                  </div>
+                {/* Harga & Status Stok */}
+                <div className="flex items-center justify-between mt-4">
+                  <span className="text-sm font-extrabold text-[#F05A1B]">
+                    {formatRupiah(product.price)}
+                  </span>
+                  <span className="text-xs text-[#8C8074] font-medium">
+                    Stok {product.stock}
+                  </span>
                 </div>
               </div>
-            ))}
-          </div>
-        )}
-
-      </div>
+            </div>
+          ))}
+        </div>
+      )}
 
       {/* FLOATING CART BUTTON */}
       <button
+        type="button"
         onClick={() => setIsCartOpen(true)}
-        className="fixed bottom-6 right-6 z-40 bg-[#D95D1E] hover:bg-[#c04e14] text-white p-4 rounded-full shadow-lg flex items-center gap-2 transition-transform active:scale-95"
+        className="fixed bottom-6 right-6 z-40 bg-[#EE6B28] hover:bg-[#C8601D] text-white p-4 rounded-full shadow-lg flex items-center gap-2 transition-transform active:scale-95 cursor-pointer"
       >
         <svg className="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
           <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
         </svg>
         {totalCartItems > 0 && (
-          <span className="bg-white text-[#D95D1E] font-bold text-xs px-2 py-0.5 rounded-full">
+          <span className="bg-white text-[#EE6B28] font-bold text-xs px-2 py-0.5 rounded-full">
             {totalCartItems}
           </span>
         )}
@@ -206,33 +207,52 @@ export default function StoreMemberPage() {
           <div className="flex-1" onClick={() => setIsCartOpen(false)} />
           <div className="w-full max-w-md bg-white h-full shadow-2xl flex flex-col justify-between p-6 overflow-y-auto">
             <div>
-              <div className="flex items-center justify-between pb-4 border-b border-[#EFE9E1]">
-                <h2 className="text-sm font-bold text-[#231A14] flex items-center gap-2">
+              <div className="flex items-center justify-between pb-4 border-b border-[#EEDFD5]">
+                <h2 className="text-sm font-bold text-[#1A1513] flex items-center gap-2">
                   <span>Keranjang Belanja</span>
-                  <span className="text-[11px] bg-[#FBE3D5] text-[#D95D1E] px-2 py-0.5 rounded-full font-semibold">
+                  <span className="text-[11px] bg-[#FFF2E8] text-[#F05A1B] border border-[#FCE3D2] px-2 py-0.5 rounded-full font-semibold">
                     {totalCartItems} Item
                   </span>
                 </h2>
-                <button onClick={() => setIsCartOpen(false)} className="text-gray-400 hover:text-gray-600 text-sm">
+                <button 
+                  type="button" 
+                  onClick={() => setIsCartOpen(false)} 
+                  className="text-[#8C8074] hover:text-[#1A1513] text-sm cursor-pointer"
+                >
                   ✕
                 </button>
               </div>
 
               <div className="mt-4 space-y-3">
                 {cart.length === 0 ? (
-                  <p className="text-center text-xs text-[#A89F95] py-12">Keranjang masih kosong.</p>
+                  <p className="text-center text-xs text-[#8C8074] py-12">Keranjang masih kosong.</p>
                 ) : (
                   cart.map(({ product, quantity }) => (
-                    <div key={product.id} className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[#EFE9E1] bg-[#FAF7F2]">
+                    <div key={product.id} className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[#EEDFD5] bg-[#FAF7F5]">
                       <div className="flex-1 min-w-0">
-                        <h4 className="text-xs font-semibold text-[#231A14] truncate">{product.title}</h4>
-                        <p className="text-xs text-[#D95D1E] font-bold mt-0.5">{formatRupiah(product.price)}</p>
+                        <h3 className="text-xs font-semibold text-[#1A1513] truncate">{product.title}</h3>
+                        <p className="text-xs text-[#F05A1B] font-bold mt-0.5">{formatRupiah(product.price)}</p>
                       </div>
 
-                      <div className="flex items-center border border-[#EFE9E1] rounded-lg bg-white overflow-hidden">
-                        <button onClick={() => updateQuantity(product.id, -1)} className="px-2 py-0.5 text-xs hover:bg-gray-100">-</button>
-                        <span className="px-2 text-xs font-bold">{quantity}</span>
-                        <button onClick={() => updateQuantity(product.id, 1)} className="px-2 py-0.5 text-xs hover:bg-gray-100">+</button>
+                      {/* QUANTITY CONTROL DENGAN WARNA TEKS DITEGASKAN */}
+                      <div className="flex items-center border border-[#EEDFD5] rounded-lg bg-white overflow-hidden">
+                        <button 
+                          type="button" 
+                          onClick={() => updateQuantity(product.id, -1)} 
+                          className="px-2 py-0.5 text-xs font-bold text-[#574D45] hover:bg-[#FAF7F5] hover:text-[#1A1513] cursor-pointer transition-colors"
+                        >
+                          -
+                        </button>
+                        <span className="px-2 text-xs font-bold text-[#1A1513]">
+                          {quantity}
+                        </span>
+                        <button 
+                          type="button" 
+                          onClick={() => updateQuantity(product.id, 1)} 
+                          className="px-2 py-0.5 text-xs font-bold text-[#574D45] hover:bg-[#FAF7F5] hover:text-[#1A1513] cursor-pointer transition-colors"
+                        >
+                          +
+                        </button>
                       </div>
                     </div>
                   ))
@@ -241,14 +261,15 @@ export default function StoreMemberPage() {
             </div>
 
             {cart.length > 0 && (
-              <div className="pt-4 border-t border-[#EFE9E1] space-y-3 mt-6">
-                <div className="flex justify-between items-center text-xs font-bold">
+              <div className="pt-4 border-t border-[#EEDFD5] space-y-3 mt-6">
+                <div className="flex justify-between items-center text-xs font-bold text-[#1A1513]">
                   <span>Total Pembayaran:</span>
-                  <span className="text-sm text-[#D95D1E]">{formatRupiah(totalCartPrice)}</span>
+                  <span className="text-sm text-[#F05A1B]">{formatRupiah(totalCartPrice)}</span>
                 </div>
                 <button
+                  type="button"
                   onClick={() => alert("Lanjut ke pembayaran!")}
-                  className="w-full py-2.5 bg-[#D95D1E] hover:bg-[#c04e14] text-white font-bold text-xs rounded-xl transition-colors"
+                  className="w-full py-2.5 bg-[#EE6B28] hover:bg-[#C8601D] text-white font-bold text-xs rounded-xl transition-colors cursor-pointer"
                 >
                   Lanjut ke Pembayaran
                 </button>
