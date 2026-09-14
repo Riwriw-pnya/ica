@@ -1,11 +1,24 @@
-import { CatteryItem, EventListItem, LeaderboardEntry, MembershipHistoryItem, MembershipInfo, NewsItem, QuickAccessItem } from "@/types/anggota";
+import {
+  CatteryItem,
+  EventListItem,
+  LeaderboardEntry,
+  MembershipHistoryItem,
+  MembershipInfo,
+  NewsItem,
+  QuickAccessItem,
+} from "@/types/anggota";
 import { NotificationItem } from "@/types/cattery";
 
 export const quickAccessItems: QuickAccessItem[] = [
   { id: 1, title: "Daftar event", icon: "calendar", href: "/anggota/event" },
   { id: 2, title: "Cari cattery", icon: "search", href: "/anggota/direktori" },
   { id: 3, title: "Berita ICA", icon: "news", href: "/anggota/berita" },
-  { id: 4, title: "Ajukan cattery", icon: "home", href: "/anggota/keanggotaan/ajukan-cattery" },
+  {
+    id: 4,
+    title: "Ajukan cattery",
+    icon: "home",
+    href: "/anggota/keanggotaan/ajukan-cattery",
+  },
 ];
 
 export const newsItems: NewsItem[] = [
@@ -15,7 +28,8 @@ export const newsItems: NewsItem[] = [
     category: "Kesehatan",
     date: "05 Sep 2026",
     href: "https://ica.or.id/pertolongan-pertama-ketika-kucing-sakit/",
-    excerpt: "Langkah awal dan tindakan darurat yang harus dilakukan saat kucing kesayangan menunjukkan gejala sakit.",
+    excerpt:
+      "Langkah awal dan tindakan darurat yang harus dilakukan saat kucing kesayangan menunjukkan gejala sakit.",
     image: "/images/cattt.jpg",
   },
   {
@@ -24,7 +38,8 @@ export const newsItems: NewsItem[] = [
     category: "Kesehatan & Perawatan",
     date: "01 Sep 2026",
     href: "https://ica.or.id/biaya-vaksin-kucing-sesuai-umur-dan-jenisnya-lindungi-hewan-kesayangan-dari-penyakit/",
-    excerpt: "Panduan estimasi biaya dan jadwal vaksinasi wajib untuk melindungi kucing dari penyakit berbahaya.",
+    excerpt:
+      "Panduan estimasi biaya dan jadwal vaksinasi wajib untuk melindungi kucing dari penyakit berbahaya.",
     image: "/images/twinC.jpg",
   },
   {
@@ -33,7 +48,8 @@ export const newsItems: NewsItem[] = [
     category: "Event & Show",
     date: "25 Agu 2026",
     href: "https://ica.or.id/propaganda-cat-show-fun-cat-show-lomba-kucing-sehat-indonesian-cat-association/",
-    excerpt: "Mengenal berbagai jenis ajang kontes kucing resmi yang diselenggarakan oleh Indonesian Cat Association.",
+    excerpt:
+      "Mengenal berbagai jenis ajang kontes kucing resmi yang diselenggarakan oleh Indonesian Cat Association.",
     image: "/images/cat.jpg",
   },
   {
@@ -42,7 +58,8 @@ export const newsItems: NewsItem[] = [
     category: "Regulasi",
     date: "18 Agu 2026",
     href: "https://ica.or.id/national-winner-rules/",
-    excerpt: "Syarat, perhitungan poin, dan regulasi resmi untuk meraih predikat National Winner.",
+    excerpt:
+      "Syarat, perhitungan poin, dan regulasi resmi untuk meraih predikat National Winner.",
     image: "/images/cattt.jpg",
   },
   {
@@ -51,7 +68,8 @@ export const newsItems: NewsItem[] = [
     category: "Regulasi",
     date: "10 Agu 2026",
     href: "https://ica.or.id/international-winner-rules/",
-    excerpt: "Aturan dan standar penilaian untuk meraih gelar prestisius International Winner dalam pameran FIFe.",
+    excerpt:
+      "Aturan dan standar penilaian untuk meraih gelar prestisius International Winner dalam pameran FIFe.",
     image: "/images/twinC.jpg",
   },
 ];
@@ -66,7 +84,7 @@ export const catteryItems: CatteryItem[] = [
     score: 92,
     whatsapp: "0812-8890-1122",
     address: "Jl. Cimanuk No. 24, Citarum, Bandung Wetan, Kota Bandung 40115",
-    href: "/anggota/direktori",
+    href: "/anggota/direktori/1",
   },
   {
     id: 2,
@@ -77,7 +95,7 @@ export const catteryItems: CatteryItem[] = [
     score: 88,
     whatsapp: "0813-2233-4455",
     address: "Jl. Kemang Raya No. 10, Kemang, Jakarta Selatan 12730",
-    href: "/anggota/direktori",
+    href: "/anggota/direktori/2",
   },
   {
     id: 3,
@@ -88,7 +106,7 @@ export const catteryItems: CatteryItem[] = [
     score: 85,
     whatsapp: "0857-6677-8899",
     address: "Jl. Darmo Permai No. 5, Surabaya 60226",
-    href: "/anggota/direktori",
+    href: "/anggota/direktori/3",
   },
   {
     id: 4,
@@ -99,7 +117,7 @@ export const catteryItems: CatteryItem[] = [
     score: 74,
     whatsapp: "0821-3344-5566",
     address: "Jl. Setiabudi No. 88, Bandung 40154",
-    href: "/anggota/direktori",
+    href: "/anggota/direktori/4",
   },
   {
     id: 5,
@@ -110,7 +128,7 @@ export const catteryItems: CatteryItem[] = [
     score: 90,
     whatsapp: "0819-9988-7766",
     address: "Jl. Sunset Road No. 45, Kuta, Badung, Bali 80361",
-    href: "/anggota/direktori",
+    href: "/anggota/direktori/5",
   },
   {
     id: 6,
@@ -121,7 +139,7 @@ export const catteryItems: CatteryItem[] = [
     score: 70,
     whatsapp: "0852-1122-3344",
     address: "Jl. Gatot Subroto No. 12, Medan 20115",
-    href: "/anggota/direktori",
+    href: "/anggota/direktori/6",
   },
 ];
 
@@ -201,4 +219,4 @@ export const initialNotifications: NotificationItem[] = [
   { id: "n1", type: "general", title: "Keanggotaan akan berakhir", message: "Masa berlaku keanggotaan Anda tersisa 14 hari lagi.", time: "10 menit lalu", isRead: false, url: "/anggota/keanggotaan" },
   { id: "n2", type: "event", title: "Pendaftaran event dibuka", message: "ICA Regional Cat Show — Bandung sudah bisa didaftarkan.", time: "2 jam lalu", isRead: false, url: "/anggota/event" },
   { id: "n3", type: "pedigree", title: "Pedigree disetujui", message: "Pedigree Bagas of Rumah Hana telah diverifikasi Admin ICA.", time: "Kemarin", isRead: true, url: "/anggota/keanggotaan" },
-]
+];
