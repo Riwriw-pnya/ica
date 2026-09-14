@@ -41,7 +41,7 @@ export default function Sidebar() {
   return (
     <aside
       className={`flex min-h-screen shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 ${
-        isSidebarOpen ? "w-[208px]" : "w-[64px]"
+        isSidebarOpen ? "w-[240px]" : "w-[64px]"
       }`}
     >
       {/* Logo — sekaligus tombol toggle */}
@@ -82,8 +82,8 @@ export default function Sidebar() {
         )}
       </div>
 
-      {/* Menu (flex-1 akan mengisi sisa ruang vertikal) */}
-      <nav className={`flex-1 py-3 ${isSidebarOpen ? "px-2.5" : "px-2"}`}>
+      {/* Menu */}
+      <nav className={`flex-1 py-3 ${isSidebarOpen ? "px-3" : "px-2"}`}>
         <div className="space-y-1">
           {menus.map((menu) => {
             const isActive =
@@ -97,7 +97,7 @@ export default function Sidebar() {
                 href={menu.href}
                 title={!isSidebarOpen ? menu.label : undefined}
                 className={`flex items-center rounded-lg py-2.5 text-[13px] font-sans font-semibold transition ${
-                  isSidebarOpen ? "gap-3 pl-[9px] pr-3" : "justify-center px-0"
+                  isSidebarOpen ? "gap-3 pl-3 pr-3" : "justify-center px-0"
                 } ${
                   isActive
                     ? isSidebarOpen
@@ -114,7 +114,7 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      {/* Bottom profile (Otomatis terdorong ke dasar) */}
+      {/* Bottom profile */}
       <div
         ref={containerRef}
         className={`relative border-t border-[var(--color-ink-100)] p-3 ${
@@ -123,8 +123,8 @@ export default function Sidebar() {
       >
         <button
           onClick={() => toggleMenu("sidebar")}
-          className={`flex items-center rounded-lg p-1 transition hover:bg-[var(--color-brand-orange-50)] ${
-            isSidebarOpen ? "w-full gap-2" : "justify-center"
+          className={`flex items-center rounded-lg p-1.5 transition hover:bg-[var(--color-brand-orange-50)] ${
+            isSidebarOpen ? "w-full gap-2.5" : "justify-center"
           }`}
         >
           <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[11px] font-medium text-[var(--color-brand-orange-700)]">
