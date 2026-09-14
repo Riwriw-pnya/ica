@@ -12,25 +12,26 @@ export default function DashboardLayout({
   return (
     <UserMenuProvider>
       <SidebarProvider>
-        {/* Kontainer utama: 
-            - Di Desktop (lg:), flex-row dengan Sidebar di kiri.
-            - Di HP, flex-col dengan ruang bawah (pb-20) untuk BottomNav */}
-        <div className="flex h-screen overflow-hidden bg-[var(--color-sidebar)] relative">
+        {/*
+          PERUBAHAN UTAMA:
+          Ganti bg-[var(--color-sidebar)] menjadi bg-[#faf8f5] di kontainer utama atau area konten
+        */}
+        <div className="flex h-screen overflow-hidden bg-[#faf8f5] relative">
           
-          {/* Sidebar bawaan Anda (Disembunyikan di HP, tampil di layar lg ke atas) */}
-          <div className="hidden lg:block">
+          {/* Sidebar (Disembunyikan di HP, tampil di layar lg ke atas) */}
+          <div className="hidden lg:block bg-[var(--color-sidebar)]">
             <Sidebar />
           </div>
 
           <div className="flex min-w-0 flex-1 flex-col h-full">
             <Header />
-            {/* pb-20 di mobile agar konten bagian bawah tidak tertutup menu bar bawah */}
-            <div className="min-h-0 flex-1 overflow-y-auto pb-20 lg:pb-0">
+            {/* Area Konten Utama dengan Latar Krem */}
+            <main className="min-h-0 flex-1 overflow-y-auto bg-[#faf8f5] p-6 lg:p-8 pb-20 lg:pb-8">
               {children}
-            </div>
+            </main>
           </div>
 
-          {/* Bottom Navigation khusus Mobile (Hanya tampil di HP, tersembunyi di layar lg ke atas) */}
+          {/* Bottom Navigation khusus Mobile */}
           <div className="lg:hidden">
             <BottomNav />
           </div>
