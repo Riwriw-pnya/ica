@@ -3,7 +3,7 @@
 import React, { useState, useEffect } from "react";
 
 export type ToastVariant = "payment" | "outlined";
-export type ToastTone = "success" | "error";
+export type ToastTone = "success" | "error" | "info";
 
 interface ToastProps {
   title: string;
@@ -15,8 +15,9 @@ interface ToastProps {
 }
 
 const TONE_COLORS = {
-  success: { main: "#209f4e", bg: "#EAF6ED", border: "#1ea34f" },
+  success: { main: "var(--color-success)", bg: "var(--color-success-bg)", border: "var(--color-success" },
   error: { main: "var(--color-danger)", bg: "var(--color-danger-bg)", border: "var(--color-danger)" },
+  info: { main: "var(--color-info)", bg: "var(--color-info-bg)", border: "var(--color-info)" },
 };
 
 export default function Toast({

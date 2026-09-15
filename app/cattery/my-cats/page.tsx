@@ -1,9 +1,20 @@
 "use client";
 
 import { catItems } from "@/data/cattery";
+import { useToast } from "@/context/ToastContext";
 import CatCard from "@/app/cattery/my-cats/components/CatCard";
 
 export default function MyCatsPage() {
+  const { showToast } = useToast();
+
+  const handleAddCatClick = () => {
+    showToast(
+      "Tambah kucing",
+      "Data kucing baru masuk lewat mating report yang disetujui admin ICA.",
+      { tone: "info" }
+    );
+  };
+
   return (
     <main className="min-h-full bg-[var(--color-ink-50)]">
       <div className="mx-auto max-w-[1200px] p-5 lg:p-6">
@@ -17,7 +28,7 @@ export default function MyCatsPage() {
             </p>
           </div>
 
-          <button className="shrink-0 rounded-full px-5 py-2.5 text-[13px] font-semibold bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
+          <button onClick={handleAddCatClick} className="shrink-0 rounded-full px-5 py-2.5 text-[13px] font-semibold bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
               shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
               border-t border-[#FFE5D4]
               hover:-translate-y-0.5 hover:brightness-95 

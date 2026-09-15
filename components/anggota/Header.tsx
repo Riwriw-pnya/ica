@@ -69,7 +69,7 @@ export default function Header() {
   return (
     <header className="flex h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5">
       <div className="flex items-center gap-3">
-        <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900,#231A14)]">
+        <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900)]">
           {title}
         </h1>
       </div>
