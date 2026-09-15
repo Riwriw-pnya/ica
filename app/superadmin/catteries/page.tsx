@@ -18,10 +18,10 @@ export default function CatteriesPage() {
     }, [selectedRegion]);
 
     return (
-        <main className="min-h-full bg-[var(--color-ink-50)]">
-        <div className="mx-auto max-w-[1200px] p-5 lg:p-6">
+        <main className="space-y-6">
+        <div className="mx-auto max-w-[1200px]">
             <section className="mb-5">
-            <h1 className="font-display text-[22px] font-semibold tracking-tight text-[var(--color-ink-900)]">
+            <h1 className="font-display text-[22px] font-bold tracking-tight text-[var(--color-ink-900)]">
                 Catteries
             </h1>
             <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
@@ -81,7 +81,7 @@ export default function CatteriesPage() {
                     {filteredItems.map((item) => (
                     <tr
                         key={item.id}
-                        onClick={() => router.push(`/admin/catteries/${item.id}`)}
+                        onClick={() => router.push(`/superadmin/catteries/${item.id}`)}
                         className="cursor-pointer transition hover:bg-[var(--color-ink-50)]"
                     >
                         <td className="px-2 py-3 text-[13px] text-[var(--color-ink-700)]">

@@ -47,7 +47,7 @@ export default async function CatteryDetailPage({ params }: PageProps) {
                 </section>
 
                 <Link
-                href="/admin/catteries"
+                href="/superadmin/catteries"
                 className="text-[12px] font-medium text-[var(--color-brand-orange-700)] hover:underline"
                 >
                 ← Kembali ke Cattery List

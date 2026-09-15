@@ -18,10 +18,10 @@ export default function CatsPage() {
   }, [selectedBreed]);
 
   return (
-    <main className="min-h-full bg-[var(--color-ink-50)]">
-      <div className="mx-auto max-w-[1200px] p-5 lg:p-6">
+    <main className="space-y-6">
+      <div className="mx-auto max-w-[1200px]">
         <section className="mb-5">
-          <h1 className="font-display text-[22px] font-semibold tracking-tight text-[var(--color-ink-900)]">
+          <h1 className="font-display text-[22px] font-bold tracking-tight text-[var(--color-ink-900)]">
             Cats
           </h1>
           <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
@@ -29,8 +29,9 @@ export default function CatsPage() {
           </p>
         </section>
 
-        <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-5">
-          <div className="flex items-start justify-between gap-4">
+        <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-4 sm:p-5">
+          {/* Responsive Header Card */}
+          <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <h2 className="text-[15px] font-semibold text-[var(--color-ink-900)]">
                 Semua kucing terdaftar
@@ -40,10 +41,11 @@ export default function CatsPage() {
               </p>
             </div>
 
+            {/* Select Filter responsif di HP */}
             <select
               value={selectedBreed}
               onChange={(e) => setSelectedBreed(e.target.value)}
-              className="shrink-0 rounded-lg border border-[var(--color-brand-orange-300)] bg-white px-3 py-2 text-[13px] font-medium text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-500)]"
+              className="w-full shrink-0 rounded-lg border border-[var(--color-brand-orange-300)] bg-white px-3 py-2 text-[13px] font-medium text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-500)] sm:w-auto"
             >
               {breeds.map((breed) => (
                 <option key={breed} value={breed}>
@@ -53,8 +55,9 @@ export default function CatsPage() {
             </select>
           </div>
 
+          {/* Table Container dengan Scroll Horizontal */}
           <div className="mt-4 overflow-x-auto">
-            <table className="w-full min-w-[800px] text-left">
+            <table className="w-full min-w-[750px] text-left">
               <thead>
                 <tr className="border-b border-[var(--color-ink-100)]">
                   <th className="px-2 py-2.5 text-[11px] font-medium uppercase tracking-wide text-[var(--color-ink-400)]">
