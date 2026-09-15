@@ -11,9 +11,9 @@ export default function SuperadminLayout({
   return (
     <ToastProvider>
       <PaymentProvider>
-        <div className="flex min-h-screen bg-[#FAF8F5]">
+        <div className="flex h-screen w-screen overflow-hidden bg-[#FAF8F5]">
           <Sidebar />
-          <div className="flex flex-1 flex-col overflow-x-hidden">
+          <div className="flex flex-1 flex-col overflow-hidden">
             <Header />
             <main className="flex-1 overflow-y-auto p-6">{children}</main>
           </div>
