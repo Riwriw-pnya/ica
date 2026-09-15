@@ -38,3 +38,35 @@ export interface CatAdminItem {
     healthScore: number;
     pedigreeStatus: PedigreeAdminStatus;
 }
+
+export type PaymentType = "Iuran tahunan" | "Registrasi cattery" | "Tiket event";
+export type PaymentMethod =
+    | "Virtual Account · BCA"
+    | "Transfer BCA"
+    | "Transfer Mandiri"
+    | "Transfer BNI"
+    | "QRIS";
+
+export type PaymentStatus = "Lunas" | "Disetujui" | "Menunggu verifikasi" | "Ditolak";
+export interface PaymentTransaction {
+    id: string;
+    invoice: string;
+    payerName: string;
+    description: string;
+    paymentType: PaymentType;
+    amount: number;
+    method: PaymentMethod;
+    paidDate: string; // "09 Sep 2026"
+    status: PaymentStatus;
+    adminNote?: string;
+}
+
+export interface NewTransactionInput {
+    paymentType: PaymentType;
+    amount: number;
+    payerName: string;
+    method: PaymentMethod;
+    paidDate: string;
+    status: PaymentStatus;
+    adminNote?: string;
+}
