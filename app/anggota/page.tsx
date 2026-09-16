@@ -1,5 +1,5 @@
 import { eventListItems } from "@/data/anggota";
-import MemberCard from "@/components/anggota/MemberCard";
+import MemberCard from "@/app/anggota/keanggotaan/components/MemberCard";
 import QuickAccess from "@/components/anggota/QuickAccess";
 import NewsSection from "@/components/anggota/NewsSection";
 import UpcomingEvents from "@/components/anggota/UpcomingEvents";

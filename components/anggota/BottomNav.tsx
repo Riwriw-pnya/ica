@@ -6,11 +6,11 @@ import { usePathname } from "next/navigation";
 import { Home, Newspaper, Building2, UserCheck, Calendar } from "lucide-react";
 
 const mobileNavItems = [
-  { label: "Beranda", href: "/anggota/beranda", icon: Home },
+  { label: "Beranda", href: "/anggota/dashboard", icon: Home },
   { label: "Berita", href: "/anggota/berita", icon: Newspaper },
   { label: "Cattery", href: "/anggota/direktori", icon: Building2 },
-  { label: "Keanggotaan", href: "/anggota/keanggotaan", icon: UserCheck },
   { label: "Event", href: "/anggota/event", icon: Calendar },
+  { label: "Keanggotaan", href: "/anggota/keanggotaan", icon: UserCheck },
 ];
 
 export default function BottomNav() {

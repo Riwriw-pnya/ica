@@ -1,6 +1,6 @@
 import Link from "next/link";
 import type { MembershipInfo, MembershipHistoryItem } from "@/types/anggota";
-import DashboardIcon from "./DashboardIcon";
+import DashboardIcon from "../../../../components/anggota/DashboardIcon";
 
 interface MembershipStatusProps {
   info: MembershipInfo;
