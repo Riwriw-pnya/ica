@@ -148,7 +148,7 @@ export default function AjukanCatteryPage() {
       showToast("Pengajuan berhasil!", "Pengajuan cattery Anda telah terkirim dan sedang ditinjau.", { tone: "success" });
       
       // Redirect ke halaman keanggotaan
-      router.push("/anggota/keanggotaan");
+      router.push("/anggota/keanggotaan/pengajuan-terkirim");
     } catch (error) {
       showToast("Gagal mengirim pengajuan", "Terjadi kesalahan pada server. Coba lagi nanti.", { tone: "error" });
     } finally {
@@ -182,33 +182,52 @@ export default function AjukanCatteryPage() {
       </div>
 
       {/* Stepper Progress Bar */}
-      <div className="relative my-8 flex items-center justify-between px-16">
-        <div className="absolute left-20 right-20 top-4 -z-0 h-[1.5px] bg-[#e8e2da]" />
+      <div className="relative my-8 px-16">
+        {/* Inner Track Container untuk mengunci posisi tepat di pusat bulatan 1 s/d 4 */}
+        <div className="absolute inset-x-16 top-4 -z-0 h-[2px] -translate-y-1/2 px-4">
+          {/* Base Background Line */}
+          <div className="h-full w-full bg-[#e8e2da]" />
 
-        {STEPS.map((label, idx) => {
-          const stepNum = idx + 1;
-          const isActive = stepNum === currentStep;
-          const isDone = stepNum < currentStep;
+          {/* Active Gradient Line (Tergantung Step Aktif) */}
+          <div
+            className="absolute top-0 left-4 h-full bg-gradient-to-r from-[#ff9b53] to-[#ee6b28] transition-all duration-300"
+            style={{
+              width: `calc(${((currentStep - 1) / (STEPS.length - 1)) * 100}% - 32px)`,
+            }}
+          />
+        </div>
 
-          return (
-            <div key={label} className="relative z-10 flex flex-col items-center gap-2">
-              <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold shadow-xs transition-all ${
-                  isDone
-                    ? "bg-[#ee6b28] text-white"
-                    : isActive
-                      ? "bg-white text-[#ee6b28] ring-2 ring-[#ee6b28] ring-offset-2 ring-offset-[#f7f5f0]"
-                      : "border border-[#d6cfc7] bg-white text-[#8c857b]"
-                }`}
-              >
-                {isDone ? "✓" : stepNum}
+        {/* Bulatan & Label Step */}
+        <div className="relative z-10 flex justify-between">
+          {STEPS.map((label, idx) => {
+            const stepNum = idx + 1;
+            const isActive = stepNum === currentStep;
+            const isDone = stepNum < currentStep;
+
+            return (
+              <div key={label} className="flex flex-col items-center gap-2">
+                <div
+                  className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
+                    isDone
+                      ? "bg-gradient-to-b from-[#FFC299] to-[#EE6B28] border-t border-[#FFE5D4] text-white shadow-xs"
+                      : isActive
+                        ? "bg-white text-[#ee6b28] ring-1 ring-[#FFC299] ring-offset-2 ring-offset-[#f7af8b]/30"
+                        : "border border-[#d6cfc7] bg-white text-[#8c857b]"
+                  }`}
+                >
+                  {isDone ? "✓" : stepNum}
+                </div>
+                <span
+                  className={`text-xs font-medium ${
+                    isActive || isDone ? "font-bold text-[#1a1817]" : "text-[#8c857b]"
+                  }`}
+                >
+                  {label}
+                </span>
               </div>
-              <span className={`text-xs font-medium ${isActive || isDone ? "font-bold text-[#1a1817]" : "text-[#8c857b]"}`}>
-                {label}
-              </span>
-            </div>
-          );
-        })}
+            );
+          })}
+        </div>
       </div>
 
       {/* STEP 1: Data Cattery */}
@@ -316,15 +335,15 @@ export default function AjukanCatteryPage() {
           <div className="mt-8 border-t border-[#f0eae1] pt-5 flex items-center justify-end gap-3">
             <Link
               href="/anggota/keanggotaan"
-              className="rounded-full border border-[#e5ded6] bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition"
+              className="rounded-full border border-[#e5ded6] hover:shadow-[0_4px_14px_rgba(238,107,40,0.1)] hover:-translate-y-0.5 bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
             >
               Batal
             </Link>
             <button
               type="button"
               onClick={handleNextStep1}
-              className="rounded-full bg-gradient-to-r from-[#ff9b53] to-[#ee6b28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95 transition cursor-pointer"
-            >
+              className="rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95 transition cursor-pointer
+                          active:scale-95 border-t border-[#FFE5D4] hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150">
               Lanjut ke data kucing
             </button>
           </div>
@@ -347,15 +366,15 @@ export default function AjukanCatteryPage() {
             <button
               type="button"
               onClick={() => setCurrentStep(1)}
-              className="rounded-full border border-[#e5ded6] bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
+              className="rounded-full border border-[#e5ded6] hover:shadow-[0_4px_14px_rgba(238,107,40,0.1  )] hover:-translate-y-0.5 bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
             >
               Kembali
             </button>
-            <button
+            <button 
               type="button"
               onClick={handleNextStep2}
-              className="rounded-full bg-gradient-to-r from-[#ff9b53] to-[#ee6b28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95 transition cursor-pointer"
-            >
+              className="rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 transition cursor-pointer
+                          active:scale-95 border-t border-[#FFE5D4] hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150">
               Lanjut ke dokumen
             </button>
           </div>
@@ -376,15 +395,14 @@ export default function AjukanCatteryPage() {
             <button
               type="button"
               onClick={() => setCurrentStep(2)}
-              className="rounded-full border border-[#e5ded6] bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
-            >
+              className="rounded-full border border-[#e5ded6] hover:shadow-[0_4px_14px_rgba(238,107,40,0.1)] hover:-translate-y-0.5 bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer">
               Kembali
             </button>
             <button
               type="button"
               onClick={handleNextStep3}
-              className="rounded-full bg-gradient-to-r from-[#ff9b53] to-[#ee6b28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95 transition cursor-pointer"
-            >
+              className="rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95 transition cursor-pointer
+                          active:scale-95 border-t border-[#FFE5D4] hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150">
               Lanjut ke review
             </button>
           </div>

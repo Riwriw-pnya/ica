@@ -30,7 +30,7 @@ export interface StepReviewProps {
     }>;
     isSubmitting?: boolean;
     onNavigateToStep: (stepNumber: number) => void;
-    onSubmitSuccess: () => void;
+    onSubmitSuccess: () => Promise<void> | void;
 }
 
 export default function StepReview({
@@ -49,6 +49,12 @@ export default function StepReview({
     const getDocStatus = (docId: string) => {
         const doc = documents.find((d) => d.id === docId);
         return doc?.fileName ? doc.fileName : "Belum diunggah";
+    };
+
+    const handleConfirmSubmit = async () => {
+        // Panggil fungsi submit dari page.tsx
+        await onSubmitSuccess();
+        setIsModalOpen(false);
     };
 
     return (
@@ -215,11 +221,11 @@ export default function StepReview({
             onClick={() => setIsModalOpen(true)}
             className={`rounded-full px-7 py-2.5 text-xs font-bold transition cursor-pointer ${
                 isAgreed && !isSubmitting
-                ? "bg-gradient-to-r from-[#ff9b53] to-[#ee6b28] text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95"
+                ? "text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] border-t border-[#FFE5D4] text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] transition cursor-pointer active:scale-95 hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150"
                 : "bg-[#e2dcd5] text-[#a39c94] cursor-not-allowed"
             }`}
             >
-            {isSubmitting ? "Mengirim..." : "Kirim pengajuan"}
+            {isSubmitting ? "Memproses..." : "Kirim pengajuan"}
             </button>
         </div>
 
@@ -238,19 +244,16 @@ export default function StepReview({
                     type="button"
                     onClick={() => setIsModalOpen(false)}
                     disabled={isSubmitting}
-                    className="rounded-full border border-[#e5ded6] bg-white px-5 py-2 text-xs font-bold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
+                    className="rounded-full border border-[#e5ded6] bg-white px-5 py-2 text-xs font-bold text-[#38332e] hover:-translate-y-0.5 hover:bg-[#fcfbf9] transition cursor-pointer"
                 >
                     Periksa lagi
                 </button>
                 <button
                     type="button"
                     disabled={isSubmitting}
-                    onClick={() => {
-                    setIsModalOpen(false);
-                    onSubmitSuccess();
-                    }}
-                    className="rounded-full bg-gradient-to-r from-[#ff9b53] to-[#ee6b28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95 transition cursor-pointer"
-                >
+                    onClick={handleConfirmSubmit}
+                    className="rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2.5 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95 transition cursor-pointer
+                                active:scale-95 border-t border-[#FFE5D4] hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150">
                     {isSubmitting ? "Memproses..." : "Ya, kirim sekarang"}
                 </button>
                 </div>
