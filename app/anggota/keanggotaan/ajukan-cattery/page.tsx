@@ -1,18 +1,23 @@
 "use client";
 
 import Link from "next/link";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import StepKucingWajib, { CatBasicInfo } from "../components/StepKucing";
 import StepDokumen, { DocItem } from "../components/StepDokumen";
+import StepReview from "../components/StepReview";
 import { useToast } from "@/context/ToastContext";
 
 const STEPS = ["Data Cattery", "Kucing Wajib", "Dokumen", "Review & Kirim"];
 
 export default function AjukanCatteryPage() {
+  const router = useRouter();
   const { showToast } = useToast();
   const [currentStep, setCurrentStep] = useState(1);
+  const [showError, setShowError] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  /* State Step 1 */
+  /* State Step 1: Data Cattery */
   const [formData, setFormData] = useState({
     namaCattery: "",
     prefixPedigree: "",
@@ -21,13 +26,14 @@ export default function AjukanCatteryPage() {
     alamatLokasi: "",
   });
 
-   /* State Step 2 */
+  /* State Step 2: Data Kucing Wajib */
   const [maleCat, setMaleCat] = useState<CatBasicInfo>({
     name: "",
     breed: "Persian",
     birthDate: "",
     certNumber: "",
   });
+
   const [femaleCat, setFemaleCat] = useState<CatBasicInfo>({
     name: "",
     breed: "Persian",
@@ -35,9 +41,36 @@ export default function AjukanCatteryPage() {
     certNumber: "",
   });
 
+  /* State Step 3: Dokumen Pendukung */
+  const [documents, setDocuments] = useState<DocItem[]>([
+    { id: "ktp", title: "KTP pemilik cattery", required: true },
+    { id: "sertifikat_pejantan", title: "Sertifikat pedigree pejantan", required: true },
+    { id: "sertifikat_induk", title: "Sertifikat pedigree induk", required: true },
+    { id: "foto_lokasi", title: "Foto lokasi cattery", required: true },
+    { id: "bukti_pembayaran", title: "Bukti pembayaran pendaftaran", required: false },
+  ]);
+
+  /* Validasi Step 1 */
+  const isStep1Valid = formData.namaCattery.trim() !== "" && formData.prefixPedigree.trim() !== "";
+
+  const handleNextStep1 = () => {
+    if (!isStep1Valid) {
+      setShowError(true);
+      showToast("Data cattery belum lengkap", "Harap isi Nama Cattery dan Prefix Pedigree.", { tone: "error" });
+      return;
+    }
+    setShowError(false);
+    setCurrentStep(2);
+  };
+
+  /* Validasi Step 2 */
   const isStep2Valid =
-    maleCat.name.trim() !== "" && maleCat.birthDate !== "" && maleCat.certNumber.trim() !== "" &&
-    femaleCat.name.trim() !== "" && femaleCat.birthDate !== "" && femaleCat.certNumber.trim() !== "";
+    maleCat.name.trim() !== "" &&
+    maleCat.birthDate !== "" &&
+    maleCat.certNumber.trim() !== "" &&
+    femaleCat.name.trim() !== "" &&
+    femaleCat.birthDate !== "" &&
+    femaleCat.certNumber.trim() !== "";
 
   const handleNextStep2 = () => {
     if (!isStep2Valid) {
@@ -50,21 +83,10 @@ export default function AjukanCatteryPage() {
   };
 
   const handleAddOffspring = () => {
-    showToast("Formulir keturunan ditambahkan — placeholder prototype.", "");
+    showToast("Formulir keturunan ditambahkan", "Placeholder untuk versi prototype.", { tone: "info" });
   };
 
-  /* State Step 3: Dokumen Pendukung */
-  const [documents, setDocuments] = useState<DocItem[]>([
-    { id: "ktp", title: "KTP pemilik cattery", required: true },
-    { id: "sertifikat_pejantan", title: "Sertifikat pedigree pejantan", required: true },
-    { id: "sertifikat_induk", title: "Sertifikat pedigree induk", required: true },
-    { id: "foto_lokasi", title: "Foto lokasi cattery", required: true },
-    { id: "bukti_pembayaran", title: "Bukti pembayaran pendaftaran", required: false },
-  ]);
-
-  const [showError, setShowError] = useState(false);
-
-  /* Handler Step 3 Upload & Remove */
+  /* Handler Upload Dokumen */
   const handleUploadDoc = (id: string, fileName: string, fileSize: string) => {
     setDocuments((prev) =>
       prev.map((doc) => (doc.id === id ? { ...doc, fileName, fileSize } : doc))
@@ -79,17 +101,13 @@ export default function AjukanCatteryPage() {
     );
   };
 
-  /* Validation Handler Step 3 (Klik Lanjut) */
+  /* Validasi Step 3 */
   const handleNextStep3 = () => {
     const missingDocs = documents.filter((doc) => doc.required && !doc.fileName);
 
     if (missingDocs.length > 0) {
       setShowError(true);
-      showToast(
-        "Dokumen belum lengkap",
-        "Unggah semua berkas wajib sebelum melanjutkan ke tahap review.",
-        { tone: "error" }
-      );
+      showToast("Dokumen belum lengkap", "Unggah semua berkas wajib sebelum melanjutkan ke tahap review.", { tone: "error" });
       return;
     }
 
@@ -97,15 +115,45 @@ export default function AjukanCatteryPage() {
     setCurrentStep(4);
   };
 
-  const isStep1Valid = formData.namaCattery.trim() !== "" && formData.prefixPedigree.trim() !== "";
+  /* Handler Final Submit (Siap Back-End API Integration) */
+  const handleSubmitSuccess = async () => {
+    setIsSubmitting(true);
+    try {
+      const payload = {
+        cattery: formData,
+        cats: {
+          male: maleCat,
+          female: femaleCat,
+        },
+        documents: documents.map((d) => ({
+          id: d.id,
+          title: d.title,
+          fileName: d.fileName,
+        })),
+      };
 
-  const handleNext = () => {
-    if (currentStep === 1 && !isStep1Valid) {
-      setShowError(true);
-      return;
+      // Contoh integrasi API (Uncomment saat Back-End sudah siap)
+      /*
+      const response = await fetch("/api/cattery/submit", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify(payload),
+      });
+
+      if (!response.ok) throw new Error("Gagal mengirim pengajuan");
+      */
+
+      console.log("Payload siap dikirim ke Back-End:", payload);
+
+      showToast("Pengajuan berhasil!", "Pengajuan cattery Anda telah terkirim dan sedang ditinjau.", { tone: "success" });
+      
+      // Redirect ke halaman keanggotaan
+      router.push("/anggota/keanggotaan");
+    } catch (error) {
+      showToast("Gagal mengirim pengajuan", "Terjadi kesalahan pada server. Coba lagi nanti.", { tone: "error" });
+    } finally {
+      setIsSubmitting(false);
     }
-    setShowError(false);
-    setCurrentStep((s) => Math.min(STEPS.length, s + 1));
   };
 
   return (
@@ -123,7 +171,7 @@ export default function AjukanCatteryPage() {
         </Link>
       </div>
 
-      {/* Header Judul & Deskripsi */}
+      {/* Header Judul */}
       <div>
         <h1 className="font-display text-2xl font-bold text-[#1a1817]">
           Pengajuan status cattery
@@ -145,7 +193,7 @@ export default function AjukanCatteryPage() {
           return (
             <div key={label} className="relative z-10 flex flex-col items-center gap-2">
               <div
-                className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold shadow-xs ${
+                className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold shadow-xs transition-all ${
                   isDone
                     ? "bg-[#ee6b28] text-white"
                     : isActive
@@ -163,7 +211,7 @@ export default function AjukanCatteryPage() {
         })}
       </div>
 
-      {/* Main Form Card - Step 1 */}
+      {/* STEP 1: Data Cattery */}
       {currentStep === 1 && (
         <div className="rounded-2xl border border-[#efe9e2] bg-white p-7 shadow-xs">
           <div>
@@ -274,7 +322,7 @@ export default function AjukanCatteryPage() {
             </Link>
             <button
               type="button"
-              onClick={handleNext}
+              onClick={handleNextStep1}
               className="rounded-full bg-gradient-to-r from-[#ff9b53] to-[#ee6b28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_14px_rgba(238,107,40,0.3)] hover:brightness-95 active:scale-95 transition cursor-pointer"
             >
               Lanjut ke data kucing
@@ -283,7 +331,7 @@ export default function AjukanCatteryPage() {
         </div>
       )}
 
-       {/*Form Kucing - Step 2 */}
+      {/* STEP 2: Form Kucing */}
       {currentStep === 2 && (
         <div className="space-y-5">
           <StepKucingWajib
@@ -299,7 +347,7 @@ export default function AjukanCatteryPage() {
             <button
               type="button"
               onClick={() => setCurrentStep(1)}
-              className="rounded-full border border-[#e5ded6] bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition"
+              className="rounded-full border border-[#e5ded6] bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
             >
               Kembali
             </button>
@@ -314,7 +362,7 @@ export default function AjukanCatteryPage() {
         </div>
       )}
 
-      {/* STEP 3: Dokumen */}
+      {/* STEP 3: Dokumen Pendukung */}
       {currentStep === 3 && (
         <div className="space-y-5">
           <StepDokumen
@@ -345,16 +393,19 @@ export default function AjukanCatteryPage() {
 
       {/* STEP 4: Review & Kirim */}
       {currentStep === 4 && (
-        <div className="rounded-2xl border border-[#efe9e2] bg-white p-7 text-center shadow-xs">
-          <h3 className="text-sm font-bold text-[#1a1817]">Review &amp; Kirim Pengajuan</h3>
-          <button
-            type="button"
-            onClick={() => setCurrentStep(3)}
-            className="mt-4 rounded-full border border-[#e5ded6] bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition"
-          >
-            Kembali ke dokumen
-          </button>
-        </div>
+        <StepReview
+          catteryData={{
+            ...formData,
+            pemilik: "Ayu Prameswari",
+            kontak: "081234567890",
+          }}
+          maleCat={maleCat}
+          femaleCat={femaleCat}
+          documents={documents}
+          isSubmitting={isSubmitting}
+          onNavigateToStep={(step) => setCurrentStep(step)}
+          onSubmitSuccess={handleSubmitSuccess}
+        />
       )}
     </div>
   );
