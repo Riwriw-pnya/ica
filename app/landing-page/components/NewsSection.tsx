@@ -1,61 +1,78 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import Link from "next/link";
 
+interface NewsItem {
+  category?: string;
+  date: string;
+  title: string;
+  description?: string;
+  link: string;
+  image?: string;
+}
+
 export default function NewsSection() {
-  const newsItems = [
-    // Page 1
-    { category: "Pengumuman", date: "24 Agu 2026", title: "Pendaftaran keanggotaan periode 2026/2027 resmi dibuka" },
-    { category: "Event", date: "18 Agu 2026", title: "Hasil ICA National Cat Show Bandung 2026" },
-    { category: "Keanggotaan", date: "9 Agu 2026", title: "Kartu member kini tersedia dalam format digital" },
-    { category: "Event", date: "3 Agu 2026", title: "ICA kembali mengadakan kegiatan komunitas pecinta kucing" },
-    { category: "Pengumuman", date: "28 Jul 2026", title: "Jadwal kegiatan ICA bulan Agustus 2026" },
-    { category: "Keanggotaan", date: "20 Jul 2026", title: "Informasi terbaru mengenai keanggotaan ICA" },
-    // Page 2
-    { category: "Edukasi", date: "15 Jul 2026", title: "Tips perawatan kucing ras saat musim pancaroba" },
-    { category: "Event", date: "02 Jul 2026", title: "Workshop grooming standar internasional di Jakarta" },
-    { category: "Keanggotaan", date: "25 Jun 2026", title: "Pembaruan syarat registrasi cattery resmi ICA" },
-    { category: "Pengumuman", date: "10 Jun 2026", title: "Daftar pemenang lomba foto kucing kreatif 2026" },
-    { category: "Edukasi", date: "01 Jun 2026", title: "Pentingnya vaksinasi rutin untuk kucing kesayangan" },
-    { category: "Event", date: "20 Mei 2026", title: "Gathering bulanan pecinta kucing regional Jawa Barat" },
-    // Page 3
-    { category: "Pengumuman", date: "12 Mei 2026", title: "Rencana musyawarah nasional anggota ICA 2026" },
-    { category: "Keanggotaan", date: "05 Mei 2026", title: "Fasilitas baru untuk member aktif tahun 2026" },
-    { category: "Edukasi", date: "22 Apr 2026", title: "Mengenal pola nutrisi ideal untuk anak kucing" },
+  const newsItems: NewsItem[] = [
+    {
+      date: "16 Jan 2026",
+      title: "INTERNATIONAL WINNER RULES",
+      link: "https://ica.or.id/international-winner-rules/",
+      description:
+        "Ketentuan mendapatkan gelar / title “International Winner (IW)” Gelar ini diberikan kepada kucing dari varietas dan ras-ras yang telah diakui penuh (Fully Recognised) di Federation.",
+    },
+    {
+      date: "05 Jul 2023",
+      title: "Propaganda Cat show, Fun Cat Show & Lomba Kucing Sehat Indonesian Cat Association",
+      link: "https://ica.or.id/propaganda-cat-show-fun-cat-show-lomba-kucing-sehat-indonesian-cat-association/",
+      description:
+        "Propaganda Cat Show Bertujuan hanya untuk mempropagandakan kegiatan perkucingan, dimana peserta show tidak dapat mengejar perolehan sertifikat show, tetapi untuk Propaganda ICA, masih bermanfaat buat",
+    },
+    {
+      date: "01 Maret 2023",
+      title: "NATIONAL WINNER RULES",
+      link: "https://ica.or.id/national-winner-rules/",
+      description:
+        "Ketentuan mendapatkan gelar / title “National Winner (NW)” Gelar ini diberikan kepada kucing dari varietas dan ras-ras yang telah diakui penuh (Fully Recognised) di Federation",
+    },
+    {
+      date: "02 Sep 2022",
+      title: "188 Kucing Lucu mengikuti ICA-FIFe International Cat Show di Jakarta",
+      link: "https://ica.or.id/188-kucing-lucu-mengikuti-ica-fife-international-cat-show-di-jakarta/",
+      description:
+        "Foto : Juri ICA-FIFe International Cat Show ke-206 dan ke-207 (dari kiri ke kanan): Pia Nyrup dari Denmark, Magdalena Kudra dari Polandia, dan Aina Hauge",
+    },
+    {
+      date: "29 Jun 2022",
+      title: "Pengobatan dan Pencegahan Terhadap Toxoplasma Gondii",
+      link: "https://ica.or.id/pengobatan-dan-pencegahan-terhadap-toxoplasma-gondii/",
+      description:
+        "Pengobatan Pengobatan yang tersedia pada hewan dan manusia saat ini belum sepenuhnya memberikan hasil yang memuaskan. Pengobatan hanya efektif apabila Toxoplasma Gondii terdapat pada fase",
+    },
+    {
+      date: "24 Jun 2022",
+      title: "Perlukah Menyikat Bulu Kucing Secara Teratur?",
+      link: "https://ica.or.id/perlukah-menyikat-bulu-kucing-secara-teratur/",
+      description:
+        "Meskipun kucing terkenal sebagai hewan yang selalu merawat diri, namun sebagai pemilik hewan peliharaan, Anda masih tetap harus menyisir atau menyikat bulu kucing. Sebab, terkadang",
+    },
   ];
-
-  const ITEMS_PER_PAGE = 6;
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(newsItems.length / ITEMS_PER_PAGE);
-  const startIndex = (currentPage - 1) * ITEMS_PER_PAGE;
-  const currentNews = newsItems.slice(startIndex, startIndex + ITEMS_PER_PAGE);
-
-  // Menghitung sisa slot kosong agar tinggi grid tetap konsisten (selalu 6 slot)
-  const emptySlotsCount = ITEMS_PER_PAGE - currentNews.length;
-
-  const handlePageChange = (page: number) => {
-    if (page >= 1 && page <= totalPages) {
-      setCurrentPage(page);
-    }
-  };
 
   return (
     <section className="py-16 max-w-6xl mx-auto px-6">
       <div className="flex justify-between items-center mb-8">
         <h2 className="text-2xl font-bold text-gray-900">Berita terbaru</h2>
-        
-        <Link 
-          href="/news" 
+
+        <Link
+          href="/news"
           className="group inline-flex items-center gap-2 text-xs font-semibold text-[#C85A17] hover:text-[#EE6B28] transition"
         >
           <span>Lihat semua</span>
-          <svg 
-            className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1" 
-            fill="none" 
-            stroke="currentColor" 
-            strokeWidth="2.5" 
+          <svg
+            className="w-4 h-4 transition-transform duration-200 group-hover:translate-x-1"
+            fill="none"
+            stroke="currentColor"
+            strokeWidth="2.5"
             viewBox="0 0 24 24"
           >
             <path strokeLinecap="round" strokeLinejoin="round" d="M13.5 4.5L21 12m0 0l-7.5 7.5M21 12H3" />
@@ -63,102 +80,102 @@ export default function NewsSection() {
         </Link>
       </div>
 
-      {/* Grid Berita */}
-      <div className="grid md:grid-cols-3 gap-6 mb-10">
-        {/* Render kartu berita yang ada */}
-        {currentNews.map((item, idx) => (
-          <div
-            key={idx}
-            className="bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm flex flex-col hover:shadow-md transition duration-200"
-          >
-            <div className="h-40 bg-[#FFEEDD] flex items-center justify-center">
-              <div className="w-4 h-4 border border-orange-400 transform rotate-45" />
-            </div>
-            <div className="p-5 flex-1 flex flex-col justify-between">
-              <div>
-                <span className="text-[11px] text-gray-400">
-                  {item.category} · {item.date}
-                </span>
-                <h3 className="font-bold text-xs text-gray-900 mt-2 leading-snug">
-                  {item.title}
-                </h3>
-              </div>
-            </div>
-          </div>
+      {/* Grid 6 Berita */}
+      <div className="grid md:grid-cols-3 gap-6 items-stretch">
+        {newsItems.map((item, idx) => (
+          <NewsCard key={idx} item={item} />
         ))}
-
-        {/* Placeholder transparan untuk menjaga tinggi & posisi grid tidak bergeser */}
-        {Array.from({ length: emptySlotsCount }).map((_, idx) => (
-          <div
-            key={`empty-${idx}`}
-            className="invisible rounded-2xl border border-transparent flex flex-col"
-            aria-hidden="true"
-          >
-            <div className="h-40" />
-            <div className="p-5 flex-1 flex flex-col justify-between">
-              <div>
-                <span className="text-[11px]">&nbsp;</span>
-                <h3 className="text-xs mt-2 leading-snug">&nbsp;</h3>
-              </div>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      {/* Pagination Controller */}
-      <div className="flex justify-center items-center gap-2 text-xs">
-        {/* Tombol Previous */}
-        <button
-          onClick={() => handlePageChange(currentPage - 1)}
-          disabled={currentPage === 1}
-          className={`w-8 h-8 rounded-lg border flex items-center justify-center transition ${
-            currentPage === 1
-              ? "border-gray-100 text-gray-300 cursor-not-allowed"
-              : "border-gray-200 text-gray-600 hover:bg-gray-50 cursor-pointer"
-          }`}
-          aria-label="Previous Page"
-        >
-          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15 19l-7-7 7-7" />
-          </svg>
-        </button>
-
-        {/* Tombol Angka Halaman */}
-        {Array.from({ length: totalPages }, (_, index) => {
-          const pageNumber = index + 1;
-          const isActive = currentPage === pageNumber;
-
-          return (
-            <button
-              key={pageNumber}
-              onClick={() => handlePageChange(pageNumber)}
-              className={`w-8 h-8 rounded-lg font-bold flex items-center justify-center transition ${
-                isActive
-                  ? "bg-orange-500 text-white shadow-sm"
-                  : "border border-gray-200 text-gray-600 hover:bg-gray-50"
-              }`}
-            >
-              {pageNumber}
-            </button>
-          );
-        })}
-
-        {/* Tombol Next */}
-        <button
-          onClick={() => handlePageChange(currentPage + 1)}
-          disabled={currentPage === totalPages}
-          className={`w-8 h-8 rounded-lg border flex items-center justify-center transition ${
-            currentPage === totalPages
-              ? "border-gray-100 text-gray-300 cursor-not-allowed"
-              : "border-gray-200 text-gray-600 hover:bg-gray-50 cursor-pointer"
-          }`}
-          aria-label="Next Page"
-        >
-          <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M9 5l7 7-7 7" />
-          </svg>
-        </button>
       </div>
     </section>
+  );
+}
+
+// Sub-komponen Kartu Berita (Auto-fetch gambar & deskripsi lewat API /api/fetch-img)
+function NewsCard({ item }: { item: NewsItem }) {
+  const [imageUrl, setImageUrl] = useState<string | null>(item.image || null);
+  const [fetchedDesc, setFetchedDesc] = useState<string | null>(null);
+  const [loading, setLoading] = useState(!item.image);
+
+  useEffect(() => {
+    // Jika gambar sudah diisi manual di item.image, tidak perlu fetch lagi
+    if (item.image) {
+      setLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+    setLoading(true);
+
+    fetch(`/api/fetch-img?url=${encodeURIComponent(item.link)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted) {
+          setImageUrl(data.image || null);
+          setFetchedDesc(data.description || null);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setImageUrl(null);
+          setFetchedDesc(null);
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [item.link, item.image]);
+
+  const displayDescription = item.description || fetchedDesc;
+
+  return (
+    <Link
+      href={item.link}
+      target="_blank"
+      rel="noopener noreferrer"
+      className="group bg-white rounded-2xl overflow-hidden border border-gray-100 shadow-sm flex flex-col hover:shadow-md hover:-translate-y-1 transition duration-200 h-full"
+    >
+      {/* Skeleton Loading */}
+      {loading && <div className="h-40 w-full bg-gray-100 animate-pulse shrink-0" />}
+
+      {/* Render Foto jika ditemukan */}
+      {!loading && imageUrl && (
+        <div className="relative h-40 w-full overflow-hidden bg-orange-50 shrink-0">
+          <img
+            src={imageUrl}
+            alt={item.title}
+            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
+            onError={() => setImageUrl(null)}
+          />
+        </div>
+      )}
+
+      {/* Detail Konten */}
+      <div className="p-5 flex-1 flex flex-col justify-between">
+        <div>
+          <span className="text-[11px] text-gray-400">
+            {item.category ? `${item.category} · ` : ""}
+            {item.date}
+          </span>
+
+          <h3 className="font-bold text-xs text-gray-900 mt-1.5 leading-snug group-hover:text-[#EE6B28] transition">
+            {item.title}
+          </h3>
+
+          {/* Deskripsi (line-clamp-2 jika ada gambar, line-clamp-4 jika tidak ada gambar) */}
+          {displayDescription && (
+            <p
+              className={`text-xs text-gray-500 mt-2 leading-relaxed ${
+                imageUrl ? "line-clamp-2" : "line-clamp-4"
+              }`}
+            >
+              {displayDescription}
+            </p>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }
