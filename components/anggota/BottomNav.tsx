@@ -29,11 +29,18 @@ export default function BottomNav() {
             href={item.href}
             className={`flex flex-col items-center justify-center py-1 px-2 transition-colors ${
               isActive
-                ? "text-[var(--color-brand-orange-500,#f48637)] font-bold"
+                ? "text-[var(--color-brand-orange-700,#f48637)] font-bold"
                 : "text-[var(--color-ink-500,#7e7267)] font-medium hover:text-[var(--color-ink-900,#1a1513)]"
             }`}
           >
-            <Icon className="w-5 h-5 mb-1" />
+            {/* Wrapper Ikon & Indikator Garis */}
+            <div className="relative flex flex-col items-center pb-1">
+              {isActive && (
+                <span className="absolute -top-1.5 h-[2.5px] w-4 rounded-full bg-[#ee6b28]" />
+              )}
+              <Icon className="h-5 w-5 stroke-[2.25]" />
+            </div>
+
             <span className="text-[10px] tracking-tight">
               {item.label}
             </span>
