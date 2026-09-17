@@ -1,7 +1,7 @@
 import { membershipInfo, membershipHistory } from "@/data/anggota";
-import MembershipStatus from "@/components/anggota/MembershipStatus";
-import MembershipTierSection from "@/components/anggota/MembershipTier";
-import OrderTrackingSection from "@/components/anggota/OrderTracking";
+import MembershipStatus from "@/app/anggota/keanggotaan/components/MembershipStatus";
+import MembershipTierSection from "@/app/anggota/keanggotaan/components/MembershipTier";
+import OrderTrackingSection from "@/app/anggota/keanggotaan/components/OrderTracking";
 
 export default function KeanggotaanPage() {
   return (

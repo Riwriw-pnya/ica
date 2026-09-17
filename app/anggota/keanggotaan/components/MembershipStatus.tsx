@@ -1,6 +1,8 @@
+"use client"
+
 import Link from "next/link";
+import { useToast } from "@/context/ToastContext";
 import type { MembershipInfo, MembershipHistoryItem } from "@/types/anggota";
-import DashboardIcon from "./DashboardIcon";
 
 interface MembershipStatusProps {
   info: MembershipInfo;
@@ -30,6 +32,7 @@ function getProgress(startDate: string, endDate: string) {
 }
 
 export default function MembershipStatus({ info, history }: MembershipStatusProps) {
+  const { showToast } = useToast();
   const { percent, daysLeft } = getProgress(info.startDate, info.endDate);
 
   const statusColor =
@@ -38,6 +41,19 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
       : info.status === "Menunggu pembayaran"
         ? "bg-[var(--color-warning-bg)] text-[var(--color-warning)]"
         : "bg-[var(--color-danger-bg)] text-[var(--color-danger)]";
+
+  const currentYear = new Date().getFullYear();
+
+  const handleRenew = () => {
+    showToast(
+      `Perpanjangan keanggotaan ${currentYear} dibuat.`,
+      "Lanjutkan pembayaran di kartu tagihan.",
+    );
+  };
+
+  const handleDownloadCard = () => {
+    showToast("Kartu member digital diunduh sebagai PDF.", "");
+  };
 
   return (
     <>
@@ -103,20 +119,16 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
         </div>
 
         <div className="mt-5 flex flex-wrap gap-3 border-t border-[var(--color-ink-100)] pt-5">
-          <button className="px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs 
-              shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
-              border-t border-[#FFE5D4]
-              hover:-translate-y-0.5 hover:brightness-95 
-              active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] 
-              transition-all duration-150 cursor-pointer">
+          <button
+            onClick={handleRenew}
+            className="px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs bshadow-[0_4px_12px_rgba(238,107,40,0.25)] border-t border-[#FFE5D4]
+            hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150 cursor-pointer">
             Perpanjang keanggotaan
           </button>
-          <button className="border border-[var(--color-ink-100)] text-[12px] font-semibold font-sans text-[var(--color-ink-700)]
-          px-6 py-3.5 rounded-full bg-gradient-to-b from-[var(--color-ink-300)] to-white shadow-sm shadow-black/5
-              hover:shadow-md 
-              hover:-translate-y-0.5 hover:brightness-95 
-              active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] 
-              transition-all duration-150 cursor-pointer">
+          <button 
+            onClick={handleDownloadCard}
+            className="border border-[var(--color-ink-100)] text-[12px] font-semibold font-sans text-[var(--color-ink-700)] px-6 py-3.5 rounded-full bg-gradient-to-b from-[var(--color-ink-300)] to-white shadow-sm shadow-black/5
+            hover:shadow-md hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150 cursor-pointer">
             Unduh kartu member
           </button>
         </div>

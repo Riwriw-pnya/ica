@@ -11,13 +11,13 @@ import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 const menus = [
-  { label: "Beranda", icon: "dashboard", href: "/anggota" },
+  { label: "Beranda", icon: "dashboard", href: "/anggota/dashboard" },
   { label: "Berita", icon: "news", href: "/anggota/berita" },
   { label: "Direktori Cattery", icon: "users", href: "/anggota/direktori" },
+  { label: "Store", icon: "shopping-cart", href: "/anggota/store" },
   { label: "Keanggotaan", icon: "shield", href: "/anggota/keanggotaan" },
   { label: "Events", icon: "calendar", href: "/anggota/event" },
   { label: "Leaderboard", icon: "trophy", href: "/anggota/leaderboard" },
-  { label: "Store", icon: "shopping-cart", href: "/anggota/store" },
 ];
 
 export default function Sidebar() {
@@ -101,7 +101,7 @@ export default function Sidebar() {
                 } ${
                   isActive
                     ? isSidebarOpen
-                      ? "border-l-[3px] border-[var(--color-brand-orange-500)] bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white text-[var(--color-brand-orange-700)]"
+                      ? "border-l-[3px] border-[var(--color-brand-orange-500)] shadow-sm bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white text-[var(--color-brand-orange-700)]"
                       : "bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]"
                     : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-50)]"
                 }`}

@@ -67,3 +67,23 @@ export interface LeaderboardEntry {
   cattery: string;
   points: number;
 }
+
+export type ActivityCategory = "Login" | "Perubahan data" | "Pengajuan" | "Keamanan";
+
+export interface ActivityLogItem {
+  id: string;
+  title: string;
+  category: ActivityCategory;
+  description: string;
+  time: string; // "09:14"
+  date: string; // "01 Sep 2026"
+}
+
+export interface DeviceItem {
+  id: string;
+  browser: string;
+  os: string;
+  location: string;
+  lastActive: string; // "Aktif sekarang" | "2 jam lalu" | ...
+  isCurrent: boolean;
+}

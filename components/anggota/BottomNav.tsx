@@ -3,14 +3,15 @@
 import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { Home, Newspaper, Building2, UserCheck, Calendar } from "lucide-react";
+import { Home, Search, User, Calendar, Handbag } from "lucide-react";
+import DashboardIcon from "./DashboardIcon";
 
 const mobileNavItems = [
-  { label: "Beranda", href: "/anggota/beranda", icon: Home },
-  { label: "Berita", href: "/anggota/berita", icon: Newspaper },
-  { label: "Cattery", href: "/anggota/direktori", icon: Building2 },
-  { label: "Keanggotaan", href: "/anggota/keanggotaan", icon: UserCheck },
+  { label: "Beranda", href: "/anggota/dashboard", icon: Home },
+  { label: "Direktori", href: "/anggota/direktori", icon: Search },
+  { label: "Store", href: "/anggota/store", icon: Handbag },
   { label: "Event", href: "/anggota/event", icon: Calendar },
+  { label: "Profil", href: "/anggota/keanggotaan", icon: User },
 ];
 
 export default function BottomNav() {

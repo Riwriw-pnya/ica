@@ -1,5 +1,5 @@
 import { newsItems } from "@/data/anggota";
-import NewsFilterGrid from "@/components/anggota/NewsFilterGrid";
+import NewsFilterGrid from "@/app/anggota/berita/components/NewsFilterGrid";
 
 export default function BeritaPage() {
   return (

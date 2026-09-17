@@ -34,12 +34,22 @@ export default function NotificationDropdown({
   };
 
   return (
-    <div className="absolute right-0 top-full z-50 mt-2 w-80 rounded-xl border border-[var(--color-ink-100)] bg-white shadow-lg">
+    <div
+      className="
+        /* Posisi & Responsivitas Tampilan Mobile */
+        fixed inset-x-4 top-16 z-50 mx-auto w-[calc(100vw-2rem)] max-w-sm rounded-xl border border-[var(--color-ink-100)] bg-white shadow-xl
+        
+        /* Posisi Tampilan Desktop (sm:) */
+        sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:w-80 sm:max-w-none
+      "
+    >
       <div className="flex items-center justify-between border-b border-[var(--color-ink-100)] px-4 py-3">
-        <p className="font-display text-[13px] font-semibold text-[var(--color-ink-900)]">Notifikasi</p>
+        <p className="font-display text-[13px] font-semibold text-[var(--color-ink-900)]">
+          Notifikasi
+        </p>
         <button
           onClick={onMarkAllRead}
-          className="text-[11px] font-medium text-[var(--color-brand-orange-700)] hover:underline"
+          className="text-[11px] font-medium text-[var(--color-brand-orange-700)] hover:underline cursor-pointer"
         >
           Tandai semua dibaca
         </button>
@@ -56,18 +66,26 @@ export default function NotificationDropdown({
               key={notif.id}
               onClick={() => handleItemClick(notif)}
               className={`flex cursor-pointer gap-2.5 px-4 py-3 transition hover:bg-[var(--color-brand-orange-50)] ${
-                !notif.isRead ? "bg-tranparent" : ""
+                !notif.isRead ? "bg-transparent" : ""
               }`}
             >
               <span
                 className={`mt-1 h-1.5 w-1.5 shrink-0 rounded-full ${
-                  notif.isRead ? "bg-transparent" : "bg-[var(--color-brand-orange-500)]"
+                  notif.isRead
+                    ? "bg-transparent"
+                    : "bg-[var(--color-brand-orange-500)]"
                 }`}
               />
               <div className="min-w-0">
-                <p className="text-[12px] font-medium text-[var(--color-ink-900)]">{notif.title}</p>
-                <p className="mt-0.5 text-[11px] text-[var(--color-ink-700)]">{notif.message}</p>
-                <p className="mt-1 text-[10px] text-[var(--color-ink-400)]">{notif.time}</p>
+                <p className="text-[12px] font-medium text-[var(--color-ink-900)]">
+                  {notif.title}
+                </p>
+                <p className="mt-0.5 text-[11px] text-[var(--color-ink-700)]">
+                  {notif.message}
+                </p>
+                <p className="mt-1 text-[10px] text-[var(--color-ink-400)]">
+                  {notif.time}
+                </p>
               </div>
             </div>
           ))

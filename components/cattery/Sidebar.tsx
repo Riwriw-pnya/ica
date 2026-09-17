@@ -60,7 +60,7 @@ export default function Sidebar() {
         } ${
           isActive
             ? isSidebarOpen
-              ? "border-l-[3px] border-[var(--color-brand-orange-500)] bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white text-[var(--color-brand-orange-700)]"
+              ? "border-l-[3px] border-[var(--color-brand-orange-500)] shadow-sm bg-gradient-to-r from-[var(--color-brand-orange-100)] to-white text-[var(--color-brand-orange-700)]"
               : "bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]"
             : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-50)]"
         }`}
