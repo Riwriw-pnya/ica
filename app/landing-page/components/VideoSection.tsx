@@ -17,7 +17,7 @@ const VIDEO_DATA: VideoItem[] = [
     youtubeId: "yOF-xfA8IXE", 
     title: "Kolaborasi Trans7 Club Corner & ICA: Seni Merawat Kucing",
     category: "Liputan Media",
-    date: "18 Oktober 2021",
+    date: "4 tahun yang lalu",
     description:
       "Bincang-bincang edukatif bersama Indonesian Cat Association di Trans7 seputar tips, perawatan, dan kesehatan kucing kesayangan.",
   },
@@ -26,16 +26,16 @@ const VIDEO_DATA: VideoItem[] = [
     youtubeId: "gbkmjHBq2QM",
     title: "Virtual Propaganda Cat Show ICA Lampung 2024",
     category: "Event Highlight",
-    date: "09 Juni 2024",
+    date: "2 tahun yang lalu",
     description:
       "Keseruan pameran dan kontes kucing virtual yang diselenggarakan oleh Perda ICA Lampung.",
   },
   {
     id: "v3",
-    youtubeId: "dQw4w9WgXcQ",
-    title: "Edukasi Standar Ras Kucing & Tata Cara Cattery ICA",
-    category: "Edukasi",
-    date: "12 Januari 2025",
+    youtubeId: "v3hPRViqC1E",
+    title: "Kucing Penerima Gelar Penghargaan 2023",
+    category: "Event",
+    date: "2 tahun yang lalu",
     description:
       "Panduan lengkap mengenal standar ras resmi dan cara mendaftarkan cattery di Indonesian Cat Association.",
   },
