@@ -157,7 +157,7 @@ export default function AjukanCatteryPage() {
   };
 
   return (
-    <div className="w-full space-y-6 pb-12">
+    <div className="w-full space-y-2">
       {/* Link Kembali */}
       <div>
         <Link
@@ -182,30 +182,27 @@ export default function AjukanCatteryPage() {
       </div>
 
       {/* Stepper Progress Bar */}
-      <div className="relative my-8 px-16">
-        {/* Inner Track Container untuk mengunci posisi tepat di pusat bulatan 1 s/d 4 */}
-        <div className="absolute inset-x-16 top-4 -z-0 h-[2px] -translate-y-1/2 px-4">
-          {/* Base Background Line */}
-          <div className="h-full w-full bg-[#e8e2da]" />
+      <div className="relative my-8 w-full px-16">
+        {/* Step Item Container (Pakai CSS Grid 4 Kolom) */}
+        <div className="relative grid grid-cols-4 w-full">
+          {/* Base Background Line (Tepinya Tepat di Pusat Kolom 1 & Kolom 4) */}
+          <div className="absolute top-4 left-[12.5%] right-[12.5%] -z-0 h-[1.5px] -translate-y-1/2 bg-[#e8e2da]" />
 
-          {/* Active Gradient Line (Tergantung Step Aktif) */}
+          {/* Active Gradient Line */}
           <div
-            className="absolute top-0 left-4 h-full bg-gradient-to-r from-[#ff9b53] to-[#ee6b28] transition-all duration-300"
+            className="absolute top-4 left-[12.5%] -z-0 h-[1.5px] -translate-y-1/2 bg-gradient-to-r from-[#FFC299] to-[#EE6B28] transition-all duration-300"
             style={{
-              width: `calc(${((currentStep - 1) / (STEPS.length - 1)) * 100}% - 32px)`,
+              width: `${((currentStep - 1) / (STEPS.length - 1)) * 75}%`,
             }}
           />
-        </div>
 
-        {/* Bulatan & Label Step */}
-        <div className="relative z-10 flex justify-between">
           {STEPS.map((label, idx) => {
             const stepNum = idx + 1;
             const isActive = stepNum === currentStep;
             const isDone = stepNum < currentStep;
 
             return (
-              <div key={label} className="flex flex-col items-center gap-2">
+              <div key={label} className="relative z-10 flex flex-col items-center gap-2">
                 <div
                   className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-all ${
                     isDone
@@ -218,7 +215,7 @@ export default function AjukanCatteryPage() {
                   {isDone ? "✓" : stepNum}
                 </div>
                 <span
-                  className={`text-xs font-medium ${
+                  className={`text-xs font-medium whitespace-nowrap ${
                     isActive || isDone ? "font-bold text-[#1a1817]" : "text-[#8c857b]"
                   }`}
                 >
@@ -335,7 +332,7 @@ export default function AjukanCatteryPage() {
           <div className="mt-8 border-t border-[#f0eae1] pt-5 flex items-center justify-end gap-3">
             <Link
               href="/anggota/keanggotaan"
-              className="rounded-full border border-[#e5ded6] hover:shadow-[0_4px_14px_rgba(238,107,40,0.1)] hover:-translate-y-0.5 bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
+              className="rounded-full border border-[#e5ded6] hover:brightness-98 hover:-translate-y-0.5 bg-white px-6 py-2.5 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
             >
               Batal
             </Link>

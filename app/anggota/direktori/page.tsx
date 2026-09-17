@@ -1,5 +1,5 @@
 import { catteryItems } from "@/data/anggota";
-import CatteryDirectory from "@/components/anggota/CatteryDirectory";
+import CatteryDirectory from "@/app/anggota/direktori/components/CatteryDirectory";
 
 export default function DirektoriPage() {
   return (

@@ -2,12 +2,12 @@
 
 import { useState } from "react";
 import Link from "next/link";
-import EventDetailDropdown from "@/components/cattery/event/EventDetailDropdown";
-import EventCheckoutView from "@/components/cattery/event/EventCheckoutView";
-import EventPaymentView from "@/components/cattery/event/EventPaymentView";
-import EventCatRegistrationView from "@/components/cattery/event/EventCatRegistration";
-import EventCatSubmittedView from "@/components/cattery/event/EventCatSubmitted";
-import IcaBadgeCard from "@/components/cattery/event/IcaBadgeCard";
+import EventDetailDropdown from "@/components/event/EventDetailDropdown";
+import EventCheckoutView from "@/components/event/EventCheckoutView";
+import EventPaymentView from "@/components/event/EventPaymentView";
+import EventCatRegistrationView from "@/components/event/EventCatRegistration";
+import EventCatSubmittedView from "@/components/event/EventCatSubmitted";
+import IcaBadgeCard from "@/components/event/IcaBadgeCard";
 
 export default function EventPage() {
   const [activeStep, setActiveStep] = useState<

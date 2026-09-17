@@ -1,5 +1,5 @@
 import { quickAccessItems } from "@/data/anggota";
-import DashboardIcon from "./DashboardIcon";
+import DashboardIcon from "../../../../components/anggota/DashboardIcon";
 import Link from "next/link";
 
 export default function QuickAccess() {

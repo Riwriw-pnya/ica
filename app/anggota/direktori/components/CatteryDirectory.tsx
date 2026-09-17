@@ -2,7 +2,7 @@
 
 import { useMemo, useState } from "react";
 import Link from "next/link";
-import DashboardIcon from "./DashboardIcon";
+import DashboardIcon from "../../../../components/anggota/DashboardIcon";
 import type { CatteryItem } from "@/types/anggota";
 
 interface CatteryDirectoryProps {
