@@ -6,6 +6,8 @@ import {
   MembershipInfo,
   NewsItem,
   QuickAccessItem,
+  ActivityLogItem, 
+  DeviceItem
 } from "@/types/anggota";
 import { NotificationItem } from "@/types/cattery";
 
@@ -219,4 +221,77 @@ export const initialNotifications: NotificationItem[] = [
   { id: "n1", type: "general", title: "Keanggotaan akan berakhir", message: "Masa berlaku keanggotaan Anda tersisa 14 hari lagi.", time: "10 menit lalu", isRead: false, url: "/anggota/keanggotaan" },
   { id: "n2", type: "event", title: "Pendaftaran event dibuka", message: "ICA Regional Cat Show — Bandung sudah bisa didaftarkan.", time: "2 jam lalu", isRead: false, url: "/anggota/event" },
   { id: "n3", type: "pedigree", title: "Pedigree disetujui", message: "Pedigree Bagas of Rumah Hana telah diverifikasi Admin ICA.", time: "Kemarin", isRead: true, url: "/anggota/keanggotaan" },
+];
+
+export const activityLogItems: ActivityLogItem[] = [
+  {
+    id: "a1",
+    title: "Masuk ke Member Portal",
+    category: "Login",
+    description: "Chrome · Windows 11 · Bandung · IP 114.79.••.••",
+    time: "09:14",
+    date: "01 Sep 2026",
+  },
+  {
+    id: "a2",
+    title: "Pengajuan status cattery dikirim",
+    category: "Pengajuan",
+    description: "Nomor pengajuan ICA-CTY-2026-0517 · admin wilayah Jawa Barat",
+    time: "16:40",
+    date: "31 Agu 2026",
+  },
+  {
+    id: "a3",
+    title: "Nomor WhatsApp diperbarui",
+    category: "Perubahan data",
+    description: "0812-••••-1122 diganti menjadi 0813-••••-4455",
+    time: "11:02",
+    date: "28 Agu 2026",
+  },
+  {
+    id: "a4",
+    title: "Kata sandi sementara diterbitkan admin",
+    category: "Keamanan",
+    description: "Tiket ICA-PWD-2026-0148 · diverifikasi Admin Jawa Barat",
+    time: "22:10",
+    date: "27 Agu 2026",
+  },
+  {
+    id: "a5",
+    title: "Percobaan masuk gagal",
+    category: "Keamanan",
+    description: "Kata sandi salah · Safari · iPhone · IP 36.72.••.••",
+    time: "21:33",
+    date: "27 Agu 2026",
+  },
+  {
+    id: "a6",
+    title: "Masuk ke Member Portal",
+    category: "Login",
+    description: "Chrome · Android · Jakarta Selatan",
+    time: "07:55",
+    date: "24 Agu 2026",
+  },
+  {
+    id: "a7",
+    title: "Foto profil diperbarui",
+    category: "Perubahan data",
+    description: "Diunggah dari perangkat Windows 11",
+    time: "13:26",
+    date: "20 Agu 2026",
+  },
+  {
+    id: "a8",
+    title: "Perpanjangan keanggotaan disetujui",
+    category: "Pengajuan",
+    description: "Periode 2025/2026 · pembayaran terverifikasi",
+    time: "08:20",
+    date: "01 Sep 2025",
+  },
+];
+
+export const deviceItems: DeviceItem[] = [
+  { id: "d1", browser: "Chrome", os: "Windows 11", location: "Bandung, Jawa Barat", lastActive: "Aktif sekarang", isCurrent: true },
+  { id: "d2", browser: "Safari", os: "iPhone 13", location: "Bandung, Jawa Barat", lastActive: "2 jam lalu", isCurrent: false },
+  { id: "d3", browser: "Chrome", os: "Android", location: "Jakarta Selatan", lastActive: "3 hari lalu", isCurrent: false },
 ];
