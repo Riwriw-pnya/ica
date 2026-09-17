@@ -52,41 +52,42 @@ export default function PengajuanTerkirimPage() {
                 <div className="absolute left-[11px] top-14 bottom-3 w-[2px] bg-[#e8e2da]" />
                 <div className="relative flex items-start">
                     <div className="absolute -left-10 top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] border-t border-[#FFE5D4] text-white ring-4 ring-white z-10">
-                    <svg
-                        width="12"
-                        height="12"
-                        viewBox="0 0 24 24"
-                        fill="none"
-                        stroke="currentColor"
-                        strokeWidth="3"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                    >
-                        <polyline points="20 6 9 17 4 12" />
-                    </svg>
+                        <svg
+                            width="12"
+                            height="12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            strokeWidth="3"
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                        >
+                            <polyline points="20 6 9 17 4 12" />
+                        </svg>
                     </div>
                     <div>
-                    <p className="text-xs font-bold text-[#1a1817]">Pengajuan terkirim</p>
-                    <p className="text-[11px] text-[#8c857b] mt-0.5">
-                        01 Sep 2026, 09:32 · berkas lengkap
-                    </p>
+                        <p className="text-xs font-bold text-[#1a1817]">Pengajuan terkirim</p>
+                        <p className="text-[11px] text-[#8c857b] mt-0.5">
+                            01 Sep 2026, 09:32 · berkas lengkap
+                        </p>
                     </div>
                 </div>
 
                 {/* Item 2: In Progress (Border Gradasi Oranye) */}
                 <div className="relative flex items-start">
                     <div className="absolute -left-10 top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-[#ff9b53] to-[#ee6b28] p-[2px] ring-4 ring-white z-10">
-                    <div className="h-full w-full rounded-full bg-white" />
+                        <div className="h-full w-full rounded-full bg-white" />
+                            <div>
+                                <p className="text-xs font-bold text-[#1a1817]">
+                                    Review admin wilayah Jawa Barat
+                                </p>
+                                <p className="text-[11px] text-[#8c857b] mt-0.5">
+                                    Sedang berjalan · estimasi 3 hari kerja
+                                </p>
+                            </div>
+                        </div>
                     </div>
-                    <div>
-                    <p className="text-xs font-bold text-[#1a1817]">
-                        Review admin wilayah Jawa Barat
-                    </p>
-                    <p className="text-[11px] text-[#8c857b] mt-0.5">
-                        Sedang berjalan · estimasi 3 hari kerja
-                    </p>
-                    </div>
-                </div>
+                    
 
                 {/* Item 3: Pending */}
                 <div className="relative flex items-start">
@@ -134,13 +135,13 @@ export default function PengajuanTerkirimPage() {
 
                 {/* Action Buttons */}
                 <div className="space-y-2.5 pt-2">
-                    <button
-                        type="button"
-                        className="w-full rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-xs hover:brightness-95 active:scale-95 transition py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] 
+                    <Link
+                        href="/anggota/log-aktivitas"
+                        className="block w-full rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-center py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)]
                         border-t border-[#FFE5D4] hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150 cursor-pointer"
                     >
                         Lihat log aktivitas
-                    </button>
+                    </Link>
 
                     <button
                         type="button"
