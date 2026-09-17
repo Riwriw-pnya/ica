@@ -11,7 +11,7 @@ import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 const menus = [
-  { label: "Beranda", icon: "dashboard", href: "/anggota" },
+  { label: "Beranda", icon: "dashboard", href: "/anggota/dashboard" },
   { label: "Berita", icon: "news", href: "/anggota/berita" },
   { label: "Direktori Cattery", icon: "users", href: "/anggota/direktori" },
   { label: "Store", icon: "shopping-cart", href: "/anggota/store" },

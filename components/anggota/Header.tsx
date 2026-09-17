@@ -12,7 +12,7 @@ import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 const pageTitles: Record<string, string> = {
-  "/anggota": "Beranda",
+  "/anggota/dashboard": "Beranda",
   "/anggota/berita": "Berita",
   "/anggota/direktori": "Direktori Cattery",
   "/anggota/keanggotaan": "Keanggotaan",
@@ -20,6 +20,7 @@ const pageTitles: Record<string, string> = {
   "/anggota/store": "Store",
   "/anggota/leaderboard": "Leaderboard",
   "/anggota/pengaturan": "Pengaturan akun",
+  "/anggota/log-aktivitas": "Log Aktivitas",
 };
 
 function getPageTitle(pathname: string): string {
