@@ -13,9 +13,34 @@ export interface Product {
 }
 
 const INITIAL_PRODUCTS: Product[] = [
-  { id: "1", title: "Kaos ICA Official 2026", category: "apparel", categoryLabel: "Apparel", price: 185000, stock: 48, badge: "Terlaris" },
-  { id: "2", title: "Polo Shirt Panitia Cat Show", category: "apparel", categoryLabel: "Apparel", price: 245000, stock: 22 },
-  { id: "3", title: "Tote Bag Kanvas ICA", category: "aksesori", categoryLabel: "Aksesori", price: 95000, stock: 60 },
+  {
+    id: "1",
+    title: "Kaos ICA Official 2026",
+    category: "apparel",
+    categoryLabel: "Apparel",
+    price: 185000,
+    stock: 48,
+    badge: "Terlaris",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9RVxIUO5Rb9G1qfWawYCygc5ru_KMrPrnfW1ezYp2Nj4hxUnixmyS7mM&s",
+  },
+  {
+    id: "2",
+    title: "Polo Shirt Panitia Cat Show",
+    category: "apparel",
+    categoryLabel: "Apparel",
+    price: 245000,
+    stock: 22,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMTdyhgBoM0uyNqIAI9S_TI68hvitWb0yu2vz8R9WetQ&s=10",
+  },
+  {
+    id: "3",
+    title: "Tote Bag Kanvas ICA",
+    category: "aksesori",
+    categoryLabel: "Aksesori",
+    price: 95000,
+    stock: 60,
+    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&q=80",
+  },
 ];
 
 function formatRupiah(value: number) {
@@ -57,6 +82,7 @@ export default function StoreSection() {
                   src={product.image}
                   alt={product.title}
                   fill
+                  unoptimized
                   className="object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
                 />
               ) : (
