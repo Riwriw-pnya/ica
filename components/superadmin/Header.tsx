@@ -42,24 +42,19 @@ const MENU_MAP: MenuItem[] = [
     description: "Daftar pengajuan dan permohonan anggota yang masuk.",
   },
   {
-    path: "/superadmin/mating-reports",
-    title: "Mating Reports",
-    description: "Laporan pacak dan perkawinan kucing Cattery.",
+    path: "/superadmin/news",
+    title: "News/Artikel",
+    description: "Kelola konten publik",
   },
   {
-    path: "/superadmin/documents",
-    title: "Documents",
-    description: "Kelola dokumen resmi dan berkas administrasi.",
+    path: "/superadmin/events",
+    title: "Events",
+    description: "Agenda cat show, kuota war ticketing, dan pendaftaran peserta",
   },
   {
     path: "/superadmin/leaderboard",
-    title: "Leaderboard",
-    description: "Peringkat dan performa Cattery teratas.",
-  },
-  {
-    path: "/superadmin/event",
-    title: "Events",
-    description: "Kelola jadwal acara, pameran, dan kegiatan ICA.",
+    title: "Leaderboard Management",
+    description: "Skor kesehatan, ranking, dan judging report per event",
   },
   {
     path: "/superadmin/store",
