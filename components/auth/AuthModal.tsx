@@ -32,7 +32,7 @@ export default function AuthModal({ isOpen, onClose, mode }: AuthModalProps) {
   if (selectedAdminType === "superadmin") {
     router.push("/superadmin/dashboard");
   } else {
-    router.push("/admin-regional/dashboard");
+    router.push("/regionaladmin/dashboard");
   }
 };
 

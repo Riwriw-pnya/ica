@@ -110,7 +110,7 @@ export default function MembershipStatus({ info, history }: MembershipStatusProp
           <div className="h-2 w-full overflow-hidden rounded-full bg-[var(--color-ink-100)]">
             <div
               className="h-full rounded-full bg-[var(--color-brand-orange-500)] transition-all duration-500"
-              style={{ width: `${percent}%` }}
+              style={{ width: `${Number(percent).toFixed(2)}%` }}
             />
           </div>
           <p className="mt-2 text-[11px] text-[var(--color-ink-400)]">

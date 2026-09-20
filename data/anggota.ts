@@ -154,8 +154,8 @@ export const membershipInfo: MembershipInfo = {
   memberId: "ICA-M-004821",
   region: "Jawa Barat",
   status: "Aktif",
-  startDate: "2025-09-01",
-  endDate: "2026-08-31",
+  startDate: "2025-11-01",
+  endDate: "2026-12-31",
 };
 
 export const membershipHistory: MembershipHistoryItem[] = [
