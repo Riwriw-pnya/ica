@@ -20,12 +20,6 @@ export default function PaymentsPage() {
 
   return (
     <main className="space-y-5">
-      {/* Title Section */}
-      <div>
-        <h1 className="text-xl font-bold text-[#1A1513]">Payments</h1>
-        <p className="text-xs text-[#8C8074]">Iuran, registrasi, dan tiket event</p>
-      </div>
-
       {/* Top Banner Card */}
       <div className="rounded-2xl border border-[#EEDFD5] bg-white p-5 shadow-xs">
         <div className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">

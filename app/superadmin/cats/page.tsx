@@ -20,15 +20,6 @@ export default function CatsPage() {
   return (
     <main className="space-y-6">
       <div className="mx-auto max-w-[1200px]">
-        <section className="mb-5">
-          <h1 className="font-display text-[22px] font-bold tracking-tight text-[var(--color-ink-900)]">
-            Cats
-          </h1>
-          <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
-            Semua kucing terdaftar beserta EMS code.
-          </p>
-        </section>
-
         <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-4 sm:p-5">
           {/* Responsive Header Card */}
           <div className="flex flex-col gap-3 sm:flex-row sm:items-start sm:justify-between">
