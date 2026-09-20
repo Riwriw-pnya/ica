@@ -20,15 +20,6 @@ export default function CatteriesPage() {
     return (
         <main className="space-y-6">
         <div className="mx-auto max-w-[1200px]">
-            <section className="mb-5">
-            <h1 className="font-display text-[22px] font-bold tracking-tight text-[var(--color-ink-900)]">
-                Catteries
-            </h1>
-            <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
-                Cattery terdaftar dan kode resminya.
-            </p>
-            </section>
-
             <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-5">
             <div className="flex items-start justify-between gap-4">
                 <div>

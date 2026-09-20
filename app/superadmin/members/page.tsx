@@ -102,12 +102,6 @@ export default function MembersPage() {
 
   return (
     <div className="space-y-6">
-      {/* Title Header */}
-      <div>
-        <h1 className="text-xl font-bold text-[#231A14]">Members</h1>
-        <p className="text-xs text-[#8C8078] mt-0.5">Data keanggotaan ICA</p>
-      </div>
-
       {/* Top Metric Cards */}
       <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
         {/* Card 1: Member Aktif */}

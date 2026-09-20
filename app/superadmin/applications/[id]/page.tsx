@@ -131,12 +131,6 @@ export default function ApplicationDetailPage({ params }: { params: { id: string
   // Tampilan Default Review Aplikasi
   return (
     <div className="space-y-6">
-      {/* Title Header */}
-      <div>
-        <h1 className="text-xl font-bold text-[#231A14]">Application Review</h1>
-        <p className="text-xs text-[#8C8078] mt-0.5">Verifikasi dokumen sebelum memutuskan</p>
-      </div>
-
       {/* Back Link */}
       <div>
         <Link href="/superadmin/applications" className="text-xs font-bold text-[#EE6B28] hover:underline inline-flex items-center gap-1">
