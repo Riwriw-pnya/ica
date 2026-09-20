@@ -1,7 +1,6 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import Image from "next/image";
+import { useMemo, useState, useEffect } from "react";
 import Link from "next/link";
 import type { NewsItem } from "@/types/anggota";
 
@@ -24,6 +23,7 @@ export default function NewsFilterGrid({ items }: NewsFilterGridProps) {
 
   return (
     <>
+      {/* Category Filter Pills */}
       <div className="flex flex-wrap gap-2">
         {categories.map((category) => {
           const isActive = category === activeCategory;
@@ -32,9 +32,9 @@ export default function NewsFilterGrid({ items }: NewsFilterGridProps) {
             <button
               key={category}
               onClick={() => setActiveCategory(category)}
-              className={`rounded-full px-4 py-1.5 text-[12px] font-medium transition-colors duration-200 ${
+              className={`rounded-full px-4 py-1.5 text-[12px] font-medium transition-colors duration-200 cursor-pointer ${
                 isActive
-                  ? "bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]"
+                  ? "bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)] font-semibold"
                   : "border border-[var(--color-ink-100)] text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-50)]"
               }`}
             >
@@ -44,62 +44,123 @@ export default function NewsFilterGrid({ items }: NewsFilterGridProps) {
         })}
       </div>
 
+      {/* Grid List Berita */}
       <div className="mt-5 grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {filteredItems.map((item) => (
-          <Link
-            key={item.id}
-            href={item.href}
-            className="group overflow-hidden rounded-xl border border-[var(--color-ink-100)] bg-white transition-shadow duration-200 hover:shadow-md"
-          >
-            <div className="relative h-36 overflow-hidden bg-[var(--color-brand-orange-100)]">
-              {item.image ? (
-                <Image
-                  src={item.image}
-                  alt={item.title}
-                  fill
-                  sizes="(max-width: 640px) 100vw, (max-width: 1024px) 50vw, 33vw"
-                  className="object-cover transition-transform duration-300 group-hover:scale-105"
-                />
-              ) : (
-                <div className="flex h-full items-center justify-center transition-colors duration-200 group-hover:bg-[var(--color-brand-orange-300)]">
-                  <svg
-                    width="36"
-                    height="36"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="var(--color-brand-orange-700)"
-                    strokeWidth="1.5"
-                  >
-                    <rect x="3" y="4" width="18" height="16" rx="2" />
-                    <circle cx="9" cy="10" r="2" />
-                    <path d="M21 16l-5.5-5.5L9 17" />
-                  </svg>
-                </div>
-              )}
-            </div>
-
-            <div className="p-4">
-              <p className="text-[10px] text-[var(--color-ink-400)]">
-                {item.category} · {item.date}
-              </p>
-
-              <h3 className="mt-1 text-[14px] font-semibold leading-snug text-[var(--color-ink-900)]">
-                {item.title}
-              </h3>
-
-              <p className="mt-2 line-clamp-2 text-[12px] text-[var(--color-ink-700)]">
-                {item.excerpt}
-              </p>
-            </div>
-          </Link>
+          <NewsCardItem key={item.id} item={item} />
         ))}
       </div>
 
+      {/* Empty State */}
       {filteredItems.length === 0 && (
         <p className="mt-8 text-center text-[12px] text-[var(--color-ink-400)]">
           Belum ada berita di kategori ini.
         </p>
       )}
     </>
+  );
+}
+
+// Sub-komponen Kartu Berita dengan Auto-fetch Gambar
+function NewsCardItem({ item }: { item: NewsItem }) {
+  const [imageUrl, setImageUrl] = useState<string | null>(item.image || null);
+  const [loading, setLoading] = useState(!item.image);
+
+  useEffect(() => {
+    // Jika gambar sudah diisi manual di item.image, tidak perlu fetch
+    if (item.image) {
+      setLoading(false);
+      return;
+    }
+
+    const targetUrl = item.href;
+    if (!targetUrl || !targetUrl.startsWith("http")) {
+      setLoading(false);
+      return;
+    }
+
+    let isMounted = true;
+    setLoading(true);
+
+    fetch(`/api/fetch-img?url=${encodeURIComponent(targetUrl)}`)
+      .then((res) => res.json())
+      .then((data) => {
+        if (isMounted) {
+          setImageUrl(data.image || null);
+          setLoading(false);
+        }
+      })
+      .catch(() => {
+        if (isMounted) {
+          setImageUrl(null);
+          setLoading(false);
+        }
+      });
+
+    return () => {
+      isMounted = false;
+    };
+  }, [item.href, item.image]);
+
+  const isExternal = item.href?.startsWith("http");
+
+  return (
+    <Link
+      href={item.href || "#"}
+      target={isExternal ? "_blank" : "_self"}
+      rel={isExternal ? "noopener noreferrer" : undefined}
+      className="group flex flex-col justify-between overflow-hidden rounded-xl border border-[var(--color-ink-100)] bg-white transition-shadow duration-200 hover:shadow-md"
+    >
+      <div>
+        {/* Container Image / Skeleton / Fallback */}
+        <div className="relative h-36 w-full overflow-hidden bg-[var(--color-brand-orange-100)]">
+          {loading ? (
+            /* Skeleton Loading State */
+            <div className="h-full w-full animate-pulse bg-[var(--color-ink-100)]" />
+          ) : imageUrl ? (
+            /* Render Foto jika ditemukan */
+            <img
+              src={imageUrl}
+              alt={item.title}
+              className="h-full w-full object-cover transition-transform duration-300 group-hover:scale-105"
+              onError={() => setImageUrl(null)}
+            />
+          ) : (
+            /* Fallback Icon jika tidak ada gambar */
+            <div className="flex h-full items-center justify-center transition-colors duration-200 group-hover:bg-[var(--color-brand-orange-300)]">
+              <svg
+                width="36"
+                height="36"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="var(--color-brand-orange-700)"
+                strokeWidth="1.5"
+              >
+                <rect x="3" y="4" width="18" height="16" rx="2" />
+                <circle cx="9" cy="10" r="2" />
+                <path d="M21 16l-5.5-5.5L9 17" />
+              </svg>
+            </div>
+          )}
+        </div>
+
+        {/* Detail Teks Berita */}
+        <div className="p-4">
+          <p className="text-[10px] text-[var(--color-ink-400)]">
+            {item.category} · {item.date}
+          </p>
+
+          <h3 className="mt-1 text-[14px] font-semibold leading-snug text-[var(--color-ink-900)] transition-colors group-hover:text-[var(--color-brand-orange-500)]">
+            {item.title}
+          </h3>
+
+          {item.excerpt && (
+            <p className="mt-2 line-clamp-2 text-[12px] text-[var(--color-ink-700)]">
+              {item.excerpt}
+            </p>
+          )}
+        </div>
+      </div>
+    </Link>
   );
 }
