@@ -108,38 +108,6 @@ const activities: ActivityItem[] = [
 export default function SuperAdminDashboard() {
   return (
     <div className="space-y-6 text-[#231A14]">
-      {/* Header & Search */}
-      <div className="flex flex-col md:flex-row md:items-center justify-between gap-4">
-        <div>
-          <h1 className="text-2xl font-bold tracking-tight text-[#231A14]">Dashboard</h1>
-          <p className="text-xs text-[#8C8078] mt-0.5">Ringkasan antrean dan aktivitas admin ICA</p>
-        </div>
-
-        <div className="flex items-center gap-3">
-          <div className="relative w-full md:w-80">
-            <input
-              type="text"
-              placeholder="Cari nomor aplikasi, member, cattery..."
-              className="w-full pl-3.5 pr-9 py-2 rounded-xl bg-white border border-[#E9E2DC] text-xs text-[#231A14] placeholder-[#A0948C] focus:outline-none focus:border-[#EE6B28] transition shadow-xs"
-            />
-            <svg
-              className="w-4 h-4 text-[#A0948C] absolute right-3 top-2.5"
-              fill="none"
-              stroke="currentColor"
-              strokeWidth="2"
-              viewBox="0 0 24 24"
-            >
-              <path strokeLinecap="round" strokeLinejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-            </svg>
-          </div>
-          <button className="p-2 rounded-xl bg-white border border-[#E9E2DC] text-[#7A6E65] hover:text-[#231A14] transition relative cursor-pointer">
-            <svg className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
       {/* Info Banner TBD */}
       <div className="flex items-center gap-2.5 p-3.5 rounded-2xl bg-[#FAF8F5] border border-[#EFE9E1] text-xs text-[#7A6E65]">
         <div className="w-5 h-5 rounded-full border border-[#8C8078] flex items-center justify-center font-semibold text-[10px] text-[#8C8078]">

@@ -28,14 +28,81 @@ const INITIAL_CATEGORIES: Category[] = [
 ];
 
 const INITIAL_PRODUCTS: Product[] = [
-  { id: "1", title: "Kaos ICA Official 2026", category: "apparel", categoryLabel: "Apparel", price: 185000, stock: 48, badge: "Terlaris" },
-  { id: "2", title: "Polo Shirt Panitia Cat Show", category: "apparel", categoryLabel: "Apparel", price: 245000, stock: 22 },
-  { id: "3", title: "Tote Bag Kanvas ICA", category: "aksesori", categoryLabel: "Aksesori", price: 95000, stock: 60 },
-  { id: "4", title: "Lanyard & ID Card Holder", category: "aksesori", categoryLabel: "Aksesori", price: 45000, stock: 120 },
-  { id: "5", title: "Pin Enamel Paw ICA", category: "aksesori", categoryLabel: "Aksesori", price: 35000, stock: 200 },
-  { id: "6", title: "Buku Panduan Breeding & Pedigree", category: "publikasi", categoryLabel: "Publikasi", price: 120000, stock: 35, badge: "Baru" },
-  { id: "7", title: "Formulir Pedigree Fisik (10 lembar)", category: "publikasi", categoryLabel: "Publikasi", price: 60000, stock: 90 },
-  { id: "8", title: "Grooming Kit Starter", category: "perawatan", categoryLabel: "Perawatan", price: 320000, stock: 12, badge: "Stok terbatas" },
+  {
+    id: "1",
+    title: "Kaos ICA Official 2026",
+    category: "apparel",
+    categoryLabel: "Apparel",
+    price: 185000,
+    stock: 48,
+    badge: "Terlaris",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT9RVxIUO5Rb9G1qfWawYCygc5ru_KMrPrnfW1ezYp2Nj4hxUnixmyS7mM&s",
+  },
+  {
+    id: "2",
+    title: "Polo Shirt Panitia Cat Show",
+    category: "apparel",
+    categoryLabel: "Apparel",
+    price: 245000,
+    stock: 22,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRMTdyhgBoM0uyNqIAI9S_TI68hvitWb0yu2vz8R9WetQ&s=10",
+  },
+  {
+    id: "3",
+    title: "Tote Bag Kanvas ICA",
+    category: "aksesori",
+    categoryLabel: "Aksesori",
+    price: 95000,
+    stock: 60,
+    image: "https://images.unsplash.com/photo-1544816155-12df9643f363?w=500&q=80",
+  },
+  {
+    id: "4",
+    title: "Lanyard & ID Card Holder",
+    category: "aksesori",
+    categoryLabel: "Aksesori",
+    price: 45000,
+    stock: 120,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS3URMhgKPZcJb9pYj9BpvOM-M0Y7M-EO3tjLJWvVclXg&s=10",
+  },
+  {
+    id: "5",
+    title: "Pin Enamel Paw ICA",
+    category: "aksesori",
+    categoryLabel: "Aksesori",
+    price: 35000,
+    stock: 200,
+    image: "/images/LOGO-ICA.webp",
+  },
+  {
+    id: "6",
+    title: "Buku Panduan Breeding & Pedigree",
+    category: "publikasi",
+    categoryLabel: "Publikasi",
+    price: 120000,
+    stock: 35,
+    badge: "Baru",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcT6oh0fvKgQK2Cw5OZ7pW8ccaxLjRJKWPBxG04G9Sug_A&s=10",
+  },
+  {
+    id: "7",
+    title: "Formulir Pedigree Fisik (10 lembar)",
+    category: "publikasi",
+    categoryLabel: "Publikasi",
+    price: 60000,
+    stock: 90,
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTQC8Gl5VGcIWtKLbBeKEVlUdP2W8Zia3F9ihoZFUAftw&s=10",
+  },
+  {
+    id: "8",
+    title: "Grooming Kit Starter",
+    category: "perawatan",
+    categoryLabel: "Perawatan",
+    price: 320000,
+    stock: 12,
+    badge: "Stok terbatas",
+    image: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcS9x33g3q-zDoXztUMnxEuCEr2dvkJElkOu5aK92XmYOA&s=10",
+  },
 ];
 
 interface CartItem {
@@ -134,13 +201,15 @@ export default function StoreMemberPage() {
               onClick={() => addToCart(product)}
               className="bg-white rounded-2xl border border-[#EEDFD5] overflow-hidden flex flex-col justify-between hover:shadow-xs transition-all duration-200 cursor-pointer group"
             >
-              {/* Visual Placeholder Sesuai Foto */}
-              <div className="relative h-36 bg-[#FFF8EE] flex flex-col items-center justify-center p-4 border-b border-[#F7F2EB]">
+              {/* Visual Gambar / Placeholder */}
+              <div className="relative h-44 w-full bg-[#FFF8EE] flex flex-col items-center justify-center border-b border-[#F7F2EB] overflow-hidden">
                 {product.image ? (
                   <Image
                     src={product.image}
                     alt={product.title}
                     fill
+                    unoptimized
+                    sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
                     className="object-cover group-hover:scale-105 transition-transform duration-300"
                   />
                 ) : (
@@ -153,7 +222,7 @@ export default function StoreMemberPage() {
                 )}
 
                 {product.badge && (
-                  <span className="absolute bottom-3 bg-[#FFF2E8] text-[#F05A1B] border border-[#FCE3D2] text-[10px] font-semibold px-3 py-0.5 rounded-full">
+                  <span className="absolute bottom-3 left-3 bg-[#FFF2E8]/90 backdrop-blur-xs text-[#F05A1B] border border-[#FCE3D2] text-[10px] font-semibold px-3 py-0.5 rounded-full shadow-xs">
                     {product.badge}
                   </span>
                 )}
@@ -229,12 +298,25 @@ export default function StoreMemberPage() {
                 ) : (
                   cart.map(({ product, quantity }) => (
                     <div key={product.id} className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[#EEDFD5] bg-[#FAF7F5]">
+                      {/* Thumbnail Gambar Produk di Cart */}
+                      {product.image && (
+                        <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-[#EEDFD5]">
+                          <Image
+                            src={product.image}
+                            alt={product.title}
+                            fill
+                            unoptimized
+                            className="object-cover"
+                          />
+                        </div>
+                      )}
+
                       <div className="flex-1 min-w-0">
                         <h3 className="text-xs font-semibold text-[#1A1513] truncate">{product.title}</h3>
                         <p className="text-xs text-[#F05A1B] font-bold mt-0.5">{formatRupiah(product.price)}</p>
                       </div>
 
-                      {/* QUANTITY CONTROL DENGAN WARNA TEKS DITEGASKAN */}
+                      {/* QUANTITY CONTROL */}
                       <div className="flex items-center border border-[#EEDFD5] rounded-lg bg-white overflow-hidden">
                         <button 
                           type="button" 

@@ -85,12 +85,6 @@ function ApplicationsQueueContent() {
         </div>
       )}
 
-      {/* Page Title */}
-      <div>
-        <h1 className="text-xl font-bold text-[#231A14]">Application Queue</h1>
-        <p className="text-xs text-[#8C8078] mt-0.5">Semua pengajuan member, cattery, dan mating report</p>
-      </div>
-
       {/* Filter Tabs & Region Selector */}
       <div className="flex flex-wrap items-center justify-between gap-3 bg-white p-3 rounded-2xl border border-[#EFE9E1]">
         <div className="flex flex-wrap gap-1.5 text-xs font-medium">
