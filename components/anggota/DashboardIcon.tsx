@@ -166,6 +166,13 @@ export default function DashboardIcon({
           </svg>
         );
 
+      case "payment":
+        return (
+          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          </svg>
+        );
+
     default:
       return null;
   }
