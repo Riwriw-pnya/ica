@@ -32,9 +32,10 @@ export default function ApplicationQueuePage() {
 
             <div className="flex items-center gap-2">
               <select
+                disabled
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
-                className="rounded-lg border border-[var(--color-ink-100)] px-3 py-1.5 text-[12px] font-medium text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-300)]"
+                className="cursor-not-allowed rounded-lg border border-[var(--color-ink-100)] px-3 py-1.5 text-[12px] font-medium text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-300)]"
               >
                 <option>Bandung</option>
               </select>
@@ -76,7 +77,7 @@ export default function ApplicationQueuePage() {
                     <td className="px-2 py-3 text-right">
                       <button
                         onClick={() => router.push(`/regionaladmin/applications/${item.id}`)}
-                        className="text-[12px] font-semibold text-[var(--color-brand-orange-700)] hover:underline"
+                        className="text-[12px] font-semibold text-[var(--color-brand-orange-700)] hover:underline cursor-pointer"
                       >
                         Review →
                       </button>
@@ -93,7 +94,7 @@ export default function ApplicationQueuePage() {
             </p>
             <div className="flex items-center gap-3">
               <span className="text-[12px] text-[var(--color-ink-400)]">Baris per halaman</span>
-              <select className="rounded-lg border border-[var(--color-ink-100)] px-2 py-1 text-[12px]">
+              <select className="rounded-lg border border-[var(--color-ink-100)] text-[var(--color-ink-400)]     px-2 py-1 text-[12px]">
                 <option>8</option>
               </select>
               <button className="cursor-not-allowed rounded-full border border-[var(--color-ink-100)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-ink-400)]">
