@@ -1,154 +1,181 @@
 "use client";
 
-import { useState, useRef } from "react";
-import Link from "next/link";
-import { useRouter } from "next/navigation";
-import DashboardIcon from "@/components/anggota/DashboardIcon";
-import UserMenuDropdown from "./RegionalUserMenuDropdown";
-import { useUserMenu } from "@/context/UserMenuContext";
-import { useClickOutside } from "@/hooks/useClickOutside";
-import { regionalAdminProfile, regionalNotifications } from "@/data/regionalAdmin";
+import { useState } from "react";
+import { usePathname } from "next/navigation";
+import { useToast } from "@/context/ToastContext"; // Menggunakan ToastContext dari project kamu
+
+interface MenuItem {
+  path: string;
+  title: string;
+  description: string;
+}
+
+const MENU_MAP: MenuItem[] = [
+  {
+    path: "/regionaladmin/dashboard",
+    title: "Dashboard",
+    description: "Ringkasan antrean dan aktivitas admin ICA",
+  },
+  {
+    path: "/regionaladmin/members",
+    title: "Members",
+    description: "Data keanggotaan ICA - wilayah Bandung",
+  },
+  {
+    path: "/regionaladmin/catteries",
+    title: "Catteries",
+    description: "Cattery terdaftar dan kode resmi",
+  },
+  {
+    path: "/regionaladmin/payments",
+    title: "Payments",
+    description: "Iuran, registrasi, dan tiket event",
+  },
+  {
+    path: "/regionaladmin/cats",
+    title: "Cats",
+    description: "Semua kucing terdaftar beserta EMS code",
+  },
+  {
+    path: "/regionaladmin/applications",
+    title: "Applications",
+    description: "Semua pengajuan member, cattery yang masuk.",
+  },
+  {
+    path: "/regionaladmin/events",
+    title: "Events",
+    description: "Agenda cat show, kuota war ticketing, dan pendaftaran peserta",
+  },
+  {
+    path: "/regionaladmin/profil",
+    title: "Profil Cattery",
+    description: "Informasi detail dan identitas cattery.",
+  },
+];
 
 export default function Header() {
-    const router = useRouter();
-    const { openMenu, toggleMenu, closeMenu } = useUserMenu();
-    const [showNotifications, setShowNotifications] = useState(false);
-    const notifRef = useRef<HTMLDivElement>(null);
-    const profileRef = useRef<HTMLDivElement>(null);
+  const [isOpen, setIsOpen] = useState(false);
+  const [searchQuery, setSearchQuery] = useState("");
+  const rawPathname = usePathname();
+  
+  const { showToast } = useToast();
 
-    const isProfileOpen = openMenu === "header";
+  const pathname =
+    rawPathname?.endsWith("/") && rawPathname.length > 1
+      ? rawPathname.slice(0, -1)
+      : rawPathname;
 
-    useClickOutside(notifRef, () => setShowNotifications(false));
-    useClickOutside(profileRef, () => {
-        if (isProfileOpen) closeMenu();
-    });
+  const activeMenu = MENU_MAP.find((item) => {
+    if (item.path === pathname) return true;
+    if (pathname?.startsWith(item.path + "/")) return true;
+    return false;
+  });
 
-    const handleLogout = () => {
-        closeMenu();
-        router.push("/auth/login/regional-admin");
-    };
+  const currentTitle = activeMenu ? activeMenu.title : "Superadmin Portal";
+  const currentDescription = activeMenu
+    ? activeMenu.description
+    : "Ringkasan antrean dan aktivitas admin ICA";
 
-    const unreadCount = regionalNotifications.filter((n) => !n.isRead).length;
-
-    const initials = regionalAdminProfile.name
-        .split(" ")
-        .map((w) => w[0])
-        .slice(0, 2)
-        .join("")
-        .toUpperCase();
-
-    return (
-        <header className="sticky top-0 z-20 flex h-[64px] shrink-0 items-center justify-between border-b border-[#efe9e2] bg-white px-6">
-        {/* Search Bar */}
-        <div className="flex flex-1 items-center max-w-md">
-            <div className="relative w-full">
-            <div className="pointer-events-none absolute inset-y-0 left-0 flex items-center pl-3 text-[#a39c94]">
-                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <circle cx="11" cy="11" r="8" />
-                <line x1="21" y1="21" x2="16.65" y2="16.65" />
-                </svg>
-            </div>
-            <input
-                type="text"
-                placeholder="Cari nomor aplikasi, member, cattery"
-                className="w-full rounded-xl border border-[#e8e2da] bg-[#faf8f5] py-2 pl-9 pr-4 text-xs font-sans text-[#1a1817] placeholder-[#a39c94] focus:border-[#ee6b28] focus:bg-white focus:outline-none transition-colors"
-            />
-            </div>
-        </div>
-
-        {/* Right Controls */}
-        <div className="flex items-center gap-3">
-            {/* Notification Bell & Card */}
-            <div className="relative" ref={notifRef}>
-            <button
-                onClick={() => setShowNotifications(!showNotifications)}
-                className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#e8e2da] bg-white text-[#5e5852] hover:bg-[#faf8f5] transition cursor-pointer"
-                aria-label="Notifikasi"
-            >
-                <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
-                <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9" />
-                <path d="M13.73 21a2 2 0 0 1-3.46 0" />
-                </svg>
-                {unreadCount > 0 && (
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#ee6b28] text-[9px] font-bold text-white">
-                    {unreadCount}
-                </span>
-                )}
-            </button>
-
-            {/* Regional Admin Notification Dropdown Card */}
-            {showNotifications && (
-                <div className="absolute right-0 mt-2 w-80 sm:w-96 rounded-2xl border border-[#efe9e2] bg-white p-4 shadow-xl z-50">
-                <div className="flex items-center justify-between pb-3 border-b border-[#f3efe9]">
-                    <div className="flex items-center gap-2">
-                    <h3 className="text-sm font-bold text-[#1a1817]">Notifikasi Regional</h3>
-                    <span className="rounded-full bg-[#fff8f3] border border-[#fde8d7] px-2 py-0.5 text-[10px] font-bold text-[#ee6b28]">
-                        {regionalAdminProfile.region}
-                    </span>
-                    </div>
-                    <span className="text-[11px] text-[#8c857b]">
-                    {unreadCount} belum dibaca
-                    </span>
-                </div>
-
-                <div className="mt-3 max-h-[320px] overflow-y-auto space-y-2.5 pr-1">
-                    {regionalNotifications.map((item) => (
-                    <div
-                        key={item.id}
-                        className={`p-3 rounded-xl border text-xs transition ${
-                        item.isRead
-                            ? "bg-[#faf8f5] border-[#f3efe9] text-[#5e5852]"
-                            : "bg-[#fff8f3] border-[#fde8d7] text-[#1a1817]"
-                        }`}
-                    >
-                        <div className="flex items-start justify-between gap-2">
-                        <p className="font-bold text-[12px]">{item.title}</p>
-                        <span className="shrink-0 text-[10px] text-[#a39c94]">{item.time}</span>
-                        </div>
-                        <p className="mt-1 text-[11px] leading-relaxed text-[#5e5852]">{item.message}</p>
-                    </div>
-                    ))}
-                </div>
-
-                <div className="mt-3 pt-2 border-t border-[#f3efe9] text-center">
-                    <Link
-                    href="/regionaladmin/applications"
-                    onClick={() => setShowNotifications(false)}
-                    className="text-xs font-semibold text-[#ee6b28] hover:underline"
-                    >
-                    Lihat Semua Antrean Wilayah
-                    </Link>
-                </div>
-                </div>
-            )}
-            </div>
-
-            {/* User Profile Menu */}
-            <div className="relative" ref={profileRef}>
-            <button
-                onClick={() => toggleMenu("header")}
-                className="flex items-center gap-2.5 rounded-xl border border-[#e8e2da] bg-white p-1.5 pr-3 hover:bg-[#faf8f5] transition cursor-pointer"
-            >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#fde8d7] text-xs font-bold text-[#ee6b28]">
-                {initials}
-                </div>
-                <div className="text-left hidden sm:block">
-                <p className="text-xs font-bold text-[#1a1817] leading-tight">{regionalAdminProfile.name}</p>
-                <p className="text-[10px] text-[#8c857b]">{regionalAdminProfile.role} · {regionalAdminProfile.region}</p>
-                </div>
-                <DashboardIcon name="chevron" size={14} />
-            </button>
-
-            {isProfileOpen && (
-                <UserMenuDropdown
-                position="bottom"
-                widthClass="right-0 w-64"
-                onNavigate={closeMenu}
-                onLogout={handleLogout}
-                />
-            )}
-            </div>
-        </div>
-        </header>
+  const handleNotificationClick = () => {
+    showToast(
+      "", // Title sengaja dikosongkan jika pesan hanya 1 baris/kalimat langsung
+      "3 notifikasi baru: 2 aplikasi menunggu review, 1 pembayaran perlu konfirmasi.",
+      {
+        variant: "outlined",
+        tone: "success",
+      }
     );
+  };
+
+  return (
+    <header className="h-16 bg-white border-b border-[#EFE9E1] px-6 flex items-center justify-between relative shrink-0">
+      {/* Title & Subtitle */}
+      <div className="flex flex-col justify-center">
+        <h1 className="text-lg font-bold text-[#231A14] leading-tight md:text-xl">
+          {currentTitle}
+        </h1>
+        <p className="text-xs text-[#8C8078] leading-normal mt-0.5 md:text-sm">
+          {currentDescription}
+        </p>
+      </div>
+
+      {/* Right Side: Search, Notification, & Profile */}
+      <div className="flex items-center gap-3">
+        {/* Search Input */}
+        <div className="relative hidden md:block w-72">
+          <input
+            type="text"
+            value={searchQuery}
+            onChange={(e) => setSearchQuery(e.target.value)}
+            placeholder="Cari nomor aplikasi, member, ca..."
+            className="w-full px-4 py-2 text-xs rounded-xl border border-[#EFE9E1] bg-white text-[#231A14] placeholder-[#A0948C] focus:outline-none focus:border-[#EE6B28] transition"
+          />
+        </div>
+
+        {/* Notification Button dengan Red Indicator Dot */}
+        <button
+          onClick={handleNotificationClick}
+          className="relative p-2.5 rounded-xl border border-[#EFE9E1] hover:bg-[#FAF8F5] transition cursor-pointer text-[#231A14]"
+          aria-label="Notifications"
+        >
+          {/* Icon Bell SVG */}
+          <svg
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 24 24"
+            strokeWidth={1.8}
+            stroke="currentColor"
+            className="w-4 h-4"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              d="M14.857 17.082a23.848 23.848 0 0 0 5.454-1.31A8.967 8.967 0 0 1 18 9.75V9A6 6 0 0 0 6 9v.75a8.967 8.967 0 0 1-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 0 1-5.714 0m5.714 0a3 3 0 1 1-5.714 0"
+            />
+          </svg>
+          
+          {/* Red Indicator Dot */}
+          <span className="absolute top-2 right-2 w-2 h-2 bg-[#E54D42] rounded-full ring-2 ring-white" />
+        </button>
+
+        {/* Separator Divider */}
+        <div className="h-8 w-[1px] bg-[#EFE9E1] mx-1 hidden sm:block" />
+
+        {/* Profile User Dropdown */}
+        <div className="relative">
+          <button
+            onClick={() => setIsOpen(!isOpen)}
+            className="flex items-center gap-2.5 p-1 rounded-xl hover:bg-[#FAF8F5] transition cursor-pointer"
+          >
+            <div className="w-8 h-8 rounded-full bg-[#FFE3D1] text-[#EE6B28] flex items-center justify-center font-bold text-xs shrink-0">
+              RN
+            </div>
+            <div className="text-left hidden sm:block">
+              <div className="text-xs font-bold text-[#231A14]">
+                Rina Nurhayati
+              </div>
+              <div className="text-[10px] text-[#8C8078] leading-tight">
+                Super Admin <br className="hidden" />· Pusat
+              </div>
+            </div>
+          </button>
+
+          {isOpen && (
+            <div className="absolute right-0 top-12 w-48 bg-white border border-[#EFE9E1] rounded-2xl shadow-lg p-2 text-xs z-50">
+              <div className="p-2 border-b border-[#F2EFE9]">
+                <p className="font-bold text-[#231A14]">Rina Nurhayati</p>
+                <p className="text-[10px] text-[#8C8078]">rina@ica.or.id</p>
+              </div>
+              <button className="w-full text-left p-2 hover:bg-[#FAF8F5] rounded-lg text-[#7A6E65] mt-1 transition">
+                Pengaturan Profil
+              </button>
+              <button className="w-full text-left p-2 hover:bg-rose-50 rounded-lg text-rose-600 font-semibold transition">
+                Keluar
+              </button>
+            </div>
+          )}
+        </div>
+      </div>
+    </header>
+  );
 }
