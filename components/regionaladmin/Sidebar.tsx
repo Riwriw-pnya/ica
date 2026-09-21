@@ -67,8 +67,11 @@ export default function Sidebar() {
           label: "Cats",
           href: "/regionaladmin/cats",
           icon: (
-            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+            <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
+                <path d="M12 5.2c1.5-1.8 3.8-2 5.5-.8 1.2.8 1.8 2.2 1.5 3.8 1.8 1.5 2.2 4.2 1 6.5-1.5 2.8-5 4.5-8 4.5s-6.5-1.7-8-4.5c-1.2-2.3-.8-5 1-6.5-.3-1.6.3-3 1.5-3.8 1.7-1.2 4-1 5.5.8z" />
+                <circle cx="8.8" cy="12.8" r="1" fill="currentColor" stroke="none" />
+                <circle cx="15.2" cy="12.8" r="1" fill="currentColor" stroke="none" />
+                <polygon points="12,14.5 11,15.8 13,15.8" fill="currentColor" stroke="none" />
             </svg>
           ),
         },
