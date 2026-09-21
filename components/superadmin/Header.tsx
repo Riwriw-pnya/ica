@@ -67,9 +67,14 @@ const MENU_MAP: MenuItem[] = [
     description: "Informasi detail dan identitas cattery.",
   },
   {
-    path: "/superadmin/settings",
-    title: "Settings",
-    description: "Pengaturan akun dan konfigurasi sistem.",
+    path: "/superadmin/roles",
+    title: "Users & Roles",
+    description: "Akun admin dan izin akses",
+  },
+  {
+    path: "/superadmin/app-config",
+    title: "App Configuration",
+    description: "Aturan validasi dan perilaku modul",
   },
 ];
 
