@@ -177,7 +177,7 @@ export default function RegionalAdminDashboardPage() {
                             <tbody className="divide-y divide-[#f3efe9]">
                             {applicationQueueItems.map((item) => (
                                 <tr key={item.id} className="hover:bg-[#faf8f5] transition-colors">
-                                    <td className="py-3.5 px-2 font-medium text-[#1a1817]">{item.reportCode}</td>
+                                    <td className="py-3.5 px-2 font-medium text-[#1a1817]">{item.code}</td>
                                     <td className="py-3.5 px-2">
                                         <p className="font-bold text-[#1a1817]">{item.applicantName}</p>
                                         <p className="text-[11px] text-[#8c857b]">{item.applicantType}</p>
