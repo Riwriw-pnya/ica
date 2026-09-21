@@ -83,3 +83,23 @@ export interface ApplicationDetailItem extends ApplicationQueueItem {
   history: ApplicantHistory;
   internalNote?: string;
 }
+
+export interface MemberItem {
+  id: string;
+  memberCode: string;
+  name: string;
+  email: string;
+  region: string;
+  catteryName: string;
+  catsCount: number;
+  status: "Aktif" | "Kedaluwarsa";
+}
+
+export interface MemberRequestItem {
+  id: string;
+  initials: string;
+  name: string;
+  region: string;
+  submissionDate: string;
+  notes: string;
+}

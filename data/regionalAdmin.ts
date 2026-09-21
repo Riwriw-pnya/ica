@@ -285,3 +285,77 @@ export const applicationDetails: Record<string, ApplicationDetail | ApplicationD
     },
   },
 };
+
+import { MemberItem, MemberRequestItem } from "@/types/regionalAdmin";
+
+export const memberStats = {
+  activeMembers: 2,
+  expiredMembers: 0,
+  pendingRequests: 5,
+};
+
+export const activeMembersList: MemberItem[] = [
+  {
+    id: "1",
+    memberCode: "ICA-2024-0871",
+    name: "Hana Maheswari",
+    email: "hana@rumahhana.id",
+    region: "Bandung",
+    catteryName: "Rumah Hana Cattery",
+    catsCount: 11,
+    status: "Aktif",
+  },
+  {
+    id: "2",
+    memberCode: "ICA-2023-0455",
+    name: "Reza Aditya",
+    email: "reza@bandungpaws.id",
+    region: "Bandung",
+    catteryName: "Bandung Paws Cattery",
+    catsCount: 8,
+    status: "Aktif",
+  },
+];
+
+export const newMemberRequests: MemberRequestItem[] = [
+  {
+    id: "req-1",
+    initials: "AP",
+    name: "Anindya Prameswari",
+    region: "Bandung",
+    submissionDate: "14 Sep 2026",
+    notes: "iuran lunas Rp 350.000",
+  },
+  {
+    id: "req-2",
+    initials: "RW",
+    name: "Raka Wibisono",
+    region: "Bandung",
+    submissionDate: "14 Sep 2026",
+    notes: "menunggu verifikasi KTP",
+  },
+  {
+    id: "req-3",
+    initials: "SH",
+    name: "Salma Hanifah",
+    region: "Cimahi",
+    submissionDate: "15 Sep 2026",
+    notes: "iuran lunas Rp 350.000",
+  },
+  {
+    id: "req-4",
+    initials: "BA",
+    name: "Bagus Adiputra",
+    region: "Bandung",
+    submissionDate: "16 Sep 2026",
+    notes: "pemilik cattery baru",
+  },
+  {
+    id: "req-5",
+    initials: "NK",
+    name: "Nadia Kusuma",
+    region: "Sumedang",
+    submissionDate: "16 Sep 2026",
+    notes: "iuran lunas Rp 350.000",
+  },
+];
