@@ -3,8 +3,20 @@
 import { useState } from "react";
 import CreateArticleModal from "./CreateArticleModal";
 
-export default function NewsSectionHeader() {
+interface NewsSectionHeaderProps {
+  onCreateNew?: () => void;
+}
+
+export default function NewsSectionHeader({ onCreateNew }: NewsSectionHeaderProps) {
   const [isModalOpen, setIsModalOpen] = useState(false);
+
+  const handleClick = () => {
+    if (onCreateNew) {
+      onCreateNew();
+    } else {
+      setIsModalOpen(true);
+    }
+  };
 
   return (
     <>
@@ -17,7 +29,7 @@ export default function NewsSectionHeader() {
         </div>
         <button
           type="button"
-          onClick={() => setIsModalOpen(true)}
+          onClick={handleClick}
           className="inline-flex items-center justify-center gap-2 shrink-0 cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
         >
           {/* SVG Plus Icon sejajar presisi di tengah */}
@@ -34,10 +46,13 @@ export default function NewsSectionHeader() {
         </button>
       </div>
 
-      <CreateArticleModal
-        isOpen={isModalOpen}
-        onClose={() => setIsModalOpen(false)}
-      />
+      {/* Hanya tampilkan modal lokal jika tidak dikontrol oleh parent */}
+      {!onCreateNew && (
+        <CreateArticleModal
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+      )}
     </>
   );
 }

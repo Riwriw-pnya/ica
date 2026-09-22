@@ -1,45 +1,88 @@
 "use client";
 
-import { useState } from "react";
-import { useToast } from "@/context/ToastContext"; // Menggunakan ToastContext yang sudah ada
+import { useState, useEffect } from "react";
+import { useToast } from "@/context/ToastContext";
+
+export interface ArticleItem {
+  id?: string;
+  title: string;
+  category: string;
+  status?: "Aktif" | "Draft" | "Arsip";
+  publishedDate?: string;
+  savedDate?: string;
+  views?: number;
+  imagePlaceholder?: string;
+  content?: string;
+}
 
 interface CreateArticleModalProps {
   isOpen: boolean;
   onClose: () => void;
   onSuccess?: () => void;
+  articleToEdit?: ArticleItem | null;
 }
 
 export default function CreateArticleModal({
   isOpen,
   onClose,
   onSuccess,
+  articleToEdit,
 }: CreateArticleModalProps) {
   const { showToast } = useToast();
 
-  const [title, setTitle] = useState("Perubahan syarat pendaftaran mating report 2026");
+  const isEditMode = Boolean(articleToEdit);
+
+  const [title, setTitle] = useState("");
   const [category, setCategory] = useState("");
   const [publishDate, setPublishDate] = useState("2026-09-04");
   const [content, setContent] = useState("");
+
+  // Mengisi form secara otomatis jika articleToEdit berganti/tersedia
+  useEffect(() => {
+    if (isOpen) {
+      if (articleToEdit) {
+        setTitle(articleToEdit.title || "");
+        setCategory(articleToEdit.category || "");
+        setPublishDate(articleToEdit.publishedDate || "2026-09-04");
+        setContent(
+          articleToEdit.content ||
+            "Ini adalah isi konten artikel yang sudah disimpan sebelumnya."
+        );
+      } else {
+        // Reset form jika buat artikel baru
+        setTitle("");
+        setCategory("");
+        setPublishDate("2026-09-04");
+        setContent("");
+      }
+    }
+  }, [isOpen, articleToEdit]);
 
   if (!isOpen) return null;
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
 
-    // Trigger Toast Notification dengan gaya ToastContext existing
-    showToast("Artikel diterbitkan di halaman News.", "success");
+    // Pesan toast menyesuaikan aksi (Edit vs Buat Baru)
+    if (isEditMode) {
+      showToast("Perubahan artikel berhasil disimpan.", "success");
+    } else {
+      showToast("Artikel diterbitkan di halaman News.", "success");
+    }
 
     if (onSuccess) onSuccess();
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-xs">
-      <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white p-6 shadow-2xl transition-all">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/40 p-4 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="relative w-full max-w-4xl overflow-hidden rounded-3xl bg-white p-6 shadow-2xl transition-all max-h-[90vh] overflow-y-auto">
         {/* Modal Header */}
         <div className="flex items-start justify-between pb-4">
           <div>
-            <h3 className="text-lg font-bold text-[#231A14]">Artikel</h3>
+            <h3 className="text-lg font-bold text-[#231A14]">
+              {isEditMode ? "Edit artikel" : "Artikel baru"}
+            </h3>
             <p className="mt-0.5 text-xs text-[#8C8078]">
               Artikel yang diterbitkan tampil di halaman News dan Member Portal.
             </p>
@@ -47,7 +90,7 @@ export default function CreateArticleModal({
           <button
             onClick={onClose}
             type="button"
-            className="flex h-8 w-8 items-center justify-center rounded-full text-[#8C8078] hover:bg-[#F5F2ED] hover:text-[#231A14] transition"
+            className="flex h-8 w-8 items-center justify-center rounded-full text-[#8C8078] hover:bg-[#F5F2ED] hover:text-[#231A14] transition cursor-pointer"
           >
             <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
               <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
@@ -160,7 +203,9 @@ export default function CreateArticleModal({
                   <circle cx="8.5" cy="8.5" r="1.5" />
                   <polyline points="21 15 16 10 5 21" />
                 </svg>
-                <span className="text-xs font-medium text-[#7A6E65]">Cover · 1200×630</span>
+                <span className="text-xs font-medium text-[#7A6E65]">
+                  {articleToEdit?.imagePlaceholder || "Cover · 1200×630"}
+                </span>
               </div>
 
               <p className="text-[11px] text-[#A0948C] mt-2">
@@ -182,7 +227,7 @@ export default function CreateArticleModal({
               type="submit"
               className="inline-flex items-center justify-center gap-2 shrink-0 cursor-pointer rounded-xl border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
             >
-              Terbitkan artikel
+              {isEditMode ? "Simpan perubahan" : "Terbitkan artikel"}
             </button>
           </div>
         </form>

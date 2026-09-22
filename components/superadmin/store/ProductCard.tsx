@@ -1,3 +1,7 @@
+"use client";
+
+import React from "react";
+
 export interface ProductItem {
   id: string;
   name: string;
@@ -8,9 +12,22 @@ export interface ProductItem {
   mainImage?: string;
   subImages: Array<{ id: number; image?: string; label?: string }>;
   photoCountNote: string;
+  description?: string;
 }
 
-export default function ProductCard({ item }: { item: ProductItem }) {
+export interface ProductCardProps {
+  item: ProductItem;
+  onEdit?: (item: ProductItem) => void;
+  onHide?: (item: ProductItem) => void;
+  onDelete?: (item: ProductItem) => void;
+}
+
+export default function ProductCard({
+  item,
+  onEdit,
+  onHide,
+  onDelete,
+}: ProductCardProps) {
   const isDraft = item.status === "Draft";
 
   return (
@@ -57,6 +74,7 @@ export default function ProductCard({ item }: { item: ProductItem }) {
               ) : (
                 <button
                   type="button"
+                  onClick={() => onEdit?.(item)}
                   className="w-full h-12 rounded-xl bg-[#FFF8F3] border border-dashed border-[#FFC299] flex items-center justify-center text-[11px] font-bold text-[#EE6B28] hover:bg-[#FFE5D4]/50 transition cursor-pointer"
                 >
                   + Foto
@@ -117,6 +135,7 @@ export default function ProductCard({ item }: { item: ProductItem }) {
           <>
             <button
               type="button"
+              onClick={() => onEdit?.(item)}
               className="inline-flex items-center justify-center gap-1.5 px-4 py-1.5 rounded-xl border border-[#EE6B28] text-[#EE6B28] hover:bg-[#FFF8F3] text-xs font-bold transition cursor-pointer"
             >
               <svg className="w-3.5 h-3.5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
@@ -126,6 +145,7 @@ export default function ProductCard({ item }: { item: ProductItem }) {
             </button>
             <button
               type="button"
+              onClick={() => onHide?.(item)}
               className="px-4 py-1.5 rounded-xl border border-[#EFE9E1] text-[#7A6E65] hover:bg-[#FAF8F5] text-xs font-bold transition cursor-pointer"
             >
               Sembunyikan
@@ -135,12 +155,14 @@ export default function ProductCard({ item }: { item: ProductItem }) {
           <>
             <button
               type="button"
+              onClick={() => onEdit?.(item)}
               className="px-4 py-1.5 rounded-xl border border-[#EE6B28] text-[#EE6B28] hover:bg-[#FFF8F3] text-xs font-bold transition cursor-pointer"
             >
               Lengkapi produk
             </button>
             <button
               type="button"
+              onClick={() => onDelete?.(item)}
               className="px-4 py-1.5 rounded-xl border border-[#EFE9E1] text-[#7A6E65] hover:bg-[#FAF8F5] text-xs font-bold transition cursor-pointer"
             >
               Hapus
