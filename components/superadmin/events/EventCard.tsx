@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 
 export interface SlotItem {
   name: string;
@@ -12,6 +13,7 @@ export interface SlotItem {
 }
 
 export interface EventItemProps {
+  id: string;
   bannerLabel?: string;
   badges: Array<{ label: string; variant: "upcoming" | "ongoing" | "default" }>;
   title: string;
@@ -20,10 +22,39 @@ export interface EventItemProps {
   noticeText?: string;
 }
 
-export default function EventCard({ item }: { item: EventItemProps }) {
+interface EventCardComponentProps {
+  item: EventItemProps;
+  onManageQuota?: (item: EventItemProps) => void;
+  onManageRegistration?: (item: EventItemProps) => void;
+  onShare?: (item: EventItemProps) => void;
+}
+
+export default function EventCard({
+  item,
+  onManageQuota,
+  onManageRegistration,
+  onShare,
+}: EventCardComponentProps) {
+  const router = useRouter();
+
+  const handleAturKuotaClick = () => {
+    if (onManageQuota) {
+      onManageQuota(item);
+    } else {
+      router.push(`/superadmin/events/create?id=${item.id}`);
+    }
+  };
+
+  const handleKelolaPendaftaranClick = () => {
+    if (onManageRegistration) {
+      onManageRegistration(item);
+    } else {
+      router.push(`/superadmin/events/detail?id=${item.id}`);
+    }
+  };
+
   return (
     <div className="bg-white border border-[#EFE9E1] rounded-3xl p-5 space-y-4 shadow-xs">
-      
       {/* Banner Placeholder */}
       <div className="w-full h-36 bg-[#F5F2ED] border border-dashed border-[#D0C5BC] rounded-2xl flex flex-col items-center justify-center text-[#8C8078] gap-1.5">
         <svg className="w-6 h-6 text-[#A0948C]" fill="none" stroke="currentColor" strokeWidth="1.5" viewBox="0 0 24 24">
@@ -67,7 +98,7 @@ export default function EventCard({ item }: { item: EventItemProps }) {
         <p className="text-xs text-[#8C8078] mt-0.5">{item.subtitle}</p>
       </div>
 
-      {/* Slot Kategori Progress Bars (jika ada) */}
+      {/* Slot Kategori Progress Bars */}
       {item.slots && (
         <div className="space-y-3 pt-1">
           {item.slots.map((slot, idx) => (
@@ -86,7 +117,7 @@ export default function EventCard({ item }: { item: EventItemProps }) {
         </div>
       )}
 
-      {/* Notice Box Info (jika ada) */}
+      {/* Notice Box Info */}
       {item.noticeText && (
         <div className="bg-[#FAF8F5] border border-[#EFE9E1] rounded-2xl p-3 text-xs text-[#7A6E65] leading-relaxed">
           {item.noticeText}
@@ -95,8 +126,10 @@ export default function EventCard({ item }: { item: EventItemProps }) {
 
       {/* Action Buttons */}
       <div className="flex items-center gap-2 pt-2 border-t border-[#F2EFE9]">
+        {/* Tombol Atur Kuota & Timer */}
         <button
           type="button"
+          onClick={handleAturKuotaClick}
           className="flex-1 inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-[#EFE9E1] bg-white text-[#7A6E65] hover:bg-[#FAF8F5] text-xs font-bold transition cursor-pointer"
         >
           <svg className="w-3.5 h-3.5 text-[#8C8078]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -104,21 +137,23 @@ export default function EventCard({ item }: { item: EventItemProps }) {
           </svg>
           Atur kuota & timer
         </button>
+
+        {/* Tombol Kelola Pendaftaran -> Buka Detail Review */}
         <button
           type="button"
+          onClick={handleKelolaPendaftaranClick}
           className="flex-1 inline-flex items-center justify-center gap-1 px-3 py-2 rounded-xl border border-[#EFE9E1] bg-white text-[#231A14] hover:bg-[#FAF8F5] text-xs font-bold transition cursor-pointer"
         >
           Kelola pendaftaran
-          {item.slots && (
-            <svg className="w-3.5 h-3.5 text-[#8C8078]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-            </svg>
-          )}
+          <svg className="w-3.5 h-3.5 text-[#8C8078]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+            <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+          </svg>
         </button>
       </div>
 
       <button
         type="button"
+        onClick={() => onShare?.(item)}
         className="w-full inline-flex items-center justify-center gap-1.5 px-3 py-2 rounded-xl border border-[#EFE9E1] bg-white text-[#7A6E65] hover:bg-[#FAF8F5] text-xs font-bold transition cursor-pointer"
       >
         <svg className="w-3.5 h-3.5 text-[#8C8078]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
@@ -126,7 +161,6 @@ export default function EventCard({ item }: { item: EventItemProps }) {
         </svg>
         Share event
       </button>
-
     </div>
   );
 }

@@ -1,3 +1,7 @@
+"use client";
+
+import React from "react";
+
 export interface ArticleItem {
   id: string;
   title: string;
@@ -7,9 +11,24 @@ export interface ArticleItem {
   savedDate?: string;
   views?: number;
   imagePlaceholder: string;
+  content?: string;
 }
 
-export default function ArticleCard({ item }: { item: ArticleItem }) {
+export interface ArticleCardProps {
+  item: ArticleItem;
+  onEdit?: (item: ArticleItem) => void;
+  onContinue?: (item: ArticleItem) => void;
+  onDelete?: (item: ArticleItem) => void;
+  onArchive?: (item: ArticleItem) => void;
+}
+
+export default function ArticleCard({
+  item,
+  onEdit,
+  onContinue,
+  onDelete,
+  onArchive,
+}: ArticleCardProps) {
   const isDraft = item.status === "Draft";
 
   return (
@@ -64,22 +83,38 @@ export default function ArticleCard({ item }: { item: ArticleItem }) {
         <div className="pt-3 border-t border-[#F2EFE9] flex items-center gap-2">
           {isDraft ? (
             <>
-              <button className="flex-1 px-3 py-2 rounded-xl border border-[#EE6B28] text-[#EE6B28] hover:bg-[#FFF8F3] text-xs font-bold transition cursor-pointer">
+              <button
+                type="button"
+                onClick={() => (onContinue ? onContinue(item) : onEdit?.(item))}
+                className="flex-1 px-3 py-2 rounded-xl border border-[#EE6B28] text-[#EE6B28] hover:bg-[#FFF8F3] text-xs font-bold transition cursor-pointer"
+              >
                 Lanjutkan menulis
               </button>
-              <button className="px-3 py-2 rounded-xl border border-[#EFE9E1] text-rose-600 hover:bg-rose-50 text-xs font-bold transition cursor-pointer">
+              <button
+                type="button"
+                onClick={() => onDelete?.(item)}
+                className="px-3 py-2 rounded-xl border border-[#EFE9E1] text-rose-600 hover:bg-rose-50 text-xs font-bold transition cursor-pointer"
+              >
                 Hapus
               </button>
             </>
           ) : (
             <>
-              <button className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#EFE9E1] hover:bg-[#FAF8F5] text-xs font-bold text-[#231A14] transition cursor-pointer">
+              <button
+                type="button"
+                onClick={() => onEdit?.(item)}
+                className="inline-flex items-center justify-center gap-1.5 px-3.5 py-2 rounded-xl border border-[#EFE9E1] hover:bg-[#FAF8F5] text-xs font-bold text-[#231A14] transition cursor-pointer"
+              >
                 <svg className="w-3.5 h-3.5 text-[#7A6E65]" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M16.862 4.487l1.687-1.688a1.875 1.875 0 112.652 2.652L10.582 16.07a4.5 4.5 0 01-1.897 1.13L6 18l.8-2.685a4.5 4.5 0 011.13-1.897l8.932-8.931zm0 0L19.5 7.125M18 14v4.75A2.25 2.25 0 0115.75 21H5.25A2.25 2.25 0 013 18.75V8.25A2.25 2.25 0 015.25 6H10" />
                 </svg>
                 Edit
               </button>
-              <button className="px-3.5 py-2 rounded-xl border border-[#EFE9E1] hover:bg-[#FAF8F5] text-xs font-bold text-[#7A6E65] transition cursor-pointer">
+              <button
+                type="button"
+                onClick={() => onArchive?.(item)}
+                className="px-3.5 py-2 rounded-xl border border-[#EFE9E1] hover:bg-[#FAF8F5] text-xs font-bold text-[#7A6E65] transition cursor-pointer"
+              >
                 Arsipkan
               </button>
             </>
