@@ -1,8 +1,12 @@
 "use client";
 
-import { useState } from "react";
+import React from "react";
 
-export default function StoreSectionHeader() {
+interface StoreSectionHeaderProps {
+  onAddProduct?: () => void;
+}
+
+export default function StoreSectionHeader({ onAddProduct }: StoreSectionHeaderProps) {
   return (
     <div className="bg-white border border-[#EFE9E1] rounded-2xl p-6 flex flex-col sm:flex-row sm:items-center justify-between gap-4 shadow-sm">
       <div>
@@ -13,6 +17,7 @@ export default function StoreSectionHeader() {
       </div>
       <button
         type="button"
+        onClick={onAddProduct}
         className="inline-flex items-center justify-center gap-1.5 shrink-0 cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
       >
         <svg

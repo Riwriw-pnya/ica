@@ -2,11 +2,14 @@
 
 import { useState } from "react";
 import StoreSectionHeader from "@/components/superadmin/store/StoreSectionHeader";
-import StoreCallout from "@/components/superadmin/store/StoreCallout";
 import ProductCard, { ProductItem } from "@/components/superadmin/store/ProductCard";
+import ProductModal from "@/components/superadmin/store/ProductModal";
+import { useToast } from "@/context/ToastContext";
 
 export default function SuperadminStorePage() {
-  const [products] = useState<ProductItem[]>([
+  const { showToast } = useToast();
+
+  const [products, setProducts] = useState<ProductItem[]>([
     {
       id: "1",
       name: "Tas kandang ICA Official",
@@ -14,13 +17,13 @@ export default function SuperadminStorePage() {
       category: "Perlengkapan Kucing",
       categoryIcon: "folder",
       status: "Aktif",
-      mainImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMkJUN7nXxJ3IsGxHewu8Jng4AE7V59RkhVnR78YdYLQ&s=10", 
+      mainImage: "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcTRb7fgiggQkVFxPe9xPjtoPru4GKSjZu3pJaCsIGeqMA&s=10",
+      photoCountNote: "3 dari 3 foto diunggah",
       subImages: [
         { id: 1, label: "Foto 2" },
         { id: 2, label: "Foto 3" },
-        { id: 3 }, // triggers + Foto button
+        { id: 3, label: "" },
       ],
-      photoCountNote: "3 foto · foto utama terpasang",
     },
     {
       id: "2",
@@ -28,14 +31,14 @@ export default function SuperadminStorePage() {
       price: "Rp 150.000",
       category: "Tiket Event",
       categoryIcon: "calendar",
-      status: "Aktif",
-      mainImage: "",
+      status: "Draft",
+      mainImage: "", 
+      photoCountNote: "1 foto diunggah",
       subImages: [
-        { id: 1, label: "Foto 2" },
-        { id: 2 }, // triggers + Foto button
-        { id: 3 }, // hidden or empty
+        { id: 1, label: "" },
+        { id: 2, label: "" },
+        { id: 3, label: "" },
       ],
-      photoCountNote: "2 foto · terhubung ke event Bandung",
     },
     {
       id: "3",
@@ -44,23 +47,77 @@ export default function SuperadminStorePage() {
       category: "Perlengkapan Kucing",
       categoryIcon: "folder",
       status: "Draft",
-      subImages: [
-        { id: 1 }, // triggers + Foto button
-      ],
       photoCountNote: "Belum tampil — foto utama belum diunggah",
+      subImages: [
+        { id: 1, label: "" },
+        { id: 2, label: "" },
+        { id: 3, label: "" },
+      ],
     },
   ]);
 
-  return (
-    <div className="p-6 max-w-7xl mx-auto space-y-6 text-[#231A14]">
-      <StoreSectionHeader />
-      <StoreCallout />
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [selectedProduct, setSelectedProduct] = useState<ProductItem | null>(null);
 
-      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+  // Open modal untuk tambah produk baru
+  const handleAddProduct = () => {
+    setSelectedProduct(null);
+    setIsModalOpen(true);
+  };
+
+  // Open modal untuk edit/lengkapi produk
+  const handleEditProduct = (item: ProductItem) => {
+    setSelectedProduct(item);
+    setIsModalOpen(true);
+  };
+
+  // Sembunyikan produk
+  const handleHideProduct = (item: ProductItem) => {
+    showToast(`Produk "${item.name}" disembunyikan dari katalog.`, "info");
+  };
+
+  // Hapus produk
+  const handleDeleteProduct = (item: ProductItem) => {
+    setProducts((prev) => prev.filter((p) => p.id !== item.id));
+    showToast("Produk dihapus dari katalog Store.", "success");
+  };
+
+  // Handler simpan (tambah/update) data produk termasuk mainImage
+  const handleSaveProduct = (savedProduct: ProductItem) => {
+    setProducts((prev) => {
+      const exists = prev.some((p) => p.id === savedProduct.id);
+      if (exists) {
+        return prev.map((p) => (p.id === savedProduct.id ? savedProduct : p));
+      }
+      return [savedProduct, ...prev];
+    });
+  };
+
+  return (
+    <div className="p-6 max-w-7xl mx-auto space-y-5 text-[#231A14]">
+      {/* Header dengan handler Tambah Produk */}
+      <StoreSectionHeader onAddProduct={handleAddProduct} />
+
+      {/* Grid Katalog Produk */}
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
         {products.map((item) => (
-          <ProductCard key={item.id} item={item} />
+          <ProductCard
+            key={item.id}
+            item={item}
+            onEdit={handleEditProduct}
+            onHide={handleHideProduct}
+            onDelete={handleDeleteProduct}
+          />
         ))}
       </div>
+
+      {/* Modal Edit / Tambah Produk */}
+      <ProductModal
+        isOpen={isModalOpen}
+        onClose={() => setIsModalOpen(false)}
+        productToEdit={selectedProduct}
+        onSave={handleSaveProduct}
+      />
     </div>
   );
 }

@@ -196,7 +196,7 @@ export default function SuperAdminDashboard() {
                 <p className="text-[11px] text-[#8C8078]">Urut dari yang paling lama menunggu review.</p>
               </div>
               <Link
-                href="/superadmin/verifikasi-cattery"
+                href="/superadmin/applications"
                 className="inline-flex items-center gap-1 text-xs font-bold text-[#231A14] bg-[#FAF8F5] px-3 py-1.5 rounded-xl border border-[#E9E2DC] hover:bg-[#F2EFE9] transition"
               >
                 Buka Application Queue

@@ -1,13 +1,17 @@
 "use client";
 
 import React from "react";
+import { useRouter } from "next/navigation";
 import EventsHeader from "@/components/superadmin/events/EventsHeader";
 import EventCard, { EventItemProps } from "@/components/superadmin/events/EventCard";
 import EventsFooterNotice from "@/components/superadmin/events/EventsFooterNotice";
 
 export default function EventsPage() {
+  const router = useRouter();
+
   const eventsData: EventItemProps[] = [
     {
+      id: "ica-cat-show-bandung-2026",
       badges: [
         { label: "Upcoming", variant: "upcoming" },
         { label: "Cat Show", variant: "default" },
@@ -48,6 +52,7 @@ export default function EventsPage() {
       ],
     },
     {
+      id: "diklat-breeder-pemula-batch-3",
       badges: [
         { label: "Ongoing", variant: "ongoing" },
         { label: "Diklat Cattery", variant: "default" },
@@ -59,22 +64,35 @@ export default function EventsPage() {
     },
   ];
 
+  // Handler ke halaman Form/Edit Kuota
+  const handleManageQuota = (item: EventItemProps) => {
+    router.push(`/superadmin/events/create?id=${item.id}`);
+  };
+
+  // Handler ke halaman Detail Review Pendaftaran
+  const handleManageRegistration = (item: EventItemProps) => {
+    router.push(`/superadmin/events/detail?id=${item.id}`);
+  };
+
   return (
     <div className="p-6 max-w-7xl mx-auto space-y-6 text-[#231A14]">
-      
       {/* Header Halaman */}
       <EventsHeader />
 
       {/* Grid Kartu Event */}
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-start">
-        {eventsData.map((item, index) => (
-          <EventCard key={index} item={item} />
+        {eventsData.map((item) => (
+          <EventCard
+            key={item.id}
+            item={item}
+            onManageQuota={handleManageQuota}
+            onManageRegistration={handleManageRegistration}
+          />
         ))}
       </div>
 
       {/* Footer Callout Note */}
       <EventsFooterNotice />
-
     </div>
   );
 }
