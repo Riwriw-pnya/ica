@@ -4,7 +4,7 @@ import BottomNav from "@/components/anggota/BottomNav";
 import { UserMenuProvider } from "@/context/UserMenuContext";
 import { SidebarProvider } from "@/context/SidebarContext";
 
-export default function DashboardLayout({
+export default function AnggotaLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -12,26 +12,24 @@ export default function DashboardLayout({
   return (
     <UserMenuProvider>
       <SidebarProvider>
-        {/*
-          PERUBAHAN UTAMA:
-          Ganti bg-[var(--color-sidebar)] menjadi bg-[#faf8f5] di kontainer utama atau area konten
-        */}
         <div className="flex h-screen overflow-hidden bg-[#faf8f5] relative">
           
-          {/* Sidebar (Disembunyikan di HP, tampil di layar lg ke atas) */}
+          {/* Sidebar (Desktop) */}
           <div className="hidden lg:block bg-[var(--color-sidebar)]">
             <Sidebar />
           </div>
 
           <div className="flex min-w-0 flex-1 flex-col h-full">
             <Header />
-            {/* Area Konten Utama dengan Latar Krem */}
-            <main className="min-h-0 flex-1 overflow-y-auto bg-[#faf8f5] p-6 lg:p-8 pb-20 lg:pb-8">
+
+            {/* Area Konten Utama */}
+            {/* overflow-x-hidden mengunci halaman agar tidak bocor ke samping saat swipe carousel */}
+            <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-[#faf8f5] px-4 py-4 sm:px-6 lg:p-8 pb-24 lg:pb-8">
               {children}
             </main>
           </div>
 
-          {/* Bottom Navigation khusus Mobile */}
+          {/* Bottom Navigation (Mobile) */}
           <div className="lg:hidden">
             <BottomNav />
           </div>
