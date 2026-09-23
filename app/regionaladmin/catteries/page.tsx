@@ -52,8 +52,8 @@ export default function CatteriesPage() {
             </div>
 
             {/* Main Table Card */}
-            <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
+            <div className="bg-white border border-gray-100 rounded-2xl px-3 py-5 shadow-sm">
+                <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 px-3 pb-3 border-b border-gray-200">
                     <div>
                         <h2 className="text-base font-bold text-gray-900">
                         Cattery terdaftar
@@ -127,8 +127,6 @@ export default function CatteriesPage() {
                         </tbody>
                     </table>
                 </div>
-
-                <p className="text-[11px] text-gray-400 mt-5">Data contoh.</p>
             </div>
         </div>
     );

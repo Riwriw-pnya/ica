@@ -22,7 +22,7 @@ export default function StatusFilterTabs({ counts, active, onChange }: StatusFil
             className={`rounded-full px-4 py-1.5 text-[12px] font-semibold transition cursor-pointer ${
               isActive
                 ? "border border-[var(--color-brand-orange-500)] bg-[var(--color-brand-orange-50)] text-[var(--color-brand-orange-700)]"
-                : "border border-[var(--color-ink-100)] bg-white text-[var(--color-ink-700)] hover:bg-gray-50"
+                : "border border-[var(--color-brand-orange-500)]/80 bg-white text-[var(--color-brand-orange-700)] hover:bg-[var(--color-brand-orange-50)]/50 hover:-translate-y-0.5"
             }`}
           >
             {tab} ({counts[tab]})

@@ -341,11 +341,13 @@ export default function RegionalPaymentsPage() {
               </div>
             </div>
 
-            <div className="rounded-2xl border border-[var(--color-ink-100)] bg-white p-5 shadow-2xs">
-              <h2 className="text-[14px] font-semibold text-[var(--color-ink-900)]">
-                Dana masuk terakhir
-              </h2>
-              <div className="mt-4 overflow-x-auto">
+            <div className="rounded-2xl border border-[var(--color-ink-200)] bg-white px-3 py-5 shadow-2xs">
+              <div className="border-b border-[var(--color-ink-100)] pb-3 px-2">
+                <h2 className="text-[14px] font-semibold text-[var(--color-ink-900)]">
+                  Dana masuk terakhir
+                </h2>
+              </div>
+              <div className="mt-3 overflow-x-auto">
                 <table className="w-full text-left text-[12px]">
                   <thead>
                     <tr className="border-b border-[var(--color-ink-100)] text-[10px] font-bold uppercase tracking-wider text-[var(--color-ink-400)]">
@@ -737,11 +739,13 @@ export default function RegionalPaymentsPage() {
             </div>
 
             {/* Riwayat Penarikan */}
-            <div className="rounded-2xl border border-[var(--color-ink-100)] bg-white p-6 shadow-2xs">
-              <h2 className="text-[14px] font-semibold text-[var(--color-ink-900)]">
-                Riwayat penarikan
-              </h2>
-              <div className="mt-4 overflow-x-auto">
+            <div className="rounded-2xl border border-[var(--color-ink-100)] bg-white p-3 shadow-2xs">
+              <div className="border-b border-[var(--color-ink-100)] pt-1 pb-3 px-3">
+                <h2 className="text-[14px] font-semibold text-[var(--color-ink-900)]">
+                  Riwayat penarikan
+                </h2>
+              </div>
+              <div className="mt-3 overflow-x-auto">
                 <table className="w-full text-left text-[12px]">
                   <thead>
                     <tr className="border-b border-[var(--color-ink-100)] text-[10px] font-bold uppercase tracking-wider text-[var(--color-ink-400)]">
