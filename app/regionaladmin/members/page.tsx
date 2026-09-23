@@ -237,20 +237,20 @@ export default function MembersPage() {
 
           {/* Table Container */}
           <div className="bg-white border border-gray-100 rounded-xl p-4 shadow-sm">
-            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4">
-              <h2 className="text-base font-bold text-gray-900">Daftar member</h2>
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-4 border-b border-[var(--color-ink-100)] pb-3 px-4">
+              <h2 className="text-base font-bold text-gray-900 pt-1">Daftar member</h2>
               <div className="flex items-center gap-2 w-full sm:w-auto">
                 <select
                   disabled
                   value="Bandung"
-                  className="bg-gray-100 border border-gray-200 text-gray-500 text-xs rounded-full px-3 py-1.5 outline-none cursor-not-allowed opacity-80"
+                  className="bg-gray-100 border border-gray-200 text-gray-500 text-xs rounded-full px-3 py-1 outline-none cursor-not-allowed opacity-80"
                 >
                   <option value="Bandung">Bandung</option>
                 </select>
 
                 <button
                   onClick={handleExportCSV}
-                  className="flex cursor-pointer items-center gap-1.5 border border-[#E06D20] text-[#E06D20] hover:bg-[#FFF8F0] px-3.5 py-1.5 rounded-full text-xs font-semibold transition-all hover:-translate-y-0.5"
+                  className="flex cursor-pointer items-center gap-1.5 border border-[#E06D20] text-[#E06D20] hover:bg-[#FFF8F0] px-3.5 py-1 rounded-full text-xs font-semibold transition-all hover:-translate-y-0.5"
                 >
                   <Download className="w-3.5 h-3.5" />
                   Ekspor CSV
@@ -260,7 +260,7 @@ export default function MembersPage() {
 
             {/* Table */}
             <div className="overflow-x-auto">
-              <table className="w-full text-left text-xs">
+              <table className="w-full text-left text-xs -mt-3">
                 <thead>
                   <tr className="border-b border-gray-100 text-[10px] text-gray-400 uppercase tracking-wider">
                     <th className="py-2.5 px-3 font-semibold">NO. ANGGOTA</th>
@@ -315,10 +315,6 @@ export default function MembersPage() {
                 </tbody>
               </table>
             </div>
-
-            <p className="text-[11px] text-gray-400 mt-4">
-              Data contoh — struktur kolom mengikuti Member List di FigJam Screen List.
-            </p>
           </div>
         </div>
       )}

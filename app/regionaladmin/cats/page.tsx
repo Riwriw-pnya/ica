@@ -91,8 +91,8 @@ export default function CatsPage() {
       </div>
 
       {/* Main Table Card */}
-      <div className="bg-white border border-gray-100 rounded-2xl p-5 shadow-sm">
-        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 mb-5">
+      <div className="bg-white border border-gray-100 rounded-2xl py-5 px-2 shadow-sm">
+        <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-3 pb-5 px-3 border-b border-gray-200">
           <div>
             <h2 className="text-base font-bold text-gray-900">
               Semua kucing terdaftar
@@ -140,22 +140,22 @@ export default function CatsPage() {
                     key={cat.id}
                     className="hover:bg-gray-50/70 transition-colors"
                   >
-                    <td className="py-3.5 px-3 font-medium text-gray-800">
+                    <td className="py-2.5 px-3 font-medium text-gray-800">
                       {cat.regNo}
                     </td>
-                    <td className="py-3.5 px-3">
+                    <td className="py-2.5 px-3">
                       <div className="font-bold text-gray-900">{cat.name}</div>
                       <div className="text-[11px] text-gray-400">{cat.breed}</div>
                     </td>
                     <td className="py-3.5 px-3 font-medium text-gray-800">
                       {cat.emsCode}
                     </td>
-                    <td className="py-3.5 px-3 text-gray-800">{cat.owner}</td>
-                    <td className="py-3.5 px-3 text-gray-800">{cat.cattery}</td>
-                    <td className="py-3.5 px-3 text-center font-semibold text-gray-800">
+                    <td className="py-2.5 px-3 text-gray-800">{cat.owner}</td>
+                    <td className="py-2.5 px-3 text-gray-800">{cat.cattery}</td>
+                    <td className="py-2.5 px-3 text-center font-semibold text-gray-800">
                       {cat.healthScore}
                     </td>
-                    <td className="py-3.5 px-3">
+                    <td className="py-2.5 px-3">
                       <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-[#E8F8F0] text-[#12B76A]">
                         <span className="w-1.5 h-1.5 rounded-full bg-[#12B76A]"></span>
                         {cat.pedigreeStatus}
@@ -176,8 +176,6 @@ export default function CatsPage() {
             </tbody>
           </table>
         </div>
-
-        <p className="text-[11px] text-gray-400 mt-5">Data contoh.</p>
       </div>
     </div>
   );

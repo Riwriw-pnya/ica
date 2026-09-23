@@ -60,7 +60,7 @@ export const dashboardSummary: DashboardSummary = {
   revisionCount: 1,
   approvedCount: 2,
   approvedMonthLabel: "Sept 2026",
-  newMemberRequestCount: 4,
+  newMemberRequestCount: 5,
   region: "Bandung",
 };
 

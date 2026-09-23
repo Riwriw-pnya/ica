@@ -1,16 +1,30 @@
 "use client";
 
-import { useMemo, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useMemo, useState, useEffect, Suspense } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
 import { applicationQueueItems } from "@/data/regionalAdmin";
 import StatusFilterTabs from "./components/StatusFilterTabs";
 import ApplicationStatusBadge from "./components/ApplicationStatusBadge";   
 import type { ApplicationStatus } from "@/types/regionalAdmin";
+import DashboardIcon from "@/components/anggota/DashboardIcon";
 
-export default function ApplicationQueuePage() {
+function ApplicationQueueContent() {
   const router = useRouter();
-  const [activeFilter, setActiveFilter] = useState("Semua");
+  const searchParams = useSearchParams();
+
+  // Ambil query param "status", jika tidak ada gunakan "Semua"
+  const statusParam = searchParams.get("status") || "Semua";
+
+  const [activeFilter, setActiveFilter] = useState(statusParam);
   const [region, setRegion] = useState("Bandung");
+
+  // Sinkronkan state jika parameter di URL berubah
+  useEffect(() => {
+    const status = searchParams.get("status");
+    if (status) {
+      setActiveFilter(status);
+    }
+  }, [searchParams]);
 
   const filtered = useMemo(() => {
     if (activeFilter === "Semua") return applicationQueueItems;
@@ -35,17 +49,19 @@ export default function ApplicationQueuePage() {
                 disabled
                 value={region}
                 onChange={(e) => setRegion(e.target.value)}
-                className="cursor-not-allowed rounded-lg border border-[var(--color-ink-100)] px-3 py-1.5 text-[12px] font-medium text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-300)]"
+                className="cursor-not-allowed rounded-lg border border-[var(--color-ink-100)] px-5 py-1.5 bg-[var(--color-ink-50)]/70 text-left text-[12px] font-medium text-[var(--color-ink-700)]/80 outline-none focus:border-[var(--color-brand-orange-300)]"
               >
                 <option>Bandung</option>
               </select>
-              <span className="rounded-full bg-[var(--color-ink-100)] px-2.5 py-1 text-[11px] font-medium text-[var(--color-ink-700)]">
+              <span className="text-[11px] font-medium text-[var(--color-ink-400)]">
                 Terkunci
               </span>
             </div>
           </div>
+        </div>
 
-          <div className="mt-4 overflow-x-auto">
+        <div className="rounded-xl border border-[var(--color-ink-100)] bg-white px-2 mt-5">
+          <div className="overflow-x-auto">
             <table className="w-full min-w-[800px] text-left">
               <thead>
                 <tr className="border-b border-[var(--color-ink-100)]">
@@ -67,8 +83,8 @@ export default function ApplicationQueuePage() {
                       <p className="text-[11px] text-[var(--color-ink-400)]">{item.applicantType}</p>
                     </td>
                     <td className="px-2 py-3">
-                      <span className="rounded-full border border-[var(--color-ink-100)] px-2.5 py-0.5 text-[11px] font-medium text-[var(--color-ink-700)]">
-                        {item.region}
+                      <span className="inline-flex items-center gap-1 px-2.5 py-0.5 rounded-full text-[11px] font-medium bg-gray-100 text-gray-600 border border-gray-200">
+                        <DashboardIcon name="pin" size={12} /> {item.region}
                       </span>
                     </td>
                     <td className="px-2 py-3 text-[13px] text-[var(--color-ink-900)]">{item.waitingLabel}</td>
@@ -88,13 +104,13 @@ export default function ApplicationQueuePage() {
             </table>
           </div>
 
-          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--color-ink-100)] pt-4">
+          <div className="mt-4 flex flex-wrap items-center justify-between gap-3 border-t border-[var(--color-ink-100)] pt-2 px-3 space-y-1">
             <p className="text-[12px] text-[var(--color-ink-400)]">
               Menampilkan {filtered.length} dari {filtered.length} aplikasi di wilayah {region}
             </p>
-            <div className="flex items-center gap-3">
+            <div className="flex items-center gap-3 pb-2">
               <span className="text-[12px] text-[var(--color-ink-400)]">Baris per halaman</span>
-              <select className="rounded-lg border border-[var(--color-ink-100)] text-[var(--color-ink-400)]     px-2 py-1 text-[12px]">
+              <select className="rounded-lg border border-[var(--color-ink-100)] text-[var(--color-ink-400)] px-2 py-1 text-[12px]">
                 <option>8</option>
               </select>
               <button className="cursor-not-allowed rounded-full border border-[var(--color-ink-100)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-ink-400)]">
@@ -116,5 +132,14 @@ export default function ApplicationQueuePage() {
         </div>
       </div>
     </main>
+  );
+}
+
+// Wrapper Suspense wajib saat menggunakan useSearchParams di App Router Next.js
+export default function ApplicationQueuePage() {
+  return (
+    <Suspense fallback={<div className="p-5 text-xs text-[var(--color-ink-400)]">Memuat...</div>}>
+      <ApplicationQueueContent />
+    </Suspense>
   );
 }
