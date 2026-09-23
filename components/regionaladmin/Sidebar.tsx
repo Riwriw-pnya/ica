@@ -1,6 +1,5 @@
 "use client";
 
-import { useState } from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 
@@ -16,7 +15,6 @@ interface NavGroup {
 }
 
 export default function Sidebar() {
-  const [isCollapsed, setIsCollapsed] = useState(false);
   const pathname = usePathname();
 
   const navGroups: NavGroup[] = [
@@ -68,10 +66,10 @@ export default function Sidebar() {
           href: "/regionaladmin/cats",
           icon: (
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round" viewBox="0 0 24 24">
-                <path d="M12 5.2c1.5-1.8 3.8-2 5.5-.8 1.2.8 1.8 2.2 1.5 3.8 1.8 1.5 2.2 4.2 1 6.5-1.5 2.8-5 4.5-8 4.5s-6.5-1.7-8-4.5c-1.2-2.3-.8-5 1-6.5-.3-1.6.3-3 1.5-3.8 1.7-1.2 4-1 5.5.8z" />
-                <circle cx="8.8" cy="12.8" r="1" fill="currentColor" stroke="none" />
-                <circle cx="15.2" cy="12.8" r="1" fill="currentColor" stroke="none" />
-                <polygon points="12,14.5 11,15.8 13,15.8" fill="currentColor" stroke="none" />
+              <path d="M12 5.2c1.5-1.8 3.8-2 5.5-.8 1.2.8 1.8 2.2 1.5 3.8 1.8 1.5 2.2 4.2 1 6.5-1.5 2.8-5 4.5-8 4.5s-6.5-1.7-8-4.5c-1.2-2.3-.8-5 1-6.5-.3-1.6.3-3 1.5-3.8 1.7-1.2 4-1 5.5.8z" />
+              <circle cx="8.8" cy="12.8" r="1" fill="currentColor" stroke="none" />
+              <circle cx="15.2" cy="12.8" r="1" fill="currentColor" stroke="none" />
+              <polygon points="12,14.5 11,15.8 13,15.8" fill="currentColor" stroke="none" />
             </svg>
           ),
         },
@@ -81,7 +79,10 @@ export default function Sidebar() {
           badge: 2,
           icon: (
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M3 3v18h18" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M18 17V9" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M13 17V5" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 17v-3" />
             </svg>
           ),
         },
@@ -90,7 +91,9 @@ export default function Sidebar() {
           href: "/regionaladmin/events",
           icon: (
             <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              <rect x="3" y="4" width="18" height="18" rx="3" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M16 2v4M8 2v4M3 9h18" />
+              <path strokeLinecap="round" strokeLinejoin="round" d="M8 13h.01M12 13h.01M16 13h.01M8 17h.01M12 17h.01M16 17h.01" />
             </svg>
           ),
         },
@@ -99,40 +102,29 @@ export default function Sidebar() {
   ];
 
   return (
-    <aside
-      className={`bg-white border-r border-[#EFE9E1] h-screen flex flex-col justify-between flex-shrink-0 transition-all duration-300 ${
-        isCollapsed ? "w-20" : "w-64"
-      }`}
-    >
+    <aside className="w-64 bg-white border-r border-[#EFE9E1] h-screen flex flex-col justify-between flex-shrink-0">
       <div className="flex flex-col h-full overflow-hidden">
-        {/* Header / Logo */}
+        {/* Header / Logo (Sesuai Foto 1: Tanpa tombol toggle di samping) */}
         <div className="p-4 flex items-center justify-between border-b border-[#F2EFE9] flex-shrink-0">
           <div className="flex items-center gap-2.5">
             <div className="w-8 h-8 rounded-xl bg-[#EE6B28] flex items-center justify-center font-bold text-white text-xs shadow-sm">
               ICA
             </div>
-            {!isCollapsed && (
-              <span className="font-bold text-base text-[#231A14] tracking-tight">
-                Regional Admin
-              </span>
-            )}
+            <span className="font-bold text-base text-[#231A14] tracking-tight">
+              Regional Admin
+            </span>
           </div>
-          <button
-            onClick={() => setIsCollapsed(!isCollapsed)}
-            className="p-1 rounded-md text-[#C27231] hover:bg-[#FFF8F3] transition cursor-pointer"
-            title="Toggle Sidebar"
-          >
-            <svg className="w-5 h-5" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <rect x="4" y="4" width="16" height="16" rx="2" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M15 4v16" />
-            </svg>
-          </button>
         </div>
 
-        {/* Navigation Items - Jarak kelompok menggunakan space-y-5 tanpa garis */}
-        <nav className="p-3 flex-1 overflow-y-auto space-y-5">
+        {/* Navigation Items (Sesuai Foto 1: Menggunakan Divider border-t antar grup) */}
+        <nav className="p-3 flex-1 overflow-y-auto space-y-4">
           {navGroups.map((group, groupIdx) => (
-            <div key={groupIdx} className="space-y-1">
+            <div
+              key={groupIdx}
+              className={`space-y-1 ${
+                groupIdx > 0 ? "pt-4 border-t border-[#EFE9E1]" : ""
+              }`}
+            >
               {group.items.map((item) => {
                 const isActive = pathname === item.href;
                 return (
@@ -145,7 +137,7 @@ export default function Sidebar() {
                         : "text-[#5C5046] hover:bg-[#FAF8F5] hover:text-[#231A14]"
                     }`}
                   >
-                    {/* Active Indicator Line di Sebelah Kiri */}
+                    {/* Indikator Oranye aktif di sisi kiri */}
                     {isActive && (
                       <span className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-5 bg-[#EE6B28] rounded-r-full" />
                     )}
@@ -154,10 +146,10 @@ export default function Sidebar() {
                       <span className={isActive ? "text-[#D95A19]" : "text-[#7A6E65]"}>
                         {item.icon}
                       </span>
-                      {!isCollapsed && <span className="truncate">{item.label}</span>}
+                      <span className="truncate">{item.label}</span>
                     </div>
 
-                    {!isCollapsed && item.badge && (
+                    {item.badge && (
                       <span
                         className={`text-[11px] px-2 py-0.5 rounded-full font-bold ml-2 ${
                           isActive
@@ -176,19 +168,17 @@ export default function Sidebar() {
         </nav>
       </div>
 
-      {/* Footer Profile */}
+      {/* Footer Profile (Sesuai Foto 1: Avatar DL warna Oranye/Krem pastel) */}
       <div className="p-3 border-t border-[#F2EFE9] flex-shrink-0">
         <div className="flex items-center justify-between p-2 rounded-2xl hover:bg-[#FAF8F5] transition cursor-pointer">
           <div className="flex items-center gap-3 min-w-0">
-            <div className="w-9 h-9 rounded-full bg-[#FFE3D1] text-[#EE6B28] flex items-center justify-center font-bold text-xs flex-shrink-0">
-              RN
+            <div className="w-9 h-9 rounded-full border border-[#FDE3CF] bg-[#FFF2E8] text-[#D95A19] flex items-center justify-center font-bold text-xs flex-shrink-0">
+              DL
             </div>
-            {!isCollapsed && (
-              <div className="truncate">
-                <div className="font-bold text-xs text-[#231A14] truncate">Dewi Larasati</div>
-                <div className="text-[10px] text-[#8C8078] truncate">Regional Admin · Bandung</div>
-              </div>
-            )}
+            <div className="truncate">
+              <div className="font-bold text-xs text-[#231A14] truncate">Dewi Larasati</div>
+              <div className="text-[10px] text-[#8C8078] truncate">Regional Admin · Bandung</div>
+            </div>
           </div>
         </div>
       </div>
