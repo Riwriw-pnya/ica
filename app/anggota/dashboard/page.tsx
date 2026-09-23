@@ -7,8 +7,9 @@ import StoreSection from "@/components/store/StoreSection";
 
 export default function DashboardPage() {
   return (
-    <div className="mx-auto max-w-[1200px]">
-      <section className="mb-5">
+    <div className="mx-auto max-w-[1200px] w-full">
+      {/* Teks Salam: Hanya tampil di Desktop agar tidak dobel di Mobile */}
+      <section className="mb-5 hidden md:block">
         <h1 className="font-display text-[22px] font-semibold tracking-tight text-[var(--color-ink-900)]">
           Halo, Ayu
         </h1>
@@ -23,11 +24,11 @@ export default function DashboardPage() {
       </section>
 
       <section className="mt-4 grid gap-4 lg:grid-cols-[1.4fr_1fr]">
-        <NewsSection />
         <UpcomingEvents items={eventListItems.slice(0, 3)} />
+        <NewsSection />
+        
       </section>
 
-      {/* Store ICA Section */}
       <section className="mt-4">
         <StoreSection />
       </section>

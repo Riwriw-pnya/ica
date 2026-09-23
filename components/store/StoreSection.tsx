@@ -48,15 +48,18 @@ function formatRupiah(value: number) {
 }
 
 export default function StoreSection() {
+  const products = INITIAL_PRODUCTS.slice(0, 3);
+
   return (
-    <div className="rounded-2xl border border-[#EFE9E1] bg-white p-5 shadow-xs">
+    /* Latar card luar dilepas di Mobile, dan tetap berupa card putih di Desktop */
+    <div className="w-full max-w-full sm:rounded-2xl sm:border sm:border-[#EFE9E1] sm:bg-white sm:p-5 sm:shadow-xs">
       {/* Header */}
       <div className="flex flex-col gap-1 sm:flex-row sm:items-start sm:justify-between">
         <div>
-          <h2 className="font-display text-base font-semibold text-[#231A14]">
+          <h2 className="font-display text-sm sm:text-base font-semibold text-[#231A14]">
             Store ICA
           </h2>
-          <p className="mt-0.5 text-[12px] text-[#8C827A]">
+          <p className="mt-0.5 text-[11px] sm:text-[12px] text-[#8C827A]">
             Merchandise dan publikasi resmi ICA. Pengiriman dari sekretariat setelah pembayaran terverifikasi.
           </p>
         </div>
@@ -68,11 +71,51 @@ export default function StoreSection() {
         </Link>
       </div>
 
-      {/* Grid 3 Produk */}
-      <div className="mt-4 grid grid-cols-1 gap-4 sm:grid-cols-3">
-        {INITIAL_PRODUCTS.slice(0, 3).map((product) => (
+      {/* 1. KHUSUS MOBILE: Horizontal Scroll Carousel (Tanpa Latar Card Luar) */}
+      <div className="mt-3.5 sm:hidden w-full overflow-x-auto touch-pan-x scrollbar-none snap-x snap-mandatory pb-2">
+        <div className="flex gap-3 w-max">
+          {products.map((product) => (
+            <Link
+              key={`mobile-${product.id}`}
+              href="/anggota/store"
+              className="group cursor-pointer w-[150px] shrink-0 snap-start"
+            >
+              <div className="relative flex h-36 w-full items-center justify-center rounded-xl bg-[#FFF8EE] border border-[#F7F2EB] transition duration-200 group-hover:bg-[#F9EFE3]">
+                {product.image ? (
+                  <Image
+                    src={product.image}
+                    alt={product.title}
+                    fill
+                    unoptimized
+                    className="object-cover rounded-xl group-hover:scale-105 transition-transform duration-300"
+                  />
+                ) : (
+                  <div className="flex flex-col items-center gap-1.5 text-[#C8BDB2]">
+                    <svg className="w-7 h-7 stroke-[1.5]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+                    </svg>
+                  </div>
+                )}
+              </div>
+
+              <div className="mt-2">
+                <h3 className="text-[12px] font-bold text-[#231A14] line-clamp-1">
+                  {product.title}
+                </h3>
+                <p className="mt-0.5 text-[11px] font-extrabold text-[#D95D1E]">
+                  {formatRupiah(product.price)}
+                </p>
+              </div>
+            </Link>
+          ))}
+        </div>
+      </div>
+
+      {/* 2. KHUSUS DESKTOP: Grid 3 Kolom Asli */}
+      <div className="hidden sm:grid sm:grid-cols-3 sm:gap-4 sm:mt-4">
+        {products.map((product) => (
           <Link
-            key={product.id}
+            key={`desktop-${product.id}`}
             href="/anggota/store"
             className="group cursor-pointer"
           >
