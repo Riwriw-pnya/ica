@@ -103,3 +103,41 @@ export interface MemberRequestItem {
   submissionDate: string;
   notes: string;
 }
+
+export interface EventQuotaCategory {
+  id: string;
+  category: string;
+  description: string;
+  quota: number;
+  pricePerSlot: number;
+}
+
+export type EventKind = "Diklat Cattery" | "Diklat Grooming" | "Cat Show" | "Propaganda";
+
+export interface BenchSeat {
+  tableNumber: number;
+  occupied: number;
+}
+
+export interface EventFormData {
+  id: string;
+  name: string;
+  region: string;
+  startDate: string;
+  endDate: string;
+  location: string;
+  pricePerSlot: number;
+  bannerUrl?: string;
+  quotas: EventQuotaCategory[];
+  eventKind: EventKind;
+  tableCount: number;
+  capacityPerTable: number;
+  seats: BenchSeat[];
+  showFloorPlanToParticipants: boolean;
+  linkStartDate: string;
+  linkStartTime: string;
+  linkExpiryDate: string;
+  linkExpiryTime: string;
+  autoCloseWhenFull: boolean;
+  timeoutMinutes: number;
+}

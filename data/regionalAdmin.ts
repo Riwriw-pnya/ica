@@ -359,3 +359,69 @@ export const newMemberRequests: MemberRequestItem[] = [
     notes: "iuran lunas Rp 350.000",
   },
 ];
+
+import type { EventFormData } from "@/types/regionalAdmin";
+
+export const REGIONS = ["Bandung", "Jakarta", "Surabaya", "Medan"];
+
+export const eventFormDefaults: EventFormData = {
+  id: "new",
+  name: "",
+  region: "Bandung",
+  startDate: "",
+  endDate: "",
+  location: "",
+  pricePerSlot: 0,
+  bannerUrl: undefined,
+  quotas: [
+    { id: "umum", category: "Umum", description: "Non-member, bayar penuh", quota: 0, pricePerSlot: 0 },
+    { id: "member", category: "Member", description: "Keanggotaan aktif", quota: 0, pricePerSlot: 0 },
+    { id: "cattery", category: "Cattery", description: "Kode cattery terbit", quota: 0, pricePerSlot: 0 },
+    { id: "sponsor", category: "Sponsor (Cattery)", description: "Alur assignment belum final", quota: 0, pricePerSlot: 0 },
+  ],
+  eventKind: "Diklat Cattery",
+  tableCount: 10,
+  capacityPerTable: 4,
+  seats: [],
+  showFloorPlanToParticipants: true,
+  linkStartDate: "",
+  linkStartTime: "09:00",
+  linkExpiryDate: "",
+  linkExpiryTime: "23:59",
+  autoCloseWhenFull: true,
+  timeoutMinutes: 10,
+};
+
+export const eventFormItems: Record<string, EventFormData> = {
+  "1": {
+    id: "1",
+    name: "ICA Cat Show Bandung 2026",
+    region: "Bandung",
+    startDate: "2026-10-18",
+    endDate: "2026-10-19",
+    location: "Trans Convention Center",
+    pricePerSlot: 150000,
+    bannerUrl: undefined,
+    quotas: [
+      { id: "umum", category: "Umum", description: "Non-member, bayar penuh", quota: 80, pricePerSlot: 150000 },
+      { id: "member", category: "Member", description: "Keanggotaan aktif", quota: 60, pricePerSlot: 120000 },
+      { id: "cattery", category: "Cattery", description: "Kode cattery terbit", quota: 50, pricePerSlot: 100000 },
+      { id: "sponsor", category: "Sponsor (Cattery)", description: "Alur assignment belum final", quota: 10, pricePerSlot: 0 },
+    ],
+    eventKind: "Diklat Cattery",
+    tableCount: 22,
+    capacityPerTable: 4,
+    seats: [
+      { tableNumber: 1, occupied: 4 },
+      { tableNumber: 2, occupied: 4 },
+      { tableNumber: 3, occupied: 1 },
+    ],
+    showFloorPlanToParticipants: true,
+    linkStartDate: "2026-09-15",
+    linkStartTime: "09:00",
+    linkExpiryDate: "2026-10-12",
+    linkExpiryTime: "23:59",
+    autoCloseWhenFull: true,
+    timeoutMinutes: 10,
+  },
+};
