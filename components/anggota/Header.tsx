@@ -10,26 +10,60 @@ import { initialNotifications } from "@/data/anggota";
 import { useUserMenu } from "@/context/UserMenuContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 
-const pageTitles: Record<string, string> = {
-  "/anggota/dashboard": "Beranda",
-  "/anggota/berita": "Berita",
-  "/anggota/direktori": "Direktori Cattery",
-  "/anggota/keanggotaan": "Keanggotaan",
-  "/anggota/event": "Event",
-  "/anggota/store": "Store",
-  "/anggota/leaderboard": "Leaderboard",
-  "/anggota/pengaturan": "Pengaturan akun",
-  "/anggota/log-aktivitas": "Log Aktivitas",
+interface PageMeta {
+  desktopTitle: string;
+  mobileTitle: string;
+  mobileSubtitle?: string;
+}
+
+const pageMetaMap: Record<string, PageMeta> = {
+  "/anggota/dashboard": {
+    desktopTitle: "Beranda",
+    mobileTitle: "Halo, Ayu",
+    mobileSubtitle: "Ringkasan keanggotaan Anda",
+  },
+  "/anggota/direktori": {
+    desktopTitle: "Direktori Cattery",
+    mobileTitle: "Direktori Cattery",
+    mobileSubtitle: "Cattery terdaftar ICA",
+  },
+  "/anggota/berita": {
+    desktopTitle: "Berita",
+    mobileTitle: "Berita",
+    mobileSubtitle: "Informasi dan pengumuman terbaru",
+  },
+  "/anggota/keanggotaan": {
+    desktopTitle: "Keanggotaan",
+    mobileTitle: "Keanggotaan",
+    mobileSubtitle: "Kelola status dan data keanggotaan",
+  },
+  "/anggota/event": {
+    desktopTitle: "Event",
+    mobileTitle: "Event",
+    mobileSubtitle: "Jadwal dan pendaftaran event ICA",
+  },
+  "/anggota/store": {
+    desktopTitle: "Store",
+    mobileTitle: "Store",
+    mobileSubtitle: "Merchandise resmi ICA",
+  },
+  "/anggota/leaderboard": {
+    desktopTitle: "Leaderboard",
+    mobileTitle: "Leaderboard",
+    mobileSubtitle: "Peringkat cattery dan kucing",
+  },
 };
 
-function getPageTitle(pathname: string): string {
-  if (pageTitles[pathname]) return pageTitles[pathname];
+function getPageMeta(pathname: string): PageMeta {
+  if (pageMetaMap[pathname]) return pageMetaMap[pathname];
 
-  const match = Object.keys(pageTitles)
+  const match = Object.keys(pageMetaMap)
     .filter((path) => path !== "/anggota" && pathname.startsWith(`${path}/`))
     .sort((a, b) => b.length - a.length)[0];
 
-  return match ? pageTitles[match] : "Beranda";
+  return match
+    ? pageMetaMap[match]
+    : { desktopTitle: "Beranda", mobileTitle: "Beranda" };
 }
 
 export default function Header() {
@@ -54,8 +88,7 @@ export default function Header() {
     if (isNotifOpen) closeMenu();
   });
 
-  const title = getPageTitle(pathname);
-  const isDashboard = pathname === "/anggota/dashboard";
+  const pageMeta = getPageMeta(pathname);
 
   const handleLogout = () => {
     closeMenu();
@@ -69,31 +102,28 @@ export default function Header() {
   return (
     <header className="sticky top-0 z-30 w-full border-b border-[#EFE9E1] bg-[#FAF8F5] px-4 pt-[max(env(safe-area-inset-top),2.5rem)] pb-3 md:bg-white md:px-5 md:py-0">
       <div className="flex items-center justify-between md:h-[54px]">
-        {/* Sisi Kiri */}
+        {/* Sisi Kiri: Judul Mobile vs Desktop */}
         <div className="flex items-center gap-3">
-          {isDashboard ? (
-            <div className="md:hidden">
-              <h1 className="text-[20px] font-bold tracking-tight text-[#231A14] leading-tight">
-                Halo, Ayu
-              </h1>
-              <p className="text-[12px] text-[#8C827A] mt-0.5">
-                Ringkasan keanggotaan Anda
-              </p>
-            </div>
-          ) : (
-            <h1 className="md:hidden font-display text-base font-semibold text-[#231A14]">
-              {title}
+          {/* Tampilan Mobile (< md) */}
+          <div className="md:hidden">
+            <h1 className="text-[18px] font-bold tracking-tight text-[#231A14] leading-tight">
+              {pageMeta.mobileTitle}
             </h1>
-          )}
+            {pageMeta.mobileSubtitle && (
+              <p className="text-[11px] text-[#8C827A] mt-0.5">
+                {pageMeta.mobileSubtitle}
+              </p>
+            )}
+          </div>
 
+          {/* Tampilan Desktop (>= md) */}
           <h1 className="hidden md:block font-display text-sm font-semibold text-[#231A14]">
-            {title}
+            {pageMeta.desktopTitle}
           </h1>
         </div>
 
-        {/* Sisi Kanan */}
+        {/* Sisi Kanan: Notifikasi & Profil */}
         <div className="flex items-center gap-2 md:gap-3">
-          {/* Dropdown Notifikasi */}
           <div ref={notifRef} className="relative">
             <button
               onClick={() => toggleMenu("notifications")}
@@ -121,7 +151,6 @@ export default function Header() {
             )}
           </div>
 
-          {/* Profile Pill Desktop */}
           <div ref={containerRef} className="relative hidden md:block">
             <button
               onClick={() => toggleMenu("header")}
