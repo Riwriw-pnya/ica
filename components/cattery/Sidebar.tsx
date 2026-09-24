@@ -73,7 +73,7 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`flex shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 ${
+      className={`hidden lg:block flex shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 ${
         isSidebarOpen ? "w-[240px]" : "w-[64px]"
       }`}
     >
