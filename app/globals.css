@@ -85,3 +85,51 @@ body {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
+
+/* Container Utama Sheet Modal */
+.bottom-sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100; /* Di atas Bottom Navigation */
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+  visibility: hidden;
+  opacity: 0;
+  transition: visibility 0.3s ease, opacity 0.3s ease;
+}
+
+.bottom-sheet-overlay.open {
+  visibility: visible;
+  opacity: 1;
+}
+
+/* Latar Gelap Transparan */
+.bottom-sheet-backdrop {
+  position: absolute;
+  inset: 0;
+  background-color: rgba(0, 0, 0, 0.5);
+}
+
+/* Card Panel Modal */
+.bottom-sheet-card {
+  position: relative;
+  z-index: 10;
+  width: 100%;
+  height: 70vh;
+  max-height: 70vh;
+  background-color: #ffffff;
+  border-top-left-radius: 1.5rem;
+  border-top-right-radius: 1.5rem;
+  padding: 1.25rem;
+  box-shadow: 0 -10px 25px -5px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  transform: translateY(100%);
+  transition: transform 0.3s cubic-bezier(0.32, 0.72, 0, 1);
+}
+
+.bottom-sheet-overlay.open .bottom-sheet-card {
+  transform: translateY(0);
+}
