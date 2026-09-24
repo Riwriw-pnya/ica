@@ -1,14 +1,15 @@
 import Sidebar from "@/components/cattery/Sidebar";
 import Header from "@/components/cattery/Header";
+import BottomNav from "@/components/cattery/BottomNav";
 import { UserMenuProvider } from "@/context/UserMenuContext";
 import { SidebarProvider } from "@/context/SidebarContext";
 import { DraftProvider } from "@/context/DraftContext";
 import { HeaderActionProvider } from "@/context/HeaderActionContext";
-import { ToastProvider } from "@/context/ToastContext"; // <-- 1. Import ToastProvider
+import { ToastProvider } from "@/context/ToastContext";
 
 export default function CatteryLayout({ children }: { children: React.ReactNode }) {
   return (
-    <ToastProvider> {/* <-- 2. Bungkus di paling luar (atau di dalam HeaderActionProvider) */}
+    <ToastProvider>
       <HeaderActionProvider>
         <DraftProvider>
           <UserMenuProvider>
@@ -17,7 +18,10 @@ export default function CatteryLayout({ children }: { children: React.ReactNode 
                 <Sidebar />
                 <div className="flex min-w-0 flex-1 flex-col">
                   <Header />
-                  <div className="min-h-0 flex-1 overflow-y-auto">{children}</div>
+                  {/* Tambahkan pb-16 lg:pb-0 di sini agar bagian bawah halaman mobile tidak tertutup BottomNav */}
+                  <div className="min-h-0 flex-1 overflow-y-auto pb-16 lg:pb-0">{children}</div>
+                  {/* Bottom Navigation khusus Mobile */}
+                  <BottomNav />
                 </div>
               </div>
             </SidebarProvider>

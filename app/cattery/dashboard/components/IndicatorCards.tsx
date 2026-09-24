@@ -4,7 +4,7 @@ import React from "react";
 
 export default function StatIndicatorCards() {
   return (
-    <section className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+    <section className="grid grid-cols-2 sm:grid-cols-2 lg:grid-cols-4 gap-4">
       <div className="bg-white rounded-2xl p-5 border border-[#eedfd5] shadow-xs relative overflow-hidden flex flex-col justify-between">
         <div className="absolute top-0 left-0 right-0 h-1 bg-[#f05a1b]" />
         <div>
