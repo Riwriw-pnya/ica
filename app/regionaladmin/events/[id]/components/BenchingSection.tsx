@@ -112,7 +112,7 @@ export default function BenchingSection({
           type="button"
           onClick={() => onToggleShowFloorPlan(!showFloorPlan)}
           className={`relative h-6 w-11 shrink-0 rounded-full transition ${
-            showFloorPlan ? "bg-[var(--color-brand-orange-500)]" : "bg-gray-300"
+            showFloorPlan ? "border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28]" : "bg-gray-300"
           }`}
         >
           <span

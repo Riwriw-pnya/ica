@@ -85,7 +85,7 @@ export default function WarTicketingSection({ formData, onChange }: WarTicketing
             type="button"
             onClick={() => onChange({ autoCloseWhenFull: !formData.autoCloseWhenFull })}
             className={`cursor-pointer relative h-6 w-11 shrink-0 rounded-full transition ${
-              formData.autoCloseWhenFull ? "bg-[var(--color-brand-orange-500)]" : "bg-gray-300"
+              formData.autoCloseWhenFull ? "border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28]" : "bg-gray-300"
             }`}
           >
             <span
