@@ -163,7 +163,7 @@ export default function StoreMemberPage() {
   return (
     <>
       {/* ========================================================= */}
-      {/* 1. TAMPILAN DESKTOP (SAMA SEPERTI KODE LAMA ANDA) */}
+      {/* 1. TAMPILAN DESKTOP */}
       {/* ========================================================= */}
       <div className="hidden sm:block mx-auto max-w-[1200px] space-y-6">
         {/* HEADER STORE */}
@@ -264,7 +264,7 @@ export default function StoreMemberPage() {
           </div>
         )}
 
-        {/* FLOATING CART BUTTON */}
+        {/* FLOATING CART BUTTON DESKTOP */}
         <button
           type="button"
           onClick={() => setIsCartOpen(true)}
@@ -280,7 +280,7 @@ export default function StoreMemberPage() {
           )}
         </button>
 
-        {/* DRAWER KERANJANG */}
+        {/* DRAWER KERANJANG DESKTOP */}
         {isCartOpen && (
           <div className="fixed inset-0 z-50 flex justify-end bg-black/30 backdrop-blur-xs">
             <div className="flex-1" onClick={() => setIsCartOpen(false)} />
@@ -308,7 +308,6 @@ export default function StoreMemberPage() {
                   ) : (
                     cart.map(({ product, quantity }) => (
                       <div key={product.id} className="flex items-center justify-between gap-3 p-2.5 rounded-xl border border-[#EEDFD5] bg-[#FAF7F5]">
-                        {/* Thumbnail Gambar Produk di Cart */}
                         {product.image && (
                           <div className="relative w-12 h-12 rounded-lg overflow-hidden shrink-0 border border-[#EEDFD5]">
                             <Image
@@ -326,7 +325,6 @@ export default function StoreMemberPage() {
                           <p className="text-xs text-[#F05A1B] font-bold mt-0.5">{formatRupiah(product.price)}</p>
                         </div>
 
-                        {/* QUANTITY CONTROL */}
                         <div className="flex items-center border border-[#EEDFD5] rounded-lg bg-white overflow-hidden">
                           <button 
                             type="button" 
@@ -373,7 +371,7 @@ export default function StoreMemberPage() {
       </div>
 
       {/* ========================================================= */}
-      {/* 2. TAMPILAN MOBILE ISOLASI (StoreMobile) */}
+      {/* 2. TAMPILAN MOBILE (StoreMobile) */}
       {/* ========================================================= */}
       <StoreMobile
         products={filteredProducts}
@@ -382,6 +380,7 @@ export default function StoreMemberPage() {
         setActiveCategory={setActiveCategory}
         addToCart={addToCart}
         totalCartItems={totalCartItems}
+        isCartOpenProp={isCartOpen}
         setIsCartOpen={setIsCartOpen}
         formatRupiah={formatRupiah}
       />
