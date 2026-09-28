@@ -1,8 +1,18 @@
 "use client";
 
 import React from "react";
+import type { CatteryProfile } from "@/types/cattery";
 
-export default function CatteryBanner() {
+interface CatteryBannerProps {
+  profile?: CatteryProfile;
+}
+
+export default function CatteryBanner({ profile }: CatteryBannerProps) {
+  // Gunakan data dari props, atau fallback string kosong jika prop belum masuk
+  const name = profile?.name || "";
+  const region = profile?.region || "";
+  const regNumber = profile?.regNumber || "";
+
   return (
     <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div className="flex items-start sm:items-center gap-4">
@@ -13,11 +23,17 @@ export default function CatteryBanner() {
         </div>
         <div className="space-y-1">
           <div className="flex flex-wrap items-center gap-2">
-            <h2 className="text-xl sm:text-2xl font-bold text-[#1a1513]">Rumah Hana Cattery</h2>
+            {/* NAMA CATTERY DINAMIS */}
+            <h2 className="text-xl sm:text-2xl font-bold text-[#1a1513]">{name}</h2>
+            
             <span className="px-2.5 py-0.5 rounded-full bg-[#eaf8f0] text-[#1b804d] text-xs font-semibold">Aktif</span>
-            <span className="px-2.5 py-0.5 rounded-full bg-[#f4efe9] text-[#6b5f54] text-xs font-medium">Bandung</span>
+            
+            {/* LOKASI (REGION) DINAMIS */}
+            <span className="px-2.5 py-0.5 rounded-full bg-[#f4efe9] text-[#6b5f54] text-xs font-medium">{region}</span>
           </div>
-          <p className="text-xs sm:text-sm text-[#7e7267]">Reg. ICA-CTY-2024-0188 · masa berlaku sampai 31 Des 2026</p>
+          
+          {/* NOMOR REGISTRASI DINAMIS */}
+          <p className="text-xs sm:text-sm text-[#7e7267]">Reg. {regNumber} · masa berlaku sampai 31 Des 2026</p>
         </div>
       </div>
 

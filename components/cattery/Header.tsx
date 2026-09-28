@@ -72,8 +72,9 @@ export default function Header() {
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
 
+  // Class CSS dibuat dinamis: Kalau isDashboard = true -> hidden md:flex (hilang di mobile). Kalau false -> flex biasa
   return (
-    <header className="flex h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5">
+    <header className={`${isDashboard ? "hidden md:flex" : "flex"} h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5`}>
       <div className="flex items-center gap-3">
         <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900,#231A14)]">{title}</h1>
         {isMatingReportForm && (
@@ -93,7 +94,6 @@ export default function Header() {
           </button>
         )}
 
-        {/* Kondisi Form Mating Report */}
         {isMatingReportForm && (
           <>
             <span className="text-[11px] text-[var(--color-ink-400,#A89F95)]">Tersimpan otomatis 14:32</span>
@@ -116,7 +116,6 @@ export default function Header() {
           </>
         )}
 
-        {/* Notifikasi Dropdown */}
         <div ref={notifRef} className="relative">
           <button
             onClick={() => toggleMenu("notifications")}
@@ -143,7 +142,6 @@ export default function Header() {
           )}
         </div>
 
-        {/* Style Profile Pill khas Cattery Portal (Sesuai Gambar 2) */}
         <div ref={containerRef} className="relative">
           <button
             onClick={() => toggleMenu("header")}
