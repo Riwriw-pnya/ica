@@ -4,8 +4,6 @@ import React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
-
-// Import data asli kamu dari cattery.ts
 import { catteryProfile } from "@/data/cattery";
 
 import CatteryBanner from "./components/CatteryBanner";
@@ -19,7 +17,6 @@ import MatingReportsCard from "./components/MatingCard";
 export default function DashboardPage() {
   const router = useRouter();
 
-  // Fungsi untuk mendapatkan inisial dari nama (contoh: "Rumah Hana Cattery" -> "RH")
   const getInitials = (name: string) => {
     if (!name) return "CT";
     const words = name.split(" ");
@@ -29,13 +26,11 @@ export default function DashboardPage() {
     return name.substring(0, 2).toUpperCase();
   };
   
-  // Memotong nama jika terlalu panjang untuk tampilan mobile
   const truncateName = (name: string, maxLength: number = 15) => {
     if (!name) return "";
     return name.length > maxLength ? name.substring(0, maxLength) + "..." : name;
   };
 
-  // Menggunakan data asli
   const initials = getInitials(catteryProfile.name);
   const displayNameMobile = truncateName(catteryProfile.name);
 
@@ -46,7 +41,6 @@ export default function DashboardPage() {
       {/* 1. TAMPILAN DESKTOP */}
       {/* ========================================= */}
       <div className="hidden md:block max-w-7xl mx-auto space-y-6">
-        {/* Pass data dinamis ke banner desktop */}
         <CatteryBanner profile={catteryProfile} />
         <QuickLinks />
         <LatestProgressCard />
@@ -68,23 +62,24 @@ export default function DashboardPage() {
           
           {/* Header Profil */}
           <div className="flex items-center gap-3 mb-5">
-            {/* INISIAL DINAMIS */}
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-[#F05A1B] shrink-0 text-base shadow-sm">
               {initials}
             </div>
             <div className="flex-1 overflow-hidden">
               <p className="text-white/90 text-[11px] leading-tight mb-0.5">Selamat pagi,</p>
-              {/* NAMA DINAMIS */}
               <h1 className="text-white font-bold text-[15px] leading-tight truncate">{displayNameMobile}</h1>
             </div>
             <div className="bg-white rounded-full px-3 py-1 text-[10px] font-bold text-[#F05A1B] shadow-sm">
               Cattery
             </div>
             
-            {/* Tombol Notifikasi (Berisi Bell Icon + Titik Merah) */}
-            <button className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center relative shrink-0 text-white cursor-pointer hover:bg-white/30 transition-colors">
-              <DashboardIcon name="bell" size={16} />
-              <div className="w-[6px] h-[6px] bg-[#EF4444] rounded-full absolute top-[7px] right-[8px]"></div>
+            {/* Tombol Notifikasi (Terintegrasi ke /cattery/notifications) */}
+            <button 
+              onClick={() => router.push("/cattery/notifications")}
+              className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center relative shrink-0 text-white cursor-pointer hover:bg-white/30 transition-colors"
+            >
+               <DashboardIcon name="bell" size={16} />
+               <div className="w-[6px] h-[6px] bg-[#EF4444] rounded-full absolute top-[7px] right-[8px]"></div>
             </button>
           </div>
 
@@ -106,7 +101,7 @@ export default function DashboardPage() {
               <div className="text-[#2d2825] mb-1.5">
                 <DashboardIcon name="cat" size={20} />
               </div>
-              <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">My Cats</span>
+              <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">My<br/>Cats</span>
             </Link>
 
             <Link href="/cattery/events" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
