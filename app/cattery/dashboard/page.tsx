@@ -2,6 +2,10 @@
 
 import React from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
+import DashboardIcon from "@/components/anggota/DashboardIcon";
+import { catteryProfile } from "@/data/cattery";
+
 import CatteryBanner from "./components/CatteryBanner";
 import QuickLinks from "./components/QuickLinks";
 import LatestProgressCard from "./components/ProgressCard";
@@ -13,40 +17,152 @@ import MatingReportsCard from "./components/MatingCard";
 export default function DashboardPage() {
   const router = useRouter();
 
+  const getInitials = (name: string) => {
+    if (!name) return "CT";
+    const words = name.split(" ");
+    if (words.length >= 2) {
+      return (words[0][0] + words[1][0]).toUpperCase();
+    }
+    return name.substring(0, 2).toUpperCase();
+  };
+  
+  const truncateName = (name: string, maxLength: number = 15) => {
+    if (!name) return "";
+    return name.length > maxLength ? name.substring(0, maxLength) + "..." : name;
+  };
+
+  const initials = getInitials(catteryProfile.name);
+  const displayNameMobile = truncateName(catteryProfile.name);
+
   return (
-    <main className="min-h-screen bg-[#faf8f5] text-[#2d2825] p-4 sm:p-6 lg:p-8 font-sans">
-      <div className="max-w-7xl mx-auto space-y-6">
-        {/* Banner Profil Cattery */}
-        <CatteryBanner />
-
-        {/* Tombol Buat Mating Report khusus Mobile (lg:hidden) */}
-        <div className="lg:hidden">
-          <button
-            onClick={() => router.push("/cattery/mating-reports")}
-            className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] py-3 text-sm font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 active:scale-[0.99] flex items-center justify-center gap-1.5"
-          >
-            <span>+</span> Buat Mating Report
-          </button>
-        </div>
-
-        {/* Tautan Cepat Navigasi */}
+    <main className="min-h-screen bg-[#faf8f5] text-[#2d2825] md:p-6 lg:p-8 font-sans">
+      
+      {/* ========================================= */}
+      {/* 1. TAMPILAN DESKTOP */}
+      {/* ========================================= */}
+      <div className="hidden md:block max-w-7xl mx-auto space-y-6">
+        <CatteryBanner profile={catteryProfile} />
         <QuickLinks />
-
-        {/* Progres Pengajuan Terakhir & Stepper */}
         <LatestProgressCard />
-
-        {/* Kartu Indikator Statistik */}
         <StatIndicatorCards />
-
-        {/* Baris 2 Kolom: Draft Tersimpan & Top Health Scores */}
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
           <SavedDraftsCard />
           <TopHealthScoresCard />
         </section>
-
-        {/* Mating Report Terakhir */}
         <MatingReportsCard />
       </div>
+
+      {/* ========================================= */}
+      {/* 2. TAMPILAN MOBILE */}
+      {/* ========================================= */}
+      <div className="block md:hidden pb-20">
+        
+        {/* Bagian Atas: Background Oranye Menyambung */}
+        <div className="bg-[#FF9B54] rounded-b-[32px] px-4 pt-6 pb-8 shadow-sm">
+          
+          {/* Header Profil */}
+          <div className="flex items-center gap-3 mb-5">
+            <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-[#F05A1B] shrink-0 text-base shadow-sm">
+              {initials}
+            </div>
+            <div className="flex-1 overflow-hidden">
+              <p className="text-white/90 text-[11px] leading-tight mb-0.5">Selamat pagi,</p>
+              <h1 className="text-white font-bold text-[15px] leading-tight truncate">{displayNameMobile}</h1>
+            </div>
+            <div className="bg-white rounded-full px-3 py-1 text-[10px] font-bold text-[#F05A1B] shadow-sm">
+              Cattery
+            </div>
+            
+            {/* Tombol Notifikasi (Terintegrasi ke /cattery/notifications) */}
+            <button 
+              onClick={() => router.push("/cattery/notifications")}
+              className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center relative shrink-0 text-white cursor-pointer hover:bg-white/30 transition-colors"
+            >
+              <DashboardIcon name="bell" size={16} />
+              <div className="w-[6px] h-[6px] bg-[#EF4444] rounded-full absolute top-[7px] right-[8px]"></div>
+            </button>
+          </div>
+
+          {/* Search Bar Dummy */}
+          <div className="bg-white rounded-[14px] px-4 py-3.5 mb-6 flex items-center gap-2 shadow-sm">
+            <span className="text-slate-400 text-xs">Cari kucing, report, atau event</span>
+          </div>
+
+          {/* Quick Links Mobile: 4 Kotak dengan Icon di atas */}
+          <div className="grid grid-cols-4 gap-2.5">
+            <Link href="/cattery/mating-reports" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
+              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+              </svg>
+              <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Mating<br/>Report</span>
+            </Link>
+            
+            <Link href="/cattery/my-cats" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
+              <div className="text-[var(--color-brand-orange-700)] mb-1.5">
+                <DashboardIcon name="cat" size={20} />
+              </div>
+              <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">My Cats</span>
+            </Link>
+
+            <Link href="/cattery/events" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
+              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+              </svg>
+              <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Events</span>
+            </Link>
+
+            <Link href="/cattery/store" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
+              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+              </svg>
+              <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Store</span>
+            </Link>
+          </div>
+        </div>
+
+        {/* Bagian Bawah Background Abu-abu */}
+        <div className="px-4 mt-6 space-y-6">
+          
+          {/* Card Cattery Terverifikasi */}
+          <div className="bg-white rounded-[16px] p-4 border border-[#F5E6DA] flex items-center justify-between shadow-xs">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-[#FFF5EC] rounded-[10px] border border-[#F5E6DA] shrink-0"></div>
+              <div>
+                <h3 className="font-bold text-xs text-[#2d2825]">Cattery terverifikasi</h3>
+                <p className="text-[10px] text-[#8c8074]">Berlaku sampai 31 Des 2026</p>
+              </div>
+            </div>
+            <Link href="/cattery/profil" className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-bold text-slate-700 shadow-xs shrink-0">
+              Lihat profil
+            </Link>
+          </div>
+
+          {/* Stat Cards (Male, Female, Offspring) */}
+          <div className="grid grid-cols-3 gap-3">
+            <div className="bg-white rounded-[14px] p-3 border border-[#F5E6DA] shadow-xs flex flex-col">
+              <span className="font-bold text-xl text-[#2d2825] mb-0.5">4</span>
+              <span className="text-[10px] text-[#8c8074]">Male</span>
+            </div>
+            <div className="bg-white rounded-[14px] p-3 border border-[#F5E6DA] shadow-xs flex flex-col">
+              <span className="font-bold text-xl text-[#2d2825] mb-0.5">7</span>
+              <span className="text-[10px] text-[#8c8074]">Female</span>
+            </div>
+            <div className="bg-white rounded-[14px] p-3 border border-[#F5E6DA] shadow-xs flex flex-col">
+              <span className="font-bold text-xl text-[#2d2825] mb-0.5">12</span>
+              <span className="text-[10px] text-[#8c8074]">Offspring</span>
+            </div>
+          </div>
+
+          {/* Sisa konten card lainnya */}
+          <div className="space-y-6">
+            <LatestProgressCard />
+            <StatIndicatorCards />
+            <MatingReportsCard />
+          </div>
+          
+        </div>
+      </div>
+
     </main>
   );
 }
