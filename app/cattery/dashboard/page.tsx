@@ -78,8 +78,8 @@ export default function DashboardPage() {
               onClick={() => router.push("/cattery/notifications")}
               className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center relative shrink-0 text-white cursor-pointer hover:bg-white/30 transition-colors"
             >
-               <DashboardIcon name="bell" size={16} />
-               <div className="w-[6px] h-[6px] bg-[#EF4444] rounded-full absolute top-[7px] right-[8px]"></div>
+              <DashboardIcon name="bell" size={16} />
+              <div className="w-[6px] h-[6px] bg-[#EF4444] rounded-full absolute top-[7px] right-[8px]"></div>
             </button>
           </div>
 
@@ -91,28 +91,28 @@ export default function DashboardPage() {
           {/* Quick Links Mobile: 4 Kotak dengan Icon di atas */}
           <div className="grid grid-cols-4 gap-2.5">
             <Link href="/cattery/mating-reports" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
-              <svg className="w-[20px] h-[20px] text-[#2d2825] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
               </svg>
               <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Mating<br/>Report</span>
             </Link>
             
             <Link href="/cattery/my-cats" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
-              <div className="text-[#2d2825] mb-1.5">
+              <div className="text-[var(--color-brand-orange-700)] mb-1.5">
                 <DashboardIcon name="cat" size={20} />
               </div>
-              <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">My<br/>Cats</span>
+              <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">My Cats</span>
             </Link>
 
             <Link href="/cattery/events" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
-              <svg className="w-[20px] h-[20px] text-[#2d2825] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Events</span>
             </Link>
 
             <Link href="/cattery/store" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
-              <svg className="w-[20px] h-[20px] text-[#2d2825] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Store</span>
