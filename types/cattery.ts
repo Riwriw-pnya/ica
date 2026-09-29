@@ -38,6 +38,8 @@ export interface CatteryProfile {
   whatsapp?: string;
   address?: string;
   breeds?: string[];
+  email?: string;
+  memberSince?: string;
   placePhotoUrl?: string;
   profilePhotoUrl?: string;
   provinceRegion?: string;

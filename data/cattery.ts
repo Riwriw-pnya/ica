@@ -30,6 +30,8 @@ export const catteryProfile: CatteryProfile = {
   whatsapp: "0812-7788-4400",
   address: "Jl. Sukajadi No. 118, Sukagalih, Sukajadi, Kota Bandung 40163",
   breeds: ["Persian", "Exotic Shorthair"],
+  email: "hana@rumahhana.id",
+  memberSince: "25 Jul 2024",
   provinceRegion: "Jawa Barat · Bandung", // baru, khusus halaman profil
 };
 

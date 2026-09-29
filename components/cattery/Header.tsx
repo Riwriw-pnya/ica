@@ -6,7 +6,7 @@ import DashboardIcon from "@/components/anggota/DashboardIcon";
 import NotificationDropdown from "./NotificationDropdown";
 import CatteryUserMenuDropdown from "./CatteryUserMenuDropdown";
 import type { NotificationItem } from "@/types/cattery";
-import { initialNotifications } from "@/data/cattery";
+import { initialNotifications, catteryProfile } from "@/data/cattery";
 import { useUserMenu } from "@/context/UserMenuContext";
 import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
@@ -15,16 +15,16 @@ import { useHeaderAction } from "@/context/HeaderActionContext";
 const pageTitles: Record<string, string> = {
   "/cattery": "Dashboard",
   "/cattery/dashboard": "Dashboard",
-  "/cattery/notifications": "Notifikasi", // Tambahkan route notifikasi
+  "/cattery/notifications": "Notifikasi",
   "/cattery/my-cats": "My Cats",
   "/cattery/my-cats/[id]": "Detail Kucing",
   "/cattery/applications": "Applications",
   "/cattery/mating-reports": "Buat Mating Reports",
   "/cattery/documents": "Documents",
   "/cattery/leaderboard": "Leaderboard",
-  "/cattery/events": "Events",
+  "/cattery/event": "Events",
   "/cattery/store": "Store",
-  "/cattery/profil": "Profil Cattery",
+  "/cattery/profil": "Profil",
   "/cattery/settings": "Settings",
 };
 
@@ -50,7 +50,8 @@ export default function Header() {
 
   const isMatingReportForm = pathname.startsWith("/cattery/mating-reports");
   const isDashboard = pathname === "/cattery" || pathname === "/cattery/dashboard";
-  const isNotifications = pathname === "/cattery/notifications"; // Deteksi halaman notifikasi
+  const isNotifications = pathname === "/cattery/notifications"; 
+  const isProfile = pathname === "/cattery/profil";
   
   const isUserMenuOpen = openMenu === "header";
   const isNotifOpen = openMenu === "notifications";
@@ -66,6 +67,14 @@ export default function Header() {
 
   const title = getPageTitle(pathname);
 
+  // Inisial untuk avatar (contoh: RH)
+  const initials = catteryProfile.name
+    .split(" ")
+    .map((w) => w[0])
+    .slice(0, 2)
+    .join("")
+    .toUpperCase();
+
   const handleLogout = () => {
     closeMenu();
     router.push("/auth/login/cattery");
@@ -79,7 +88,7 @@ export default function Header() {
     <header className={`${isDashboard ? "hidden md:flex" : "flex"} h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5`}>
       <div className="flex items-center gap-3">
         
-        {/* Tombol Back Dinamis (Khusus Halaman Notifikasi) */}
+        {/* Tombol Back (Khusus Halaman Notifikasi Mobile) */}
         {isNotifications && (
           <button 
             onClick={() => router.back()} 
@@ -93,9 +102,18 @@ export default function Header() {
 
         <div className="flex flex-col">
           <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900,#231A14)]">{title}</h1>
-          {/* Subtitle khusus Notifikasi */}
+          
+          {/* Subtitle / Deskripsi Dinamis Mobile */}
           {isNotifications && (
-            <span className="text-[10px] text-[#8C8074] font-medium leading-none mt-0.5">4 belum dibaca</span>
+            <span className="text-[10px] text-[#8C8074] font-medium leading-none mt-0.5 md:hidden">
+              4 belum dibaca
+            </span>
+          )}
+
+          {isProfile && (
+            <span className="text-[10px] text-[#8C8074] font-medium leading-none mt-0.5 md:hidden">
+              {catteryProfile.name} · Cattery
+            </span>
           )}
         </div>
 
@@ -107,13 +125,11 @@ export default function Header() {
       </div>
 
       <div className="flex items-center gap-3">
-        {/* Konten Kanan khusus Notifikasi */}
         {isNotifications ? (
           <button className="text-xs font-bold text-[#F05A1B] hover:text-[#D95D1E] cursor-pointer">
             Tandai semua dibaca
           </button>
         ) : (
-          /* Konten Kanan selain Halaman Notifikasi */
           <>
             {isDashboard && (
               <button
@@ -146,12 +162,25 @@ export default function Header() {
               </>
             )}
 
-            {/* Icon Bell & Menu User (Sembunyi otomatis karena conditional di atas) */}
+            {/* Notifikasi */}
             <div ref={notifRef} className="relative">
               <button
+                onClick={() => router.push("/cattery/notifications")}
+                className="flex md:hidden relative h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
+                aria-label="Notifikasi Mobile"
+              >
+                <DashboardIcon name="bell" size={20} />
+                {unreadCount > 0 && (
+                  <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
+                    {unreadCount}
+                  </span>
+                )}
+              </button>
+
+              <button
                 onClick={() => toggleMenu("notifications")}
-                className="relative flex h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
-                aria-label="Notifikasi"
+                className="hidden md:flex relative h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
+                aria-label="Notifikasi Desktop"
               >
                 <DashboardIcon name="bell" size={20} />
                 {unreadCount > 0 && (
@@ -162,24 +191,33 @@ export default function Header() {
               </button>
 
               {isNotifOpen && (
-                <NotificationDropdown
-                  notifications={notifications}
-                  onMarkAllRead={handleMarkAllAsRead}
-                  onMarkOneRead={(id: string) =>
-                    setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)))
-                  }
-                  onClose={closeMenu}
-                />
+                <div className="hidden md:block">
+                  <NotificationDropdown
+                    notifications={notifications}
+                    onMarkAllRead={handleMarkAllAsRead}
+                    onMarkOneRead={(id: string) =>
+                      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)))
+                    }
+                    onClose={closeMenu}
+                  />
+                </div>
               )}
             </div>
 
+            {/* Menu User Avatar */}
             <div ref={containerRef} className="relative">
+              <div className="flex md:hidden items-center px-1 select-none pointer-events-none">
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[10px] font-bold text-[var(--color-brand-orange-900)]/70 shrink-0">
+                  {initials}
+                </div>
+              </div>
+
               <button
                 onClick={() => toggleMenu("header")}
-                className="flex items-center gap-2 rounded-full border border-[#E2D7CC] bg-gradient-to-b from-white to-[#F7F3ED] px-2 py-1 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.06),0_2px_4px_rgba(0,0,0,0.04)] hover:border-[#D1C2B3] hover:from-white hover:to-[#F0E7DC] active:scale-98"
+                className="hidden md:flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 transition-all hover:border-[#D1C2B3] hover:from-white hover:to-[#F0E7DC] active:scale-98"
               >
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#FFCF9E] to-[#F26E27] text-[10px] font-bold text-white shadow-xs shrink-0">
-                  RH
+                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[10px] font-bold text-[var(--color-brand-orange-900)]/70 shrink-0">
+                  {initials}
                 </div>
                 <span className="text-[#6E6359] flex items-center pr-1">
                   <DashboardIcon name="chevron" size={12} />
@@ -187,12 +225,14 @@ export default function Header() {
               </button>
 
               {isUserMenuOpen && (
-                <CatteryUserMenuDropdown
-                  position="bottom"
-                  widthClass="w-64 right-0"
-                  onNavigate={closeMenu}
-                  onLogout={handleLogout}
-                />
+                <div className="hidden md:block">
+                  <CatteryUserMenuDropdown
+                    position="bottom"
+                    widthClass="w-64 right-0"
+                    onNavigate={closeMenu}
+                    onLogout={handleLogout}
+                  />
+                </div>
               )}
             </div>
           </>

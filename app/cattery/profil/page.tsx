@@ -1,9 +1,11 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { catteryProfile as initialProfile } from "@/data/cattery";
 import type { CatteryProfile } from "@/types/cattery";
 import { useToast } from "@/context/ToastContext";
+import DashboardIcon from "@/components/anggota/DashboardIcon";
 
 export default function CatteryProfilePage() {
   const { showToast } = useToast();
@@ -35,7 +37,6 @@ export default function CatteryProfilePage() {
   };
 
   const handleSave = () => {
-    // Sementara — nanti diganti fetch/PATCH ke API, kirim `profile` + file foto
     showToast("Profil cattery disimpan.", "Perubahan Anda sudah tersimpan.");
   };
 
@@ -45,7 +46,7 @@ export default function CatteryProfilePage() {
     setProfilePhoto(initialProfile.profilePhotoUrl ?? null);
   };
 
-  const initials = (profile.ownerName ?? "")
+  const initials = (profile.name ?? "Rumah Hana")
     .split(" ")
     .map((w) => w[0])
     .slice(0, 2)
@@ -53,8 +54,214 @@ export default function CatteryProfilePage() {
     .toUpperCase();
 
   return (
-    <div className="min-h-screen bg-[#F8F6F2] text-[#2d2825] font-sans">
-      <main className="p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto">
+    <div className="min-h-screen bg-[#F8F6F2] text-[#2d2825] font-sans pb-20 lg:pb-8">
+      
+      {/* ========================================================= */}
+      {/* 1. TAMPILAN MOBILE                                        */}
+      {/* ========================================================= */}
+      <div className="block lg:hidden px-4 pt-4 space-y-4 max-w-md mx-auto">
+        
+        {/* Card 1: Identitas Utama Cattery */}
+        <div className="bg-white rounded-3xl p-5 border border-[#eedfd5] shadow-2xs flex items-center gap-4">
+          <div className="w-16 h-16 rounded-full bg-[#fff4eb] border border-[#fce3d2] text-[#f05a1b] font-extrabold text-xl flex items-center justify-center shrink-0">
+            {initials}
+          </div>
+          <div className="space-y-1 min-w-0">
+            <h2 className="font-bold text-base text-[#1a1513] leading-tight truncate">
+              {profile.name}
+            </h2>
+            <p className="text-xs text-[#8c8074] truncate">
+              {profile.regNumber} · Cattery
+            </p>
+            <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#eaf8f0] text-[#1b804d] text-[10px] font-bold border border-[#c3f0d5]">
+              Terverifikasi
+            </span>
+          </div>
+        </div>
+
+        {/* Card 2: Personal Details Table */}
+        <div className="bg-white rounded-3xl p-4 border border-[#eedfd5] shadow-2xs divide-y divide-[#f4efe9]">
+          <div className="flex items-center justify-between py-2.5">
+            <span className="text-xs font-medium text-[#8c8074]">Pemilik</span>
+            <span className="text-xs font-bold text-[#1a1513]">{profile.ownerName}</span>
+          </div>
+          <div className="flex items-center justify-between py-2.5">
+            <span className="text-xs font-medium text-[#8c8074]">Email</span>
+            <span className="text-xs font-bold text-[#1a1513]">{profile.email}</span>
+          </div>
+          <div className="flex items-center justify-between py-2.5">
+            <span className="text-xs font-medium text-[#8c8074]">WhatsApp</span>
+            <span className="text-xs font-bold text-[#1a1513]">{profile.whatsapp}</span>
+          </div>
+          <div className="flex items-center justify-between py-2.5">
+            <span className="text-xs font-medium text-[#8c8074]">Wilayah ICA</span>
+            <span className="text-xs font-bold text-[#1a1513]">{profile.provinceRegion || profile.region}</span>
+          </div>
+          <div className="flex items-center justify-between py-2.5">
+            <span className="text-xs font-medium text-[#8c8074]">Member sejak</span>
+            <span className="text-xs font-bold text-[#1a1513]">{profile.memberSince}</span>
+          </div>
+        </div>
+
+        {/* Card 3: Keanggotaan & Lencana Event */}
+        <div className="bg-white rounded-3xl p-5 border border-[#eedfd5] shadow-2xs space-y-4">
+          <div className="flex items-start justify-between">
+            <div>
+              <h3 className="font-bold text-xs text-[#1a1513]">Tingkat keanggotaan · Perak</h3>
+              <p className="text-[10px] text-[#8c8074] mt-0.5">3 dari 5 event diikuti</p>
+            </div>
+            <span className="px-2.5 py-1 rounded-full bg-[#fff4eb] text-[#f05a1b] text-[10px] font-bold border border-[#fce3d2]">
+              60% lengkap
+            </span>
+          </div>
+
+          <div className="w-full bg-[#f4efe9] h-2 rounded-full overflow-hidden">
+            <div className="bg-[#f05a1b] h-full w-[60%] rounded-full" />
+          </div>
+
+          <p className="text-[11px] text-[#8c8074]">Ikuti 2 event lagi untuk tingkat Emas.</p>
+
+          <div className="pt-2 space-y-2">
+            <span className="block text-[10px] font-bold tracking-wider uppercase text-[#a09488]">
+              Lencana Event
+            </span>
+
+            {/* Horizontal Badge Carousel */}
+            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1 pt-1 -mx-1 px-1">
+              <div className="min-w-[110px] bg-[#faf7f2] rounded-2xl p-3 border border-[#eedfd5] flex flex-col justify-between space-y-3 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ffb07c] to-[#f05a1b] shadow-2xs" />
+                <div>
+                  <h4 className="font-bold text-xs text-[#1a1513]">Cat Show</h4>
+                  <p className="text-[9px] text-[#8c8074] leading-tight">ICA Cat Show Bandung 2026</p>
+                </div>
+              </div>
+
+              <div className="min-w-[110px] bg-[#faf7f2] rounded-2xl p-3 border border-[#eedfd5] flex flex-col justify-between space-y-3 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ffb07c] to-[#f05a1b] shadow-2xs" />
+                <div>
+                  <h4 className="font-bold text-xs text-[#1a1513]">Regional</h4>
+                  <p className="text-[9px] text-[#8c8074] leading-tight">Regional Show Bandung 2026</p>
+                </div>
+              </div>
+
+              <div className="min-w-[110px] bg-[#faf7f2] rounded-2xl p-3 border border-[#eedfd5] flex flex-col justify-between space-y-3 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ffb07c] to-[#f05a1b] shadow-2xs" />
+                <div>
+                  <h4 className="font-bold text-xs text-[#1a1513]">Kitten Fest</h4>
+                  <p className="text-[9px] text-[#8c8074] leading-tight">ICA Kitten Fest 2025</p>
+                </div>
+              </div>
+
+              <div className="min-w-[110px] bg-[#f5f2ed] rounded-2xl p-3 border border-[#e8ded5] flex flex-col justify-between space-y-3 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#dcd4cb] shadow-2xs" />
+                <div>
+                  <h4 className="font-bold text-xs text-[#1a1513]">Diklat Breeder</h4>
+                  <p className="text-[9px] text-[#8c8074] leading-tight">Belum diikuti</p>
+                </div>
+              </div>
+
+              <div className="min-w-[110px] bg-[#f5f2ed] rounded-2xl p-3 border border-[#e8ded5] flex flex-col justify-between space-y-3 shrink-0">
+                <div className="w-10 h-10 rounded-xl bg-[#dcd4cb] shadow-2xs" />
+                <div>
+                  <h4 className="font-bold text-xs text-[#1a1513]">Grooming</h4>
+                  <p className="text-[9px] text-[#8c8074] leading-tight">Belum diikuti</p>
+                </div>
+              </div>
+            </div>
+
+            <p className="text-[10px] text-[#a09488] pt-1">
+              Lencana diberikan admin ICA setelah event selesai.
+            </p>
+          </div>
+        </div>
+
+        {/* Quick Menu Navigation Links */}
+        <div className="bg-white rounded-3xl border border-[#eedfd5] shadow-2xs divide-y divide-[#f4efe9] overflow-hidden">
+          <Link href="/cattery/mating-reports" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
+            <div className="flex items-center gap-3">
+              <div className="text-[var(--color-brand-orange-700)]/90">
+                <DashboardIcon name="mating" size={18} />
+              </div>
+              <span className="font-bold text-xs text-[#1a1513]">Mating Report</span>
+            </div>
+            <span className="text-xs text-[#8c8074]">Buat baru</span>
+          </Link>
+
+          <Link href="/cattery/profil" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
+            <div className="flex items-center gap-3">
+              <div className="text-[var(--color-brand-orange-700)]/90">
+                <DashboardIcon name="home" size={18} />
+              </div>
+              <span className="font-bold text-xs text-[#1a1513]">Profil Cattery</span>
+            </div>
+            <span className="text-xs text-[#8c8074]"></span>
+          </Link>
+
+          <Link href="/cattery/documents" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
+            <div className="flex items-center gap-3">
+              <div className="text-[var(--color-brand-orange-700)]/90">
+                <DashboardIcon name="news" size={18} />
+              </div>
+              <span className="font-bold text-xs text-[#1a1513]">Documents</span>
+            </div>
+            <span className="text-xs text-[#8c8074]">5 berkas</span>
+          </Link>
+
+          <Link href="/cattery/leaderboard" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
+            <div className="flex items-center gap-3">
+              <div className="text-[var(--color-brand-orange-700)]/90">
+                <DashboardIcon name="trophy" size={18} />
+              </div>
+              <span className="font-bold text-xs text-[#1a1513]">Leaderboard</span>
+            </div>
+            <span className="text-xs text-[#8c8074]"></span>
+          </Link>
+
+          <Link href="/cattery/store" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
+            <div className="flex items-center gap-3">
+              <div className="text-[var(--color-brand-orange-700)]/90">
+                <DashboardIcon name="shopping-cart" size={18} />
+              </div>
+              <span className="font-bold text-xs text-[#1a1513]">Store</span>
+            </div>
+            <span className="text-xs text-[#8c8074]"></span>
+          </Link>
+
+          <Link href="/cattery/orders" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
+            <div className="flex items-center gap-3">
+              <div className="text-[var(--color-brand-orange-700)]/90">
+                <DashboardIcon name="payment" size={18} />
+              </div>
+              <span className="font-bold text-xs text-[#1a1513]">Riwayat pesanan</span>
+            </div>
+            <span className="text-xs text-[#8c8074]">3 pesanan</span>
+          </Link>
+
+          <Link href="/cattery/settings" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
+            <div className="flex items-center gap-3">
+              <div className="text-[var(--color-brand-orange-700)]/90">
+                <DashboardIcon name="settings" size={18} />
+              </div>
+              <span className="font-bold text-xs text-[#1a1513]">Pengaturan akun</span>
+            </div>
+            <span className="text-xs text-[#8c8074]"></span>
+          </Link>
+        </div>
+
+        {/* Logout Action Button */}
+        <div className="pt-1">
+          <Link href="/auth/login/cattery">
+            <button className="w-full bg-white text-[#c23c3c] border border-[#fde9e9] hover:bg-[#fde9e9]/30 rounded-3xl py-3.5 font-bold text-xs shadow-2xs transition">
+              Keluar dari akun
+            </button>
+          </Link>
+        </div>
+      </div>
+
+      {/* ========================================================= */}
+      {/* 2. TAMPILAN DESKTOP (Sama Sekali Tidak Diubah / Utuh)     */}
+      {/* ========================================================= */}
+      <main className="hidden lg:block p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto">
         <div className="space-y-1">
           <h1 className="text-xl sm:text-2xl font-bold text-[#1a1513]">
             Profil Cattery
