@@ -5,6 +5,9 @@ import Link from "next/link";
 import { membershipInfo } from "@/data/anggota";
 import AjukanCatteryMobile from "./AjukanCatteryMobile";
 import MyCatsMobile from "./MyCatsMobile";
+import StatusKeanggotaanMobile from "./StatusKeanggotaanMobile";
+import LogAktivitasMobile from "./LogAktivitasMobile";
+import PengaturanAkunMobile from "./PengaturanAkunMobile";
 
 export type MembershipInfoType = typeof membershipInfo;
 
@@ -15,8 +18,9 @@ interface KeanggotaanMobileProps {
 export default function KeanggotaanMobile({ info }: KeanggotaanMobileProps) {
   const [showAjukanCattery, setShowAjukanCattery] = useState<boolean>(false);
   const [showMyCats, setShowMyCats] = useState<boolean>(false);
-
-  // BARIS EARLY RETURN DIPISAH/DIHAPUS SUPAYA LAYOUT PROFIL TIDAK DI-UNMOUNT SECARA MENDADAK
+  const [showStatusKeanggotaan, setShowStatusKeanggotaan] = useState<boolean>(false);
+  const [showLogAktivitas, setShowLogAktivitas] = useState<boolean>(false);
+  const [showPengaturanAkun, setShowPengaturanAkun] = useState<boolean>(false);
 
   const badgeDict = [
     { title: "Kesehatan", desc: "Diklat Kesehatan & Nutrisi", active: true },
@@ -163,7 +167,6 @@ export default function KeanggotaanMobile({ info }: KeanggotaanMobileProps) {
 
       {/* 5. MENU NAVIGASI PROFIL */}
       <div className="bg-white rounded-2xl border border-[#EAE5DF] shadow-2xs divide-y divide-[#F5F2ED] overflow-hidden">
-        
         {/* ITEM 1: MY CATS */}
         <button
           type="button"
@@ -194,7 +197,11 @@ export default function KeanggotaanMobile({ info }: KeanggotaanMobileProps) {
         </Link>
 
         {/* ITEM 3: STATUS KEANGGOTAAN */}
-        <div className="flex items-center justify-between p-3.5 hover:bg-[#FAF8F5] cursor-pointer">
+        <button
+          type="button"
+          onClick={() => setShowStatusKeanggotaan(true)}
+          className="flex items-center justify-between p-3.5 hover:bg-[#FAF8F5] active:bg-[#F5F2ED] transition-colors cursor-pointer w-full text-left"
+        >
           <div className="flex items-center gap-3">
             <svg className="w-5 h-5 text-[#D96B27]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V8a2 2 0 00-2-2H6a2 2 0 00-2 2v8a2 2 0 002 2z" />
@@ -202,21 +209,29 @@ export default function KeanggotaanMobile({ info }: KeanggotaanMobileProps) {
             <span className="text-xs font-bold text-[#1F1B18]">Status keanggotaan</span>
           </div>
           <span className="text-[#857B72] text-sm font-semibold">›</span>
-        </div>
+        </button>
 
-        {/* ITEM 4: LOG AKTIVITAS */}
-        <div className="flex items-center justify-between p-3.5 hover:bg-[#FAF8F5] cursor-pointer">
-          <div className="flex items-center gap-3">
-            <svg className="w-5 h-5 text-[#D96B27]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
-            </svg>
-            <span className="text-xs font-bold text-[#1F1B18]">Log aktivitas</span>
-          </div>
-          <span className="text-[#857B72] text-sm font-semibold">›</span>
+       {/* ITEM 4: LOG AKTIVITAS */}
+      <button
+        type="button"
+        onClick={() => setShowLogAktivitas(true)}
+        className="flex items-center justify-between p-3.5 hover:bg-[#FAF8F5] active:bg-[#F5F2ED] transition-colors cursor-pointer w-full text-left"
+      >
+        <div className="flex items-center gap-3">
+          <svg className="w-5 h-5 text-[#D96B27]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span className="text-xs font-bold text-[#1F1B18]">Log aktivitas</span>
         </div>
+        <span className="text-[#857B72] text-sm font-semibold">›</span>
+      </button>
 
         {/* ITEM 5: PENGATURAN AKUN */}
-        <div className="flex items-center justify-between p-3.5 hover:bg-[#FAF8F5] cursor-pointer">
+        <button
+          type="button"
+          onClick={() => setShowPengaturanAkun(true)}
+          className="flex items-center justify-between p-3.5 hover:bg-[#FAF8F5] active:bg-[#F5F2ED] transition-colors cursor-pointer w-full text-left"
+        >
           <div className="flex items-center gap-3">
             <svg className="w-5 h-5 text-[#D96B27]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
               <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z" />
@@ -225,8 +240,7 @@ export default function KeanggotaanMobile({ info }: KeanggotaanMobileProps) {
             <span className="text-xs font-bold text-[#1F1B18]">Pengaturan akun</span>
           </div>
           <span className="text-[#857B72] text-sm font-semibold">›</span>
-        </div>
-
+        </button>
       </div>
 
       {/* 6. TOMBOL KELUAR */}
@@ -246,10 +260,28 @@ export default function KeanggotaanMobile({ info }: KeanggotaanMobileProps) {
         <MyCatsMobile onBack={() => setShowMyCats(false)} />
       )}
 
+      {/* OVERLAY STATUS KEANGGOTAAN */}
+      {showStatusKeanggotaan && (
+        <StatusKeanggotaanMobile onBack={() => setShowStatusKeanggotaan(false)} />
+      )}
+
       {/* OVERLAY PENGAJUAN CATTERY */}
       {showAjukanCattery && (
         <AjukanCatteryMobile onBack={() => setShowAjukanCattery(false)} />
       )}
+      
+      {/* OVERLAY LOG AKTIVITAS */}
+      {showLogAktivitas && (
+      <LogAktivitasMobile
+        idMember={idMember}
+        onBack={() => setShowLogAktivitas(false)}
+      />
+    )}
+
+    {/* OVERLAY PENGATURAN AKUN */}
+    {showPengaturanAkun && (
+      <PengaturanAkunMobile onBack={() => setShowPengaturanAkun(false)} />
+    )}
     </div>
   );
 }
