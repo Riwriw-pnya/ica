@@ -22,7 +22,8 @@ export default function AnggotaLayout({
           <div className="flex min-w-0 flex-1 flex-col h-full">
             <Header />
 
-            <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-[#faf8f5] px-0 sm:px-6 lg:p-8 py-0 sm:py-6 pb-24 lg:pb-8">
+            {/* Padding vertikal desktop (sm:py-4 atau sm:py-5) dikurangi agar jarak dengan header lebih rapat dan pas */}
+            <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-[#faf8f5] px-0 sm:px-6 lg:px-8 py-0 sm:py-4 pb-24 lg:pb-8">
               {children}
             </main>
           </div>

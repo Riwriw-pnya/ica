@@ -116,10 +116,9 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
   };
 
   return (
-    // Diubah bagian padding atas (pt) agar tidak terlalu tinggi
-    <header className="sticky top-0 z-30 w-full border-b border-[#EFE9E1] bg-[#FAF8F5] px-4 pt-[max(env(safe-area-inset-top),0.75rem)] pb-2.5 md:bg-white md:px-5 md:py-0">
-      <div className="flex items-center justify-between md:h-[54px]">
-        {/* Sisi Kiri: Judul Mobile vs Desktop */}
+    <header className="sticky top-0 z-30 w-full border-b border-[#EFE9E1] bg-[#FAF8F5] px-4 pt-[max(env(safe-area-inset-top),0.75rem)] pb-2.5 md:bg-white md:px-6 md:py-0">
+      <div className="flex items-center justify-between md:h-13.5">
+        {/* Sisi Kiri: Judul Halaman */}
         <div className="flex items-center gap-3">
           <div className="md:hidden">
             <h1 className="text-[18px] font-bold tracking-tight text-[#231A14] leading-tight">
@@ -137,18 +136,18 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
           </h1>
         </div>
 
-        {/* Sisi Kanan: Keranjang (Mobile Store) + Notifikasi + Profil */}
-        <div className="flex items-center gap-1 md:gap-3">
-          {/* 1. TOMBOL KERANJANG */}
+        {/* Sisi Kanan */}
+        <div className="flex items-center gap-2 md:gap-3">
+          {/* Keranjang Mobile (Hanya muncul di Store) */}
           {isStorePage && (
             <button
               type="button"
               onClick={handleCartClick}
-              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#231A14] transition hover:bg-[#EFE9E1]/50 md:hidden cursor-pointer active:scale-95 shrink-0"
+              className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2D7CC] bg-white text-[#231A14] transition hover:bg-[#FAF7F5] md:hidden cursor-pointer active:scale-95 shrink-0 shadow-xs"
               aria-label="Keranjang"
             >
               <svg
-                className="w-5 h-5 text-[#1F1B18]"
+                className="w-4.5 h-4.5 text-[#1F1B18]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -156,23 +155,50 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
                 <path
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
+                  strokeWidth="1.8"
                   d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
                 />
               </svg>
               {cartCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#D95D1E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#E54D2E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
                   {cartCount}
                 </span>
               )}
             </button>
           )}
 
-          {/* 2. TOMBOL NOTIFIKASI */}
-          <div ref={notifRef} className="relative shrink-0">
+          {/* Keranjang Desktop (Muncul di Semua Navigasi Desktop) */}
+          <button
+            type="button"
+            onClick={handleCartClick}
+            className="hidden md:flex relative h-9 w-9 items-center justify-center rounded-xl border border-[#E2D7CC] bg-white text-[#231A14] transition hover:bg-[#FAF7F5] cursor-pointer active:scale-95 shrink-0 shadow-xs"
+            aria-label="Keranjang"
+          >
+            <svg
+              className="w-4.5 h-4.5 text-[#1F1B18]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.8"
+                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+              />
+            </svg>
+            {cartCount > 0 && (
+              <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#E54D2E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
+                {cartCount}
+              </span>
+            )}
+          </button>
+
+          {/* Notifikasi Mobile */}
+          <div ref={notifRef} className="relative shrink-0 md:hidden">
             <button
               onClick={() => toggleMenu("notifications")}
-              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#231A14] transition hover:bg-[#EFE9E1]/50 md:h-8 md:w-8 md:rounded-lg"
+              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#231A14] transition hover:bg-[#EFE9E1]/50"
               aria-label="Notifikasi"
             >
               <DashboardIcon name="bell" size={20} />
@@ -196,16 +222,26 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
             )}
           </div>
 
-          {/* USER MENU DROPDOWN (DESKTOP) */}
+          {/* Profil Pengguna Desktop */}
           <div ref={containerRef} className="relative hidden md:block">
             <button
               onClick={() => toggleMenu("header")}
-              className="flex items-center gap-2 rounded-full border border-[#E2D7CC] bg-gradient-to-b from-white to-[#F7F3ED] px-2 py-1 transition-all shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.06),0_2px_4px_rgba(0,0,0,0.04)] hover:border-[#D1C2B3] hover:from-white hover:to-[#F0E7DC] active:scale-98"
+              className={`flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 transition-all cursor-pointer active:scale-98 ${
+                isUserMenuOpen ? "bg-[#FFF2E8]" : "bg-white hover:bg-[#FFF2E8]"
+              }`}
             >
-              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-gradient-to-b from-[#FFCF9E] to-[#F26E27] text-[10px] font-bold text-white shrink-0">
+              <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FEE4CC] text-[10px] font-bold text-[#A85822] shrink-0">
                 AP
               </div>
-              <span className="text-[#6E6359] flex items-center pr-1">
+              <div className="flex flex-col text-left leading-tight pr-0.5">
+                <span className="text-xs font-bold text-[#1A1513]">
+                  Ayu Prameswari
+                </span>
+                <span className="text-[10px] font-medium text-[#8C8074]">
+                  ICA-M-004821
+                </span>
+              </div>
+              <span className="text-[#8C8074] flex items-center pl-0.5">
                 <DashboardIcon name="chevron" size={12} />
               </span>
             </button>

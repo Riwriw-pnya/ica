@@ -34,8 +34,8 @@ export default function CatteryDetailDesktop({
   events,
 }: CatteryDetailDesktopProps) {
   return (
-    // Tag main diubah ke div transparan tanpa bg & padding tambahan
-    <div className="hidden sm:block w-full max-w-4xl space-y-6">
+    // max-w-4xl dihapus agar konten bisa melebar penuh mengikuti halaman
+    <div className="hidden sm:block w-full space-y-6">
       {/* Header Title & Back Link */}
       <div>
         <h1 className="text-2xl font-bold text-[#1A1513]">Detail Cattery</h1>
