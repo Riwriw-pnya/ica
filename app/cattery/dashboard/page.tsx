@@ -99,7 +99,7 @@ export default function DashboardPage() {
               <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">My Cats</span>
             </Link>
 
-            <Link href="/cattery/events" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
+            <Link href="/cattery/event" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
               <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)]/90 mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
