@@ -199,3 +199,20 @@ export interface CatAdopterItem {
   adoptionDate: string;
   initials: string;
 }
+
+export interface CatLeaderboardItem {
+  id: string;
+  rank: number;
+  name: string;
+  fullName: string;
+  shortName: string;
+  breed: string;
+  emsCode: string;
+  owner: string;
+  breeder: string;
+  shows: string[];
+  score: number;
+  paidShowsCount: number;
+  imageUrl?: string;
+  active?: boolean;
+}

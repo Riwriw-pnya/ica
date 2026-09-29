@@ -6,7 +6,6 @@ import Link from "next/link";
 
 export default function QuickLinks() {
   return (
-    // Hanya dirender di layar md ke atas (Desktop)
     <section className="hidden md:grid grid-cols-1 md:grid-cols-3 gap-4">
       <Link href="/cattery/profil" className="bg-white rounded-2xl p-4 border border-[#eedfd5] shadow-xs flex items-center justify-between hover:border-[#f05a1b]/40 hover:bg-gradient-to-l hover:from-white hover:to-[#FFF0E5] hover:border-[#FA9856]/70 hover:shadow-md hover:-translate-y-0.5 transition-all">
         <div className="flex items-center gap-3.5">
