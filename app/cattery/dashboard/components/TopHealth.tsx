@@ -58,7 +58,7 @@ export default function TopHealthScoresCard() {
       {/* ========================================= */}
       {/* 2. TAMPILAN DESKTOP                       */}
       {/* ========================================= */}
-      <div className="hidden lg:flex lg:col-span-5 bg-white rounded-3xl border border-[#eedfd5] shadow-xs p-6 flex-col justify-between space-y-5">
+      <div className="hidden lg:flex lg:col-span-5 bg-white rounded-3xl border border-[#eedfd5] shadow-[0_10px_25px_rgba(0,0,0,0.05)] p-6 flex-col justify-between space-y-5">
         <div className="space-y-4">
           <div className="flex items-start justify-between gap-2">
             <div>

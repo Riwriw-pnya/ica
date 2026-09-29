@@ -86,7 +86,7 @@ export default function SavedDraftsCard() {
       {/* ========================================= */}
       {/* 2. TAMPILAN DESKTOP                       */}
       {/* ========================================= */}
-      <div className="hidden lg:flex lg:col-span-7 bg-white rounded-3xl border border-[#eedfd5] shadow-xs overflow-hidden flex-col justify-between">
+      <div className="hidden lg:flex lg:col-span-7 bg-white rounded-3xl border border-[#eedfd5] shadow-[0_10px_25px_rgba(0,0,0,0.05)] overflow-hidden flex-col justify-between">
         <div className="p-5 sm:p-6 space-y-6">
           <div className="flex items-start sm:items-center justify-between gap-3 sm:gap-4">
             <div>
@@ -96,7 +96,7 @@ export default function SavedDraftsCard() {
               </p>
             </div>
             <Link href="/cattery/mating-reports">
-              <button className="cursor-pointer whitespace-nowrap rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-3.5 py-1.5 sm:px-5 sm:py-2 text-[11px] sm:text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] shrink-0">
+              <button className="cursor-pointer whitespace-nowrap rounded-full border border-[var(--color-brand-orange-500)] bg-white px-3.5 py-1.5 sm:px-5 sm:py-2 text-[11px] sm:text-xs font-bold text-[var(--color-brand-orange-700)] transition-all duration-150 hover:bg-[var(--color-brand-orange-50)] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] shrink-0">
                 + Draft baru
               </button>
             </Link>

@@ -98,7 +98,7 @@ export default function MatingReportsCard() {
       {/* ========================================= */}
       {/* 2. TAMPILAN DESKTOP                       */}
       {/* ========================================= */}
-      <div className="hidden md:block bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-xs space-y-5">
+      <div className="hidden md:block bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-[0_10px_25px_rgba(0,0,0,0.05)] space-y-5">
         <div className="flex items-center justify-between">
           <h2 className="text-lg font-bold text-[#1a1513]">Mating report terakhir</h2>
           <Link href="/cattery/applications" className="text-xs sm:text-sm font-bold text-[var(--color-brand-orange-700)] hover:underline">

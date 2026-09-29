@@ -41,24 +41,16 @@ export default function DashboardPage() {
       {/* ========================================= */}
       {/* 1. TAMPILAN DESKTOP                       */}
       {/* ========================================= */}
-      <div className="hidden md:block max-w-7xl mx-auto space-y-6">
-        <div className="shadow-[0_10px_25px_rgba(0,0,0,0.05)]">
-          <CatteryBanner profile={catteryProfile} />
-        </div>
-        <div className="shadow-[0_10px_25px_rgba(0,0,0,0.05)]">
-          <QuickLinks />
-        </div>
-        <div className="shadow-[0_10px_25px_rgba(0,0,0,0.05)]">
-          <LatestProgressCard />
-        </div>
-          <StatIndicatorCards />
+      <div className="hidden md:block max-w-5xl mx-auto space-y-7">
+        <CatteryBanner profile={catteryProfile} />
+        <QuickLinks />
+        <LatestProgressCard />
+        <StatIndicatorCards />
         <section className="grid grid-cols-1 lg:grid-cols-12 gap-6">
-            <SavedDraftsCard />
-            <TopHealthScoresCard />
+          <SavedDraftsCard />
+          <TopHealthScoresCard />
         </section>
-        <div className="shadow-[0_10px_25px_rgba(0,0,0,0.05)]">
-          <MatingReportsCard />
-        </div>
+        <MatingReportsCard />
       </div>
 
       {/* ========================================= */}

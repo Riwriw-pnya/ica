@@ -14,7 +14,7 @@ export default function CatteryBanner({ profile }: CatteryBannerProps) {
   const regNumber = profile?.regNumber || "";
 
   return (
-    <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-6">
+    <section className="bg-white rounded-3xl p-5 sm:p-5 border border-[#eedfd5] shadow-[0_10px_25px_rgba(0,0,0,0.05)] flex flex-col md:flex-row md:items-center justify-between gap-6">
       <div className="flex items-start sm:items-center gap-4">
         <div className="w-14 h-14 rounded-2xl bg-gradient-to-b from-white to-[#fff6ed] border border-[#fce3cf] flex items-center justify-center shrink-0">
           <svg className="w-7 h-7 text-[#f05a1b]" fill="none" stroke="currentColor" viewBox="0 0 24 24">
@@ -22,17 +22,11 @@ export default function CatteryBanner({ profile }: CatteryBannerProps) {
           </svg>
         </div>
         <div className="space-y-1">
-          <div className="flex flex-wrap items-center gap-2">
-            {/* NAMA CATTERY DINAMIS */}
-            <h2 className="text-xl sm:text-2xl font-bold text-[#1a1513]">{name}</h2>
-            
+          <div className="flex flex-wrap items-center gap-1">
+            <h2 className="text-xl sm:text-xl font-semibold font-display text-[#1a1513]">{name}</h2>     
             <span className="px-2.5 py-0.5 rounded-full bg-[#eaf8f0] text-[#1b804d] text-xs font-semibold">Aktif</span>
-            
-            {/* LOKASI (REGION) DINAMIS */}
             <span className="px-2.5 py-0.5 rounded-full bg-[#f4efe9] text-[#6b5f54] text-xs font-medium">{region}</span>
           </div>
-          
-          {/* NOMOR REGISTRASI DINAMIS */}
           <p className="text-xs sm:text-sm text-[#7e7267]">Reg. {regNumber} · masa berlaku sampai 31 Des 2026</p>
         </div>
       </div>
