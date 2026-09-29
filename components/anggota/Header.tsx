@@ -44,8 +44,8 @@ const pageMetaMap: Record<string, PageMeta> = {
   },
   "/anggota/store": {
     desktopTitle: "Store",
-    mobileTitle: "Store",
-    mobileSubtitle: "Merchandise resmi ICA",
+    mobileTitle: "Store ICA",
+    mobileSubtitle: "Merchandise dan publikasi resmi",
   },
   "/anggota/leaderboard": {
     desktopTitle: "Leaderboard",
@@ -66,7 +66,12 @@ function getPageMeta(pathname: string): PageMeta {
     : { desktopTitle: "Beranda", mobileTitle: "Beranda" };
 }
 
-export default function Header() {
+interface HeaderProps {
+  cartCount?: number;
+  onOpenCart?: () => void;
+}
+
+export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
   const { openMenu, toggleMenu, closeMenu } = useUserMenu();
   const router = useRouter();
   const pathname = usePathname();
@@ -89,6 +94,7 @@ export default function Header() {
   });
 
   const pageMeta = getPageMeta(pathname);
+  const isStorePage = pathname.startsWith("/anggota/store");
 
   const handleLogout = () => {
     closeMenu();
@@ -99,12 +105,21 @@ export default function Header() {
     setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
 
+  const handleCartClick = (e: React.MouseEvent) => {
+    e.preventDefault();
+    if (onOpenCart) onOpenCart();
+
+    if (typeof window !== "undefined") {
+      window.dispatchEvent(new CustomEvent("open-store-cart"));
+      window.dispatchEvent(new CustomEvent("open-mobile-cart"));
+    }
+  };
+
   return (
     <header className="sticky top-0 z-30 w-full border-b border-[#EFE9E1] bg-[#FAF8F5] px-4 pt-[max(env(safe-area-inset-top),2.5rem)] pb-3 md:bg-white md:px-5 md:py-0">
       <div className="flex items-center justify-between md:h-[54px]">
         {/* Sisi Kiri: Judul Mobile vs Desktop */}
         <div className="flex items-center gap-3">
-          {/* Tampilan Mobile (< md) */}
           <div className="md:hidden">
             <h1 className="text-[18px] font-bold tracking-tight text-[#231A14] leading-tight">
               {pageMeta.mobileTitle}
@@ -116,23 +131,52 @@ export default function Header() {
             )}
           </div>
 
-          {/* Tampilan Desktop (>= md) */}
           <h1 className="hidden md:block font-display text-sm font-semibold text-[#231A14]">
             {pageMeta.desktopTitle}
           </h1>
         </div>
 
-        {/* Sisi Kanan: Notifikasi & Profil */}
-        <div className="flex items-center gap-2 md:gap-3">
-          <div ref={notifRef} className="relative">
+        {/* Sisi Kanan: Keranjang (Mobile Store) + Notifikasi + Profil */}
+        <div className="flex items-center gap-1 md:gap-3">
+          {/* 1. TOMBOL KERANJANG */}
+          {isStorePage && (
+            <button
+              type="button"
+              onClick={handleCartClick}
+              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#231A14] transition hover:bg-[#EFE9E1]/50 md:hidden cursor-pointer active:scale-95 shrink-0"
+              aria-label="Keranjang"
+            >
+              <svg
+                className="w-5 h-5 text-[#1F1B18]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+                />
+              </svg>
+              {cartCount > 0 && (
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#D95D1E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
+                  {cartCount}
+                </span>
+              )}
+            </button>
+          )}
+
+          {/* 2. TOMBOL NOTIFIKASI */}
+          <div ref={notifRef} className="relative shrink-0">
             <button
               onClick={() => toggleMenu("notifications")}
-              className="relative flex h-10 w-10 items-center justify-center rounded-full text-[#231A14] transition hover:bg-[#EFE9E1]/50 md:h-8 md:w-8 md:rounded-lg"
+              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#231A14] transition hover:bg-[#EFE9E1]/50 md:h-8 md:w-8 md:rounded-lg"
               aria-label="Notifikasi"
             >
               <DashboardIcon name="bell" size={20} />
               {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
+                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#D95D1E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
                   {unreadCount}
                 </span>
               )}
@@ -151,6 +195,7 @@ export default function Header() {
             )}
           </div>
 
+          {/* USER MENU DROPDOWN (DESKTOP) */}
           <div ref={containerRef} className="relative hidden md:block">
             <button
               onClick={() => toggleMenu("header")}
