@@ -15,7 +15,7 @@ interface LatestProgressCardProps {
 
 export default function LatestProgressCard({ currentStep = 2 }: LatestProgressCardProps) {
   return (
-    <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-xs space-y-5 sm:space-y-6">
+    <section className="bg-white rounded-3xl p-5 sm:p-6 border border-[#eedfd5] shadow-[0_10px_25px_rgba(0,0,0,0.05)] space-y-5 sm:space-y-6">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-3">
         <div>

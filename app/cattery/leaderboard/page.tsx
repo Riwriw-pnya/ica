@@ -2,69 +2,7 @@
 
 import DashboardIcon from "@/components/anggota/DashboardIcon";
 import React, { useState } from "react";
-
-interface CatLeaderboardItem {
-  id: string;
-  rank: number;
-  name: string;
-  emsCode: string;
-  owner: string;
-  breeder: string;
-  shows: string[];
-  score: number;
-  paidShowsCount: number;
-}
-
-const leaderboardData: CatLeaderboardItem[] = [
-  {
-    id: "1",
-    rank: 1,
-    name: "Bagas of Rumah Hana",
-    emsCode: "EMS PER n 22",
-    owner: "Hana Prameswari",
-    breeder: "Rumah Hana Cattery",
-    shows: [
-      "ICA National Cat Show Bandung 2026",
-      "ICA Regional Cat Show Bandung 2026",
-      "ICA Kitten Fest 2025",
-    ],
-    score: 94,
-    paidShowsCount: 3,
-  },
-  {
-    id: "2",
-    rank: 2,
-    name: "Kirana of Rumah Hana",
-    emsCode: "EMS PER f 22",
-    owner: "Hana Prameswari",
-    breeder: "Rumah Hana Cattery",
-    shows: ["ICA National Cat Show Bandung 2026"],
-    score: 91,
-    paidShowsCount: 1,
-  },
-  {
-    id: "3",
-    rank: 3,
-    name: "Nara Kencana",
-    emsCode: "EMS EXO d 03",
-    owner: "Hana Prameswari",
-    breeder: "Rumah Hana Cattery",
-    shows: ["ICA Kitten Fest 2026", "ICA National Cat Show Bandung 2026"],
-    score: 88,
-    paidShowsCount: 2,
-  },
-  {
-    id: "4",
-    rank: 4,
-    name: "Rimba of Rumah Hana",
-    emsCode: "EMS PER a 21",
-    owner: "Hana Prameswari",
-    breeder: "Rumah Hana Cattery",
-    shows: ["ICA Regional Cat Show Bandung 2026"],
-    score: 84,
-    paidShowsCount: 1,
-  },
-];
+import { leaderboardData } from "@/data/cattery";
 
 export default function LeaderboardPage() {
   const [selectedCatFilter, setSelectedCatFilter] = useState("Kucing cattery saya");
@@ -87,7 +25,6 @@ export default function LeaderboardPage() {
 
         {/* Dropdown Filters */}
         <div className="flex flex-wrap items-center gap-3">
-          {/* Filter 1: Cat Selection */}
           <div className="relative">
             <select
               value={selectedCatFilter}
@@ -104,7 +41,6 @@ export default function LeaderboardPage() {
             </div>
           </div>
 
-          {/* Filter 2: Season */}
           <div className="relative">
             <select
               value={selectedSeason}
@@ -129,19 +65,28 @@ export default function LeaderboardPage() {
               key={cat.id}
               className="bg-white rounded-2xl border border-[#eedfd5] p-5 shadow-xs flex flex-col md:flex-row md:items-center justify-between gap-5 hover:border-[#f05a1b]/30 transition"
             >
-              {/* Left Column: Rank, Avatar, Cat Details */}
               <div className="flex items-start gap-4">
-                {/* Rank Number Circle */}
                 <div className="w-8 h-8 rounded-full bg-[#fff2e8] text-[#f05a1b] font-black text-xs flex items-center justify-center shrink-0 mt-0.5">
                   {cat.rank}
                 </div>
 
-                {/* Cat Avatar Icon */}
-                <div className="w-12 h-12 rounded-2xl bg-[#f7f2ed] border border-[#eae0d5] flex items-center justify-center text-[#8c8074] shrink-0">
-                  <DashboardIcon name="cat" size={22} />
+                {/* Avatar Icon / Image */}
+                <div className="w-12 h-12 rounded-2xl bg-[#f7f2ed] border border-[#eae0d5] overflow-hidden flex items-center justify-center text-[#8c8074] shrink-0">
+                  {cat.imageUrl ? (
+                    <img 
+                      src={cat.imageUrl} 
+                      alt={cat.name} 
+                      className="w-full h-full object-cover"
+                      onError={(e) => {
+                        // Sembunyikan elemen img jika broken link
+                        (e.target as HTMLElement).style.display = 'none';
+                      }} 
+                    />
+                  ) : (
+                    <DashboardIcon name="cat" size={22} />
+                  )}
                 </div>
 
-                {/* Information */}
                 <div className="space-y-2">
                   <div className="flex flex-wrap items-center gap-2">
                     <h2 className="font-bold text-base text-[#1a1513]">
@@ -156,7 +101,6 @@ export default function LeaderboardPage() {
                     Owner: {cat.owner} · Breeder: {cat.breeder}
                   </p>
 
-                  {/* Show Badges */}
                   <div className="pt-1 space-y-1.5">
                     <span className="block text-[11px] font-medium text-[#a09488]">
                       Cat show yang sudah dibayar
@@ -175,7 +119,6 @@ export default function LeaderboardPage() {
                 </div>
               </div>
 
-              {/* Right Column: Scoring */}
               <div className="flex md:flex-col items-center md:items-end justify-between md:justify-center border-t md:border-t-0 md:border-l border-[#f3eae1] pt-3 md:pt-0 md:pl-6 shrink-0 min-w-[130px]">
                 <span className="text-[11px] text-[#8c8074] font-medium">
                   Scoring

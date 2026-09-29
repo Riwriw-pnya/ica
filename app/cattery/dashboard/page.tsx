@@ -3,6 +3,7 @@
 import React from "react";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import { Home } from "lucide-react";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
 import { catteryProfile } from "@/data/cattery";
 
@@ -38,9 +39,9 @@ export default function DashboardPage() {
     <main className="min-h-screen bg-[#faf8f5] text-[#2d2825] md:p-6 lg:p-8 font-sans">
       
       {/* ========================================= */}
-      {/* 1. TAMPILAN DESKTOP */}
+      {/* 1. TAMPILAN DESKTOP                       */}
       {/* ========================================= */}
-      <div className="hidden md:block max-w-7xl mx-auto space-y-6">
+      <div className="hidden md:block max-w-5xl mx-auto space-y-7">
         <CatteryBanner profile={catteryProfile} />
         <QuickLinks />
         <LatestProgressCard />
@@ -53,14 +54,13 @@ export default function DashboardPage() {
       </div>
 
       {/* ========================================= */}
-      {/* 2. TAMPILAN MOBILE */}
+      {/* 2. TAMPILAN MOBILE                        */}
       {/* ========================================= */}
-      <div className="block md:hidden pb-20">
+      <div className="block md:hidden pb-6">
         
-        {/* Bagian Atas: Background Oranye Menyambung */}
+        {/* Header Banner Oranye */}
         <div className="bg-[#FF9B54] rounded-b-[32px] px-4 pt-6 pb-8 shadow-sm">
           
-          {/* Header Profil */}
           <div className="flex items-center gap-3 mb-5">
             <div className="w-12 h-12 bg-white rounded-full flex items-center justify-center font-bold text-[#F05A1B] shrink-0 text-base shadow-sm">
               {initials}
@@ -73,7 +73,6 @@ export default function DashboardPage() {
               Cattery
             </div>
             
-            {/* Tombol Notifikasi (Terintegrasi ke /cattery/notifications) */}
             <button 
               onClick={() => router.push("/cattery/notifications")}
               className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center relative shrink-0 text-white cursor-pointer hover:bg-white/30 transition-colors"
@@ -83,36 +82,32 @@ export default function DashboardPage() {
             </button>
           </div>
 
-          {/* Search Bar Dummy */}
           <div className="bg-white rounded-[14px] px-4 py-3.5 mb-6 flex items-center gap-2 shadow-sm">
             <span className="text-slate-400 text-xs">Cari kucing, report, atau event</span>
           </div>
 
-          {/* Quick Links Mobile: 4 Kotak dengan Icon di atas */}
           <div className="grid grid-cols-4 gap-2.5">
             <Link href="/cattery/mating-reports" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
-              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-              </svg>
+              <DashboardIcon className="mb-1.5 text-[var(--color-brand-orange-700)]" name="mating" size={17}/>
               <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Mating<br/>Report</span>
             </Link>
             
             <Link href="/cattery/my-cats" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
-              <div className="text-[var(--color-brand-orange-700)] mb-1.5">
+              <div className="text-[var(--color-brand-orange-700)]/90 mb-1.5">
                 <DashboardIcon name="cat" size={20} />
               </div>
               <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">My Cats</span>
             </Link>
 
-            <Link href="/cattery/events" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
-              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <Link href="/cattery/event" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
+              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)]/90 mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
               </svg>
               <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Events</span>
             </Link>
 
             <Link href="/cattery/store" className="bg-white aspect-square rounded-[14px] flex flex-col items-center justify-center text-center shadow-sm active:scale-95 transition-transform p-1.5">
-              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)] mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <svg className="w-[20px] h-[20px] text-[var(--color-brand-orange-700)]/90 mb-1.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
               </svg>
               <span className="font-bold text-[9px] leading-[1.1] text-[#2d2825]">Store</span>
@@ -120,25 +115,27 @@ export default function DashboardPage() {
           </div>
         </div>
 
-        {/* Bagian Bawah Background Abu-abu */}
-        <div className="px-4 mt-6 space-y-6">
+        {/* Isi Konten Utama Mobile */}
+        <div className="px-4 mt-5 space-y-8">
           
-          {/* Card Cattery Terverifikasi */}
+          {/* Card Cattery Terverifikasi dengan Icon Home */}
           <div className="bg-white rounded-[16px] p-4 border border-[#F5E6DA] flex items-center justify-between shadow-xs">
             <div className="flex items-center gap-3">
-              <div className="w-10 h-10 bg-[#FFF5EC] rounded-[10px] border border-[#F5E6DA] shrink-0"></div>
+              <div className="w-10 h-10 bg-[#FFF5EC] rounded-[10px] border border-[#F5E6DA] flex items-center justify-center shrink-0">
+                <Home className="w-5 h-5 text-[var(--color-brand-orange-700)]" />
+              </div>
               <div>
                 <h3 className="font-bold text-xs text-[#2d2825]">Cattery terverifikasi</h3>
                 <p className="text-[10px] text-[#8c8074]">Berlaku sampai 31 Des 2026</p>
               </div>
             </div>
-            <Link href="/cattery/profil" className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-bold text-slate-700 shadow-xs shrink-0">
+            <Link href="/cattery/profil" className="rounded-full border border-slate-200 px-3 py-1.5 text-[10px] font-bold text-slate-700 shadow-xs shrink-0 hover:bg-slate-50 transition">
               Lihat profil
             </Link>
           </div>
 
-          {/* Stat Cards (Male, Female, Offspring) */}
-          <div className="grid grid-cols-3 gap-3">
+          {/* Jumlah Statistik Kucing */}
+          <div className="grid grid-cols-3 gap-3 -mt-3">
             <div className="bg-white rounded-[14px] p-3 border border-[#F5E6DA] shadow-xs flex flex-col">
               <span className="font-bold text-xl text-[#2d2825] mb-0.5">4</span>
               <span className="text-[10px] text-[#8c8074]">Male</span>
@@ -153,12 +150,9 @@ export default function DashboardPage() {
             </div>
           </div>
 
-          {/* Sisa konten card lainnya */}
-          <div className="space-y-6">
-            <LatestProgressCard />
-            <StatIndicatorCards />
-            <MatingReportsCard />
-          </div>
+          <MatingReportsCard />
+          <SavedDraftsCard />
+          <TopHealthScoresCard />
           
         </div>
       </div>
