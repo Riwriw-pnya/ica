@@ -22,9 +22,7 @@ export default function AnggotaLayout({
           <div className="flex min-w-0 flex-1 flex-col h-full">
             <Header />
 
-            {/* Area Konten Utama */}
-            {/* overflow-x-hidden mengunci halaman agar tidak bocor ke samping saat swipe carousel */}
-            <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-[#faf8f5] px-4 py-4 sm:px-6 lg:p-8 pb-24 lg:pb-8">
+            <main className="min-h-0 flex-1 overflow-y-auto overflow-x-hidden bg-[#faf8f5] px-0 sm:px-6 lg:p-8 py-0 sm:py-6 pb-24 lg:pb-8">
               {children}
             </main>
           </div>

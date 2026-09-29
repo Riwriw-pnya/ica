@@ -116,7 +116,8 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
   };
 
   return (
-    <header className="sticky top-0 z-30 w-full border-b border-[#EFE9E1] bg-[#FAF8F5] px-4 pt-[max(env(safe-area-inset-top),2.5rem)] pb-3 md:bg-white md:px-5 md:py-0">
+    // Diubah bagian padding atas (pt) agar tidak terlalu tinggi
+    <header className="sticky top-0 z-30 w-full border-b border-[#EFE9E1] bg-[#FAF8F5] px-4 pt-[max(env(safe-area-inset-top),0.75rem)] pb-2.5 md:bg-white md:px-5 md:py-0">
       <div className="flex items-center justify-between md:h-[54px]">
         {/* Sisi Kiri: Judul Mobile vs Desktop */}
         <div className="flex items-center gap-3">

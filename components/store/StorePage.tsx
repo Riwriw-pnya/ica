@@ -2,7 +2,7 @@
 
 import { useState, useMemo } from "react";
 import Image from "next/image";
-import StoreMobile from "./StoreMobile"; // Sesuaikan path tempat menyimpan StoreMobile
+import StoreMobile from "./StoreMobile"; 
 
 export interface Product {
   id: string;
