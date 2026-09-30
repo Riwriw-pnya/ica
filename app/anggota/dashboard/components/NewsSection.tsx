@@ -33,7 +33,6 @@ export default function NewsSection() {
                   : "hover:bg-[var(--color-ink-50)]"
               }`}
             >
-              {/* Komponen pembaca gambar otomatis dari API Route */}
               <NewsThumbnail href={item.href} title={item.title} />
 
               <div className="min-w-0 flex-1">

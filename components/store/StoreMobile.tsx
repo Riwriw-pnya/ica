@@ -58,7 +58,6 @@ export default function StoreMobile({
   const [isOrderDetailOpen, setIsOrderDetailOpen] = useState<boolean>(false);
   const [completedOrder, setCompletedOrder] = useState<OrderDetailData | null>(null);
 
-  // FUNGSI PAKSA BUKA KERANJANG
   const forceOpenCart = () => {
     setSelectedProduct(null);
     setShowHistory(false);
@@ -74,14 +73,12 @@ export default function StoreMobile({
     if (setIsCartOpenExternal) setIsCartOpenExternal(false);
   };
 
-  // TANGKAP SINKRONISASI PROP PARENT
   useEffect(() => {
     if (isCartOpenProp) {
       forceOpenCart();
     }
   }, [isCartOpenProp]);
 
-  // TANGKAP EVENT DARI HEADER GLOBAL
   useEffect(() => {
     const handleCartEvent = () => {
       forceOpenCart();
@@ -195,11 +192,11 @@ export default function StoreMobile({
             <div
               key={product.id}
               onClick={() => setSelectedProduct(product)}
-              className="overflow-hidden rounded-2xl bg-white border border-[#F2ECE6] shadow-xs flex flex-col justify-between cursor-pointer active:scale-98 transition-transform"
+              className="overflow-hidden rounded-2xl bg-white shadow-xs flex flex-col justify-between cursor-pointer active:scale-98 transition-transform"
             >
               <div className="relative h-36 w-full bg-[#F8F6F2] flex flex-col items-center justify-center overflow-hidden">
                 {product.badge && (
-                  <span className="absolute top-2.5 left-2.5 rounded-md bg-[#FFF2E8] px-2 py-0.5 text-[10px] font-semibold text-[#D96B27] z-10 border border-[#FADEC9]">
+                  <span className="absolute top-2.5 left-2.5 rounded-md bg-[#FFF2E8] px-2 py-0.5 text-[10px] font-semibold text-[#D96B27] z-10">
                     {product.badge}
                   </span>
                 )}
@@ -223,6 +220,7 @@ export default function StoreMobile({
                       <path
                         strokeLinecap="round"
                         strokeLinejoin="round"
+                        strokeWidth="1.5"
                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
@@ -266,7 +264,6 @@ export default function StoreMobile({
         />
       )}
 
-      {/* SUB-PAGE KERANJANG BELANJA OVERLAY */}
       {isCartOpen && (
         <StoreCartMobile
           cartItems={cartItems}
@@ -281,7 +278,6 @@ export default function StoreMobile({
         />
       )}
 
-      {/* Checkout */}
       {isCheckoutOpen && (
         <StoreCheckoutMobile
           cartItems={cartItems}
@@ -298,7 +294,6 @@ export default function StoreMobile({
         />
       )}
 
-      {/* Pembayaran */}
       {isPaymentOpen && (
         <StorePaymentMobile
           cartItems={cartItems}
@@ -333,7 +328,6 @@ export default function StoreMobile({
         />
       )}
 
-      {/* Detail Pesanan Selesai */}
       {isOrderDetailOpen && completedOrder && (
         <StoreOrderDetailMobile
           order={completedOrder}

@@ -122,6 +122,9 @@ export interface NotificationItem {
   time: string;
   isRead: boolean;
   url?: string;
+  category?: string;
+  actionText?: string; 
+  actionUrl?: string;  
 }
 
 export interface CatCertificateFile {

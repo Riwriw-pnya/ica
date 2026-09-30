@@ -36,11 +36,10 @@ export default function CatteryDetailMobile({
 }: CatteryDetailMobileProps) {
   const [animateIn, setAnimateIn] = useState(false);
   const [activeModal, setActiveModal] = useState<"maps" | "wa" | null>(null);
-  const [isRendered, setIsRendered] = useState(false); // Penanda modal dipasang di DOM
-  const [isOpen, setIsOpen] = useState(false); // Penanda animasi memicu slide-up
+  const [isRendered, setIsRendered] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
   const [mounted, setMounted] = useState(false);
 
-  // State & Ref untuk gesture drag-to-dismiss
   const [dragY, setDragY] = useState(0);
   const [isDragging, setIsDragging] = useState(false);
   const startYRef = useRef<number>(0);
@@ -51,12 +50,10 @@ export default function CatteryDetailMobile({
     return () => clearTimeout(timer);
   }, []);
 
-  // Control siklus animasi Buka / Tutup Modal
   const handleOpenModal = (type: "maps" | "wa") => {
     setActiveModal(type);
     setIsRendered(true);
     setDragY(0);
-    // Beri jeda 1 frame agar browser bisa menerapkan class CSS transition (Slide-Up)
     requestAnimationFrame(() => {
       requestAnimationFrame(() => {
         setIsOpen(true);
@@ -65,12 +62,12 @@ export default function CatteryDetailMobile({
   };
 
   const handleCloseModal = () => {
-    setIsOpen(false); // picu animasi slide-down
+    setIsOpen(false);
     setTimeout(() => {
       setIsRendered(false);
       setActiveModal(null);
       setDragY(0);
-    }, 300); // Waktu animasi keluar
+    }, 300);
   };
 
   const formattedPhone = cattery.whatsapp
@@ -86,7 +83,6 @@ export default function CatteryDetailMobile({
     cattery.address
   )}`;
 
-  // Handler Event Touch untuk Swipe Down
   const handleTouchStart = (e: React.TouchEvent) => {
     startYRef.current = e.touches[0].clientY;
     setIsDragging(true);
@@ -110,13 +106,11 @@ export default function CatteryDetailMobile({
     }
   };
 
-  // Komponen Modal Bottom Sheet yang di-portal
   const renderModal = () => {
     if (!isRendered || !mounted || !activeModal) return null;
 
     return createPortal(
       <div className="fixed inset-0 z-[99999] flex items-end justify-center overflow-hidden">
-        {/* Backdrop Gelap dengan Transisi Fade */}
         <div
           className={`fixed inset-0 bg-black/50 transition-opacity duration-300 ease-out ${
             isOpen ? "opacity-100" : "opacity-0"
@@ -124,7 +118,6 @@ export default function CatteryDetailMobile({
           onClick={handleCloseModal}
         />
 
-        {/* Sheet Box dengan Transisi Slide Up & Swipe Down */}
         <div
           onTouchStart={handleTouchStart}
           onTouchMove={handleTouchMove}
@@ -141,12 +134,10 @@ export default function CatteryDetailMobile({
           }}
           className="relative w-full max-w-md rounded-t-[32px] bg-white p-6 shadow-2xl z-10 space-y-5 pb-10"
         >
-          {/* Indikator Geser (Drag Handle) */}
           <div className="flex justify-center -mt-2">
             <div className="h-1.5 w-12 rounded-full bg-gray-300 cursor-grab active:cursor-grabbing" />
           </div>
 
-          {/* KONTEN MODAL MAPS */}
           {activeModal === "maps" && (
             <>
               <div className="space-y-2">
@@ -179,7 +170,6 @@ export default function CatteryDetailMobile({
             </>
           )}
 
-          {/* KONTEN MODAL WHATSAPP */}
           {activeModal === "wa" && (
             <>
               <div className="space-y-2">
@@ -227,8 +217,8 @@ export default function CatteryDetailMobile({
     >
       {/* TOP HEADER */}
       <div
-        className="shrink-0 flex items-center gap-3.5 bg-[#F7F5F0] px-5 pb-5 border-b border-[#EAE5DF]/60 z-20"
-        style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 36px)" }}
+        className="shrink-0 flex items-center gap-3.5 bg-[#F7F5F0] px-4 pb-3 border-b border-[#EAE5DF]/60 z-20"
+        style={{ paddingTop: "calc(env(safe-area-inset-top, 0px) + 12px)" }}
       >
         <Link
           href="/anggota/direktori"
@@ -243,15 +233,16 @@ export default function CatteryDetailMobile({
             <path
               strokeLinecap="round"
               strokeLinejoin="round"
+              strokeWidth="2.5"
               d="M15 19l-7-7 7-7"
             />
           </svg>
         </Link>
         <div className="min-w-0 flex-1">
-          <h1 className="truncate text-xl font-bold text-[#1F1B18] leading-snug">
+          <h1 className="truncate text-lg font-bold text-[#1F1B18] leading-snug">
             {cattery.name}
           </h1>
-          <p className="truncate text-xs font-medium text-[#857B72] mt-0.5">
+          <p className="truncate text-[11px] font-medium text-[#857B72] mt-0.5">
             {cattery.region} · Skor {cattery.score}
           </p>
         </div>
@@ -420,7 +411,6 @@ export default function CatteryDetailMobile({
       {/* FLOATING ACTION BAR */}
       <div className="fixed bottom-[60px] left-0 right-0 z-40 bg-white border-t border-[#EAE5DF] px-4 py-3 shadow-md">
         <div className="flex items-center gap-3 max-w-md mx-auto">
-          {/* Tombol Lokasi */}
           <button
             type="button"
             onClick={() => handleOpenModal("maps")}
@@ -447,7 +437,6 @@ export default function CatteryDetailMobile({
             </svg>
           </button>
 
-          {/* Tombol Chat WhatsApp */}
           <button
             type="button"
             onClick={() => handleOpenModal("wa")}
@@ -469,7 +458,6 @@ export default function CatteryDetailMobile({
         </div>
       </div>
 
-      {/* RENDER MODAL PORTAL */}
       {renderModal()}
     </div>
   );
