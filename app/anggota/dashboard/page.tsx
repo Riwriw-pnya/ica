@@ -9,11 +9,13 @@ import DashboardMobile from "@/app/anggota/dashboard/components/DashboardMobile"
 export default function DashboardPage() {
   return (
     <>
-      {/* TAMPILAN MOBILE DASHBOARD (Hanya Tampil di Layar HP) */}
-      <DashboardMobile />
+      {/* TAMPILAN MOBILE DASHBOARD (Hanya Tampil di Layar HP / di bawah lg) */}
+      <div className="lg:hidden">
+        <DashboardMobile />
+      </div>
 
-      {/* TAMPILAN DESKTOP DASHBOARD (Hanya Tampil di Layar Sedang / Desktop) */}
-      <div className="hidden md:block mx-auto max-w-[1200px] w-full">
+      {/* TAMPILAN DESKTOP DASHBOARD (Hanya Tampil di Layar Desktop lg ke atas) */}
+      <div className="hidden lg:block mx-auto max-w-[1200px] w-full">
         {/* Teks Salam Desktop */}
         <section className="mb-5">
           <h1 className="font-display text-[22px] font-semibold tracking-tight text-[var(--color-ink-900)]">

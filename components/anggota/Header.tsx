@@ -1,14 +1,15 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
-import DashboardIcon from "./DashboardIcon";
+import DashboardIcon from "./DashboardIcon"; 
 import UserMenuDropdown from "./UserMenuDropdown";
-import NotificationDropdown from "@/components/cattery/NotificationDropdown";
+import MobileNotification from "@/components/anggota/MobileNotification"; 
 import type { NotificationItem } from "@/types/cattery";
 import { initialNotifications } from "@/data/anggota";
 import { useUserMenu } from "@/context/UserMenuContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
+import { useRef } from "react";
 
 interface PageMeta {
   desktopTitle: string;
@@ -69,28 +70,25 @@ function getPageMeta(pathname: string): PageMeta {
 interface HeaderProps {
   cartCount?: number;
   onOpenCart?: () => void;
+  unreadNotificationCount?: number;
+  onOpenMobileNotif?: () => void;
 }
 
-export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
+export default function Header({ 
+  cartCount = 1, 
+  onOpenCart,
+  unreadNotificationCount = 0,
+  onOpenMobileNotif 
+}: HeaderProps) {
   const { openMenu, toggleMenu, closeMenu } = useUserMenu();
   const router = useRouter();
   const pathname = usePathname();
 
-  const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
-
   const containerRef = useRef<HTMLDivElement>(null);
-  const notifRef = useRef<HTMLDivElement>(null);
-
   const isUserMenuOpen = openMenu === "header";
-  const isNotifOpen = openMenu === "notifications";
-  const unreadCount = notifications.filter((n) => !n.isRead).length;
 
   useClickOutside(containerRef, () => {
     if (isUserMenuOpen) closeMenu();
-  });
-
-  useClickOutside(notifRef, () => {
-    if (isNotifOpen) closeMenu();
   });
 
   const pageMeta = getPageMeta(pathname);
@@ -99,10 +97,6 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
   const handleLogout = () => {
     closeMenu();
     router.push("/auth/login/member");
-  };
-
-  const handleMarkAllRead = () => {
-    setNotifications((prev) => prev.map((n) => ({ ...n, isRead: true })));
   };
 
   const handleCartClick = (e: React.MouseEvent) => {
@@ -118,7 +112,6 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 w-full border-b border-[#EFE9E1] bg-[#FAF8F5] px-4 pt-[max(env(safe-area-inset-top),0.75rem)] pb-2.5 md:bg-white md:px-6 md:py-0">
       <div className="flex items-center justify-between md:h-13.5">
-        {/* Sisi Kiri: Judul Halaman */}
         <div className="flex items-center gap-3">
           <div className="md:hidden">
             <h1 className="text-[18px] font-bold tracking-tight text-[#231A14] leading-tight">
@@ -138,7 +131,7 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
 
         {/* Sisi Kanan */}
         <div className="flex items-center gap-2 md:gap-3">
-          {/* Keranjang Mobile (Hanya muncul di Store) */}
+          {/* Keranjang Mobile */}
           {isStorePage && (
             <button
               type="button"
@@ -146,18 +139,8 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
               className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2D7CC] bg-white text-[#231A14] transition hover:bg-[#FAF7F5] md:hidden cursor-pointer active:scale-95 shrink-0 shadow-xs"
               aria-label="Keranjang"
             >
-              <svg
-                className="w-4.5 h-4.5 text-[#1F1B18]"
-                fill="none"
-                viewBox="0 0 24 24"
-                stroke="currentColor"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="1.8"
-                  d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
-                />
+              <svg className="w-4.5 h-4.5 text-[#1F1B18]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
               </svg>
               {cartCount > 0 && (
                 <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#E54D2E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
@@ -167,25 +150,15 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
             </button>
           )}
 
-          {/* Keranjang Desktop (Muncul di Semua Navigasi Desktop) */}
+          {/* Keranjang Desktop */}
           <button
             type="button"
             onClick={handleCartClick}
             className="hidden md:flex relative h-9 w-9 items-center justify-center rounded-xl border border-[#E2D7CC] bg-white text-[#231A14] transition hover:bg-[#FAF7F5] cursor-pointer active:scale-95 shrink-0 shadow-xs"
             aria-label="Keranjang"
           >
-            <svg
-              className="w-4.5 h-4.5 text-[#1F1B18]"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.8"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
-              />
+            <svg className="w-4.5 h-4.5 text-[#1F1B18]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
             </svg>
             {cartCount > 0 && (
               <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#E54D2E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
@@ -194,37 +167,29 @@ export default function Header({ cartCount = 1, onOpenCart }: HeaderProps) {
             )}
           </button>
 
-          {/* Notifikasi Mobile */}
-          <div ref={notifRef} className="relative shrink-0 md:hidden">
+          {/* Tombol Notifikasi (Hanya muncul di Mobile) */}
+          <div className="relative shrink-0 md:hidden">
             <button
-              onClick={() => toggleMenu("notifications")}
-              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#231A14] transition hover:bg-[#EFE9E1]/50"
+              type="button"
+              onClick={() => {
+                if (onOpenMobileNotif) onOpenMobileNotif();
+              }}
+              className="relative flex h-9 w-9 items-center justify-center rounded-full text-[#231A14] transition hover:bg-[#EFE9E1]/50 cursor-pointer"
               aria-label="Notifikasi"
             >
-              <DashboardIcon name="bell" size={20} />
-              {unreadCount > 0 && (
-                <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#D95D1E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
-                  {unreadCount}
+              <DashboardIcon name="bell" size={18} />
+              {unreadNotificationCount > 0 && (
+                <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#D95D1E] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
+                  {unreadNotificationCount}
                 </span>
               )}
             </button>
-
-            {isNotifOpen && (
-              <NotificationDropdown
-                notifications={notifications}
-                onMarkAllRead={handleMarkAllRead}
-                onMarkOneRead={(id: string) =>
-                  setNotifications((prev) =>
-                    prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
-                  )
-                }
-              />
-            )}
           </div>
 
           {/* Profil Pengguna Desktop */}
           <div ref={containerRef} className="relative hidden md:block">
             <button
+              type="button"
               onClick={() => toggleMenu("header")}
               className={`flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 transition-all cursor-pointer active:scale-98 ${
                 isUserMenuOpen ? "bg-[#FFF2E8]" : "bg-white hover:bg-[#FFF2E8]"
