@@ -3,8 +3,9 @@ import CatteryDirectory from "@/app/anggota/direktori/components/CatteryDirector
 
 export default function DirektoriPage() {
   return (
-    <div className="mx-auto max-w-[1200px]">
-      {/* Sembunyikan section ini di Mobile (hidden md:block) agar tidak dobel dengan Header sticky */}
+    // Ditambahkan pt-4 untuk mobile agar search & filter tidak terlalu naik ke atas
+    <div className="w-full max-w-6xl mx-auto px-4 sm:px-0 pt-4 sm:pt-0">
+      {/* Sembunyikan section ini di Mobile */}
       <section className="mb-5 hidden md:block">
         <h1 className="font-display text-[22px] font-semibold tracking-tight text-[var(--color-ink-900)]">
           Direktori Cattery
