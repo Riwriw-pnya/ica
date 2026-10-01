@@ -24,7 +24,6 @@ const categories = [
   "Propaganda",
 ];
 
-// 1. Definisikan Data Event dengan Kategori
 const eventsData = [
   {
     id: "1",
@@ -69,7 +68,6 @@ export default function EventsPage() {
     setStep("cat-registration");
   };
 
-  // 2. Filter Event Sesuai Kategori Aktif
   const filteredEvents = eventsData.filter((event) => {
     if (activeCategory === "Semua event") return true;
     return event.category === activeCategory;

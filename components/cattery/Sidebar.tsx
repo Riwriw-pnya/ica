@@ -14,7 +14,7 @@ const menus = [
   { label: "Dashboard", icon: "dashboard", href: "/cattery/dashboard" },
   { label: "My Cats", icon: "cat", href: "/cattery/my-cats" },
   { label: "Applications", icon: "news", href: "/cattery/applications" },
-  { label: "Mating Reports", icon: "users", href: "/cattery/mating-reports" },
+  { label: "Mating Reports", icon: "mating", href: "/cattery/mating-reports" },
   { label: "Documents", icon: "news", href: "/cattery/documents" },
   { label: "Leaderboard", icon: "trophy", href: "/cattery/leaderboard" },
   { label: "Events", icon: "calendar", href: "/cattery/event" },
@@ -65,7 +65,11 @@ export default function Sidebar() {
             : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-50)]"
         }`}
       >
-        <DashboardIcon name={menu.icon} size={17} />
+        {menu.icon === "mating" ? (
+          <DashboardIcon name="mating" size={17}/>
+        ) : (
+          <DashboardIcon name={menu.icon} size={17} />
+        )}
         {isSidebarOpen && <span>{menu.label}</span>}
       </Link>
     );
@@ -73,11 +77,10 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`flex shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 ${
+      className={`hidden lg:block flex shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 ${
         isSidebarOpen ? "w-[240px]" : "w-[64px]"
       }`}
     >
-      {/* Logo — sekaligus tombol toggle */}
       <div
         className={`flex h-[54px] items-center border-b border-[var(--color-ink-100)] ${
           isSidebarOpen ? "justify-between gap-3 px-4" : "justify-center px-2"

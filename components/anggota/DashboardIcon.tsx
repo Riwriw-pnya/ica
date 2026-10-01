@@ -1,22 +1,25 @@
 interface DashboardIconProps {
   name: string;
   size?: number;
+  className?: string;
 }
 
 export default function DashboardIcon({
   name,
   size = 18,
+  className,
 }: DashboardIconProps) {
   const commonProps: React.SVGProps<SVGSVGElement> = {
-  width: size,
-  height: size,
-  viewBox: "0 0 24 24",
-  fill: "none",
-  stroke: "currentColor",
-  strokeWidth: 1.8,
-  strokeLinecap: "round",
-  strokeLinejoin: "round",
-};
+    width: size,
+    height: size,
+    className: className,
+    viewBox: "0 0 24 24",
+    fill: "none",
+    stroke: "currentColor",
+    strokeWidth: 1.8,
+    strokeLinecap: "round",
+    strokeLinejoin:"round",
+  };
 
   switch (name) {
     case "dashboard":
@@ -102,69 +105,85 @@ export default function DashboardIcon({
         </svg>
       );
 
-      case "settings":
-        return (
-          <svg {...commonProps}>
-            <circle cx="12" cy="12" r="3" />
-            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
-          </svg>
-        );
+    case "settings":
+      return (
+        <svg {...commonProps}>
+          <circle cx="12" cy="12" r="3" />
+          <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 1 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 1 1-4 0v-.09a1.65 1.65 0 0 0-1-1.51 1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 1 1-2.83-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 1 1 0-4h.09a1.65 1.65 0 0 0 1.51-1 1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 1 1 2.83-2.83l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 1 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 1 1 2.83 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 1 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z" />
+        </svg>
+      );
 
-      case "logout":
-        return (
-          <svg {...commonProps}>
-            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
-            <path d="M16 17l5-5-5-5" />
-            <path d="M21 12H9" />
-          </svg>
-        );
+    case "logout":
+      return (
+        <svg {...commonProps}>
+          <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4" />
+          <path d="M16 17l5-5-5-5" />
+          <path d="M21 12H9" />
+        </svg>
+      );
 
-      case "pin":
-        return (
-          <svg {...commonProps}>
-            <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z" />
-            <circle cx="12" cy="9" r="2.5" />
-          </svg>
-        );
+    case "pin":
+      return (
+        <svg {...commonProps}>
+          <path d="M12 21s7-7.5 7-12a7 7 0 1 0-14 0c0 4.5 7 12 7 12z" />
+          <circle cx="12" cy="9" r="2.5" />
+        </svg>
+      );
 
-      case "chat":
-        return (
-          <svg {...commonProps}>
-            <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
-          </svg>
-        );
+    case "chat":
+      return (
+        <svg {...commonProps}>
+          <path d="M21 11.5a8.38 8.38 0 0 1-.9 3.8 8.5 8.5 0 0 1-7.6 4.7 8.38 8.38 0 0 1-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 0 1-.9-3.8 8.5 8.5 0 0 1 4.7-7.6 8.38 8.38 0 0 1 3.8-.9h.5a8.48 8.48 0 0 1 8 8v.5z" />
+        </svg>
+      );
 
-      case "panel":
-        return (
-          <svg {...commonProps}>
-            <rect x="3" y="4" width="18" height="16" rx="2" />
-            <path d="M9 4v16" />
-            <rect x="4.5" y="5.5" width="3" height="13" rx="0.5" fill="currentColor" stroke="none" />
-          </svg>
-        );
+    case "panel":
+      return (
+        <svg {...commonProps}>
+          <rect x="3" y="4" width="18" height="16" rx="2" />
+          <path d="M9 4v16" />
+          <rect x="4.5" y="5.5" width="3" height="13" rx="0.5" fill="currentColor" stroke="none" />
+        </svg>
+      );
 
-      case "cat":
-        return (
-          <svg {...commonProps}>
-            <path d="M4 8l3-4 2 3h6l2-3 3 4v9a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V8z" />
-            <path d="M9 14h.01M15 14h.01M10 17c.6.6 1.4 1 2 1s1.4-.4 2-1" />
-          </svg>
-        );
+    case "cat":
+      return (
+        <svg {...commonProps}>
+          <path d="M4 8l3-4 2 3h6l2-3 3 4v9a3 3 0 0 1-3 3H7a3 3 0 0 1-3-3V8z" />
+          <path d="M9 14h.01M15 14h.01M10 17c.6.6 1.4 1 2 1s1.4-.4 2-1" />
+        </svg>
+      );
 
-      case "bell":
-        return (
-          <svg {...commonProps}>
-            <path d="M6 8a6 6 0 1 1 12 0c0 3.5 1.2 5 2 6H4c.8-1 2-2.5 2-6z" />
-            <path d="M9.5 18a2.5 2.5 0 0 0 5 0" />
-          </svg>
-        );
+    case "bell":
+      return (
+        <svg {...commonProps}>
+          <path d="M6 8a6 6 0 1 1 12 0c0 3.5 1.2 5 2 6H4c.8-1 2-2.5 2-6z" />
+          <path d="M9.5 18a2.5 2.5 0 0 0 5 0" />
+        </svg>
+      );
 
-      case "shopping-cart":
-        return (
-          <svg className="w-5 h-5 flex-shrink-0" fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-          </svg>
-        );
+    case "shopping-cart":
+      return (
+        <svg {...commonProps}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+        </svg>
+      );
+
+    case "payment":
+      return (
+        <svg {...commonProps}>
+          <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+        </svg>
+      );
+
+    case "mating":
+      return (
+        <svg {...commonProps} strokeWidth="2">
+          <circle cx="7" cy="17" r="4" />
+          <circle cx="17" cy="7" r="4" />
+          <line x1="9.8" y1="14.2" x2="14.2" y2="9.8" />
+        </svg>
+      );
 
     default:
       return null;

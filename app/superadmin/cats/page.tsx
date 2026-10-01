@@ -102,8 +102,6 @@ export default function CatsPage() {
               </p>
             )}
           </div>
-
-          <p className="mt-3 text-[11px] italic text-[var(--color-ink-400)]">Data contoh.</p>
         </div>
       </div>
     </main>

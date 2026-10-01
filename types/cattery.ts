@@ -181,3 +181,41 @@ export interface MatingReportDraft {
   witnessName: string;
   offspringItems: OffspringItem[];
 }
+
+export interface CatHealthVaccine {
+  id: string;
+  catId: number;
+  title: string;
+  givenDate: string;
+  clinic: string;
+  status: "Sudah" | "Belum";
+}
+
+export interface CatAdopterItem {
+  id: string;
+  catId: number;
+  adopterName: string;
+  phone: string;
+  memberType: "ICA Member" | "Umum";
+  kittenName: string;
+  microchip: string;
+  adoptionDate: string;
+  initials: string;
+}
+
+export interface CatLeaderboardItem {
+  id: string;
+  rank: number;
+  name: string;
+  fullName: string;
+  shortName: string;
+  breed: string;
+  emsCode: string;
+  owner: string;
+  breeder: string;
+  shows: string[];
+  score: number;
+  paidShowsCount: number;
+  imageUrl?: string;
+  active?: boolean;
+}
