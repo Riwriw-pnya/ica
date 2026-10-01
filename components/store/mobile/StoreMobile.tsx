@@ -4,10 +4,14 @@ import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import StoreOrderHistoryMobile from "./StoreOrderHistoryMobile";
 import StoreProductDetailMobile from "./StoreProductDetailMobile";
-import StoreCartMobile, { CartItem } from "./StoreCartMobile";
+import StoreCartMobile from "./StoreCartMobile";
 import StoreCheckoutMobile from "./StoreCheckoutMobile";
 import StorePaymentMobile from "./StorePaymentMobile";
-import StoreOrderDetailMobile, { OrderDetailData } from "./StoreOrderDetailMobile";
+import StoreOrderDetailMobile, {
+  OrderDetailData,
+} from "./StoreOrderDetailMobile";
+
+import type { CartItem } from "../StorePage";
 
 export interface Product {
   id: string;
@@ -30,10 +34,31 @@ export interface StoreMobileProps {
   categories: Category[];
   activeCategory: string;
   setActiveCategory: (id: string) => void;
-  addToCart: (product: Product, quantity?: number, size?: string) => void;
+
+  cart: CartItem[];
+
+  addToCart: (
+    product: Product,
+    quantity?: number,
+    size?: string
+  ) => void;
+
+  updateQuantity: (
+    productId: string,
+    size: string | undefined,
+    delta: number
+  ) => void;
+
+  removeCartItem: (
+    productId: string,
+    size: string | undefined
+  ) => void;
+
   totalCartItems: number;
+
   isCartOpenProp?: boolean;
   setIsCartOpen?: (open: boolean) => void;
+
   formatRupiah: (val: number) => string;
 }
 
@@ -42,21 +67,65 @@ export default function StoreMobile({
   categories,
   activeCategory,
   setActiveCategory,
-  addToCart,
-  totalCartItems,
+  addToCart: addToCartExternal,
+  cart,
+  updateQuantity,
+  removeCartItem,
+  totalCartItems: totalCartItemsProp,
   isCartOpenProp,
   setIsCartOpen: setIsCartOpenExternal,
   formatRupiah,
 }: StoreMobileProps) {
   const [showHistory, setShowHistory] = useState<boolean>(false);
-  const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
 
-  const [isCartOpenInternal, setIsCartOpenInternal] = useState<boolean>(false);
-  const [isCheckoutOpen, setIsCheckoutOpen] = useState<boolean>(false);
-  const [isPaymentOpen, setIsPaymentOpen] = useState<boolean>(false);
+  const [selectedProduct, setSelectedProduct] =
+    useState<Product | null>(null);
 
-  const [isOrderDetailOpen, setIsOrderDetailOpen] = useState<boolean>(false);
-  const [completedOrder, setCompletedOrder] = useState<OrderDetailData | null>(null);
+  const [isCartOpenInternal, setIsCartOpenInternal] =
+    useState<boolean>(false);
+
+  const [isCheckoutOpen, setIsCheckoutOpen] =
+    useState<boolean>(false);
+
+  const [isPaymentOpen, setIsPaymentOpen] =
+    useState<boolean>(false);
+
+  const [isOrderDetailOpen, setIsOrderDetailOpen] =
+    useState<boolean>(false);
+
+  const [completedOrder, setCompletedOrder] =
+    useState<OrderDetailData | null>(null);
+
+  const [paymentData, setPaymentData] = useState<{
+    address: {
+      name: string;
+      phone: string;
+      address: string;
+      city: string;
+    };
+    courierName: string;
+    courierPrice: number;
+    totalPayable: number;
+  }>({
+    address: {
+      name: "Ayu Prameswari",
+      phone: "0812-2045-7781",
+      address:
+        "Jl. Cigadung Raya Barat No. 18, Cibeunying Kaler",
+      city: "Kota Bandung",
+    },
+    courierName: "JNE · REG · estimasi 2–3 hari",
+    courierPrice: 11000,
+    totalPayable: 846000,
+  });
+
+  const handleAddToCart = (
+    product: Product,
+    quantity: number = 1,
+    size?: string
+  ) => {
+    addToCartExternal(product, quantity, size);
+  };
 
   const forceOpenCart = () => {
     setSelectedProduct(null);
@@ -65,12 +134,18 @@ export default function StoreMobile({
     setIsPaymentOpen(false);
     setIsOrderDetailOpen(false);
     setIsCartOpenInternal(true);
-    if (setIsCartOpenExternal) setIsCartOpenExternal(true);
+
+    if (setIsCartOpenExternal) {
+      setIsCartOpenExternal(true);
+    }
   };
 
   const handleCloseCart = () => {
     setIsCartOpenInternal(false);
-    if (setIsCartOpenExternal) setIsCartOpenExternal(false);
+
+    if (setIsCartOpenExternal) {
+      setIsCartOpenExternal(false);
+    }
   };
 
   useEffect(() => {
@@ -84,77 +159,42 @@ export default function StoreMobile({
       forceOpenCart();
     };
 
-    window.addEventListener("open-store-cart", handleCartEvent);
-    window.addEventListener("open-mobile-cart", handleCartEvent);
+    window.addEventListener(
+      "open-store-cart",
+      handleCartEvent
+    );
+
+    window.addEventListener(
+      "open-mobile-cart",
+      handleCartEvent
+    );
 
     return () => {
-      window.removeEventListener("open-store-cart", handleCartEvent);
-      window.removeEventListener("open-mobile-cart", handleCartEvent);
+      window.removeEventListener(
+        "open-store-cart",
+        handleCartEvent
+      );
+
+      window.removeEventListener(
+        "open-mobile-cart",
+        handleCartEvent
+      );
     };
   }, []);
 
-  const isCartOpen = isCartOpenProp || isCartOpenInternal;
+  const isCartOpen =
+    isCartOpenProp || isCartOpenInternal;
 
-  const [paymentData, setPaymentData] = useState<{
-    address: { name: string; phone: string; address: string; city: string };
-    courierName: string;
-    courierPrice: number;
-    totalPayable: number;
-  }>({
-    address: {
-      name: "Ayu Prameswari",
-      phone: "0812-2045-7781",
-      address: "Jl. Cigadung Raya Barat No. 18, Cibeunying Kaler",
-      city: "Kota Bandung",
-    },
-    courierName: "JNE · REG · estimasi 2–3 hari",
-    courierPrice: 11000,
-    totalPayable: 846000,
-  });
-
-  const [cartItems, setCartItems] = useState<CartItem[]>(() => {
-    const toteBag = products.find((p) => p.title.toLowerCase().includes("tote"));
-    const kaosIca = products.find((p) => p.title.toLowerCase().includes("kaos"));
-
-    return [
-      {
-        id: toteBag?.id || "1",
-        title: toteBag?.title || "Tote Bag Kanvas ICA",
-        variant: "Warna: Natural",
-        price: toteBag?.price || 95000,
-        quantity: 1,
-        image: toteBag?.image,
-      },
-      {
-        id: kaosIca?.id || "2",
-        title: kaosIca?.title || "Kaos ICA Official 2026",
-        variant: "Ukuran: M",
-        price: kaosIca?.price || 185000,
-        quantity: 4,
-        image: kaosIca?.image,
-      },
-    ];
-  });
-
-  const cartBadgeCount =
-    totalCartItems || cartItems.reduce((acc, item) => acc + item.quantity, 0);
-
-  const handleUpdateQuantity = (id: string, newQty: number) => {
-    setCartItems((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, quantity: newQty } : item))
-    );
-  };
-
-  const handleRemoveItem = (id: string) => {
-    setCartItems((prev) => prev.filter((item) => item.id !== id));
-  };
+  const cartBadgeCount = totalCartItemsProp;
 
   return (
     <div className="block sm:hidden w-full bg-[#F7F5F0] font-sans pb-28 pt-2">
       {/* Katalog Utama */}
       <div className="px-4 space-y-3">
         <p className="text-xs text-[#857B72] leading-relaxed">
-          Merchandise, publikasi, dan perlengkapan resmi yang diterbitkan ICA. Pesanan dikemas sekretariat setelah pembayaran terverifikasi.
+          Merchandise, publikasi, dan perlengkapan resmi yang
+          diterbitkan ICA. Pesanan dikemas sekretariat setelah
+          pembayaran terverifikasi.
         </p>
 
         {/* Filter Kategori */}
@@ -176,7 +216,10 @@ export default function StoreMobile({
         </div>
 
         <div className="flex items-center justify-between text-xs pt-1">
-          <span className="text-[#857B72]">{products.length} produk</span>
+          <span className="text-[#857B72]">
+            {products.length} produk
+          </span>
+
           <button
             type="button"
             onClick={() => setShowHistory(true)}
@@ -224,7 +267,10 @@ export default function StoreMobile({
                         d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                       />
                     </svg>
-                    <span className="text-[10px]">Foto produk</span>
+
+                    <span className="text-[10px]">
+                      Foto produk
+                    </span>
                   </div>
                 )}
               </div>
@@ -233,9 +279,11 @@ export default function StoreMobile({
                 <h3 className="text-xs font-bold text-[#1F1B18] line-clamp-2 leading-snug">
                   {product.title}
                 </h3>
+
                 <p className="text-xs font-extrabold text-[#D96B27]">
                   {formatRupiah(product.price)}
                 </p>
+
                 <p className="text-[10px] text-[#857B72]">
                   Stok {product.stock}
                 </p>
@@ -245,18 +293,19 @@ export default function StoreMobile({
         </div>
       </div>
 
-      {/* Sub-pages Overlay */}
+      {/* Detail Produk */}
       {selectedProduct && (
         <StoreProductDetailMobile
           product={selectedProduct}
           onBack={() => setSelectedProduct(null)}
           onOpenCart={forceOpenCart}
-          addToCart={addToCart}
+          addToCart={handleAddToCart}
           totalCartItems={cartBadgeCount}
           formatRupiah={formatRupiah}
         />
       )}
 
+      {/* Riwayat */}
       {showHistory && (
         <StoreOrderHistoryMobile
           onClose={() => setShowHistory(false)}
@@ -264,12 +313,13 @@ export default function StoreMobile({
         />
       )}
 
+      {/* Cart */}
       {isCartOpen && (
         <StoreCartMobile
-          cartItems={cartItems}
+          cartItems={cart}
           onBack={handleCloseCart}
-          onUpdateQuantity={handleUpdateQuantity}
-          onRemoveItem={handleRemoveItem}
+          onUpdateQuantity={updateQuantity}
+          onRemoveItem={removeCartItem}
           onProceedToCheckout={() => {
             handleCloseCart();
             setIsCheckoutOpen(true);
@@ -278,9 +328,10 @@ export default function StoreMobile({
         />
       )}
 
+      {/* Checkout */}
       {isCheckoutOpen && (
         <StoreCheckoutMobile
-          cartItems={cartItems}
+          cartItems={cart}
           onBack={() => {
             setIsCheckoutOpen(false);
             forceOpenCart();
@@ -294,9 +345,10 @@ export default function StoreMobile({
         />
       )}
 
+      {/* Payment */}
       {isPaymentOpen && (
         <StorePaymentMobile
-          cartItems={cartItems}
+          cartItems={cart}
           totalPayable={paymentData.totalPayable}
           courierName={paymentData.courierName}
           courierPrice={paymentData.courierPrice}
@@ -307,11 +359,19 @@ export default function StoreMobile({
           }}
           formatRupiah={formatRupiah}
           onSuccessPayment={() => {
-            const itemsCount = cartItems.reduce((a, b) => a + b.quantity, 0);
-            const firstItemTitle = cartItems[0]?.title || "Produk Store ICA";
+            const itemsCount = cart.reduce(
+              (total, item) => total + item.quantity,
+              0
+            );
+
+            const firstItemTitle =
+              cart[0]?.product.title ||
+              "Produk Store ICA";
 
             const newOrder: OrderDetailData = {
-              orderId: `MRC-2026-${Math.floor(1000 + Math.random() * 9000)}`,
+              orderId: `MRC-2026-${Math.floor(
+                1000 + Math.random() * 9000
+              )}`,
               orderDate: "25 Sep 2026",
               itemsSummary: `${firstItemTitle} · ${itemsCount} barang`,
               paymentMethod: "QRIS",
@@ -321,13 +381,14 @@ export default function StoreMobile({
             };
 
             setCompletedOrder(newOrder);
-            setCartItems([]);
+
             setIsPaymentOpen(false);
             setIsOrderDetailOpen(true);
           }}
         />
       )}
 
+      {/* Order Detail */}
       {isOrderDetailOpen && completedOrder && (
         <StoreOrderDetailMobile
           order={completedOrder}

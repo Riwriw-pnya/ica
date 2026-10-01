@@ -9,6 +9,18 @@ interface EventPaymentViewProps {
 
 export default function EventPaymentView({ onBack, onNext }: EventPaymentViewProps) {
   const [selectedMethod, setSelectedMethod] = useState("qris");
+  const [selectedBank, setSelectedBank] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const bankOptions = [
+    { id: "bca", name: "BCA" },
+    { id: "mandiri", name: "Mandiri" },
+    { id: "bni", name: "BNI" },
+    { id: "bri", name: "BRI" },
+    { id: "permata", name: "Permata" },
+  ];
+
+  const selectedBankObj = bankOptions.find((b) => b.id === selectedBank);
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -70,48 +82,94 @@ export default function EventPaymentView({ onBack, onNext }: EventPaymentViewPro
             </div>
           </div>
 
-          {/* Option 2: Transfer BCA */}
+          {/* Option 2: Transfer Bank dengan Icon Dropdown Saja */}
           <div
-            onClick={() => setSelectedMethod("bca")}
-            className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center gap-3 ${
-              selectedMethod === "bca"
+            onClick={() => {
+              setSelectedMethod("transfer");
+              if (!isDropdownOpen && !selectedBank) setIsDropdownOpen(true);
+            }}
+            className={`p-4 rounded-xl border cursor-pointer transition-all space-y-3 ${
+              selectedMethod === "transfer"
                 ? "border-[#EE6B28] bg-[#FFF8F5]"
                 : "border-[#EEDFD5] bg-white hover:border-[#D6C2B4]"
             }`}
           >
-            <input
-              type="radio"
-              name="payment"
-              checked={selectedMethod === "bca"}
-              onChange={() => setSelectedMethod("bca")}
-              className="accent-[#EE6B28]"
-            />
-            <div>
-              <p className="font-bold text-xs text-[#1A1513]">Transfer BCA</p>
-              <p className="text-[11px] text-[#8C8074]">Virtual account · verifikasi otomatis</p>
-            </div>
-          </div>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={selectedMethod === "transfer"}
+                  onChange={() => {
+                    setSelectedMethod("transfer");
+                    setIsDropdownOpen(true);
+                  }}
+                  className="accent-[#EE6B28]"
+                />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="font-bold text-xs text-[#1A1513]">Transfer Bank</p>
+                    {selectedBankObj && (
+                      <span className="text-[10px] font-bold text-[#EE6B28] bg-[#FFE5D4] px-2 py-0.5 rounded-full">
+                        {selectedBankObj.name}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-[#8C8074]">
+                    {selectedBankObj ? "Virtual Account aktif" : "Virtual account / Transfer manual"}
+                  </p>
+                </div>
+              </div>
 
-          {/* Option 3: Transfer Mandiri */}
-          <div
-            onClick={() => setSelectedMethod("mandiri")}
-            className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center gap-3 ${
-              selectedMethod === "mandiri"
-                ? "border-[#EE6B28] bg-[#FFF8F5]"
-                : "border-[#EEDFD5] bg-white hover:border-[#D6C2B4]"
-            }`}
-          >
-            <input
-              type="radio"
-              name="payment"
-              checked={selectedMethod === "mandiri"}
-              onChange={() => setSelectedMethod("mandiri")}
-              className="accent-[#EE6B28]"
-            />
-            <div>
-              <p className="font-bold text-xs text-[#1A1513]">Transfer Mandiri</p>
-              <p className="text-[11px] text-[#8C8074]">Virtual account · verifikasi otomatis</p>
+              {/* Icon Dropdown Saja */}
+              {selectedMethod === "transfer" && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsDropdownOpen(!isDropdownOpen);
+                  }}
+                  className="p-2 rounded-full hover:bg-[#FFE5D4]/60 text-[#8C8074] transition-colors cursor-pointer"
+                >
+                  <svg
+                    className={`h-4 w-4 transition-transform duration-200 ${
+                      isDropdownOpen ? "rotate-180 text-[#EE6B28]" : ""
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              )}
             </div>
+
+            {/* List Pilihan Bank Tersembunyi (Muncul saat Icon/Card diklik) */}
+            {selectedMethod === "transfer" && isDropdownOpen && (
+              <div
+                className="pt-2 border-t border-[#EEDFD5] grid grid-cols-2 sm:grid-cols-5 gap-2"
+                onClick={(e) => e.stopPropagation()}
+              >
+                {bankOptions.map((bank) => (
+                  <button
+                    key={bank.id}
+                    type="button"
+                    onClick={() => {
+                      setSelectedBank(bank.id);
+                      setIsDropdownOpen(false);
+                    }}
+                    className={`px-3 py-2 rounded-xl text-xs font-bold transition text-center border cursor-pointer ${
+                      selectedBank === bank.id
+                        ? "border-[#EE6B28] bg-[#EE6B28] text-white shadow-xs"
+                        : "border-[#EEDFD5] bg-white text-[#1A1513] hover:border-[#EE6B28] hover:text-[#EE6B28]"
+                    }`}
+                  >
+                    {bank.name}
+                  </button>
+                ))}
+              </div>
+            )}
           </div>
         </div>
 

@@ -1,7 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
-import { CartItem } from "./StoreCartMobile";
+import type { CartItem } from "../StorePage";
 
 interface StorePaymentMobileProps {
   cartItems: CartItem[];
@@ -30,22 +30,28 @@ export default function StorePaymentMobile({
   onSuccessPayment,
 }: StorePaymentMobileProps) {
   const [slideIn, setSlideIn] = useState<boolean>(false);
-  const [activeTab, setActiveTab] = useState<"qris" | "va" | "ewallet" | "kartu">("qris");
+
+  const [activeTab, setActiveTab] = useState<
+    "qris" | "va" | "ewallet" | "kartu"
+  >("qris");
 
   useEffect(() => {
     const timer = setTimeout(() => setSlideIn(true), 20);
+
     return () => clearTimeout(timer);
   }, []);
 
   const handleBack = () => {
     setSlideIn(false);
+
     setTimeout(() => {
       onBack();
     }, 280);
   };
 
   const subtotalProducts = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
+    (acc, item) =>
+      acc + item.product.price * item.quantity,
     0
   );
 
@@ -55,11 +61,12 @@ export default function StorePaymentMobile({
         slideIn ? "translate-x-0" : "translate-x-full"
       }`}
     >
-      {/* 1. HEADER PEMBAYARAN LEGA & AMAN NOTCH */}
+      {/* HEADER */}
       <div
         className="shrink-0 sticky top-0 z-30 bg-[#F7F5F0] px-4 pb-4 border-b border-[#EAE5DF]/60 shadow-2xs"
         style={{
-          paddingTop: "calc(env(safe-area-inset-top, 0px) + 28px)",
+          paddingTop:
+            "calc(env(safe-area-inset-top, 0px) + 28px)",
         }}
       >
         <div className="flex items-center gap-3">
@@ -81,10 +88,12 @@ export default function StorePaymentMobile({
               />
             </svg>
           </button>
+
           <div>
             <h1 className="text-base font-bold text-[#1F1B18] leading-tight">
               Pembayaran
             </h1>
+
             <p className="text-xs text-[#857B72] mt-0.5">
               Langkah 2 dari 2 · Bayar sebelum 26 Sep 2026, 10:14
             </p>
@@ -92,13 +101,15 @@ export default function StorePaymentMobile({
         </div>
       </div>
 
-      {/* 2. KONTEN AREA PEMBAYARAN (SCROLLABLE) */}
+      {/* CONTENT */}
       <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 pb-44 scrollbar-none">
-        {/* KARTU METODE PEMBAYARAN */}
+        {/* METODE PEMBAYARAN */}
         <div className="bg-white rounded-2xl p-4 border border-[#EAE5DF] shadow-2xs space-y-4">
-          <h2 className="text-xs font-bold text-[#1F1B18]">Metode pembayaran</h2>
+          <h2 className="text-xs font-bold text-[#1F1B18]">
+            Metode pembayaran
+          </h2>
 
-          {/* TAB PILIHAN METODE */}
+          {/* TAB */}
           <div className="grid grid-cols-4 gap-2">
             <button
               type="button"
@@ -111,6 +122,7 @@ export default function StorePaymentMobile({
             >
               QRIS
             </button>
+
             <button
               type="button"
               onClick={() => setActiveTab("va")}
@@ -122,6 +134,7 @@ export default function StorePaymentMobile({
             >
               VA
             </button>
+
             <button
               type="button"
               onClick={() => setActiveTab("ewallet")}
@@ -133,6 +146,7 @@ export default function StorePaymentMobile({
             >
               E-wallet
             </button>
+
             <button
               type="button"
               onClick={() => setActiveTab("kartu")}
@@ -146,22 +160,35 @@ export default function StorePaymentMobile({
             </button>
           </div>
 
-          {/* TAMPILAN DETAIL SETIAP TAB METODE */}
+          {/* DETAIL METODE */}
           {activeTab === "qris" && (
             <div className="rounded-2xl border border-[#EAE5DF] p-5 bg-[#FAF8F5] flex flex-col items-center text-center space-y-3">
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#1F1B18]">
                 <span>QRIS</span>
-                <span className="text-[10px] text-[#857B72] font-medium">· ICA STORE</span>
+
+                <span className="text-[10px] text-[#857B72] font-medium">
+                  · ICA STORE
+                </span>
               </div>
 
-              {/* BOX QR CODE */}
               <div className="w-48 h-48 bg-white border border-[#EAE5DF] rounded-2xl flex items-center justify-center p-2 shadow-2xs">
-                {/* Visual Barcode QRIS */}
                 <div className="w-full h-full bg-[#F4EFEA] rounded-xl flex flex-col items-center justify-center text-[#857B72] gap-1">
-                  <svg className="w-12 h-12 stroke-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z" />
+                  <svg
+                    className="w-12 h-12 stroke-1"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
+                    />
                   </svg>
-                  <span className="text-[10px] font-semibold">QR Code</span>
+
+                  <span className="text-[10px] font-semibold">
+                    QR Code
+                  </span>
                 </div>
               </div>
 
@@ -170,7 +197,9 @@ export default function StorePaymentMobile({
               </span>
 
               <p className="text-[11px] text-[#857B72] leading-relaxed max-w-xs">
-                Scan dengan aplikasi m-banking atau e-wallet yang mendukung QRIS. Status pesanan berubah otomatis setelah pembayaran diterima.
+                Scan dengan aplikasi m-banking atau e-wallet yang
+                mendukung QRIS. Status pesanan berubah otomatis
+                setelah pembayaran diterima.
               </p>
             </div>
           )}
@@ -180,43 +209,62 @@ export default function StorePaymentMobile({
               <p className="text-xs font-bold text-[#1F1B18]">
                 Metode {activeTab.toUpperCase()} Dipilih
               </p>
+
               <p className="text-[11px] text-[#857B72]">
-                Petunjuk instruksi pembayaran via {activeTab.toUpperCase()} akan ditampilkan di sini.
+                Petunjuk instruksi pembayaran via{" "}
+                {activeTab.toUpperCase()} akan ditampilkan di
+                sini.
               </p>
             </div>
           )}
         </div>
 
-        {/* KARTU DIKIRIM KE */}
+        {/* DIKIRIM KE */}
         <div className="bg-white rounded-2xl p-4 border border-[#EAE5DF] shadow-2xs space-y-1.5">
-          <h2 className="text-xs font-bold text-[#1F1B18]">Dikirim ke</h2>
+          <h2 className="text-xs font-bold text-[#1F1B18]">
+            Dikirim ke
+          </h2>
+
           <p className="text-xs font-medium text-[#554E48] leading-relaxed">
-            {shippingAddress.name} · {shippingAddress.phone} · {shippingAddress.address}, {shippingAddress.city}
+            {shippingAddress.name} · {shippingAddress.phone} ·{" "}
+            {shippingAddress.address}, {shippingAddress.city}
           </p>
+
           <p className="text-[11px] text-[#857B72] pt-0.5">
             {courierName}
           </p>
         </div>
 
-        {/* KARTU RINGKASAN PESANAN */}
+        {/* RINGKASAN PESANAN */}
         <div className="bg-white rounded-2xl p-4 border border-[#EAE5DF] shadow-2xs space-y-3">
-          <h2 className="text-xs font-bold text-[#1F1B18]">Ringkasan pesanan</h2>
+          <h2 className="text-xs font-bold text-[#1F1B18]">
+            Ringkasan pesanan
+          </h2>
 
           <div className="space-y-2.5 border-b border-[#EAE5DF]/60 pb-3">
             {cartItems.map((item) => (
               <div
-                key={item.id}
+                key={`${item.product.id}-${item.size ?? "default"}`}
                 className="flex items-start justify-between text-xs"
               >
                 <div>
-                  <p className="font-bold text-[#1F1B18]">{item.title}</p>
+                  <p className="font-bold text-[#1F1B18]">
+                    {item.product.title}
+                  </p>
+
                   <p className="text-[10px] text-[#857B72]">
-                    {item.variant.replace("Warna: ", "").replace("Ukuran: ", "")} ·{" "}
-                    {item.quantity} x {formatRupiah(item.price)}
+                    {item.size
+                      ? `Ukuran: ${item.size} · `
+                      : ""}
+                    {item.quantity} x{" "}
+                    {formatRupiah(item.product.price)}
                   </p>
                 </div>
+
                 <p className="font-bold text-[#1F1B18]">
-                  {formatRupiah(item.price * item.quantity)}
+                  {formatRupiah(
+                    item.product.price * item.quantity
+                  )}
                 </p>
               </div>
             ))}
@@ -225,31 +273,46 @@ export default function StorePaymentMobile({
           <div className="space-y-1.5 text-xs">
             <div className="flex justify-between text-[#857B72]">
               <span>Subtotal produk</span>
+
               <span className="font-semibold text-[#1F1B18]">
                 {formatRupiah(subtotalProducts)}
               </span>
             </div>
+
             <div className="flex justify-between text-[#857B72]">
-              <span>Ongkir · {courierName.split("·")[0] || "Kurir"}</span>
+              <span>
+                Ongkir · {courierName.split("·")[0] || "Kurir"}
+              </span>
+
               <span className="font-semibold text-[#1F1B18]">
                 {formatRupiah(courierPrice)}
               </span>
             </div>
+
             <div className="flex justify-between font-extrabold text-[#1F1B18] pt-2 border-t border-[#EAE5DF]/60">
               <span>Total bayar</span>
-              <span className="text-sm">{formatRupiah(totalPayable)}</span>
+
+              <span className="text-sm">
+                {formatRupiah(totalPayable)}
+              </span>
             </div>
           </div>
         </div>
       </div>
 
-      {/* 3. FIXED BOTTOM BUTTON BAYAR */}
+      {/* FIXED BOTTOM */}
       <div
         className="fixed bottom-[64px] left-0 right-0 z-40 px-5 py-3.5 bg-[#F7F5F0]/90 backdrop-blur-md border-t border-[#EAE5DF]/60 space-y-3"
-        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)" }}
+        style={{
+          paddingBottom:
+            "calc(env(safe-area-inset-bottom, 0px) + 12px)",
+        }}
       >
         <div className="flex items-center justify-between">
-          <p className="text-xs text-[#857B72]">Total bayar</p>
+          <p className="text-xs text-[#857B72]">
+            Total bayar
+          </p>
+
           <p className="text-base font-extrabold text-[#1F1B18]">
             {formatRupiah(totalPayable)}
           </p>
