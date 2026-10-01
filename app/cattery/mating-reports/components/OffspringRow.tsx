@@ -1,161 +1,563 @@
 "use client";
 
-import { useState } from "react";
+import React from "react";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
-import type { OffspringItem } from "@/types/cattery";
+import type { OffspringItem, OffspringGender } from "@/types/cattery";
+import type { SaveStatus } from "./StepAddOffspring";
 
-interface OffspringRowProps {
-  index: number;
-  item: OffspringItem;
-  isExpanded: boolean;
-  onToggleExpand: () => void;
-  onChange: (updated: OffspringItem) => void;
-  onRemove: () => void;
+const registeredMembers: Record<string, string> = {
+  "08123456789": "ICA-2024-0871",
+  "08771686055": "",
+  "081299998888": "ICA-2023-0124",
+  "085712345678": "ICA-2025-0452",
+};
+
+interface ExtendedOffspringItem extends OffspringItem {
+  emsCode?: string;
+  microchipNumber?: string;
+  adopterName?: string;
+  adopterPhone?: string;
+  adopterCategory?: "ICA Member" | "Kategori Umum";
 }
 
 interface OffspringRowProps {
   index: number;
-  item: OffspringItem;
+  item?: ExtendedOffspringItem;
+  saveStatus?: SaveStatus;
   isExpanded: boolean;
   onToggleExpand: () => void;
-  onChange: (updated: OffspringItem) => void;
+  onChange: (updated: ExtendedOffspringItem) => void;
   onRemove: () => void;
+  defaultBreed?: string;
 }
 
-export default function OffspringRow({ index, item, isExpanded, onToggleExpand, onChange, onRemove }: OffspringRowProps) {
-  const update = (patch: Partial<OffspringItem>) => onChange({ ...item, ...patch });
+export default function OffspringRow({
+  index,
+  item = {
+    id: Date.now(),
+    name: "",
+    gender: "" as OffspringGender,
+    color: "",
+    birthDate: "",
+    birthWeight: "",
+    breed: "",
+    status: "" as any, // Dikosongkan agar tidak otomatis terisi
+    emsCode: "",
+    microchipNumber: "",
+    adopterName: "",
+    adopterPhone: "",
+    adopterCategory: undefined, // Dikosongkan agar tidak otomatis terisi
+  },
+  saveStatus = "belum lengkap",
+  isExpanded,
+  onToggleExpand,
+  onChange,
+  onRemove,
+  defaultBreed = "Persian Longhair",
+}: OffspringRowProps) {
+  if (!item) return null;
+
+  const update = (patch: Partial<ExtendedOffspringItem>) => onChange({ ...item, ...patch });
 
   const handlePhotoPick = (e: React.ChangeEvent<HTMLInputElement>) => {
     const file = e.target.files?.[0];
     if (file) update({ photoName: file.name });
   };
 
+  const isGenderSelected = (label: "M" | "F") => {
+    const rawGender = String(item.gender);
+    return rawGender === "M" || rawGender === "F"
+      ? rawGender === label
+      : rawGender === (label === "M" ? "Jantan" : "Betina");
+  };
+
+  const handleGenderSelect = (label: "M" | "F") => {
+    update({ gender: (label as unknown) as OffspringGender });
+  };
+
+  // Pengecekan Kategori Status Mobile
+  const isComplete = Boolean(item.name && item.gender && item.birthDate);
+  const isPartial = Boolean(item.name || item.gender || item.birthDate) && !isComplete;
+
+  const phoneClean = (item.adopterPhone || "").replace(/[^0-9]/g, "");
+  const memberCode = phoneClean ? registeredMembers[phoneClean] : null;
+
   return (
-    <div className="border-b border-[var(--color-ink-100)] last:border-b-0">
-      <div className="flex flex-col gap-2 px-4 py-3 sm:flex-row sm:items-center sm:gap-3">
-        <span className="text-[11px] text-[var(--color-ink-400)] sm:w-5">{index + 1}</span>
-
-        <input
-          type="text"
-          value={item.name}
-          onChange={(e) => update({ name: e.target.value })}
-          placeholder="Belum diisi"
-          className="flex-1 rounded-lg border border-[var(--color-ink-100)] px-3 py-2 text-[13px] text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-300)]"
-        />
-
-        <div className="flex gap-1 sm:w-20 sm:shrink-0 sm:justify-center">
-          {(["Jantan", "Betina"] as const).map((g) => (
-            <button
-              key={g}
-              type="button"
-              onClick={() => update({ gender: g })}
-              className={`flex h-8 w-8 items-center justify-center rounded-lg border text-[12px] font-semibold transition ${
-                item.gender === g
-                  ? "border-[var(--color-brand-orange-500)] bg-[var(--color-brand-orange-100)] text-[var(--color-brand-orange-700)]"
-                  : "border-[var(--color-ink-100)] text-[var(--color-ink-700)] hover:bg-gray-50"
-              }`}
-            >
-              {g === "Jantan" ? "M" : "F"}
-            </button>
-          ))}
-        </div>
-
-        <input
-          type="text"
-          value={item.color}
-          onChange={(e) => update({ color: e.target.value })}
-          placeholder="mis. Blue tabby"
-          className="rounded-lg border border-[var(--color-ink-100)] px-3 py-2 text-[13px] text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-300)] sm:w-40 sm:shrink-0"
-        />
-
-        <input
-          type="date"
-          value={item.birthDate}
-          onChange={(e) => update({ birthDate: e.target.value })}
-          className="rounded-lg border border-[var(--color-ink-100)] px-3 py-2 text-[13px] text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-300)] sm:w-36 sm:shrink-0"
-        />
-
-        <div className="flex shrink-0 items-center justify-center gap-1.5 sm:w-16">
-          <button
-            type="button"
-            onClick={onToggleExpand}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--color-ink-100)] text-[var(--color-ink-700)] transition hover:bg-gray-50"
-            aria-label={isExpanded ? "Tutup detail" : "Buka detail"}
-          >
-            <span className={`inline-block transition-transform duration-200 ${isExpanded ? "rotate-180" : ""}`}>
-              <DashboardIcon name="chevron" size={13} />
+    <div>
+      {/* ========================================================= */}
+      {/* 1. MOBILE VIEW CARD LAYOUT                                */}
+      {/* ========================================================= */}
+      <div className="block sm:hidden rounded-2xl border border-[#EEDFD5] bg-white p-4 space-y-4 shadow-2xs">
+        
+        {/* Header Mobile Card Kitten */}
+        <div className="flex items-center justify-between border-b border-[#F4EFE9] pb-3">
+          <div className="flex items-center gap-2">
+            <span className="w-5 h-8 rounded-lg bg-[#FFF2E8] border border-[#FCE3D2] flex items-center justify-center text-xs font-bold text-[#F05A1B]">
+              {index + 1}
             </span>
-          </button>
-
-          <button
-            type="button"
-            onClick={onRemove}
-            className="flex h-8 w-8 items-center justify-center rounded-lg border border-[var(--color-ink-100)] text-[var(--color-ink-400)] transition hover:border-[var(--color-danger)] hover:text-[var(--color-danger)]"
-            aria-label="Hapus kitten"
-          >
-            <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="2.5" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-            </svg>
-          </button>
-        </div>
-      </div>
-
-      {isExpanded && (
-        <div className="grid grid-cols-1 gap-3 border-t border-[var(--color-brand-orange-100)] bg-[var(--color-brand-orange-50)] px-4 py-4 sm:grid-cols-4">
-          <div>
-            <label className="text-[11px] font-medium text-[var(--color-ink-700)]">Berat lahir (gram)</label>
-            <input
-              type="number"
-              value={item.birthWeight}
-              onChange={(e) => update({ birthWeight: e.target.value })}
-              placeholder="mis. 105"
-              className="mt-1 w-full rounded-lg border border-[var(--color-ink-100)] bg-white px-3 py-2 text-[13px] text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-300)]"
-            />
-          </div>
-
-          <div>
-            <label className="text-[11px] font-medium text-[var(--color-ink-700)]">Ras / breed kitten</label>
-            <input
-              type="text"
-              value={item.breed}
-              onChange={(e) => update({ breed: e.target.value })}
-              placeholder="mis. Persian"
-              className="mt-1 w-full rounded-lg border border-[var(--color-ink-100)] bg-white px-3 py-2 text-[13px] text-[var(--color-ink-900)] outline-none focus:border-[var(--color-brand-orange-300)]"
-            />
-          </div>
-
-          <div>
-            <label className="text-[11px] font-medium text-[var(--color-ink-700)]">Status</label>
-            <div className="mt-1 flex gap-2">
-              {(["Hidup", "Mati"] as const).map((status) => (
-                <button
-                  key={status}
-                  type="button"
-                  onClick={() => update({ status })}
-                  className={`flex-1 rounded-lg border px-3 py-2 text-[12px] font-medium transition ${
-                    item.status === status
-                      ? status === "Hidup"
-                        ? "border-[var(--color-success)] bg-[var(--color-success-bg)] text-[var(--color-success)]"
-                        : "border-[var(--color-danger)] bg-[var(--color-danger-bg)] text-[var(--color-danger)]"
-                      : "border-[var(--color-ink-100)] bg-white text-[var(--color-ink-700)] hover:bg-gray-50"
-                  }`}
-                >
-                  {status}
-                </button>
-              ))}
+            <div>
+              <h3 className="font-bold text-xs text-[#1A1513]">
+                {item.name || `Kitten ${index + 1}`}
+              </h3>
+              <p className="text-[11px] text-[#8C8074]">
+                {item.birthDate ? item.birthDate : "Nama, jenis kelamin..."}
+              </p>
             </div>
           </div>
 
-          <div>
-            <label className="text-[11px] font-medium text-[var(--color-ink-700)]">Foto kitten</label>
-            <label className="mt-1 flex cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-dashed border-[var(--color-brand-orange-300)] bg-white px-3 py-2 text-[12px] font-medium text-[var(--color-brand-orange-700)] transition hover:bg-[var(--color-brand-orange-100)]">
-              <DashboardIcon name="upload" size={13} />
-              {item.photoName ?? "Pilih foto"}
+          <div className="flex items-center gap-2">
+            {saveStatus === "tersimpan" || isComplete ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-success-bg)] px-2.5 py-1 text-[9px] font-bold text-[var(--color-success)] border border-[#D3EEDD]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-success)]" /> TERSIMPAN
+              </span>
+            ) : isPartial ? (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[var(--color-warning-bg)] px-2.5 py-1 text-[9px] font-bold text-[#B58514] border border-[#FCE3D2]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[var(--color-warning)]" /> SEBAGIAN
+              </span>
+            ) : (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#F4EFE9] px-2.5 py-1 text-[9px] font-bold text-[#8C8074] border border-[#E8DED5]">
+                <span className="w-1.5 h-1.5 rounded-full bg-[#8C8074]" /> BELUM DIISI
+              </span>
+            )}
+
+            <button
+              type="button"
+              onClick={onRemove}
+              className="text-xs text-gray-500 font-semibold px-1.5 py-1 rounded-md hover:bg-red-50"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        {/* Input 1: Nama Kitten */}
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#1A1513]">
+            Nama kitten <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="text"
+            value={item.name || ""}
+            onChange={(e) => update({ name: e.target.value })}
+            placeholder="Nama kitten"
+            className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+          />
+        </div>
+
+        {/* Input 2: Jenis Kelamin Mobile ONLY */}
+        <div className="space-y-1 relative">
+          <label className="text-xs font-bold text-[#1A1513]">
+            Jenis kelamin <span className="text-red-500">*</span>
+          </label>
+          
+          <div className="relative">
+            <select
+              value={
+                String(item.gender) === "M" || String(item.gender) === "Jantan"
+                  ? "M"
+                  : String(item.gender) === "F" || String(item.gender) === "Betina"
+                  ? "F"
+                  : ""
+              }
+              onChange={(e) => {
+                const val = e.target.value;
+                update({ gender: (val as unknown) as OffspringGender });
+              }}
+              className="w-full appearance-none rounded-2xl border border-[#EEDFD5] bg-white px-4 py-2 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B] cursor-pointer pr-10"
+            >
+              <option value="">Pilih jenis kelamin</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+
+            <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#8C8074]">
+              <DashboardIcon name="chevron" size={12} />
+            </div>
+          </div>
+        </div>
+
+        {/* Input 3: Tanggal Lahir */}
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#1A1513]">
+            Tanggal lahir <span className="text-red-500">*</span>
+          </label>
+          <input
+            type="date"
+            value={item.birthDate || ""}
+            onChange={(e) => update({ birthDate: e.target.value })}
+            className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B]"
+          />
+        </div>
+
+        {/* Input 4: Ras */}
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#1A1513]">Ras</label>
+          <input
+            type="text"
+            value={item.breed || defaultBreed}
+            onChange={(e) => update({ breed: e.target.value })}
+            placeholder="Persian Longhair"
+            className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B]"
+          />
+          <p className="text-[10px] text-[#8C8074]">Terisi otomatis dari kombinasi ras pejantan dan induk</p>
+        </div>
+
+        {/* Input 5: Kode Warna Turunan */}
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#1A1513]">Kode warna turunan</label>
+          <input
+            type="text"
+            value={item.color || ""}
+            onChange={(e) => update({ color: e.target.value })}
+            placeholder="Blue Tabby / Silver Tabby"
+            className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+          />
+          <p className="text-[10px] text-[#8C8074]">Saran otomatis dari warna pejantan dan induk, bisa diubah manual</p>
+        </div>
+
+        {/* Input 6: Nomor Microchip */}
+        <div className="space-y-1">
+          <label className="text-xs font-bold text-[#1A1513]">Nomor microchip</label>
+          <input
+            type="text"
+            value={item.microchipNumber || ""}
+            onChange={(e) => update({ microchipNumber: e.target.value })}
+            placeholder="985 1410 0067 2281"
+            className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+          />
+        </div>
+
+        {/* Section 7: Data Adopter Mobile (Kategori Tanpa Auto-Fill) */}
+        <div className="border-t border-dashed border-[#EEDFD5] pt-3 space-y-3">
+          <p className="text-[11px] text-[#8C8074]">Data adopter (opsional, bisa diisi setelah kitten diadopsi)</p>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-[#1A1513]">Nama adopter kucing</label>
+            <input
+              type="text"
+              value={item.adopterName || ""}
+              onChange={(e) => update({ adopterName: e.target.value })}
+              placeholder="Nama lengkap adopter"
+              className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-[#1A1513]">Nomor telepon adopter</label>
+            <input
+              type="text"
+              value={item.adopterPhone || ""}
+              onChange={(e) => update({ adopterPhone: e.target.value })}
+              placeholder="+62"
+              className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+            />
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-[#1A1513]">Kategori adopter</label>
+            <div className="grid grid-cols-2 gap-2">
+              <button
+                type="button"
+                onClick={() => update({ adopterCategory: "ICA Member" })}
+                className={`py-2.5 rounded-2xl border text-xs font-bold transition ${
+                  item.adopterCategory === "ICA Member"
+                    ? "border-[#F05A1B] bg-[#FFF2E8] text-[#F05A1B]"
+                    : "border-[#EEDFD5] bg-white text-[#8C8074]"
+                }`}
+              >
+                ICA Member
+              </button>
+              <button
+                type="button"
+                onClick={() => update({ adopterCategory: "Kategori Umum" })}
+                className={`py-2.5 rounded-2xl border text-xs font-bold transition ${
+                  item.adopterCategory === "Kategori Umum"
+                    ? "border-[#F05A1B] bg-[#FFF2E8] text-[#F05A1B]"
+                    : "border-[#EEDFD5] bg-white text-[#8C8074]"
+                }`}
+              >
+                Kategori Umum
+              </button>
+            </div>
+          </div>
+        </div>
+
+        {/* Section 8: Keterangan Tambahan Mobile (Status Ditambah "Belum diketahui") */}
+        <div className="border-t border-dashed border-[#EEDFD5] pt-3 space-y-3">
+          <p className="text-[11px] text-[#8C8074]">Keterangan tambahan (opsional)</p>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-[#1A1513]">Berat</label>
+            <div className="relative">
+              <input
+                type="text"
+                value={item.birthWeight || ""}
+                onChange={(e) => update({ birthWeight: e.target.value })}
+                placeholder="0"
+                className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+              />
+              <span className="absolute right-4 top-2.5 text-xs font-semibold text-[#EE6B28]">gram</span>
+            </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-[#1A1513]">Status</label>
+            <select
+              value={item.status || ""}
+              onChange={(e) => update({ status: e.target.value as any })}
+              className="w-full rounded-2xl border border-[#EEDFD5] bg-white px-4 py-2.5 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B]"
+            >
+              <option value="">Pilih status</option>
+              <option value="Hidup">Hidup</option>
+              <option value="Mati">Mati saat lahir</option>
+              <option value="Belum diketahui">Belum diketahui</option>
+            </select>
+          </div>
+
+          <div className="space-y-1">
+            <label className="text-xs font-bold text-[#1A1513]">Foto kitten</label>
+            <label className="flex cursor-pointer items-center justify-center gap-2 rounded-2xl border border-dashed border-[#EEDFD5] bg-[#FAF7F5] p-3 text-xs font-semibold text-[#8C8074]">
+              <span>Ambil foto atau pilih dari galeri</span>
               <input type="file" accept="image/*" className="hidden" onChange={handlePhotoPick} />
             </label>
           </div>
         </div>
-      )}
+      </div>
+
+      {/* ========================================================= */}
+      {/* 2. DESKTOP VIEW TABLE LAYOUT                             */}
+      {/* ========================================================= */}
+      <div className="hidden sm:block border-b border-[#EEDFD5] last:border-b-0 bg-white">
+        <div className="flex items-center gap-3 px-4 py-3">
+          <span className="text-xs font-bold text-[#8C8074] w-5">
+            {index + 1}
+          </span>
+
+          <div className="flex-1">
+            <input
+              type="text"
+              value={item.name || ""}
+              onChange={(e) => update({ name: e.target.value })}
+              placeholder="Belum diisi"
+              className="w-full rounded-xl border border-[#EEDFD5] px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+            />
+          </div>
+
+          <div className="flex gap-1 w-20 shrink-0 justify-center">
+            {(["M", "F"] as const).map((g) => (
+              <button
+                key={g}
+                type="button"
+                onClick={() => handleGenderSelect(g)}
+                className={`flex h-7 w-7 items-center justify-center rounded-lg border text-xs font-bold transition ${
+                  isGenderSelected(g)
+                    ? "border-[#F05A1B] bg-[#FFF2E8] text-[#F05A1B]"
+                    : "border-[#EEDFD5] bg-white text-[#8C8074] hover:bg-gray-50"
+                }`}
+              >
+                {g}
+              </button>
+            ))}
+          </div>
+
+          <div className="w-40 shrink-0">
+            <input
+              type="text"
+              value={item.color || ""}
+              onChange={(e) => update({ color: e.target.value })}
+              placeholder="mis. Blue tabby"
+              className="w-full rounded-xl border border-[#EEDFD5] px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+            />
+          </div>
+
+          <div className="w-36 shrink-0">
+            <input
+              type="date"
+              value={item.birthDate || ""}
+              onChange={(e) => update({ birthDate: e.target.value })}
+              className="w-full rounded-xl border border-[#EEDFD5] px-3 py-1.5 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B]"
+            />
+          </div>
+
+          {/* Badge Status Simpan Desktop */}
+          <div className="w-32 text-center shrink-0">
+            {saveStatus === "tersimpan" && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#EFF8F3] px-2.5 py-0.5 text-[10px] font-bold text-[#28844B] border border-[#D3EEDD]">
+                Tersimpan
+              </span>
+            )}
+            {saveStatus === "belum disimpan" && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#FFF2E8] px-2.5 py-0.5 text-[10px] font-bold text-[#EE6B28] border border-[#FCE3D2]">
+                Belum disimpan
+              </span>
+            )}
+            {(saveStatus === "belum lengkap" || !saveStatus) && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#F4EFE9] px-2.5 py-0.5 text-[10px] font-bold text-[#8C8074] border border-[#E8DED5]">
+                Belum lengkap
+              </span>
+            )}
+            {saveStatus === "gagal disimpan" && (
+              <span className="inline-flex items-center gap-1 rounded-full bg-[#FDE8E8] px-2.5 py-0.5 text-[10px] font-bold text-[#E02424] border border-[#F8B4B4]">
+                Gagal disimpan
+              </span>
+            )}
+          </div>
+
+          {/* Tombol Detail (Panah Segitiga ▼ / ▲) */}
+          <div className="flex items-center justify-end gap-1.5 w-16 shrink-0">
+            <button
+              type="button"
+              onClick={onToggleExpand}
+              className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#EEDFD5] bg-white text-[#1A1513] transition hover:bg-[#FAF7F5] shadow-2xs"
+              aria-label={isExpanded ? "Tutup detail" : "Buka detail"}
+            >
+              <span className="text-[10px] text-[#1A1513]">
+                {isExpanded ? "▲" : "▼"}
+              </span>
+            </button>
+
+            <button
+              type="button"
+              onClick={onRemove}
+              className="flex h-8 w-8 items-center justify-center rounded-xl border border-[#EEDFD5] bg-white text-[#8C8074] transition hover:border-red-500 hover:text-red-500"
+            >
+              ✕
+            </button>
+          </div>
+        </div>
+
+        {/* Baris Detail Desktop */}
+        {isExpanded && (
+          <div className="border-t border-[#F4EFE9] bg-[#FAF7F5] px-4 py-4 space-y-4">
+            <div className="grid grid-cols-5 gap-2">
+              <div>
+                <label className="text-[11px] font-bold text-[#8C8074]">Berat lahir (gram)</label>
+                <input
+                  type="text"
+                  value={item.birthWeight || ""}
+                  onChange={(e) => update({ birthWeight: e.target.value })}
+                  placeholder="mis. 105"
+                  className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-[#8C8074]">Kode warna (EMS)</label>
+                <input
+                  type="text"
+                  value={item.emsCode || ""}
+                  onChange={(e) => update({ emsCode: e.target.value })}
+                  placeholder="mis. PER n 22"
+                  className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+                />
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-[#8C8074]">Ras / breed kitten</label>
+                <input
+                  type="text"
+                  value={item.breed || ""}
+                  onChange={(e) => update({ breed: e.target.value })}
+                  placeholder="mis. Persian"
+                  className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+                />
+              </div>
+
+              {/* Status Kitten Desktop */}
+              <div>
+                <label className="text-[11px] font-bold text-[#8C8074]">Status</label>
+                <div className="mt-1 grid grid-cols-3 gap-1">
+                  {(["Hidup", "Mati", "Belum diketahui"] as const).map((status) => (
+                    <button
+                      key={status}
+                      type="button"
+                      onClick={() => update({ status })}
+                      className={`rounded-xl border px-1.8 py-1.5 text-[10px] font-semibold transition truncate ${
+                        item.status === status
+                          ? status === "Hidup"
+                            ? "border-[#EE6B28] bg-[#FFF2E8] text-[#EE6B28]"
+                            : status === "Mati"
+                            ? "border-[#EE6B28] bg-[#FFF2E8] text-[#EE6B28]"
+                            : "border-[#EE6B28] bg-[#FFF2E8] text-[#EE6B28]"
+                          : "border-[#EEDFD5] bg-white text-[#8C8074] hover:bg-[#FAF7F5] cursor-pointer"
+                      }`}
+                    >
+                      {status === "Belum diketahui" ? "Belum tahu" : status}
+                    </button>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <label className="text-[11px] font-bold text-[#8C8074]">Foto kitten</label>
+                <label className="mt-1 flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-dashed border-[#F05A1B] bg-white px-2.5 py-1.5 text-xs font-semibold text-[#F05A1B] transition hover:bg-[#FFF2E8]">
+                  <span className="truncate">{item.photoName ?? "Pilih foto"}</span>
+                  <input type="file" accept="image/*" className="hidden" onChange={handlePhotoPick} />
+                </label>
+              </div>
+            </div>
+
+            <div className="border-t border-[#EEDFD5] pt-3">
+              <h4 className="text-[10px] font-bold uppercase tracking-wider text-[#8C8074]">
+                MICROCHIP & ADOPTER
+              </h4>
+
+              <div className="mt-2 grid grid-cols-4 gap-3">
+                <div>
+                  <label className="text-[11px] font-bold text-[#8C8074]">Nomor microchip</label>
+                  <input
+                    type="text"
+                    value={item.microchipNumber || ""}
+                    onChange={(e) => update({ microchipNumber: e.target.value })}
+                    placeholder="360098004471237"
+                    className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+                  />
+                  <p className="mt-1 text-[10px] text-[#8C8074]">15 digit ISO · kode negara 360</p>
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-[#8C8074]">Nama adopter kucing</label>
+                  <input
+                    type="text"
+                    value={item.adopterName || ""}
+                    onChange={(e) => update({ adopterName: e.target.value })}
+                    placeholder="Kosongkan jika belum diadopsi"
+                    className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-[#8C8074]">Nomor telepon adopter</label>
+                  <input
+                    type="text"
+                    value={item.adopterPhone || ""}
+                    onChange={(e) => update({ adopterPhone: e.target.value })}
+                    placeholder="ex: 08123456789"
+                    className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+                  />
+                </div>
+
+                <div>
+                  <label className="text-[11px] font-bold text-[#8C8074]">Kategori adopter</label>
+                  <div className="mt-1.5 flex items-center min-h-[32px]">
+                    {!item.adopterPhone ? (
+                      <span className="text-xs text-[#A39990] italic">Menunggu nomor telepon</span>
+                    ) : memberCode ? (
+                      <span className="inline-flex items-center rounded-full bg-[#EAF6ED] px-3 py-1 text-xs font-bold text-[#1F7A42] border border-[#D1EBD9]">
+                        ICA Member - {memberCode}
+                      </span>
+                    ) : (
+                      <span className="inline-flex items-center rounded-full bg-[#EFE9E1] px-3 py-1 text-xs font-medium text-[#574D45]">
+                        Kategori Umum
+                      </span>
+                    )}
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }

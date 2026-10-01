@@ -7,6 +7,59 @@ import type { CatteryProfile } from "@/types/cattery";
 import { useToast } from "@/context/ToastContext";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
 
+// List data lencana (3 sudah diikuti, selebihnya belum diikuti)
+const badgesData = [
+  {
+    id: "1",
+    title: "Cat Show",
+    subtitle: "ICA Cat Show Bandung 2026",
+    isEarned: true,
+  },
+  {
+    id: "2",
+    title: "Regional",
+    subtitle: "Regional Show Bandung 2026",
+    isEarned: true,
+  },
+  {
+    id: "3",
+    title: "Cattery",
+    subtitle: "Diklat Cattery Dasar",
+    isEarned: true,
+  },
+  {
+    id: "4",
+    title: "Grooming",
+    subtitle: "Belum diikuti",
+    isEarned: false,
+  },
+  {
+    id: "5",
+    title: "Breeder",
+    subtitle: "Belum diikuti",
+    isEarned: false,
+  },
+];
+
+// Helper Icon Pita (Award Ribbon Badge)
+function RibbonBadgeIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className || "w-5 h-5"}
+      viewBox="0 0 24 24"
+      fill="none"
+      stroke="currentColor"
+      strokeWidth="2"
+      strokeLinecap="round"
+      strokeLinejoin="round"
+    >
+      <circle cx="12" cy="9" r="6" />
+      <path d="M9.09 14.5L7 22l5-3 5 3-2.09-7.5" />
+      <polygon points="12 6 13 8 15 8.3 13.5 10 14 12 12 11 10 12 10.5 10 9 8.3 11 8 12 6" fill="currentColor" />
+    </svg>
+  );
+}
+
 export default function CatteryProfilePage() {
   const { showToast } = useToast();
 
@@ -53,6 +106,8 @@ export default function CatteryProfilePage() {
     .join("")
     .toUpperCase();
 
+  const earnedCount = badgesData.filter((b) => b.isEarned).length;
+
   return (
     <div className="min-h-screen bg-[#F8F6F2] text-[#2d2825] font-sans pb-20 lg:pb-8">
       
@@ -87,7 +142,7 @@ export default function CatteryProfilePage() {
           </div>
           <div className="flex items-center justify-between py-2.5">
             <span className="text-xs font-medium text-[#8c8074]">Email</span>
-            <span className="text-xs font-bold text-[#1a1513]">{profile.email}</span>
+            <span className="text-xs font-bold text-[#1a1513]">hana@rumahhana.id</span>
           </div>
           <div className="flex items-center justify-between py-2.5">
             <span className="text-xs font-medium text-[#8c8074]">WhatsApp</span>
@@ -99,16 +154,16 @@ export default function CatteryProfilePage() {
           </div>
           <div className="flex items-center justify-between py-2.5">
             <span className="text-xs font-medium text-[#8c8074]">Member sejak</span>
-            <span className="text-xs font-bold text-[#1a1513]">{profile.memberSince}</span>
+            <span className="text-xs font-bold text-[#1a1513]">24 Jul 2024</span>
           </div>
         </div>
 
-        {/* Card 3: Keanggotaan & Lencana Event */}
+        {/* Card 3: Keanggotaan & Lencana Event Dinamis */}
         <div className="bg-white rounded-3xl p-5 border border-[#eedfd5] shadow-2xs space-y-4">
           <div className="flex items-start justify-between">
             <div>
               <h3 className="font-bold text-xs text-[#1a1513]">Tingkat keanggotaan · Perak</h3>
-              <p className="text-[10px] text-[#8c8074] mt-0.5">3 dari 5 event diikuti</p>
+              <p className="text-[10px] text-[#8c8074] mt-0.5">{earnedCount} dari 5 event diikuti</p>
             </div>
             <span className="px-2.5 py-1 rounded-full bg-[#fff4eb] text-[#f05a1b] text-[10px] font-bold border border-[#fce3d2]">
               60% lengkap
@@ -121,52 +176,51 @@ export default function CatteryProfilePage() {
 
           <p className="text-[11px] text-[#8c8074]">Ikuti 2 event lagi untuk tingkat Emas.</p>
 
-          <div className="pt-2 space-y-2">
+          <div className="pt-2 space-y-3">
             <span className="block text-[10px] font-bold tracking-wider uppercase text-[#a09488]">
-              Lencana Event
+              LENCANA EVENT &amp; DIKLAT ASOSIASI
             </span>
 
             {/* Horizontal Badge Carousel */}
-            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-1 pt-1 -mx-1 px-1">
-              <div className="min-w-[110px] bg-[#faf7f2] rounded-2xl p-3 border border-[#eedfd5] flex flex-col justify-between space-y-3 shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ffb07c] to-[#f05a1b] shadow-2xs" />
-                <div>
-                  <h4 className="font-bold text-xs text-[#1a1513]">Cat Show</h4>
-                  <p className="text-[9px] text-[#8c8074] leading-tight">ICA Cat Show Bandung 2026</p>
-                </div>
-              </div>
+            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 pt-1 -mx-1 px-1">
+              {badgesData.map((badge) => (
+                <div
+                  key={badge.id}
+                  className={`min-w-[130px] rounded-2xl p-3 border shadow-2xs flex flex-col justify-between space-y-3 shrink-0 transition-all ${
+                    badge.isEarned
+                      ? "bg-white border-[#eedfd5]"
+                      : "bg-[#FAFAFA] border-[#F0EBE5]"
+                  }`}
+                >
+                  {/* Style Icon & Card: Terang (Sudah Diikuti) vs Pudar (Belum Diikuti) */}
+                  {badge.isEarned ? (
+                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFC299] to-[#EE6B28] shadow-[0_6px_16px_rgba(238,107,40,0.25)] flex items-center justify-center">
+                      <RibbonBadgeIcon className="w-6 h-6 text-white" />
+                    </div>
+                  ) : (
+                    <div className="w-12 h-12 rounded-2xl bg-[#F2F0ED] flex items-center justify-center">
+                      <RibbonBadgeIcon className="w-6 h-6 text-[#A39990]" />
+                    </div>
+                  )}
 
-              <div className="min-w-[110px] bg-[#faf7f2] rounded-2xl p-3 border border-[#eedfd5] flex flex-col justify-between space-y-3 shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ffb07c] to-[#f05a1b] shadow-2xs" />
-                <div>
-                  <h4 className="font-bold text-xs text-[#1a1513]">Regional</h4>
-                  <p className="text-[9px] text-[#8c8074] leading-tight">Regional Show Bandung 2026</p>
+                  <div>
+                    <h4
+                      className={`font-bold text-xs leading-tight truncate ${
+                        badge.isEarned ? "text-[#1a1513]" : "text-[#70665D]"
+                      }`}
+                    >
+                      {badge.title}
+                    </h4>
+                    <p
+                      className={`text-[10px] leading-tight mt-0.5 line-clamp-2 ${
+                        badge.isEarned ? "text-[#8c8074]" : "text-[#B0A69D]"
+                      }`}
+                    >
+                      {badge.subtitle}
+                    </p>
+                  </div>
                 </div>
-              </div>
-
-              <div className="min-w-[110px] bg-[#faf7f2] rounded-2xl p-3 border border-[#eedfd5] flex flex-col justify-between space-y-3 shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-gradient-to-br from-[#ffb07c] to-[#f05a1b] shadow-2xs" />
-                <div>
-                  <h4 className="font-bold text-xs text-[#1a1513]">Kitten Fest</h4>
-                  <p className="text-[9px] text-[#8c8074] leading-tight">ICA Kitten Fest 2025</p>
-                </div>
-              </div>
-
-              <div className="min-w-[110px] bg-[#f5f2ed] rounded-2xl p-3 border border-[#e8ded5] flex flex-col justify-between space-y-3 shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-[#dcd4cb] shadow-2xs" />
-                <div>
-                  <h4 className="font-bold text-xs text-[#1a1513]">Diklat Breeder</h4>
-                  <p className="text-[9px] text-[#8c8074] leading-tight">Belum diikuti</p>
-                </div>
-              </div>
-
-              <div className="min-w-[110px] bg-[#f5f2ed] rounded-2xl p-3 border border-[#e8ded5] flex flex-col justify-between space-y-3 shrink-0">
-                <div className="w-10 h-10 rounded-xl bg-[#dcd4cb] shadow-2xs" />
-                <div>
-                  <h4 className="font-bold text-xs text-[#1a1513]">Grooming</h4>
-                  <p className="text-[9px] text-[#8c8074] leading-tight">Belum diikuti</p>
-                </div>
-              </div>
+              ))}
             </div>
 
             <p className="text-[10px] text-[#a09488] pt-1">

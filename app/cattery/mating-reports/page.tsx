@@ -5,7 +5,7 @@ import { useToast } from "@/context/ToastContext";
 import { useRouter, useSearchParams } from "next/navigation";
 import { catteryProfile, maleCats, femaleCats } from "@/data/cattery";
 import { useDrafts } from "@/context/DraftContext";
-import { useHeaderAction } from "@/context/HeaderActionContext"; // Import hook header action
+import { useHeaderAction } from "@/context/HeaderActionContext";
 import Stepper from "./components/Stepper";
 import StepFooter from "./components/StepFooter";
 import StepDataCattery from "./components/StepDataCattery";
@@ -18,6 +18,7 @@ import StepReviewSubmit from "./components/StepReviewSubmit";
 import { CatCertificateFile, OffspringItem } from "@/types/cattery";
 
 const stepTitles = ["Data Cattery", "Pilih Pejantan", "Pilih Induk", "Mating Information", "Add Offspring", "Upload Dokumen", "Review & Submit"];
+const LOCAL_STORAGE_KEY = "mating_report_form_persistent_data";
 
 function MatingReportsForm() {
   const { showToast } = useToast();
@@ -38,7 +39,7 @@ function MatingReportsForm() {
   const [isEstimateAuto, setIsEstimateAuto] = useState(true);
 
   const [offspringItems, setOffspringItems] = useState<OffspringItem[]>([
-    { id: 1, name: "", gender: "", color: "", birthDate: "", birthWeight: "", breed: "", status: "Hidup" },
+    { id: 1, name: "", gender: "" as any, color: "", birthDate: "", birthWeight: "", breed: "", status: "" as any },
   ]);
 
   const [matingPhoto, setMatingPhoto] = useState<CatCertificateFile | null>(null);
@@ -46,36 +47,102 @@ function MatingReportsForm() {
   const [vetLetter, setVetLetter] = useState<CatCertificateFile | null>(null);
   const [paymentProof, setPaymentProof] = useState<CatCertificateFile | null>(null);
 
-  const hasLoadedDraft = useRef(false);
+  const hasLoadedData = useRef(false);
+
+  // 1. LOAD DATA DARI LOCAL STORAGE ATAU DRAFT
+  useEffect(() => {
+    if (hasLoadedData.current) return;
+    hasLoadedData.current = true;
+
+    // Jika ada ID Draft di URL, utamakan load dari Draft Context
+    if (draftId) {
+      const draft = getDraft(draftId);
+      if (!draft) {
+        showToast("Draft tidak ditemukan", "Draft ini mungkin sudah dihapus atau tidak valid.", { tone: "error" });
+        return;
+      }
+
+      setActiveDraftId(draft.id);
+      setSelectedMaleId(draft.selectedMaleId);
+      setSelectedFemaleId(draft.selectedFemaleId);
+      setMatingDate(draft.matingDate);
+      setEstimatedBirthDate(draft.estimatedBirthDate);
+      setIsEstimateAuto(draft.isEstimateAuto);
+      setWitnessName(draft.witnessName);
+      setOffspringItems(draft.offspringItems);
+      setCurrentStep(draft.currentStep);
+
+      showToast("Draft dimuat", `Melanjutkan ${draft.code} · ${draft.pair} dari step ${draft.currentStep}.`);
+      return;
+    }
+
+    // Jika tidak membuka draft, coba muat dari localStorage jika ada
+    if (typeof window !== "undefined") {
+      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
+      if (saved) {
+        try {
+          const parsed = JSON.parse(saved);
+          setCurrentStep(parsed.currentStep || (window.innerWidth < 768 ? 2 : 1));
+          setSelectedMaleId(parsed.selectedMaleId ?? null);
+          setSelectedFemaleId(parsed.selectedFemaleId ?? null);
+          setMatingDate(parsed.matingDate || "");
+          setEstimatedBirthDate(parsed.estimatedBirthDate || "");
+          setIsEstimateAuto(parsed.isEstimateAuto ?? true);
+          setWitnessName(parsed.witnessName || "");
+          if (parsed.offspringItems && parsed.offspringItems.length > 0) {
+            setOffspringItems(parsed.offspringItems);
+          }
+          if (parsed.matingPhoto) setMatingPhoto(parsed.matingPhoto);
+          if (parsed.kittenPhotos) setKittenPhotos(parsed.kittenPhotos);
+          if (parsed.vetLetter) setVetLetter(parsed.vetLetter);
+          if (parsed.paymentProof) setPaymentProof(parsed.paymentProof);
+        } catch (e) {
+          console.error("Gagal membaca dari localStorage", e);
+        }
+      } else if (window.innerWidth < 768) {
+        setCurrentStep(2);
+      }
+    }
+  }, [draftId, getDraft, showToast]);
+
+  // 2. OTOMATIS SIMPAN KE LOCAL STORAGE SETIAP KALI STATE BERUBAH
+  useEffect(() => {
+    if (typeof window === "undefined") return;
+
+    const formData = {
+      currentStep,
+      selectedMaleId,
+      selectedFemaleId,
+      matingDate,
+      estimatedBirthDate,
+      isEstimateAuto,
+      witnessName,
+      offspringItems,
+      matingPhoto,
+      kittenPhotos,
+      vetLetter,
+      paymentProof,
+    };
+
+    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(formData));
+  }, [
+    currentStep,
+    selectedMaleId,
+    selectedFemaleId,
+    matingDate,
+    estimatedBirthDate,
+    isEstimateAuto,
+    witnessName,
+    offspringItems,
+    matingPhoto,
+    kittenPhotos,
+    vetLetter,
+    paymentProof,
+  ]);
 
   const selectedMale = maleCats.find((c) => c.id === selectedMaleId);
   const selectedFemale = femaleCats.find((c) => c.id === selectedFemaleId);
 
-  useEffect(() => {
-    if (!draftId || hasLoadedDraft.current) return;
-    hasLoadedDraft.current = true;
-
-    const draft = getDraft(draftId);
-    if (!draft) {
-      showToast("Draft tidak ditemukan", "Draft ini mungkin sudah dihapus atau tidak valid.", { tone: "error" });
-      return;
-    }
-
-    setActiveDraftId(draft.id);
-    setSelectedMaleId(draft.selectedMaleId);
-    setSelectedFemaleId(draft.selectedFemaleId);
-    setMatingDate(draft.matingDate);
-    setEstimatedBirthDate(draft.estimatedBirthDate);
-    setIsEstimateAuto(draft.isEstimateAuto);
-    setWitnessName(draft.witnessName);
-    setOffspringItems(draft.offspringItems);
-    setCurrentStep(draft.currentStep);
-
-    showToast("Draft dimuat", `Melanjutkan ${draft.code} · ${draft.pair} dari step ${draft.currentStep}.`);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [draftId]);
-
-  // Wrap dengan useCallback agar referensinya stabil saat dikirim ke Header
   const handleSaveDraft = useCallback(() => {
     const pair =
       selectedMale && selectedFemale
@@ -113,23 +180,21 @@ function MatingReportsForm() {
     showToast,
   ]);
 
-// 1. Tambahkan useRef untuk menyimpan ref dari handleSaveDraft terbaru
-const handleSaveDraftRef = useRef(handleSaveDraft);
+  const handleSaveDraftRef = useRef(handleSaveDraft);
 
-useEffect(() => {
-  handleSaveDraftRef.current = handleSaveDraft;
-}, [handleSaveDraft]);
+  useEffect(() => {
+    handleSaveDraftRef.current = handleSaveDraft;
+  }, [handleSaveDraft]);
 
-// 2. Pass runner stabil ke HeaderActionContext
-useEffect(() => {
-  setCustomAction(() => () => {
-    if (handleSaveDraftRef.current) {
-      handleSaveDraftRef.current();
-    }
-  });
+  useEffect(() => {
+    setCustomAction(() => () => {
+      if (handleSaveDraftRef.current) {
+        handleSaveDraftRef.current();
+      }
+    });
 
-  return () => setCustomAction(null);
-}, [setCustomAction]);
+    return () => setCustomAction(null);
+  }, [setCustomAction]);
 
   function formatSingleDate(dateStr: string, days: number) {
     const d = new Date(dateStr);
@@ -201,7 +266,8 @@ useEffect(() => {
 
   const goBack = () => {
     setShowError(false);
-    setCurrentStep((s) => Math.max(1, s - 1));
+    const minStep = typeof window !== "undefined" && window.innerWidth < 768 ? 2 : 1;
+    setCurrentStep((s) => Math.max(minStep, s - 1));
   };
 
   const goToStep = (step: number) => {
@@ -212,18 +278,32 @@ useEffect(() => {
   };
 
   return (
-    <div className="p-8">
+    <div className="p-3 sm:p-8 pb-28 md:pb-8">
       <main className="min-h-full bg-[var(--color-ink-50)]">
-        <div className="mx-auto max-w-[1200px] p-5 lg:p-6">
+        <div className="mx-auto max-w-[1200px] p-2 sm:p-6">
           <Stepper currentStep={currentStep} onStepClick={goToStep} />
 
-          <div className="mt-4">
+          <div className="mt-3 sm:mt-4">
             {currentStep === 1 && <StepDataCattery profile={catteryProfile} />}
+            
             {currentStep === 2 && (
-              <StepPilihPejantan cats={maleCats} selectedId={selectedMaleId} onSelect={setSelectedMaleId} showError={showError} />
+              <StepPilihPejantan
+                cats={maleCats}
+                selectedId={selectedMaleId}
+                onSelect={setSelectedMaleId}
+                showError={showError}
+              />
             )}
+            
             {currentStep === 3 && (
-              <StepPilihInduk cats={femaleCats} selectedId={selectedFemaleId} onSelect={setSelectedFemaleId} showError={showError} />
+              <StepPilihInduk
+                cats={femaleCats}
+                selectedId={selectedFemaleId}
+                onSelect={setSelectedFemaleId}
+                selectedMale={selectedMale}
+                selectedMaleId={selectedMaleId}
+                showError={showError}
+              />
             )}
             {currentStep === 4 && (
               <StepMatingInformation
@@ -283,6 +363,10 @@ useEffect(() => {
                 onEditStep={goToStep}
                 onSubmit={async () => {
                   const code = `MR-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+                  // Hapus cache lokal saat formulir berhasil disubmit
+                  if (typeof window !== "undefined") {
+                    localStorage.removeItem(LOCAL_STORAGE_KEY);
+                  }
                   router.push(`/cattery/mating-reports/success?code=${code}`);
                   return code;
                 }}

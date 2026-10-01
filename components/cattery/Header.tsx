@@ -2,6 +2,7 @@
 
 import { useRef, useState } from "react";
 import { usePathname, useRouter } from "next/navigation";
+import Link from "next/link";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
 import NotificationDropdown from "./NotificationDropdown";
 import CatteryUserMenuDropdown from "./CatteryUserMenuDropdown";
@@ -19,7 +20,7 @@ const pageTitles: Record<string, string> = {
   "/cattery/my-cats": "My Cats",
   "/cattery/my-cats/[id]": "Detail Kucing",
   "/cattery/applications": "Applications",
-  "/cattery/mating-reports": "Buat Mating Reports",
+  "/cattery/mating-reports": "Mating Report",
   "/cattery/documents": "Documents",
   "/cattery/leaderboard": "Leaderboard",
   "/cattery/event": "Events",
@@ -88,11 +89,23 @@ export default function Header() {
     <header className={`${isDashboard ? "hidden md:flex" : "flex"} h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5`}>
       <div className="flex items-center gap-3">
         
-        {/* Tombol Back (Khusus Halaman Notifikasi Mobile) */}
+        {/* Back Chevron untuk Notifikasi Mobile */}
         {isNotifications && (
           <button 
             onClick={() => router.back()} 
-            className="text-[#8C8074] hover:text-[#F05A1B] transition-colors cursor-pointer -ml-1 mr-1"
+            className="text-[#8C8074] hover:text-[#F05A1B] transition-colors cursor-pointer -ml-1 mr-1 md:hidden"
+          >
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+              <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+            </svg>
+          </button>
+        )}
+
+        {/* Back Chevron khusus Mating Report Mobile (sebelah kiri tulisan Mating Report) */}
+        {isMatingReportForm && (
+          <button 
+            onClick={() => router.back()} 
+            className="text-[#1a1513] hover:text-[#F05A1B] transition-colors cursor-pointer mr-0.5 md:hidden"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -101,7 +114,7 @@ export default function Header() {
         )}
 
         <div className="flex flex-col">
-          <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900,#231A14)]">{title}</h1>
+          <h1 className="font-display text-sm md:text-base font-bold text-[var(--color-ink-900,#231A14)]">{title}</h1>
           
           {/* Subtitle / Deskripsi Dinamis Mobile */}
           {isNotifications && (
@@ -115,10 +128,18 @@ export default function Header() {
               {catteryProfile.name} · Cattery
             </span>
           )}
+
+          {/* Subtitle Mating Report Mobile: Nama Cattery · Region */}
+          {isMatingReportForm && (
+            <span className="text-[10px] text-[#8C8074] font-medium leading-none mt-0.5 md:hidden">
+              {catteryProfile.name} · {catteryProfile.region}
+            </span>
+          )}
         </div>
 
+        {/* Badge Draft Desktop */}
         {isMatingReportForm && (
-          <span className="rounded-full bg-[var(--color-ink-100,#F5EFE9)] px-2.5 py-0.5 text-[10px] font-medium text-[var(--color-ink-700,#7A6E65)]">
+          <span className="hidden md:inline-block rounded-full bg-[var(--color-ink-100,#F5EFE9)] px-2.5 py-0.5 text-[10px] font-medium text-[var(--color-ink-700,#7A6E65)]">
             Draft
           </span>
         )}
@@ -140,101 +161,116 @@ export default function Header() {
               </button>
             )}
 
+            {/* Mating Report Header Controls */}
             {isMatingReportForm && (
               <>
-                <span className="text-[11px] text-[var(--color-ink-400,#A89F95)]">Tersimpan otomatis 14:32</span>
+                {/* Mobile: Tulisan Draft Direct ke Halaman /cattery/draft */}
+                <Link
+                  href="/cattery/draft"
+                  className="text-xs font-semibold text-[#1a1513] hover:text-[#EE6B28] transition-colors md:hidden"
+                >
+                  Draft
+                </Link>
+
+                {/* Desktop Header Controls */}
+                <span className="hidden md:inline-block text-[11px] text-[var(--color-ink-400,#A89F95)]">
+                  Tersimpan otomatis 14:32
+                </span>
                 <button
                   type="button"
                   onClick={() => {
                     if (customAction) customAction();
                   }}
-                  className="cursor-pointer rounded-full border border-[var(--color-brand-orange-300,#D95D1E)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-brand-orange-700,#D95D1E)] transition hover:bg-[var(--color-brand-orange-50,#FBE3D5)] active:scale-95"
+                  className="hidden md:inline-block cursor-pointer rounded-full border border-[var(--color-brand-orange-300,#D95D1E)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-brand-orange-700,#D95D1E)] transition hover:bg-[var(--color-brand-orange-50,#FBE3D5)] active:scale-95"
                 >
                   Simpan draft
                 </button>
                 <button
                   type="button"
                   onClick={() => router.push("/cattery/dashboard")}
-                  className="text-[12px] font-medium text-[var(--color-ink-700,#7A6E65)] hover:text-[var(--color-ink-900,#231A14)]"
+                  className="hidden md:inline-block text-[12px] font-medium text-[var(--color-ink-700,#7A6E65)] hover:text-[var(--color-ink-900,#231A14)]"
                 >
                   Keluar
                 </button>
               </>
             )}
 
-            {/* Notifikasi */}
-            <div ref={notifRef} className="relative">
-              <button
-                onClick={() => router.push("/cattery/notifications")}
-                className="flex md:hidden relative h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
-                aria-label="Notifikasi Mobile"
-              >
-                <DashboardIcon name="bell" size={20} />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
+            {/* Notifikasi & User Avatar (Hanya jika bukan form mating report di mobile) */}
+            {!isMatingReportForm && (
+              <>
+                <div ref={notifRef} className="relative">
+                  <button
+                    onClick={() => router.push("/cattery/notifications")}
+                    className="flex md:hidden relative h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
+                    aria-label="Notifikasi Mobile"
+                  >
+                    <DashboardIcon name="bell" size={20} />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </button>
 
-              <button
-                onClick={() => toggleMenu("notifications")}
-                className="hidden md:flex relative h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
-                aria-label="Notifikasi Desktop"
-              >
-                <DashboardIcon name="bell" size={20} />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
+                  <button
+                    onClick={() => toggleMenu("notifications")}
+                    className="hidden md:flex relative h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
+                    aria-label="Notifikasi Desktop"
+                  >
+                    <DashboardIcon name="bell" size={20} />
+                    {unreadCount > 0 && (
+                      <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
+                        {unreadCount}
+                      </span>
+                    )}
+                  </button>
 
-              {isNotifOpen && (
-                <div className="hidden md:block">
-                  <NotificationDropdown
-                    notifications={notifications}
-                    onMarkAllRead={handleMarkAllAsRead}
-                    onMarkOneRead={(id: string) =>
-                      setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)))
-                    }
-                    onClose={closeMenu}
-                  />
+                  {isNotifOpen && (
+                    <div className="hidden md:block">
+                      <NotificationDropdown
+                        notifications={notifications}
+                        onMarkAllRead={handleMarkAllAsRead}
+                        onMarkOneRead={(id: string) =>
+                          setNotifications((prev) => prev.map((n) => (n.id === id ? { ...n, isRead: true } : n)))
+                        }
+                        onClose={closeMenu}
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
 
-            {/* Menu User Avatar */}
-            <div ref={containerRef} className="relative">
-              <div className="flex md:hidden items-center px-1 select-none pointer-events-none">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[10px] font-bold text-[var(--color-brand-orange-900)]/70 shrink-0">
-                  {initials}
-                </div>
-              </div>
+                <div ref={containerRef} className="relative">
+                  <div className="flex md:hidden items-center px-1 select-none pointer-events-none">
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[10px] font-bold text-[var(--color-brand-orange-900)]/70 shrink-0">
+                      {initials}
+                    </div>
+                  </div>
 
-              <button
-                onClick={() => toggleMenu("header")}
-                className="hidden md:flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 transition-all hover:border-[#D1C2B3] hover:from-white hover:to-[#F0E7DC] active:scale-98"
-              >
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[10px] font-bold text-[var(--color-brand-orange-900)]/70 shrink-0">
-                  {initials}
-                </div>
-                <span className="text-[#6E6359] flex items-center pr-1">
-                  <DashboardIcon name="chevron" size={12} />
-                </span>
-              </button>
+                  <button
+                    onClick={() => toggleMenu("header")}
+                    className="hidden md:flex cursor-pointer items-center gap-2 rounded-lg px-2 py-1 transition-all hover:border-[#D1C2B3] hover:from-white hover:to-[#F0E7DC] active:scale-98"
+                  >
+                    <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[var(--color-brand-orange-100)] text-[10px] font-bold text-[var(--color-brand-orange-900)]/70 shrink-0">
+                      {initials}
+                    </div>
+                    <span className="text-[#6E6359] flex items-center pr-1">
+                      <DashboardIcon name="chevron" size={12} />
+                    </span>
+                  </button>
 
-              {isUserMenuOpen && (
-                <div className="hidden md:block">
-                  <CatteryUserMenuDropdown
-                    position="bottom"
-                    widthClass="w-64 right-0"
-                    onNavigate={closeMenu}
-                    onLogout={handleLogout}
-                  />
+                  {isUserMenuOpen && (
+                    <div className="hidden md:block">
+                      <CatteryUserMenuDropdown
+                        position="bottom"
+                        widthClass="w-64 right-0"
+                        onNavigate={closeMenu}
+                        onLogout={handleLogout}
+                      />
+                    </div>
+                  )}
                 </div>
-              )}
-            </div>
+              </>
+            )}
           </>
         )}
       </div>

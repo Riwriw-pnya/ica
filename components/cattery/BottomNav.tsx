@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState } from "react";
+import React from "react";
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
@@ -59,6 +59,11 @@ function MenuIcon({ icon, className }: { icon: string; className?: string }) {
 export default function BottomNav() {
   const pathname = usePathname();
 
+  // Hide BottomNav jika berada di halaman pendaftaran Mating Report
+  if (pathname.startsWith("/cattery/mating-reports")) {
+    return null;
+  }
+
   const mainNavItems = [
     menus.find((m) => m.label === "Dashboard")!,
     menus.find((m) => m.label === "My Cats")!,
@@ -68,33 +73,31 @@ export default function BottomNav() {
   ].filter(Boolean);
 
   return (
-    <>
-      <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[var(--color-ink-100,#eadecd)] px-2 py-1.5 z-50 flex items-center justify-around shadow-[0_-4px_12px_rgba(0,0,0,0.05)] lg:hidden">
-        {mainNavItems.map((item) => {
-          const isActive = pathname.startsWith(item.href);
+    <nav className="fixed bottom-0 left-0 right-0 bg-white border-t border-[var(--color-ink-100,#eadecd)] px-2 py-1.5 z-50 flex items-center justify-around shadow-[0_-4px_12px_rgba(0,0,0,0.05)] lg:hidden">
+      {mainNavItems.map((item) => {
+        const isActive = pathname.startsWith(item.href);
 
-          return (
-            <Link
-              key={item.href}
-              href={item.href}
-              className={`relative flex flex-col items-center justify-center py-1 px-2 transition-colors min-w-[60px] ${
-                isActive
-                  ? "text-[#ee6b28] font-bold"
-                  : "text-[#7e7267] font-medium hover:text-[#1a1513]"
-              }`}
-            >
-              {isActive && (
-                <span className="absolute -top-1.5 h-[3px] w-8 rounded-full bg-[#ee6b28]" />
-              )}
-              
-              <MenuIcon icon={item.icon} className="h-5 w-5 stroke-[2]" />
-              <span className="text-[10px] tracking-tight mt-1 whitespace-nowrap">
-                {item.label}
-              </span>
-            </Link>
-          );
-        })}
-      </nav>
-    </>
+        return (
+          <Link
+            key={item.href}
+            href={item.href}
+            className={`relative flex flex-col items-center justify-center py-1 px-2 transition-colors min-w-[60px] ${
+              isActive
+                ? "text-[#ee6b28] font-bold"
+                : "text-[#7e7267] font-medium hover:text-[#1a1513]"
+            }`}
+          >
+            {isActive && (
+              <span className="absolute -top-1.5 h-[3px] w-8 rounded-full bg-[#ee6b28]" />
+            )}
+            
+            <MenuIcon icon={item.icon} className="h-5 w-5 stroke-[2]" />
+            <span className="text-[10px] tracking-tight mt-1 whitespace-nowrap">
+              {item.label}
+            </span>
+          </Link>
+        );
+      })}
+    </nav>
   );
 }
