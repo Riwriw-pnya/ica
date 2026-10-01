@@ -51,15 +51,14 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
         </div>
 
         {/* Stepper Section */}
-        <div className="border-b border-[var(--color-ink-200)] py-6">
+        <div className="border-b border-[var(--color-ink-100)] py-6">
           <ApplicationStepper currentStep={data.currentStep} />
         </div>
 
-        {/* Timeline Log Section */}
-        <div className="mt-6 space-y-4">
+        <div className="mt-6 relative pl-4 space-y-5 border-l-2 border-gray-200">
           {data.timeline?.map((log, idx) => (
-            <div key={idx} className="flex items-start gap-3">
-              <span className="mt-1.5 h-2 w-2 shrink-0 rounded-full bg-[var(--color-brand-orange-500)]" />
+            <div key={idx} className="relative flex items-start gap-3">
+              <span className="absolute -left-[21px] mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-gray-300 ring-4 ring-white" />
               <div>
                 <p className="text-xs font-bold text-[var(--color-ink-900)]">{log.title}</p>
                 <p className="mt-0.5 text-[11px] text-[var(--color-ink-400)]">

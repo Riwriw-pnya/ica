@@ -42,7 +42,7 @@ export default function ApplicationStepper({ currentStep }: ApplicationStepperPr
                       ? "border-2 border-[#f48637] bg-gradient-to-b from-[#ff9a51] to-[#f05a1b] text-white shadow-xs"
                       : isCurrent
                       ? "border-2 border-[#f48637] bg-white ring-4 ring-[#fff4eb]"
-                      : "border-2 border-[#eedfd5] bg-white"
+                      : "border-2 border-gray-300 bg-white text-gray-400"
                   }`}
                 >
                   {isCompleted ? "✓" : ""}
@@ -88,7 +88,7 @@ export default function ApplicationStepper({ currentStep }: ApplicationStepperPr
                     ? "border-2 border-[#f48637] bg-gradient-to-b from-[var(--color-brand-orange-300)] to-[var(--color-brand-orange-500)] text-white shadow-[0_2px_6px_rgba(244,134,55,0.4)]"
                     : isCurrent
                     ? "border-2 border-[#f48637] bg-white text-[var(--color-brand-orange-500)] ring-4 ring-[var(--color-brand-orange-50)]"
-                    : "border-2 border-[var(--color-ink-200)] bg-white text-[var(--color-ink-200)]"
+                    : "border-2 border-gray-300 bg-white text-gray-400"
                 }`}
               >
                 {isCompleted ? "✓" : ""}

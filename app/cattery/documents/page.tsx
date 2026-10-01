@@ -45,8 +45,8 @@ export default function DocumentsPage() {
 
       <div className="mt-6 divide-y divide-[var(--color-ink-100)] rounded-2xl border border-[var(--color-ink-100)] bg-white shadow-sm">
         {DOCUMENTS.map((doc) => (
-          <div key={doc.id} className="flex items-center justify-between p-4 px-6 hover:bg-gray-50/50">
-            <div className="flex items-center gap-4">
+          <div key={doc.id} className="flex items-center justify-between p-4 px-6">
+            <div className="flex items-center gap-4 hover:bg-gray-50/50">
               <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-orange-50/60 text-orange-400">
                 <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
@@ -64,7 +64,7 @@ export default function DocumentsPage() {
               </span>
               <button
                 onClick={() => handleDownload(doc.title)}
-                className="rounded-full bg-gradient-to-b from-white to-[var(--color-ink-100)] border border-[var(--color-ink-100)] px-4 py-1 text-xs font-sans text-[var(--color-ink-400)] hover:text-[var(--color-ink-700)] transition hover:bg-[var(--color-ink-700)] active:scale-95"
+                className="cursor-pointer rounded-full bg-white border border-[#EEDFD5] px-3.5 py-1.5 text-xs font-semibold text-[#231A14] shadow-2xs hover:bg-[#FAF7F5] active:scale-95 transition"
               >
                 Unduh
               </button>
