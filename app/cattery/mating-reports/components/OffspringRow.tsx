@@ -18,6 +18,7 @@ interface ExtendedOffspringItem extends OffspringItem {
   adopterName?: string;
   adopterPhone?: string;
   adopterCategory?: "ICA Member" | "Kategori Umum";
+  icaMemberNumber?: string; // Field tambahan untuk nomor ICA member
 }
 
 interface OffspringRowProps {
@@ -41,12 +42,13 @@ export default function OffspringRow({
     birthDate: "",
     birthWeight: "",
     breed: "",
-    status: "" as any, // Dikosongkan agar tidak otomatis terisi
+    status: "" as any,
     emsCode: "",
     microchipNumber: "",
     adopterName: "",
     adopterPhone: "",
-    adopterCategory: undefined, // Dikosongkan agar tidak otomatis terisi
+    adopterCategory: undefined,
+    icaMemberNumber: "",
   },
   saveStatus = "belum lengkap",
   isExpanded,
@@ -75,12 +77,13 @@ export default function OffspringRow({
     update({ gender: (label as unknown) as OffspringGender });
   };
 
-  // Pengecekan Kategori Status Mobile
   const isComplete = Boolean(item.name && item.gender && item.birthDate);
   const isPartial = Boolean(item.name || item.gender || item.birthDate) && !isComplete;
 
   const phoneClean = (item.adopterPhone || "").replace(/[^0-9]/g, "");
   const memberCode = phoneClean ? registeredMembers[phoneClean] : null;
+
+  const currentCategory = item.adopterCategory || "ICA Member";
 
   return (
     <div>
@@ -144,7 +147,7 @@ export default function OffspringRow({
           />
         </div>
 
-        {/* Input 2: Jenis Kelamin Mobile ONLY */}
+        {/* Input 2: Jenis Kelamin Mobile - Model Dropdown Select */}
         <div className="space-y-1 relative">
           <label className="text-xs font-bold text-[#1A1513]">
             Jenis kelamin <span className="text-red-500">*</span>
@@ -163,7 +166,7 @@ export default function OffspringRow({
                 const val = e.target.value;
                 update({ gender: (val as unknown) as OffspringGender });
               }}
-              className="w-full appearance-none rounded-2xl border border-[#EEDFD5] bg-white px-4 py-2 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B] cursor-pointer pr-10"
+              className="w-full appearance-none rounded-2xl border border-[#EEDFD5] bg-white px-4 py-2.5 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B] cursor-pointer pr-10"
             >
               <option value="">Pilih jenis kelamin</option>
               <option value="M">Male</option>
@@ -185,7 +188,7 @@ export default function OffspringRow({
             type="date"
             value={item.birthDate || ""}
             onChange={(e) => update({ birthDate: e.target.value })}
-            className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B]"
+            className="w-full max-w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] bg-white outline-none focus:border-[#F05A1B]"
           />
         </div>
 
@@ -212,7 +215,6 @@ export default function OffspringRow({
             placeholder="Blue Tabby / Silver Tabby"
             className="w-full rounded-2xl border border-[#EEDFD5] px-4 py-2.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
           />
-          <p className="text-[10px] text-[#8C8074]">Saran otomatis dari warna pejantan dan induk, bisa diubah manual</p>
         </div>
 
         {/* Input 6: Nomor Microchip */}
@@ -227,9 +229,9 @@ export default function OffspringRow({
           />
         </div>
 
-        {/* Section 7: Data Adopter Mobile (Kategori Tanpa Auto-Fill) */}
+        {/* Section 7: Data Adopter Mobile */}
         <div className="border-t border-dashed border-[#EEDFD5] pt-3 space-y-3">
-          <p className="text-[11px] text-[#8C8074]">Data adopter (opsional, bisa diisi setelah kitten diadopsi)</p>
+          <p className="text-[11px] text-[#8C8074]">Data adopter (opsional)</p>
 
           <div className="space-y-1">
             <label className="text-xs font-bold text-[#1A1513]">Nama adopter kucing</label>
@@ -260,7 +262,7 @@ export default function OffspringRow({
                 type="button"
                 onClick={() => update({ adopterCategory: "ICA Member" })}
                 className={`py-2.5 rounded-2xl border text-xs font-bold transition ${
-                  item.adopterCategory === "ICA Member"
+                  currentCategory === "ICA Member"
                     ? "border-[#F05A1B] bg-[#FFF2E8] text-[#F05A1B]"
                     : "border-[#EEDFD5] bg-white text-[#8C8074]"
                 }`}
@@ -271,7 +273,7 @@ export default function OffspringRow({
                 type="button"
                 onClick={() => update({ adopterCategory: "Kategori Umum" })}
                 className={`py-2.5 rounded-2xl border text-xs font-bold transition ${
-                  item.adopterCategory === "Kategori Umum"
+                  currentCategory === "Kategori Umum"
                     ? "border-[#F05A1B] bg-[#FFF2E8] text-[#F05A1B]"
                     : "border-[#EEDFD5] bg-white text-[#8C8074]"
                 }`}
@@ -280,9 +282,24 @@ export default function OffspringRow({
               </button>
             </div>
           </div>
+
+          {/* FIELD DINAMIS NOMOR ICA MEMBER (MUNCUL KETIKA ICA MEMBER DIPILIH DI MOBILE) */}
+          {currentCategory === "ICA Member" && (
+            <div className="space-y-1 pt-1 animate-in fade-in duration-200">
+              <label className="text-xs font-bold text-[#1A1513]">Nomor ICA Member</label>
+              <input
+                type="text"
+                value={item.icaMemberNumber || ""}
+                onChange={(e) => update({ icaMemberNumber: e.target.value })}
+                placeholder="ICA-MBR-0000"
+                className="w-full rounded-2xl border border-[#EEDFD5] bg-white px-4 py-2.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+              />
+              <p className="text-[10px] text-[#8C8074]">Diverifikasi admin ICA saat review</p>
+            </div>
+          )}
         </div>
 
-        {/* Section 8: Keterangan Tambahan Mobile (Status Ditambah "Belum diketahui") */}
+        {/* Section 8: Keterangan Tambahan Mobile - Model Dropdown Select */}
         <div className="border-t border-dashed border-[#EEDFD5] pt-3 space-y-3">
           <p className="text-[11px] text-[#8C8074]">Keterangan tambahan (opsional)</p>
 
@@ -300,18 +317,24 @@ export default function OffspringRow({
             </div>
           </div>
 
-          <div className="space-y-1">
+          {/* STATUS KITTEN MOBILE: Dropdown Select biasa */}
+          <div className="space-y-1 relative">
             <label className="text-xs font-bold text-[#1A1513]">Status</label>
-            <select
-              value={item.status || ""}
-              onChange={(e) => update({ status: e.target.value as any })}
-              className="w-full rounded-2xl border border-[#EEDFD5] bg-white px-4 py-2.5 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B]"
-            >
-              <option value="">Pilih status</option>
-              <option value="Hidup">Hidup</option>
-              <option value="Mati">Mati saat lahir</option>
-              <option value="Belum diketahui">Belum diketahui</option>
-            </select>
+            <div className="relative">
+              <select
+                value={item.status || ""}
+                onChange={(e) => update({ status: e.target.value as any })}
+                className="w-full appearance-none rounded-2xl border border-[#EEDFD5] bg-white px-4 py-2.5 text-xs text-[#1A1513] outline-none focus:border-[#F05A1B] cursor-pointer pr-10"
+              >
+                <option value="">Pilih status</option>
+                <option value="Hidup">Hidup</option>
+                <option value="Mati">Mati</option>
+              </select>
+
+              <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-3 text-[#8C8074]">
+                <DashboardIcon name="chevron" size={12} />
+              </div>
+            </div>
           </div>
 
           <div className="space-y-1">
@@ -325,7 +348,7 @@ export default function OffspringRow({
       </div>
 
       {/* ========================================================= */}
-      {/* 2. DESKTOP VIEW TABLE LAYOUT                             */}
+      {/* 2. DESKTOP VIEW TABLE LAYOUT (TIDAK ADA YANG DIUBAH)      */}
       {/* ========================================================= */}
       <div className="hidden sm:block border-b border-[#EEDFD5] last:border-b-0 bg-white">
         <div className="flex items-center gap-3 px-4 py-3">
@@ -429,7 +452,7 @@ export default function OffspringRow({
         {/* Baris Detail Desktop */}
         {isExpanded && (
           <div className="border-t border-[#F4EFE9] bg-[#FAF7F5] px-4 py-4 space-y-4">
-            <div className="grid grid-cols-5 gap-2">
+            <div className="grid grid-cols-5 gap-3">
               <div>
                 <label className="text-[11px] font-bold text-[#8C8074]">Berat lahir (gram)</label>
                 <input
@@ -467,22 +490,21 @@ export default function OffspringRow({
               <div>
                 <label className="text-[11px] font-bold text-[#8C8074]">Status</label>
                 <div className="mt-1 grid grid-cols-3 gap-1">
-                  {(["Hidup", "Mati", "Belum diketahui"] as const).map((status) => (
+                  {(["Hidup", "Mati"] as const).map((status) => (
                     <button
                       key={status}
                       type="button"
                       onClick={() => update({ status })}
-                      className={`rounded-xl border px-1.8 py-1.5 text-[10px] font-semibold transition truncate ${
+                      className={`rounded-xl border px-1.5 py-1.5 text-[10px] font-semibold transition truncate ${
                         item.status === status
                           ? status === "Hidup"
-                            ? "border-[#EE6B28] bg-[#FFF2E8] text-[#EE6B28]"
+                            ? "border-[#28844B] bg-[#EFF8F3] text-[#28844B]"
                             : status === "Mati"
-                            ? "border-[#EE6B28] bg-[#FFF2E8] text-[#EE6B28]"
+                            ? "border-[#E02424] bg-[#FDE8E8] text-[#E02424]"
                             : "border-[#EE6B28] bg-[#FFF2E8] text-[#EE6B28]"
-                          : "border-[#EEDFD5] bg-white text-[#8C8074] hover:bg-[#FAF7F5] cursor-pointer"
+                          : "border-[#EEDFD5] bg-white text-[#8C8074] hover:bg-[#FAF7F5]"
                       }`}
                     >
-                      {status === "Belum diketahui" ? "Belum tahu" : status}
                     </button>
                   ))}
                 </div>
@@ -490,7 +512,7 @@ export default function OffspringRow({
 
               <div>
                 <label className="text-[11px] font-bold text-[#8C8074]">Foto kitten</label>
-                <label className="mt-1 flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-dashed border-[#F05A1B] bg-white px-2.5 py-1.5 text-xs font-semibold text-[#F05A1B] transition hover:bg-[#FFF2E8]">
+                <label className="mt-1 flex cursor-pointer items-center justify-center gap-1.5 rounded-xl border border-dashed border-[#F05A1B] bg-white px-3 py-1.5 text-xs font-semibold text-[#F05A1B] transition hover:bg-[#FFF2E8]">
                   <span className="truncate">{item.photoName ?? "Pilih foto"}</span>
                   <input type="file" accept="image/*" className="hidden" onChange={handlePhotoPick} />
                 </label>
@@ -510,7 +532,7 @@ export default function OffspringRow({
                     value={item.microchipNumber || ""}
                     onChange={(e) => update({ microchipNumber: e.target.value })}
                     placeholder="360098004471237"
-                    className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
+                    className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#8C8074] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
                   />
                   <p className="mt-1 text-[10px] text-[#8C8074]">15 digit ISO · kode negara 360</p>
                 </div>
@@ -532,7 +554,7 @@ export default function OffspringRow({
                     type="text"
                     value={item.adopterPhone || ""}
                     onChange={(e) => update({ adopterPhone: e.target.value })}
-                    placeholder="ex: 08123456789"
+                    placeholder="08xx-xxxx-xxxx"
                     className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] placeholder-[#A39990] outline-none focus:border-[#F05A1B]"
                   />
                 </div>

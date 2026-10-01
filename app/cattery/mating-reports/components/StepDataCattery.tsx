@@ -17,7 +17,7 @@ export default function StepDataCattery({ profile }: { profile: CatteryProfile }
         <Field label="Penanggung jawab" value={profile.personInCharge} />
       </div>
 
-      <div className="mt-5 rounded-lg border border-[var(--color-warning)]/30 bg-[var(--color-warning-bg)] p-4 text-[12px] text-[var(--color-background)]">
+      <div className="mt-5 rounded-lg border border-[var(--color-warning)]/30 bg-[var(--color-warning-bg)] p-4 text-[12px] text-[var(--color-ink-900)]">
         Data ini diambil dari profil cattery dan tidak bisa diubah di sini. Kalau ada yang
         salah, perbaiki lewat{" "}
         <a href="/cattery/profil" className="font-semibold underline text-[var(--color-brand-orange-700)]">
@@ -33,7 +33,7 @@ function Field({ label, value }: { label: string; value: string }) {
   return (
     <div>
       <p className="text-[11px] text-[var(--color-ink-400)]">{label}</p>
-      <div className="mt-1 rounded-lg border border-[var(--color-ink-100)] bg-[var(--color-foreground)] px-3 py-2.5 text-[13px] text-[var(--color-ink-900)]">
+      <div className="mt-1 rounded-lg border border-[var(--color-ink-100)] bg-[var(--color-ink-100)]/50 px-3 py-2.5 text-[13px] text-[var(--color-ink-900)]">
         {value}
       </div>
     </div>

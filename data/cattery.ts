@@ -57,14 +57,10 @@ export const femaleCats: FemaleCat[] = [
 
 export const initialNotifications: NotificationItem[] = [
   { id: "n1", type: "event", title: "Pendaftaran event dibuka", message: "ICA Regional Cat Show — Bandung sudah bisa didaftarkan.", time: "2 jam lalu", isRead: false, url: "/cattery/event" },
-  { id: "n2", type: "pedigree", title: "Pedigree disetujui", message: "Pedigree Bagas of Rumah Hana telah diverifikasi Admin ICA.", time: "Kemarin", isRead: false, url: "/cattery/pedigree" },
-  { id: "n3", type: "mating", title: "Mating report menunggu review", message: "Laporan Bagas × Nara Kencana sedang diproses.", time: "3 hari lalu", isRead: true, url: "/cattery/mating" },
+  { id: "n2", type: "pedigree", title: "Pedigree disetujui", message: "Pedigree Bagas of Rumah Hana telah diverifikasi Admin ICA.", time: "Kemarin", isRead: false, url: "/cattery/profil" },
+  { id: "n3", type: "mating", title: "Mating report menunggu review", message: "Laporan Bagas × Nara Kencana sedang diproses.", time: "3 hari lalu", isRead: true, url: "/cattery/application" },
 ];
 
-/**
- * Detail-page-only fields, keyed by the same id used in catItems.
- * Semua 6 kucing sudah ada entrinya biar /cattery/my-cats/[id] jalan untuk semua id.
- */
 export const catProfileDetails: CatProfileDetail[] = [
   {
     ...catItems[0], // Bagas of Rumah Hana

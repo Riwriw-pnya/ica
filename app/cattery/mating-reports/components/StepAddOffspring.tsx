@@ -221,6 +221,7 @@ export default function StepAddOffspring({
 
       {/* MOBILE VIEW ONLY: COUNTER KITTEN & LEGEND BAR */}
       <div className="block sm:hidden space-y-3">
+
         <div className="rounded-2xl border border-[#EEDFD5] bg-white p-4 flex items-center justify-between shadow-2xs">
           <div>
             <p className="text-xs font-bold text-[#1A1513]">Jumlah kitten dalam kelahiran ini</p>

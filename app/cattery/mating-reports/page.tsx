@@ -277,6 +277,21 @@ function MatingReportsForm() {
     }
   };
 
+  const [maleCertFile, setMaleCertFile] = useState<CatCertificateFile | null>(null);
+  const [femaleCertFile, setFemaleCertFile] = useState<CatCertificateFile | null>(null);
+
+  useEffect(() => {
+    if (selectedMale?.certificateFile && !maleCertFile) {
+      setMaleCertFile(selectedMale.certificateFile);
+    }
+  }, [selectedMale]);
+
+  useEffect(() => {
+    if (selectedFemale?.certificateFile && !femaleCertFile) {
+      setFemaleCertFile(selectedFemale.certificateFile);
+    }
+  }, [selectedFemale]);
+
   return (
     <div className="p-3 sm:p-8 pb-28 md:pb-8">
       <main className="min-h-full bg-[var(--color-ink-50)]">
@@ -325,17 +340,26 @@ function MatingReportsForm() {
             )}
             {currentStep === 6 && (
               <StepUploadDokumen
-                maleCertFile={selectedMale?.certificateFile ?? null}
-                femaleCertFile={selectedFemale?.certificateFile ?? null}
+                maleCertFile={maleCertFile}
+                onMaleCertChange={(f) => setMaleCertFile(toFileInfo(f))}
+                onMaleCertRemove={() => setMaleCertFile(null)}
+
+                femaleCertFile={femaleCertFile}
+                onFemaleCertChange={(f) => setFemaleCertFile(toFileInfo(f))}
+                onFemaleCertRemove={() => setFemaleCertFile(null)}
+
                 matingPhoto={{ file: matingPhoto }}
                 onMatingPhotoChange={(f) => setMatingPhoto(toFileInfo(f))}
                 onMatingPhotoRemove={() => setMatingPhoto(null)}
+
                 kittenPhotos={{ file: kittenPhotos }}
                 onKittenPhotosChange={(f) => setKittenPhotos(toFileInfo(f))}
                 onKittenPhotosRemove={() => setKittenPhotos(null)}
+
                 vetLetter={{ file: vetLetter }}
                 onVetLetterChange={(f) => setVetLetter(toFileInfo(f))}
                 onVetLetterRemove={() => setVetLetter(null)}
+
                 paymentProof={{ file: paymentProof }}
                 onPaymentProofChange={(f) => setPaymentProof(toFileInfo(f))}
                 onPaymentProofRemove={() => setPaymentProof(null)}

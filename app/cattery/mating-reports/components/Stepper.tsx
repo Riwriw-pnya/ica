@@ -14,7 +14,7 @@ interface StepperProps {
   onStepClick: (step: number) => void;
 }
 
-export default function Stepper({ currentStep }: StepperProps) {
+export default function Stepper({ currentStep, onStepClick }: StepperProps) {
   // Mobile step: Step 2 di sistem dipetakan sebagai Step 1 di UI Mobile ("Select Male Cat")
   const mobileActiveStep = Math.max(1, Math.min(currentStep - 1, mobileSteps.length));
   const totalMobileSteps = mobileSteps.length;
@@ -59,11 +59,19 @@ export default function Stepper({ currentStep }: StepperProps) {
 
             {mobileSteps.map((label, idx) => {
               const stepNum = idx + 1;
+              const systemStepNum = stepNum + 1; // Dipetakan ke sistem step
               const isCompleted = stepNum < mobileActiveStep;
               const isCurrent = stepNum === mobileActiveStep;
+              const isClickable = isCompleted || isCurrent;
 
               return (
-                <div key={label} className="relative z-10 flex items-center gap-3">
+                <div
+                  key={label}
+                  onClick={() => isClickable && onStepClick(systemStepNum)}
+                  className={`relative z-10 flex items-center gap-3 ${
+                    isClickable ? "cursor-pointer" : "cursor-not-allowed opacity-80"
+                  }`}
+                >
                   <div
                     className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold shrink-0 transition ${
                       isCompleted
@@ -95,14 +103,16 @@ export default function Stepper({ currentStep }: StepperProps) {
       </div>
 
       {/* ========================================================= */}
-      {/* 2. TAMPILAN DESKTOP (Stepper Horizontal Utuh)            */}
+      {/* 2. TAMPILAN DESKTOP (Bisa Klik Bulet-Bulet Step)         */}
       {/* ========================================================= */}
       <div className="hidden md:block rounded-xl border border-[var(--color-ink-100)] bg-white p-5 shadow-lg shadow-[#F05A1B]/10 -mt-4">
         <div className="relative">
+          {/* Garis Background */}
           <div
             className="absolute top-4 h-[2px] -translate-y-1/2 bg-gray-200"
             style={{ left: `7.14%`, width: `85.71%` }}
           />
+          {/* Garis Progress Aktif */}
           <div
             className="absolute top-4 h-[2px] -translate-y-1/2 bg-[var(--color-brand-orange-500)] transition-all duration-300"
             style={{
@@ -124,15 +134,22 @@ export default function Stepper({ currentStep }: StepperProps) {
               const stepNum = idx + 1;
               const isCompleted = stepNum < currentStep;
               const isActive = stepNum === currentStep;
+              const isClickable = isCompleted || isActive;
 
               return (
-                <div key={label} className="flex flex-1 flex-col items-center">
+                <div
+                  key={label}
+                  onClick={() => isClickable && onStepClick(stepNum)}
+                  className={`flex flex-1 flex-col items-center group ${
+                    isClickable ? "cursor-pointer" : "cursor-not-allowed"
+                  }`}
+                >
                   <div
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full border-2 text-[12px] font-semibold transition-all duration-300 ${
+                    className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full border-2 text-[13px] font-bold transition-all duration-300 ${
                       isCompleted
-                        ? "border-[var(--color-brand-orange-500)] bg-gradient-to-b from-[var(--color-brand-orange-100)] to-[var(--color-brand-orange-500)] text-white shadow-[0_0_0_4px_rgba(255,159,92,0.3)]"
+                        ? "border-[var(--color-brand-orange-500)] bg-gradient-to-b from-[var(--color-brand-orange-100)] to-[var(--color-brand-orange-500)] text-white shadow-[0_0_0_4px_rgba(255,159,92,0.3)] group-hover:scale-110"
                         : isActive
-                        ? "border-[var(--color-brand-orange-500)] bg-white text-[var(--color-brand-orange-700)] shadow-[0_0_0_4px_rgba(255,159,92,0.15)]"
+                        ? "border-[var(--color-brand-orange-500)] bg-white text-[var(--color-brand-orange-700)] shadow-[0_0_0_4px_rgba(255,159,92,0.15)] group-hover:scale-110"
                         : "border-gray-200 bg-white text-gray-400"
                     }`}
                   >
@@ -140,11 +157,11 @@ export default function Stepper({ currentStep }: StepperProps) {
                   </div>
 
                   <span
-                    className={`mt-2 max-w-[90px] text-center text-[11px] leading-tight ${
+                    className={`mt-2 max-w-[90px] text-center text-[11px] leading-tight transition-colors ${
                       isActive
                         ? "font-semibold text-gray-900"
                         : isCompleted
-                        ? "font-medium text-[var(--color-brand-orange-700)]"
+                        ? "font-medium text-[var(--color-brand-orange-700)] group-hover:text-[var(--color-brand-orange-900)]"
                         : "font-normal text-gray-400"
                     }`}
                   >
