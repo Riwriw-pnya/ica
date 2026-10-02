@@ -6,7 +6,7 @@ import { catteryProfile as initialProfile } from "@/data/cattery";
 import type { CatteryProfile } from "@/types/cattery";
 import { useToast } from "@/context/ToastContext";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
-
+import StoreOrderHistoryMobile from "@/components/store/mobile/StoreOrderHistoryMobile"; 
 // List data lencana (3 sudah diikuti, selebihnya belum diikuti)
 const badgesData = [
   {
@@ -41,6 +41,15 @@ const badgesData = [
   },
 ];
 
+// Helper Format Rupiah
+const formatRupiah = (val: number) => {
+  return new Intl.NumberFormat("id-ID", {
+    style: "currency",
+    currency: "IDR",
+    maximumFractionDigits: 0,
+  }).format(val);
+};
+
 // Helper Icon Pita (Award Ribbon Badge)
 function RibbonBadgeIcon({ className }: { className?: string }) {
   return (
@@ -66,6 +75,9 @@ export default function CatteryProfilePage() {
   const [profile, setProfile] = useState<CatteryProfile>(initialProfile);
   const [placePhoto, setPlacePhoto] = useState<string | null>(initialProfile.placePhotoUrl ?? null);
   const [profilePhoto, setProfilePhoto] = useState<string | null>(initialProfile.profilePhotoUrl ?? null);
+  
+  // State untuk mengontrol pembukaan modal riwayat pemesanan di mobile
+  const [isOrderHistoryOpen, setIsOrderHistoryOpen] = useState(false);
 
   const update = (patch: Partial<CatteryProfile>) => setProfile((prev) => ({ ...prev, ...patch }));
 
@@ -192,7 +204,6 @@ export default function CatteryProfilePage() {
                       : "bg-[#FAFAFA] border-[#F0EBE5]"
                   }`}
                 >
-                  {/* Style Icon & Card: Terang (Sudah Diikuti) vs Pudar (Belum Diikuti) */}
                   {badge.isEarned ? (
                     <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFC299] to-[#EE6B28] shadow-[0_6px_16px_rgba(238,107,40,0.25)] flex items-center justify-center">
                       <RibbonBadgeIcon className="w-6 h-6 text-white" />
@@ -281,7 +292,12 @@ export default function CatteryProfilePage() {
             <span className="text-xs text-[#8c8074]"></span>
           </Link>
 
-          <Link href="/cattery/orders" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
+          {/* Mengubah Link menjadi button click handler untuk membuka slider riwayat pemesanan */}
+          <button
+            type="button"
+            onClick={() => setIsOrderHistoryOpen(true)}
+            className="w-full flex items-center justify-between p-4 hover:bg-[#faf7f2] transition text-left cursor-pointer"
+          >
             <div className="flex items-center gap-3">
               <div className="text-[var(--color-brand-orange-700)]/90">
                 <DashboardIcon name="payment" size={18} />
@@ -289,7 +305,7 @@ export default function CatteryProfilePage() {
               <span className="font-bold text-xs text-[#1a1513]">Riwayat pesanan</span>
             </div>
             <span className="text-xs text-[#8c8074]">3 pesanan</span>
-          </Link>
+          </button>
 
           <Link href="/cattery/settings" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
             <div className="flex items-center gap-3">
@@ -313,7 +329,17 @@ export default function CatteryProfilePage() {
       </div>
 
       {/* ========================================================= */}
-      {/* 2. TAMPILAN DESKTOP (Sama Sekali Tidak Diubah / Utuh)     */}
+      {/* SLIDER RIWAYAT PEMESANAN (KHUSUS MOBILE)                 */}
+      {/* ========================================================= */}
+      {isOrderHistoryOpen && (
+        <StoreOrderHistoryMobile
+          onClose={() => setIsOrderHistoryOpen(false)}
+          formatRupiah={formatRupiah}
+        />
+      )}
+
+      {/* ========================================================= */}
+      {/* 2. TAMPILAN DESKTOP                                       */}
       {/* ========================================================= */}
       <main className="hidden lg:block p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto">
         <div className="space-y-1">

@@ -82,7 +82,8 @@ export default function SavedDraftsCard() {
       missingFields: "Melengkapi data form dan konfirmasi akhir",
       draftUrl: `/cattery/mating-reports?draft=${draft.id}`,
     };
-  });
+  })
+  .slice(0, 2); //batasi 2 draft
 
   if (displayDrafts.length === 0) return null;
 

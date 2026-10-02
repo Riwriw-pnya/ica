@@ -12,7 +12,7 @@ import type {
 } from "@/types/cattery";
 import { PedigreeChart } from "./PedigreeChart";
 import { EventHistoryList } from "./EventHistoryList";
-import { HealthHistoryTab } from "./HealthHistoryTab";
+import { HealthHistoryTab, ExtendedCatHealthVaccine } from "./HealthHistoryTab";
 import { useToast } from "@/context/ToastContext";
 import { StatusBadge } from "./StatusBadge";
 import {
@@ -60,15 +60,20 @@ export function CatDetailTabs({
   const [active, setActive] = useState<TabKey>("profile");
 
   const initialData = cat.id % 2 === 0 ? dummyVaccinesIncomplete : dummyVaccinesComplete;
-  const [vaccineList, setVaccineList] = useState<CatHealthVaccine[]>(
-    healthVaccines.length > 0 ? healthVaccines : initialData
+  const [vaccineList, setVaccineList] = useState<ExtendedCatHealthVaccine[]>(
+    (cat.id % 2 === 0 ? dummyVaccinesIncomplete : dummyVaccinesComplete) as ExtendedCatHealthVaccine[]
   );
 
-  const handleScheduleVaccine = (vaccineTitle: string, newDateString: string, clinicName: string) => {
-    setVaccineList((prev) =>
-      prev.map((v) => {
-        if (v.title === vaccineTitle) {
-          return { ...v, status: "Sudah", givenDate: newDateString, clinic: clinicName };
+  const handleScheduleVaccine = (title: string, date: string, clinic: string) => {
+    setVaccineList((prevVaccines) =>
+      prevVaccines.map((v) => {
+        if (v.title === title || v.title.toLowerCase().includes(title.toLowerCase())) {
+          return {
+            ...v,
+            status: "Terjadwal",
+            givenDate: date,
+            clinic: `${clinic} · via Pelihara`,
+          };
         }
         return v;
       })

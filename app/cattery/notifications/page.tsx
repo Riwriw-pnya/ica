@@ -1,166 +1,277 @@
 "use client";
 
-import React from "react";
+import { useState, useEffect } from "react";
+import { useRouter } from "next/navigation";
+
+interface NotificationItem {
+  id: number;
+  title: string;
+  desc: string;
+  time: string;
+  isUnread: boolean;
+  link: string;
+  category: "HARI INI" | "SEBELUMNYA";
+}
+
+const initialNotificationsData: NotificationItem[] = [
+  {
+    id: 1,
+    title: "MR-2026-0138 perlu revisi",
+    desc: "Admin ICA wilayah Bandung meminta sertifikat induk yang lebih jelas.",
+    time: "15 menit lalu",
+    isUnread: true,
+    link: "/cattery/mating-reports",
+    category: "HARI INI",
+  },
+  {
+    id: 2,
+    title: "Pesanan ICA-ST-2026-0902 dikirim",
+    desc: "SiCepat REG - resi 0023 8841 7720.",
+    time: "2 jam lalu",
+    isUnread: true,
+    link: "/cattery/orders",
+    category: "HARI INI",
+  },
+  {
+    id: 3,
+    title: "Vaksin Rabies Kirana belum diberikan",
+    desc: "Jadwal disarankan Okt 2026. Booking lewat Mitra Klinik Pelihara.",
+    time: "Kemarin · 08:00",
+    isUnread: true,
+    link: "/cattery/my-cats/1",
+    category: "SEBELUMNYA",
+  },
+  {
+    id: 4,
+    title: "Pendaftaran ICA Cat Show Bandung 2026 dibuka",
+    desc: "Kuota Cattery tersisa 2 slot.",
+    time: "23 Sep 2026",
+    isUnread: true,
+    link: "/cattery/event",
+    category: "SEBELUMNYA",
+  },
+  {
+    id: 5,
+    title: "MR-2026-0131 disetujui",
+    desc: "Pedigree 5 kitten diterbitkan admin ICA.",
+    time: "09 Agu 2026",
+    isUnread: false,
+    link: "/cattery/mating-reports",
+    category: "SEBELUMNYA",
+  },
+];
+
+const STORAGE_KEY = "cattery_notifications_state";
+
+function BellIcon({ className }: { className?: string }) {
+  return (
+    <svg
+      className={className || "w-5 h-5"}
+      fill="none"
+      viewBox="0 0 24 24"
+      stroke="currentColor"
+      strokeWidth={2}
+    >
+      <path
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+      />
+    </svg>
+  );
+}
 
 export default function NotificationsPage() {
-  
-  // Data dikelompokkan dan disesuaikan kombinasinya (Foto 1 Layout + Foto 2 Data)
-  const groupedNotifications = [
-    {
-      label: "HARI INI",
-      items: [
-        {
-          id: 1,
-          title: "MR-2026-0138 perlu revisi",
-          desc: "Admin ICA wilayah Bandung meminta sertifikat induk yang lebih jelas.",
-          time: "15 menit lalu",
-          badge: "Pengajuan",
-          badgeColors: "bg-blue-50 text-blue-600",
-          iconBg: "bg-blue-50 text-blue-500",
-          icon: (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          ),
-          action: "Status pengajuan",
-          isUnread: true,
-        },
-        {
-          id: 2,
-          title: "Pesanan ICA-ST-2026-0902 dikirim",
-          desc: "SiCepat REG - resi 0023 8841 7720.",
-          time: "2 jam lalu",
-          badge: "Pesanan",
-          badgeColors: "bg-emerald-50 text-emerald-600",
-          iconBg: "bg-emerald-50 text-emerald-500",
-          icon: (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
-            </svg>
-          ),
-          action: "Detail pesanan",
-          isUnread: true,
+  const router = useRouter();
+  const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotificationsData);
+  const [isAnimated, setIsAnimated] = useState(false);
+
+  // 1. CARA 2: Tunda 1 frame browser dengan requestAnimationFrame agar efek slide terdeteksi
+  useEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      setIsAnimated(true);
+    });
+    return () => cancelAnimationFrame(frame);
+  }, []);
+
+  // 2. Load state dari sessionStorage saat pertama kali halaman dimuat
+  useEffect(() => {
+    if (typeof window !== "undefined") {
+      const isPageRefreshed = performance.getEntriesByType("navigation").some(
+        (nav: any) => nav.type === "reload"
+      );
+
+      if (isPageRefreshed) {
+        sessionStorage.removeItem(STORAGE_KEY);
+        setNotifications(initialNotificationsData);
+      } else {
+        const savedData = sessionStorage.getItem(STORAGE_KEY);
+        if (savedData) {
+          try {
+            setNotifications(JSON.parse(savedData));
+          } catch {
+            setNotifications(initialNotificationsData);
+          }
         }
-      ]
-    },
-    {
-      label: "SEBELUMNYA",
-      items: [
-        {
-          id: 3,
-          title: "Vaksin Rabies Kirana belum diberikan",
-          desc: "Jadwal disarankan Okt 2026. Booking lewat Mitra Klinik Pelihara.",
-          time: "Kemarin · 08:00",
-          badge: "Kesehatan",
-          badgeColors: "bg-amber-50 text-amber-600",
-          iconBg: "bg-amber-50 text-amber-500",
-          icon: (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
-            </svg>
-          ),
-          action: "Jadwalkan",
-          isUnread: true,
-        },
-        {
-          id: 4,
-          title: "Pendaftaran ICA Cat Show Bandung 2026 dibuka",
-          desc: "Kuota Cattery tersisa 2 slot.",
-          time: "23 Sep 2026",
-          badge: "Event",
-          badgeColors: "bg-emerald-50 text-emerald-600",
-          iconBg: "bg-emerald-50 text-emerald-500",
-          icon: (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-            </svg>
-          ),
-          action: "Detail event",
-          isUnread: true,
-        },
-        {
-          id: 5,
-          title: "MR-2026-0131 disetujui",
-          desc: "Pedigree 5 kitten diterbitkan admin ICA.",
-          time: "09 Agu 2026",
-          badge: "Pengajuan",
-          badgeColors: "bg-blue-50 text-blue-600",
-          iconBg: "bg-blue-50 text-blue-500",
-          icon: (
-            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-            </svg>
-          ),
-          action: "Lihat pedigree",
-          isUnread: false,
-        }
-      ]
+      }
     }
-  ];
+  }, []);
+
+  const unreadCount = notifications.filter((n) => n.isUnread).length;
+
+  // 3. Efek slide-out sebelum pindah halaman
+  const handleItemClick = (id: number, link: string) => {
+    const updated = notifications.map((item) =>
+      item.id === id ? { ...item, isUnread: false } : item
+    );
+    setNotifications(updated);
+
+    if (typeof window !== "undefined") {
+      sessionStorage.setItem(STORAGE_KEY, JSON.stringify(updated));
+    }
+
+    // Geser balik ke kanan dulu, baru jalankan router.push
+    setIsAnimated(false);
+    setTimeout(() => {
+      router.push(link);
+    }, 300); // Samakan dengan durasi duration-300
+  };
+
+  const todayItems = notifications.filter((n) => n.category === "HARI INI");
+  const previousItems = notifications.filter((n) => n.category === "SEBELUMNYA");
 
   return (
-    <main className="min-h-screen bg-[#faf8f5] font-sans pb-24">
-      <div className="max-w-3xl mx-auto p-4 sm:p-6 lg:p-8">
-        
-        {groupedNotifications.map((group, gIndex) => (
-          <div key={gIndex} className="mb-6">
-            <h2 className="text-[11px] font-bold text-[#8C8074] uppercase tracking-wider mb-3 ml-1">
-              {group.label}
+    <div
+      className={`min-h-screen bg-[#F8F6F2] font-sans pb-24 pt-3 px-4 transition-transform duration-300 ease-out transform ${
+        isAnimated ? "translate-x-0" : "translate-x-full"
+      }`}
+    >
+      <main className="max-w-md mx-auto space-y-4">
+        {/* Header Summary */}
+        <div className="flex items-center justify-between px-1">
+          <span className="text-xs font-semibold text-[#8C8074]">
+            {unreadCount > 0 ? `${unreadCount} belum dibaca` : "Semua telah dibaca"}
+          </span>
+        </div>
+
+        {/* KELOMPOK HARI INI */}
+        {todayItems.length > 0 && (
+          <div className="space-y-2">
+            <h2 className="text-[10px] font-extrabold text-[#A09488] tracking-wider uppercase px-1">
+              HARI INI
             </h2>
-            
-            <div className="bg-white rounded-2xl border border-[#F5E6DA] shadow-xs overflow-hidden">
-              {group.items.map((item, index) => (
-                <div 
-                  key={item.id} 
-                  className={`p-4 flex gap-3 transition-colors hover:bg-slate-50 ${
-                    index < group.items.length - 1 ? 'border-b border-[#F5E6DA]' : ''
+
+            <div className="rounded-3xl border border-[#EEDFD5] shadow-2xs divide-y divide-[#EEDFD5] overflow-hidden bg-white">
+              {todayItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleItemClick(item.id, item.link)}
+                  className={`p-4 flex items-start gap-3.5 cursor-pointer transition-colors ${
+                    item.isUnread
+                      ? "bg-[#FFF8F2] hover:bg-[#FFF2E8]"
+                      : "bg-white hover:bg-[#FAF7F2]"
                   }`}
                 >
                   {/* Icon Box */}
-                  <div className={`w-10 h-10 rounded-xl flex items-center justify-center shrink-0 ${item.iconBg}`}>
-                    {item.icon}
+                  <div
+                    className={`h-10 w-10 rounded-2xl flex items-center justify-center border shrink-0 transition-colors ${
+                      item.isUnread
+                        ? "bg-[#FFF2E8] border-[#FCE3D2] text-[#F05A1B]"
+                        : "bg-[#FAF7F2] border-[#EEDFD5] text-[#8C8074]"
+                    }`}
+                  >
+                    <BellIcon className="w-5 h-5" />
                   </div>
-                  
+
                   {/* Text Content */}
-                  <div className="flex-1 min-w-0">
-                    <div className="flex justify-between items-start gap-2 mb-1">
-                      <h3 className={`font-bold text-[13px] leading-snug ${item.isUnread ? 'text-[#1a1513]' : 'text-[#6E6359]'}`}>
+                  <div className="flex-1 min-w-0 pr-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3
+                        className={`text-xs font-bold leading-tight ${
+                          item.isUnread ? "text-[#1A1513]" : "text-[#70665D]"
+                        }`}
+                      >
                         {item.title}
                       </h3>
-                      {/* Red Dot Unread Indicator */}
+
                       {item.isUnread && (
-                        <div className="w-2 h-2 rounded-full bg-[#F05A1B] shrink-0 mt-1"></div>
+                        <span className="h-2 w-2 rounded-full bg-[#F05A1B] shrink-0 mt-0.5" />
                       )}
                     </div>
-                    
-                    <p className="text-[11px] text-[#8c8074] leading-relaxed mb-3 pr-2">
+
+                    <p className="text-[11px] text-[#8C8074] leading-relaxed mt-1">
                       {item.desc}
                     </p>
-                    
-                    {/* Badge & Action Footer */}
-                    <div className="flex items-center justify-between mt-auto">
-                      <div className="flex items-center gap-2">
-                        <span className={`px-2 py-0.5 rounded-full text-[10px] font-semibold ${item.badgeColors}`}>
-                          {item.badge}
-                        </span>
-                        <span className="text-[10px] text-[#a89c91] font-medium">{item.time}</span>
-                      </div>
-                      
-                      <button className="text-[10px] font-bold text-[#F05A1B] flex items-center gap-0.5 hover:text-[#D95D1E] cursor-pointer">
-                        {item.action}
-                        <svg className="w-3 h-3" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
-                          <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
-                        </svg>
-                      </button>
-                    </div>
+
+                    <span className="inline-block text-[10px] text-[#A09488] font-medium mt-1.5">
+                      {item.time}
+                    </span>
                   </div>
                 </div>
               ))}
             </div>
           </div>
-        ))}
-        
-      </div>
-    </main>
+        )}
+
+        {/* KELOMPOK SEBELUMNYA */}
+        {previousItems.length > 0 && (
+          <div className="space-y-2 pt-2">
+            <h2 className="text-[10px] font-extrabold text-[#A09488] tracking-wider uppercase px-1">
+              SEBELUMNYA
+            </h2>
+
+            <div className="rounded-3xl border border-[#EEDFD5] shadow-2xs divide-y divide-[#EEDFD5] overflow-hidden bg-white">
+              {previousItems.map((item) => (
+                <div
+                  key={item.id}
+                  onClick={() => handleItemClick(item.id, item.link)}
+                  className={`p-4 flex items-start gap-3.5 cursor-pointer transition-colors ${
+                    item.isUnread
+                      ? "bg-[#FFF8F2] hover:bg-[#FFF2E8]"
+                      : "bg-white hover:bg-[#FAF7F2]"
+                  }`}
+                >
+                  {/* Icon Box */}
+                  <div
+                    className={`h-10 w-10 rounded-2xl flex items-center justify-center border shrink-0 transition-colors ${
+                      item.isUnread
+                        ? "bg-[#FFF2E8] border-[#FCE3D2] text-[#F05A1B]"
+                        : "bg-[#FAF7F2] border-[#EEDFD5] text-[#8C8074]"
+                    }`}
+                  >
+                    <BellIcon className="w-5 h-5" />
+                  </div>
+
+                  {/* Text Content */}
+                  <div className="flex-1 min-w-0 pr-1">
+                    <div className="flex items-start justify-between gap-2">
+                      <h3
+                        className={`text-xs font-bold leading-tight ${
+                          item.isUnread ? "text-[#1A1513]" : "text-[#70665D]"
+                        }`}
+                      >
+                        {item.title}
+                      </h3>
+
+                      {item.isUnread && (
+                        <span className="h-2 w-2 rounded-full bg-[#F05A1B] shrink-0 mt-0.5" />
+                      )}
+                    </div>
+
+                    <p className="text-[11px] text-[#8C8074] leading-relaxed mt-1">
+                      {item.desc}
+                    </p>
+
+                    <span className="inline-block text-[10px] text-[#A09488] font-medium mt-1.5">
+                      {item.time}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+      </main>
+    </div>
   );
 }

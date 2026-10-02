@@ -113,7 +113,7 @@ export default function EventMobile({
       isFull: true,
       quotaUmum: "12 / 60",
       quotaMember: "0 / 40",
-      quotaCattery: "3 / 30",
+      quotaCattery: "0 / 30",
       quotaSponsor: "2 / 8",
       description:
         "Penilaian juri FIFe khusus kelas kitten. Benching dibagi per ring kitten.",
@@ -259,9 +259,10 @@ export default function EventMobile({
           <div className="space-y-3 pt-1">
             {/* Box Keterangan Kuota */}
             <div className="rounded-2xl border border-[#FADEC9] bg-[#FFF8F2] p-3.5 text-xs text-[#857B72] leading-relaxed">
-              Kuota tiket dibagi per kategori peserta. Akun member hanya bisa
-              membeli dari kuota kategori{" "}
-              <span className="font-bold text-[#1F1B18]">Member</span>.
+              Kuota tiket dibagi per kategori peserta. Akun member / cattery
+              dapat membeli dari kuota kategori{" "}
+              <span className="font-bold text-[#1F1B18]">Member</span> atau{" "}
+              <span className="font-bold text-[#1F1B18]">Cattery</span>.
             </div>
 
             {/* Filter Kategori Horizontal */}
@@ -472,7 +473,7 @@ export default function EventMobile({
               </div>
 
               <p className="text-[10px] text-[#A09387]">
-                Tidak tersedia untuk akun member.
+                Khusus pendaftar tanpa keanggotaan ICA.
               </p>
             </div>
 
@@ -503,7 +504,7 @@ export default function EventMobile({
               </div>
 
               <p className="text-[10px] text-[#857B72]">
-                Kuota yang bisa Anda beli.
+                Kuota yang bisa Anda beli (Member / Cattery).
               </p>
             </div>
 
@@ -512,17 +513,29 @@ export default function EventMobile({
               <div className="flex justify-between text-xs">
                 <span className="font-bold text-[#1F1B18]">Cattery</span>
 
-                <span className="text-[#857B72] font-semibold">
+                <span
+                  className={`font-bold ${
+                    selectedEvent.isFull
+                      ? "text-[#DC2626]"
+                      : "text-[#D96B27]"
+                  }`}
+                >
                   {selectedEvent.quotaCattery}
                 </span>
               </div>
 
               <div className="h-1.5 w-full bg-[#EAE5DF] rounded-full overflow-hidden">
-                <div className="h-full bg-[#857B72] w-1/12 rounded-full" />
+                <div
+                  className={`h-full rounded-full transition-all duration-300 ${
+                    selectedEvent.isFull
+                      ? "bg-[#DC2626] w-full"
+                      : "bg-[#D96B27] w-1/12"
+                  }`}
+                />
               </div>
 
-              <p className="text-[10px] text-[#A09387]">
-                Tidak tersedia untuk akun member.
+              <p className="text-[10px] text-[#DC2626] font-medium">
+                Kuota kategori Cattery telah habis.
               </p>
             </div>
 
@@ -541,7 +554,7 @@ export default function EventMobile({
               </div>
 
               <p className="text-[10px] text-[#A09387]">
-                Tidak tersedia untuk akun member.
+                Khusus pihak sponsor / mitra resmi.
               </p>
             </div>
           </div>
@@ -559,7 +572,7 @@ export default function EventMobile({
 
           {selectedEvent.isFull && (
             <div className="rounded-2xl bg-[#FEF2F2] p-4 border border-[#FECACA] text-xs text-[#DC2626] leading-relaxed">
-              Kuota kategori Member untuk event ini penuh. Slot bisa terbuka
+              Kuota kategori Member / Cattery untuk event ini penuh. Slot bisa terbuka
               lagi kalau ada peserta yang gagal membayar sebelum batas waktu.
             </div>
           )}

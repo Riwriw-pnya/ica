@@ -18,7 +18,7 @@ import StepReviewSubmit from "./components/StepReviewSubmit";
 import { CatCertificateFile, OffspringItem } from "@/types/cattery";
 
 const stepTitles = ["Data Cattery", "Pilih Pejantan", "Pilih Induk", "Mating Information", "Add Offspring", "Upload Dokumen", "Review & Submit"];
-const LOCAL_STORAGE_KEY = "mating_report_form_persistent_data";
+const SESSION_STORAGE_KEY = "mating_report_form_persistent_data";
 
 function MatingReportsForm() {
   const { showToast } = useToast();
@@ -49,12 +49,12 @@ function MatingReportsForm() {
 
   const hasLoadedData = useRef(false);
 
-  // 1. LOAD DATA DARI LOCAL STORAGE ATAU DRAFT
+/// 1. LOAD DATA DARI SESSION STORAGE ATAU DRAFT
   useEffect(() => {
     if (hasLoadedData.current) return;
     hasLoadedData.current = true;
 
-    // Jika ada ID Draft di URL (?draft=...), utamakan load dari Draft Context
+    // A. Jika ada ID Draft di URL (?draft=...), utamakan load dari Draft Context
     if (draftId) {
       const draft = getDraft(draftId);
       if (!draft) {
@@ -76,10 +76,44 @@ function MatingReportsForm() {
       return;
     }
 
-    // Jika KLIK "+ DRAFT BARU" (Tidak ada parameter ?draft=...)
-    // Reset cache localStorage lama dan buat form benar-benar bersih dari awal
+    // B. Cek apakah pengguna melakukan REFRESH (Reload Page / F5)
+    const isPageReloaded =
+      typeof window !== "undefined" &&
+      performance.getEntriesByType("navigation").some(
+        (nav: any) => nav.type === "reload"
+      );
+
+    // C. HANYA load dari sessionStorage JIKA HALAMAN DI-REFRESH
+    if (isPageReloaded && typeof window !== "undefined") {
+      const savedForm = sessionStorage.getItem(SESSION_STORAGE_KEY);
+      if (savedForm) {
+        try {
+          const parsed = JSON.parse(savedForm);
+          if (parsed) {
+            if (parsed.currentStep) setCurrentStep(parsed.currentStep);
+            if (parsed.selectedMaleId !== undefined) setSelectedMaleId(parsed.selectedMaleId);
+            if (parsed.selectedFemaleId !== undefined) setSelectedFemaleId(parsed.selectedFemaleId);
+            if (parsed.matingDate) setMatingDate(parsed.matingDate);
+            if (parsed.estimatedBirthDate) setEstimatedBirthDate(parsed.estimatedBirthDate);
+            if (parsed.isEstimateAuto !== undefined) setIsEstimateAuto(parsed.isEstimateAuto);
+            if (parsed.witnessName) setWitnessName(parsed.witnessName);
+            if (parsed.offspringItems) setOffspringItems(parsed.offspringItems);
+            if (parsed.matingPhoto) setMatingPhoto(parsed.matingPhoto);
+            if (parsed.kittenPhotos) setKittenPhotos(parsed.kittenPhotos);
+            if (parsed.vetLetter) setVetLetter(parsed.vetLetter);
+            if (parsed.paymentProof) setPaymentProof(parsed.paymentProof);
+            return; // Berhasil dipulihkan dari refresh
+          }
+        } catch (e) {
+          console.error("Gagal membaca cache form:", e);
+        }
+      }
+    }
+
+    // D. JIKA DATANG DARI MENU LAIN (Bukan Refresh & Bukan Draft)
+    // Bersihkan sessionStorage dan reset form ke Step awal
     if (typeof window !== "undefined") {
-      localStorage.removeItem(LOCAL_STORAGE_KEY);
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
     }
 
     setActiveDraftId(undefined);
@@ -99,7 +133,7 @@ function MatingReportsForm() {
     setCurrentStep(typeof window !== "undefined" && window.innerWidth < 768 ? 2 : 1);
   }, [draftId, getDraft, showToast]);
 
-  // 2. OTOMATIS SIMPAN KE LOCAL STORAGE SETIAP KALI STATE BERUBAH
+// 2. OTOMATIS SIMPAN KE SESSION STORAGE SETIAP KALI STATE BERUBAH
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -118,7 +152,7 @@ function MatingReportsForm() {
       paymentProof,
     };
 
-    localStorage.setItem(LOCAL_STORAGE_KEY, JSON.stringify(formData));
+    sessionStorage.setItem(SESSION_STORAGE_KEY, JSON.stringify(formData));
   }, [
     currentStep,
     selectedMaleId,
@@ -382,7 +416,7 @@ function MatingReportsForm() {
                 onSubmit={async () => {
                   const code = `MR-2026-${Math.floor(1000 + Math.random() * 9000)}`;
                   if (typeof window !== "undefined") {
-                    localStorage.removeItem(LOCAL_STORAGE_KEY);
+                    sessionStorage.removeItem(SESSION_STORAGE_KEY);
                   }
                   router.push(`/cattery/mating-reports/success?code=${code}`);
                   return code;

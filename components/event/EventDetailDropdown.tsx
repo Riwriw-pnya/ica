@@ -147,7 +147,7 @@ export default function EventDetailDropdown({
     );
   }
 
-  // Event 2: ICA Kitten Fest Jakarta (Kuota Cattery Penuh)
+  // Event 2: ICA Kitten Fest Jakarta (Kuota Member & Cattery Penuh)
   if (eventId === "2") {
     return (
       <div className="mt-4 pt-4 border-t border-[#F5EBE2] space-y-5 animate-fadeIn">
@@ -191,7 +191,7 @@ export default function EventDetailDropdown({
             Kuota per kategori peserta
           </h4>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {/* Umum */}
+            {/* Umum (12 / 60 -> 20%) */}
             <div className="p-3 rounded-xl bg-[#FAF7F5] border border-[#EEDFD5]">
               <div className="flex justify-between items-center mb-1">
                 <span className="font-bold text-xs text-[#1A1513]">Umum</span>
@@ -201,31 +201,31 @@ export default function EventDetailDropdown({
               </div>
               <div className="w-full bg-[#EEDFD5] h-1.5 rounded-full overflow-hidden my-2">
                 <div
-                  className="bg-[#C26D0A] h-full rounded-full"
-                  style={{ width: "60%" }}
+                  className="bg-[#28844B] h-full rounded-full transition-all duration-300"
+                  style={{ width: "20%" }}
                 />
               </div>
               <p className="text-[10px] text-[#8C8074]">Non-member, bayar penuh</p>
             </div>
 
-            {/* Member */}
-            <div className="p-3 rounded-xl bg-[#FAF7F5] border border-[#EEDFD5]">
+            {/* Member (0 / 40 -> Kuota Penuh) */}
+            <div className="p-3 rounded-xl bg-[#FFF5F5] border border-[#FCD2D2]">
               <div className="flex justify-between items-center mb-1">
                 <span className="font-bold text-xs text-[#1A1513]">Member</span>
-                <span className="text-[10px] font-bold text-[#28844B] bg-[#EAF6ED] px-2 py-0.5 rounded-md">
-                  4 slot tersisa
+                <span className="text-[10px] font-bold text-[#DC2626] bg-[#FEE2E2] px-2 py-0.5 rounded-md">
+                  Kuota penuh
                 </span>
               </div>
-              <div className="w-full bg-[#EEDFD5] h-1.5 rounded-full overflow-hidden my-2">
+              <div className="w-full bg-[#FEE2E2] h-1.5 rounded-full overflow-hidden my-2">
                 <div
-                  className="bg-[#C26D0A] h-full rounded-full"
-                  style={{ width: "30%" }}
+                  className="bg-[#DC2626] h-full rounded-full transition-all duration-300"
+                  style={{ width: "100%" }}
                 />
               </div>
-              <p className="text-[10px] text-[#8C8074]">Butuh keanggotaan aktif</p>
+              <p className="text-[10px] text-[#DC2626]">Butuh keanggotaan aktif</p>
             </div>
 
-            {/* Cattery (Kuota Penuh) */}
+            {/* Cattery (0 / 30 -> Kuota Penuh) */}
             <div className="p-3 rounded-xl bg-[#FFF5F5] border border-[#FCD2D2]">
               <div className="flex justify-between items-center mb-1">
                 <span className="font-bold text-xs text-[#1A1513]">Cattery</span>
@@ -235,16 +235,16 @@ export default function EventDetailDropdown({
               </div>
               <div className="w-full bg-[#FEE2E2] h-1.5 rounded-full overflow-hidden my-2">
                 <div
-                  className="bg-[#DC2626] h-full rounded-full"
+                  className="bg-[#DC2626] h-full rounded-full transition-all duration-300"
                   style={{ width: "100%" }}
                 />
               </div>
-              <p className="text-[10px] text-[#8C8074]">
-                Kategori akun Anda · bisa dibeli
+              <p className="text-[10px] text-[#DC2626]">
+                Kategori akun Anda · penuh
               </p>
             </div>
 
-            {/* Sponsor */}
+            {/* Sponsor (2 / 8 -> 25%) */}
             <div className="p-3 rounded-xl bg-[#FAF7F5] border border-[#EEDFD5]">
               <div className="flex justify-between items-center mb-1">
                 <span className="font-bold text-xs text-[#1A1513]">
@@ -256,8 +256,8 @@ export default function EventDetailDropdown({
               </div>
               <div className="w-full bg-[#EEDFD5] h-1.5 rounded-full overflow-hidden my-2">
                 <div
-                  className="bg-[#28844B] h-full rounded-full"
-                  style={{ width: "80%" }}
+                  className="bg-[#28844B] h-full rounded-full transition-all duration-300"
+                  style={{ width: "25%" }}
                 />
               </div>
               <p className="text-[10px] text-[#8C8074]">
@@ -269,7 +269,7 @@ export default function EventDetailDropdown({
 
         {/* Notice Box Kuota Penuh */}
         <div className="p-3.5 rounded-xl bg-[#FFF2F2] border border-[#FCD2D2] text-xs text-[#B91C1C] leading-relaxed">
-          Maaf, kuota kategori Cattery untuk event ini baru saja penuh. Slot bisa
+          Maaf, kuota kategori Member & Cattery untuk event ini baru saja penuh. Slot bisa
           terbuka lagi kalau ada peserta yang gagal membayar sebelum batas waktu —
           pantau halaman ini.
         </div>
@@ -423,4 +423,4 @@ export default function EventDetailDropdown({
       </div>
     </div>
   );
-}   
+}

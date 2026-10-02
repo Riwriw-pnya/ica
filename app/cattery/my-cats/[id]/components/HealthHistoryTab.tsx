@@ -4,7 +4,7 @@ import { useState, useRef, ChangeEvent } from "react";
 import type { CatHealthVaccine } from "@/types/cattery";
 import { useToast } from "@/context/ToastContext";
 
-export type ExtendedVaccineStatus = "Sudah" | "Belum" | "Menunggu verifikasi";
+export type ExtendedVaccineStatus = "Sudah" | "Belum" | "Terjadwal";
 
 export interface ExtendedCatHealthVaccine extends Omit<CatHealthVaccine, "status"> {
   status: ExtendedVaccineStatus;
@@ -35,21 +35,61 @@ function SyringeIcon({ className }: { className?: string }) {
 export function HealthHistoryTab({ 
   catName, 
   catRegCode, 
-  vaccines, 
+  vaccines: initialVaccines, 
   onSchedule, 
   onAddManual 
 }: HealthHistoryTabProps) {
+  const { showToast } = useToast();
+  
+  const [vaccineList, setVaccineList] = useState<ExtendedCatHealthVaccine[]>(initialVaccines);
   const [isManualModalOpen, setIsManualModalOpen] = useState(false);
   const [isBookingModalOpen, setIsBookingModalOpen] = useState(false);
   const [selectedVaccineTitle, setSelectedVaccineTitle] = useState("FeLV");
 
-  const hasBelumVaccine = vaccines.some((v) => v.status === "Belum");
-  const sudahCount = vaccines.filter((v) => v.status === "Sudah").length;
-  const belumCount = vaccines.filter((v) => v.status === "Belum").length;
+  const hasBelumVaccine = vaccineList.some((v) => v.status === "Belum");
+  const hasTerjadwalVaccine = vaccineList.some((v) => v.status === "Terjadwal");
+
+  const sudahCount = vaccineList.filter((v) => v.status === "Sudah").length;
+  const belumCount = vaccineList.filter((v) => v.status === "Belum").length;
+  const terjadwalCount = vaccineList.filter((v) => v.status === "Terjadwal").length;
 
   const handleOpenBooking = (title: string = "FeLV") => {
     setSelectedVaccineTitle(title);
     setIsBookingModalOpen(true);
+  };
+
+  const handleBookingConfirm = (clinicName: string, dateStr: string) => {
+    setVaccineList((prev) =>
+      prev.map((v) => {
+        if (v.title === selectedVaccineTitle || v.title.toLowerCase().includes(selectedVaccineTitle.toLowerCase())) {
+          return {
+            ...v,
+            status: "Terjadwal",
+            givenDate: dateStr,
+            clinic: clinicName,
+          };
+        }
+        return v;
+      })
+    );
+    onSchedule(selectedVaccineTitle, dateStr, clinicName);
+  };
+
+  const handleSimulateVaccineGiven = () => {
+    setVaccineList((prev) =>
+      prev.map((v) => {
+        if (v.status === "Terjadwal") {
+          return {
+            ...v,
+            status: "Sudah",
+            clinic: v.clinic ? `${v.clinic} · tercatat via Pelihara` : "Klinik Mitra Satwa Bandung · tercatat via Pelihara",
+          };
+        }
+        return v;
+      })
+    );
+
+    showToast("Simulasi Berhasil", "Status vaksin terjadwal telah diperbarui menjadi Sudah.", { tone: "success" });
   };
 
   return (
@@ -76,15 +116,15 @@ export function HealthHistoryTab({
           </div>
 
           <div className="space-y-2.5 pt-1">
-            {vaccines.map((item) => {
+            {vaccineList.map((item) => {
               const isBelum = item.status === "Belum";
-              const isPending = item.status === "Menunggu verifikasi";
+              const isScheduled = item.status === "Terjadwal";
 
               return (
                 <div
                   key={item.id}
                   className={`flex items-center justify-between rounded-xl border p-3 ${
-                    isPending
+                    isScheduled
                       ? "border-[#E1EEF5] bg-[#F2F7FA]"
                       : isBelum
                       ? "border-[#FCE3D2] bg-[#FFFBF7]"
@@ -94,7 +134,7 @@ export function HealthHistoryTab({
                   <div className="flex items-center gap-3">
                     <div
                       className={`flex h-10 w-10 items-center justify-center rounded-xl shrink-0 ${
-                        isPending
+                        isScheduled
                           ? "bg-[#E3F0F8] text-[#2B79A1]"
                           : isBelum
                           ? "bg-[#FCF3E3] text-[#B57A25]"
@@ -107,8 +147,8 @@ export function HealthHistoryTab({
                     <div>
                       <p className="text-xs font-bold text-[#1A1513]">{item.title}</p>
                       <p className="text-[10px] text-[#8C8074] leading-tight mt-0.5">
-                        {isPending
-                          ? `Input manual · ${item.givenDate} · ${item.clinic}`
+                        {isScheduled
+                          ? `Booking Pelihara · ${item.givenDate} · ${item.clinic || "Klinik Mitra Satwa Bandung"}`
                           : isBelum
                           ? `Belum diberikan · ${item.givenDate}`
                           : `Diberikan ${item.givenDate} · ${item.clinic}`}
@@ -116,9 +156,9 @@ export function HealthHistoryTab({
                     </div>
                   </div>
 
-                  {isPending ? (
-                    <span className="rounded-full bg-[#EBF5FB] border border-[#D4E8F5] px-2.5 py-0.5 text-[10px] font-semibold text-[#2979A3] shrink-0 shadow-2xs">
-                      Menunggu verifikasi
+                  {isScheduled ? (
+                    <span className="rounded-full bg-[#EBF5FB] border border-[#D4E8F5] px-3 py-1 text-[10px] font-semibold text-[#2979A3] shrink-0 shadow-2xs">
+                      Terjadwal
                     </span>
                   ) : (
                     <span className="rounded-full bg-white border border-[#EEDFD5] px-3 py-1 text-[10px] font-semibold text-[#1A1513] shrink-0 shadow-2xs">
@@ -129,6 +169,21 @@ export function HealthHistoryTab({
               );
             })}
           </div>
+
+          {hasTerjadwalVaccine && (
+            <div className="pt-2 border-t border-dashed border-[#EEDFD5] flex items-center justify-between gap-2">
+              <span className="text-[10px] text-[#8C8074]">
+                Demo: data dari klinik Pelihara
+              </span>
+              <button
+                type="button"
+                onClick={handleSimulateVaccineGiven}
+                className="rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-[11px] font-bold text-[#1A1513] hover:bg-[#FAF7F2] transition shadow-2xs cursor-pointer active:scale-95"
+              >
+                Simulasi vaksin diberikan
+              </button>
+            </div>
+          )}
         </div>
 
         {hasBelumVaccine ? (
@@ -172,12 +227,16 @@ export function HealthHistoryTab({
       {/* 2. TAMPILAN DESKTOP VIEW */}
       <div className="hidden lg:block space-y-4">
         <div className="rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
+          
+          {/* Header Ringkas */}
           <div className="flex items-center justify-between">
             <div>
               <h3 className="text-base font-bold text-slate-800">Riwayat kesehatan</h3>
               <p className="text-xs text-slate-500">Status vaksinasi {catName}.</p>
             </div>
-            <div className="flex items-center gap-2">
+
+            {/* Badges Counter Status */}
+            <div className="flex items-center gap-1.5">
               {sudahCount > 0 && (
                 <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-600 border border-emerald-200">
                   {sudahCount} sudah
@@ -188,13 +247,19 @@ export function HealthHistoryTab({
                   {belumCount} belum
                 </span>
               )}
+              {terjadwalCount > 0 && (
+                <span className="rounded-full bg-[#EBF5FB] px-3 py-1 text-[11px] font-semibold text-[#2979A3] border border-[#D4E8F5]">
+                  {terjadwalCount} terjadwal
+                </span>
+              )}
             </div>
           </div>
 
+          {/* List Baris Vaksin */}
           <div className="space-y-3">
-            {vaccines.map((item) => {
+            {vaccineList.map((item) => {
               const isBelum = item.status === "Belum";
-              const isPending = item.status === "Menunggu verifikasi";
+              const isScheduled = item.status === "Terjadwal";
 
               return (
                 <div 
@@ -204,7 +269,7 @@ export function HealthHistoryTab({
                   <div className="flex items-center gap-3.5">
                     <div
                       className={`flex h-11 w-11 items-center justify-center rounded-2xl shrink-0 ${
-                        isPending
+                        isScheduled
                           ? "bg-[#E3F0F8] text-[#2B79A1]"
                           : isBelum
                           ? "bg-[#FCF3E3] text-[#B57A25]"
@@ -216,8 +281,8 @@ export function HealthHistoryTab({
                     <div>
                       <p className="text-xs font-bold text-[#1A1513]">{item.title}</p>
                       <p className="text-[11px] text-[#8C8074] mt-0.5">
-                        {isPending
-                          ? `Input manual · ${item.givenDate} · ${item.clinic}`
+                        {isScheduled
+                          ? `${item.givenDate} · ${item.clinic || "Pelihara Vet Clinic Dago"} · via Pelihara`
                           : isBelum
                           ? `Belum diberikan · ${item.givenDate}`
                           : `Diberikan ${item.givenDate} · ${item.clinic}`}
@@ -230,9 +295,9 @@ export function HealthHistoryTab({
                       <span className="text-[11px] font-medium text-emerald-600">Sudah</span>
                     )}
 
-                    {isPending && (
+                    {isScheduled && (
                       <span className="rounded-full bg-[#EBF5FB] border border-[#D4E8F5] px-3 py-1 text-[11px] font-medium text-[#2979A3]">
-                        Menunggu verifikasi
+                        Terjadwal
                       </span>
                     )}
                     
@@ -256,6 +321,51 @@ export function HealthHistoryTab({
             })}
           </div>
 
+          {/* BOTTOM ACTIONS CONTAINER */}
+          <div className="space-y-3 pt-2 border-t border-dashed border-[#EEDFD5]">
+            
+            {/* 1. Baris Utama Aksi User */}
+            <div className="flex items-center justify-between">
+              <span className="text-xs text-[#8C8074]" />
+
+              <div className="flex items-center gap-2">
+                <button
+                  type="button"
+                  onClick={() => handleOpenBooking()}
+                  className="rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-4 py-1.5 text-[11px] font-bold text-white shadow-xs hover:opacity-95 transition cursor-pointer active:scale-95"
+                >
+                  Booking Mitra Klinik
+                </button>
+
+                <button
+                  type="button"
+                  onClick={() => setIsManualModalOpen(true)}
+                  className="rounded-full border border-[#EEDFD5] bg-white px-4 py-1.5 text-[11px] font-bold text-[#1A1513] hover:bg-[#FAF7F2] transition shadow-2xs cursor-pointer active:scale-95"
+                >
+                  + Tambah Manual
+                </button>
+              </div>
+            </div>
+
+            {/* 2. Baris Khusus Simulasi Demo (Hanya Muncul Jika Ada Vaksin Terjadwal) */}
+            {hasTerjadwalVaccine && (
+              <div className="flex items-center justify-between rounded-xl bg-slate-50 px-3.5 py-2 border border-slate-100">
+                <span className="text-[11px] text-slate-500 italic">
+                  Demo: data dari klinik Pelihara
+                </span>
+                
+                <button
+                  type="button"
+                  onClick={handleSimulateVaccineGiven}
+                  className="rounded-lg border border-slate-200 bg-white px-3 py-1 text-[11px] font-semibold text-slate-700 hover:bg-slate-100 transition shadow-2xs cursor-pointer active:scale-95"
+                >
+                  Simulasi vaksin diberikan
+                </button>
+              </div>
+            )}
+          </div>
+
+          {/* Banner Info Pelihara */}
           <div className="rounded-xl border border-slate-100 bg-slate-50/70 p-3.5 flex items-start gap-3">
             <span className="rounded border border-sky-200 bg-sky-50 px-2 py-0.5 text-[11px] font-bold text-sky-600 shrink-0">
               Pelihara
@@ -264,6 +374,7 @@ export function HealthHistoryTab({
               Vaksin berstatus Belum dapat langsung dijadwalkan di Mitra Klinik Pelihara. Data vaksin tercatat otomatis setelah kunjungan selesai.
             </p>
           </div>
+
         </div>
       </div>
 
@@ -273,13 +384,11 @@ export function HealthHistoryTab({
           catName={catName} 
           vaccineName={selectedVaccineTitle} 
           onClose={() => setIsBookingModalOpen(false)} 
-          onConfirm={(clinicName, dateStr) => {
-             onSchedule(selectedVaccineTitle, dateStr, clinicName);
-          }}
+          onConfirm={handleBookingConfirm}
         />
       )}
 
-      {/* Bottom Sheet Modal Tambah Data Vaksin Manual */}
+      {/* Modal Tambah Data Vaksin Manual */}
       {isManualModalOpen && (
         <ManualVaccineModal
           catName={catName}
@@ -295,7 +404,7 @@ export function HealthHistoryTab({
   );
 }
 
-{/* Modal Booking Vaksin Mitra Klinik (Mobile Bottom Sheet & Desktop Modal) */}
+{/* Modal Booking Vaksin Mitra Klinik */}
 function BookingVaccineModal({ 
   catName, 
   vaccineName, 
@@ -308,189 +417,205 @@ function BookingVaccineModal({
   onConfirm: (clinic: string, date: string) => void;
 }) {
   const { showToast } = useToast();
-  const [selectedClinic, setSelectedClinic] = useState("1");
+  
+  const [selectedClinic, setSelectedClinic] = useState<string | null>(null);
+  const [selectedDate, setSelectedDate] = useState<string>("");
+  const [selectedTime, setSelectedTime] = useState<string>("");
+
+  const [manualDate, setManualDate] = useState<string>("");
+  const [manualTime, setManualTime] = useState<string>("");
 
   const clinics = [
     { 
       id: "1", 
-      name: "Klinik Mitra Satwa Bandung", 
-      distance: "2,1 km", 
-      slot: "21 Sep 2026 09:00",
-      address: "Jl. Ir. H. Juanda No. 210, Coblong, Bandung"
+      name: "Pelihara Vet Clinic Dago", 
+      address: "Jl. Ir. H. Juanda No. 210, Coblong, Bandung",
+      distance: "2,1km"
     },
     { 
       id: "2", 
-      name: "Klinik Hewan Dago", 
-      distance: "4,8 km", 
-      slot: "22 Sep 2026 13:30",
-      address: "Jl. Dr. Setiabudi No. 88, Sukasari, Bandung"
+      name: "Pelihara Pet Care Setiabudi", 
+      address: "Jl. Dr. Setiabudi No. 88, Sukasari, Bandung",
+      distance: "3,4km"
     },
     { 
       id: "3", 
-      name: "Pelihara Vet Care Buah Batu", 
-      distance: "6,3 km", 
-      slot: "24 Sep 2026 10:00",
-      address: "Jl. Buah Batu No. 145, Lengkong, Bandung"
+      name: "Klinik Mitra Pelihara Buah Batu", 
+      address: "Jl. Buah Batu No. 145, Lengkong, Bandung",
+      distance: "4,8km"
     },
   ];
 
+  const dates = ["Sen, 28 Sep", "Sel, 29 Sep", "Rabu, 30 Sep", "Kam, 1 Okt", "Jum, 2 Okt"];
+  const times = ["09.00", "10.30", "13.00", "14.30", "16.00"];
+
+  const finalDate = manualDate ? manualDate : selectedDate;
+  const finalTime = manualTime ? manualTime : selectedTime;
+
   const handleConfirm = () => {
+    if (!selectedClinic) {
+      showToast("Peringatan", "Silakan pilih klinik terlebih dahulu.", { tone: "error" });
+      return;
+    }
+
+    if (!finalDate || !finalTime) {
+      showToast("Peringatan", "Silakan pilih atau isi tanggal dan jam kunjungan.", { tone: "error" });
+      return;
+    }
+
     const clinicObj = clinics.find((c) => c.id === selectedClinic);
     if (!clinicObj) return;
 
-    onConfirm(clinicObj.name, clinicObj.slot);
+    onConfirm(clinicObj.name, `${finalDate} · ${finalTime}`);
     showToast(
-      "Booking vaksin terkonfirmasi",
-      `${vaccineName} · ${clinicObj.name}, ${clinicObj.slot}.`,
+      "Konfirmasi Booking",
+      `Booking ${vaccineName} di ${clinicObj.name} (${finalDate}, ${finalTime}) terkonfirmasi.`,
       { tone: "success" }
     );
     onClose();
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end lg:items-center justify-center bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
-      
-      {/* ========================================================= */}
-      {/* MOBILE BOTTOM SHEET (PRESISI FOTO ACUAN)                  */}
-      {/* ========================================================= */}
-      <div className="block lg:hidden w-full rounded-t-3xl bg-white p-5 space-y-4 shadow-2xl animate-in slide-in-from-bottom duration-300">
-        <div className="mx-auto h-1 w-10 rounded-full bg-[#EEDFD5]" />
-
-        <div>
-          <h3 className="text-base font-bold text-[#1A1513]">Booking Mitra Klinik</h3>
-          <p className="text-[11px] text-[#8C8074] mt-0.5">
-            Jadwal dibuat di Pelihara, riwayat vaksin terisi otomatis.
-          </p>
-        </div>
-
-        {/* List Pilihan Klinik */}
-        <div className="space-y-2.5 pt-1">
-          {clinics.map((clinic) => {
-            const isSelected = selectedClinic === clinic.id;
-
-            return (
-              <div
-                key={clinic.id}
-                onClick={() => setSelectedClinic(clinic.id)}
-                className={`flex items-center justify-between rounded-2xl border p-3.5 transition cursor-pointer ${
-                  isSelected
-                    ? "border-[#F05A1B] bg-[#FFFBF7]"
-                    : "border-[#EEDFD5] bg-[#FAF7F2]"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`h-5 w-5 rounded-full border flex items-center justify-center shrink-0 ${
-                    isSelected ? "border-[#F05A1B] bg-[#F05A1B]" : "border-[#EEDFD5] bg-white"
-                  }`}>
-                    {isSelected && <div className="h-2 w-2 rounded-full bg-white" />}
-                  </div>
-
-                  <div>
-                    <h4 className="text-xs font-bold text-[#1A1513]">{clinic.name}</h4>
-                    <p className="text-[10px] text-[#8C8074] mt-0.5">
-                      {clinic.distance} · slot terdekat {clinic.slot}
-                    </p>
-                  </div>
-                </div>
-
-                <button
-                  type="button"
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    setSelectedClinic(clinic.id);
-                  }}
-                  className={`rounded-xl px-3 py-1.5 text-xs font-bold transition cursor-pointer shrink-0 ${
-                    isSelected
-                      ? "border border-[#F05A1B] bg-white text-[#F05A1B]"
-                      : "border border-[#EEDFD5] bg-white text-[#1A1513]"
-                  }`}
-                >
-                  Pilih
-                </button>
-              </div>
-            );
-          })}
-        </div>
-
-        {/* Action Buttons Mobile */}
-        <div className="space-y-2 pt-2">
-          <button
-            type="button"
-            onClick={handleConfirm}
-            className="w-full rounded-xl bg-gradient-to-b from-[#FFC299] to-[#F05A1B] py-3 text-xs font-bold text-white shadow-2xs active:scale-[0.98] transition cursor-pointer"
-          >
-            Buka Booking di Pelihara
-          </button>
-
-          <button
-            type="button"
-            onClick={onClose}
-            className="w-full rounded-xl border border-[#EEDFD5] bg-white py-2.5 text-xs font-bold text-[#1A1513] active:scale-[0.98] transition shadow-2xs cursor-pointer"
-          >
-            Batal
-          </button>
-        </div>
-      </div>
-
-      {/* ========================================================= */}
-      {/* DESKTOP MODAL VIEW                                        */}
-      {/* ========================================================= */}
-      <div className="hidden lg:block w-full max-w-lg rounded-2xl bg-white p-6 shadow-xl space-y-5 animate-in zoom-in-95 duration-200">
+    <div className="fixed inset-0 z-[100] flex items-center justify-center bg-black/50 backdrop-blur-xs animate-in fade-in duration-200 p-4">
+      <div className="w-full max-w-lg rounded-3xl bg-white p-6 shadow-2xl space-y-4 animate-in zoom-in-95 duration-200 max-h-[90vh] overflow-y-auto">
+        
         <div className="flex items-start justify-between">
           <div>
             <div className="flex items-center gap-2">
-              <h3 className="text-lg font-bold text-slate-800">Booking vaksin</h3>
-              <span className="rounded bg-sky-50 px-2 py-0.5 text-[10px] font-semibold text-sky-600 border border-sky-100">
+              <h3 className="text-base font-bold text-[#1A1513]">Booking vaksin</h3>
+              <span className="rounded-full bg-[#EBF5FB] px-2.5 py-0.5 text-[10px] font-bold text-[#2979A3] border border-[#D4E8F5]">
                 Mitra Klinik Pelihara
               </span>
             </div>
-            <p className="text-xs text-slate-500 mt-0.5">
+            <p className="text-xs text-[#8C8074] mt-0.5">
               {vaccineName} - {catName}
             </p>
           </div>
           <button 
+            type="button"
             onClick={onClose}
-            className="text-slate-400 hover:text-slate-600 p-1 text-lg font-bold cursor-pointer"
+            className="text-[#8C8074] hover:text-[#1A1513] p-1 text-base font-bold cursor-pointer"
           >
             ✕
           </button>
         </div>
 
-        <div className="space-y-2">
-          <label className="text-xs font-semibold text-slate-700">Pilih klinik</label>
+        <div className="space-y-1.5">
+          <label className="text-xs font-bold text-[#1A1513]">Pilih klinik</label>
           <div className="space-y-2">
-            {clinics.map((clinic) => (
-              <label 
-                key={clinic.id}
-                onClick={() => setSelectedClinic(clinic.id)}
-                className={`flex items-center justify-between rounded-xl border p-3 cursor-pointer transition-all ${
-                  selectedClinic === clinic.id 
-                    ? "border-orange-500 bg-orange-50/30 ring-1 ring-orange-500" 
-                    : "border-slate-200 hover:border-slate-300"
-                }`}
-              >
-                <div className="flex items-center gap-3">
-                  <div className={`h-4 w-4 rounded-full border flex items-center justify-center ${
-                    selectedClinic === clinic.id ? "border-orange-600 bg-orange-600" : "border-slate-300"
-                  }`}>
-                    {selectedClinic === clinic.id && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
+            {clinics.map((clinic) => {
+              const isSelected = selectedClinic === clinic.id;
+              return (
+                <div 
+                  key={clinic.id}
+                  onClick={() => setSelectedClinic(clinic.id)}
+                  className={`flex items-center justify-between rounded-2xl border p-3 cursor-pointer transition ${
+                    isSelected 
+                      ? "border-[#F05A1B] bg-white ring-1 ring-[#F05A1B]" 
+                      : "border-[#EEDFD5] bg-white hover:border-[#F05A1B]"
+                  }`}
+                >
+                  <div className="flex items-center gap-3">
+                    <div className={`h-4 w-4 rounded-full border flex items-center justify-center shrink-0 ${
+                      isSelected ? "border-[#F05A1B] bg-[#F05A1B]" : "border-[#EEDFD5]"
+                    }`}>
+                      {isSelected && <div className="h-1.5 w-1.5 rounded-full bg-white" />}
+                    </div>
+                    <div>
+                      <p className="text-xs font-bold text-[#1A1513]">{clinic.name}</p>
+                      <p className="text-[10px] text-[#8C8074]">{clinic.address}</p>
+                    </div>
                   </div>
-                  <div>
-                    <p className="text-xs font-bold text-slate-800">{clinic.name}</p>
-                    <p className="text-[11px] text-slate-500">{clinic.address}</p>
-                  </div>
+                  <span className="text-[10px] font-medium text-[#8C8074] shrink-0">{clinic.distance}</span>
                 </div>
-                <span className="text-[11px] text-slate-400 shrink-0">{clinic.distance}</span>
-              </label>
-            ))}
+              );
+            })}
           </div>
         </div>
 
-        <div className="flex items-center justify-end gap-3 pt-2 border-t border-slate-100">
+        <div className="space-y-2 pt-1">
+          <label className="text-xs font-bold text-[#1A1513]">Tanggal Kunjungan</label>
+          <div className="flex flex-wrap gap-2">
+            {dates.map((d) => {
+              const isActive = selectedDate === d && !manualDate;
+              return (
+                <button
+                  key={d}
+                  type="button"
+                  onClick={() => {
+                    setSelectedDate(d);
+                    setManualDate("");
+                  }}
+                  className={`rounded-full px-3.5 py-1 text-xs font-semibold border transition cursor-pointer ${
+                    isActive
+                      ? "border-[#F05A1B] bg-[#FFF2E8] text-[#F05A1B] ring-1 ring-[#F05A1B]"
+                      : "border-[#EEDFD5] bg-white text-[#1A1513] hover:border-[#F05A1B]"
+                  }`}
+                >
+                  {d}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="pt-1">
+            <span className="text-[10px] text-[#8C8074]">Atau ketik/pilih tanggal manual:</span>
+            <input
+              type="date"
+              value={manualDate}
+              onChange={(e) => {
+                setManualDate(e.target.value);
+                setSelectedDate("");
+              }}
+              className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] focus:outline-none focus:border-[#F05A1B]"
+            />
+          </div>
+        </div>
+
+        <div className="space-y-2 pt-1">
+          <label className="text-xs font-bold text-[#1A1513]">Jam Kunjungan</label>
+          <div className="flex flex-wrap gap-2">
+            {times.map((t) => {
+              const isActive = selectedTime === t && !manualTime;
+              return (
+                <button
+                  key={t}
+                  type="button"
+                  onClick={() => {
+                    setSelectedTime(t);
+                    setManualTime("");
+                  }}
+                  className={`rounded-full px-4 py-1 text-xs font-semibold border transition cursor-pointer ${
+                    isActive
+                      ? "border-[#F05A1B] bg-[#FFF2E8] text-[#F05A1B] ring-1 ring-[#F05A1B]"
+                      : "border-[#EEDFD5] bg-white text-[#1A1513] hover:border-[#F05A1B]"
+                  }`}
+                >
+                  {t}
+                </button>
+              );
+            })}
+          </div>
+
+          <div className="pt-1">
+            <span className="text-[10px] text-[#8C8074]">Atau ketik/pilih jam manual:</span>
+            <input
+              type="time"
+              value={manualTime}
+              onChange={(e) => {
+                setManualTime(e.target.value);
+                setSelectedTime("");
+              }}
+              className="mt-1 w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-1.5 text-xs text-[#1A1513] focus:outline-none focus:border-[#F05A1B]"
+            />
+          </div>
+        </div>
+
+        <div className="flex items-center justify-end gap-2.5 pt-3 border-t border-[#F4EFE9]">
           <button
             type="button"
             onClick={onClose}
-            className="rounded-full border border-slate-200 px-5 py-2 text-xs font-semibold text-slate-600 hover:bg-slate-50 transition-colors cursor-pointer"
+            className="rounded-full border border-[#EEDFD5] px-5 py-2 text-xs font-bold text-[#1A1513] hover:bg-[#FAF7F2] transition cursor-pointer"
           >
             Batal
           </button>
@@ -498,18 +623,18 @@ function BookingVaccineModal({
           <button
             type="button"
             onClick={handleConfirm}
-            className="rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-semibold text-white shadow-xs hover:opacity-90 transition-all cursor-pointer"
+            className="rounded-full bg-gradient-to-b from-[#FFC299] to-[#F05A1B] px-6 py-2 text-xs font-bold text-white shadow-2xs hover:opacity-95 transition cursor-pointer active:scale-95"
           >
             Konfirmasi booking
           </button>
         </div>
-      </div>
 
+      </div>
     </div>
   );
 }
 
-{/* Bottom Sheet Modal Tambah Data Vaksin Manual */}
+{/* Modal Tambah Data Vaksin Manual */}
 function ManualVaccineModal({
   catName,
   catRegCode,
@@ -524,6 +649,7 @@ function ManualVaccineModal({
   const { showToast } = useToast();
   const [jenisVaksin, setJenisVaksin] = useState("");
   const [tanggalDiberikan, setTanggalDiberikan] = useState("");
+  const [jamDiberikan, setJamDiberikan] = useState("");
   const [boosterBerikutnya, setBoosterBerikutnya] = useState("");
   const [klinik, setKlinik] = useState("");
   const [nomorBatch, setNomorBatch] = useState("");
@@ -538,7 +664,7 @@ function ManualVaccineModal({
     }
   };
 
-  const formatDateString = (dateStr: string) => {
+  const formatDateString = (dateStr: string, timeStr: string) => {
     if (!dateStr) return "";
     const dateObj = new Date(dateStr);
     if (isNaN(dateObj.getTime())) return dateStr;
@@ -546,7 +672,9 @@ function ManualVaccineModal({
     const day = String(dateObj.getDate()).padStart(2, "0");
     const month = months[dateObj.getMonth()];
     const year = dateObj.getFullYear();
-    return `${day} ${month} ${year}`;
+    const formattedDate = `${day} ${month} ${year}`;
+    
+    return timeStr ? `${formattedDate} (${timeStr})` : formattedDate;
   };
 
   const handleSubmit = () => {
@@ -555,21 +683,21 @@ function ManualVaccineModal({
       return;
     }
 
-    const formattedDate = formatDateString(tanggalDiberikan);
+    const formattedDate = formatDateString(tanggalDiberikan, jamDiberikan);
     onSubmit(jenisVaksin, formattedDate, klinik);
-    showToast("Data Vaksin Dikirim", "Data manual berstatus Menunggu verifikasi sampai admin ICA mencocokkan dengan bukti.", { tone: "success" });
+    showToast("Data Vaksin Dikirim", "Data manual berhasil ditambahkan.", { tone: "success" });
   };
 
   return (
-    <div className="fixed inset-0 z-[100] flex items-end justify-center bg-black/50 backdrop-blur-xs lg:hidden animate-in fade-in duration-200">
-      <div className="relative flex flex-col w-full max-h-[85vh] rounded-t-3xl bg-white shadow-2xl animate-in slide-in-from-bottom duration-300">
+    <div className="fixed inset-0 z-[100] flex items-end lg:items-center justify-center bg-black/50 backdrop-blur-xs animate-in fade-in duration-200">
+      <div className="relative flex flex-col w-full max-h-[90vh] lg:max-w-lg rounded-t-3xl lg:rounded-2xl bg-white shadow-2xl animate-in slide-in-from-bottom duration-300">
         
         <div className="p-5 pb-3 border-b border-[#F4EFE9] space-y-3 shrink-0">
-          <div className="mx-auto h-1 w-10 rounded-full bg-[#EEDFD5]" />
+          <div className="mx-auto h-1 w-10 rounded-full bg-[#EEDFD5] lg:hidden" />
           
           <div className="flex items-start justify-between">
             <div>
-              <h3 className="text-base font-bold text-[#1A1513]">Tambah data vaksin</h3>
+              <h3 className="text-base font-bold text-[#1A1513]">Tambah data vaksin manual</h3>
               <p className="text-[11px] text-[#8C8074]">
                 {catName} · {catRegCode}
               </p>
@@ -577,7 +705,7 @@ function ManualVaccineModal({
             <button
               type="button"
               onClick={onClose}
-              className="h-8 w-8 rounded-xl bg-[#FAF7F2] flex items-center justify-center text-xs font-bold text-[#8C8074] shrink-0"
+              className="h-8 w-8 rounded-xl bg-[#FAF7F2] flex items-center justify-center text-xs font-bold text-[#8C8074] shrink-0 cursor-pointer"
             >
               ✕
             </button>
@@ -617,14 +745,24 @@ function ManualVaccineModal({
             </div>
 
             <div className="space-y-1">
-              <label className="font-semibold text-[#8C8074]">Booster berikutnya</label>
+              <label className="font-semibold text-[#1A1513]">Jam diberikan</label>
               <input
-                type="date"
-                value={boosterBerikutnya}
-                onChange={(e) => setBoosterBerikutnya(e.target.value)}
+                type="time"
+                value={jamDiberikan}
+                onChange={(e) => setJamDiberikan(e.target.value)}
                 className="w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-2 text-xs text-[#1A1513] focus:outline-none focus:border-[#F05A1B]"
               />
             </div>
+          </div>
+
+          <div className="space-y-1">
+            <label className="font-semibold text-[#8C8074]">Booster berikutnya</label>
+            <input
+              type="date"
+              value={boosterBerikutnya}
+              onChange={(e) => setBoosterBerikutnya(e.target.value)}
+              className="w-full rounded-xl border border-[#EEDFD5] bg-white px-3 py-2 text-xs text-[#1A1513] focus:outline-none focus:border-[#F05A1B]"
+            />
           </div>
 
           <div className="space-y-1">
@@ -673,10 +811,6 @@ function ManualVaccineModal({
                 JPG, PNG, atau PDF · maks. 5 MB
               </p>
             </div>
-          </div>
-
-          <div className="rounded-xl border border-[#EEDFD5] bg-[#FAF7F2] p-3 text-[11px] text-[#8C8074] leading-relaxed">
-            Data manual berstatus Menunggu verifikasi sampai admin ICA mencocokkan dengan bukti.
           </div>
         </div>
 

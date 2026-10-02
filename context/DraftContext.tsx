@@ -3,7 +3,37 @@
 import { createContext, useContext, useState, useCallback, useEffect } from "react";
 import type { MatingReportDraft } from "@/types/cattery";
 
-//**State management draft di satu tempat */
+// Data dummy bawaan jika localStorage kosong
+const initialDummyDrafts: MatingReportDraft[] = [
+  {
+    id: "draft-001",
+    code: "MR-2026-0138",
+    pair: "Bagas x Sekar",
+    savedAt: "15 menit lalu",
+    currentStep: 3,
+    selectedMaleId: 1,
+    selectedFemaleId: 2,
+    matingDate: "2026-09-18",
+    estimatedBirthDate: "2026-11-20",
+    isEstimateAuto: true,
+    witnessName: "Drh. Ahmad",
+    offspringItems: [],
+  },
+  {
+    id: "draft-002",
+    code: "MR-2026-0140",
+    pair: "Gala x Kirana",
+    savedAt: "Kemarin · 14:20",
+    currentStep: 5,
+    selectedMaleId: 3,
+    selectedFemaleId: 3,
+    matingDate: "2026-09-25",
+    estimatedBirthDate: "2026-11-27",
+    isEstimateAuto: true,
+    witnessName: "Rian",
+    offspringItems: [],
+  },
+];
 
 interface DraftContextValue {
   drafts: MatingReportDraft[];
@@ -21,20 +51,28 @@ export function DraftProvider({ children }: { children: React.ReactNode }) {
   const [drafts, setDrafts] = useState<MatingReportDraft[]>([]);
   const [isHydrated, setIsHydrated] = useState(false);
 
-  // 1. Ambil data dari localStorage HANYA setelah mount di client
+  // Load data saat pertama kali aplikasi dibuka
   useEffect(() => {
     const saved = localStorage.getItem("cattery_mating_drafts");
     if (saved) {
       try {
-        setDrafts(JSON.parse(saved));
+        const parsed = JSON.parse(saved);
+        if (Array.isArray(parsed) && parsed.length > 0) {
+          setDrafts(parsed);
+        } else {
+          setDrafts(initialDummyDrafts);
+        }
       } catch (e) {
         console.error("Failed to parse drafts", e);
+        setDrafts(initialDummyDrafts);
       }
+    } else {
+      setDrafts(initialDummyDrafts);
     }
     setIsHydrated(true);
   }, []);
 
-  // 2. Simpan ke localStorage setiap kali 'drafts' berubah (setelah hydrated)
+  // Simpan ke localStorage saat ada perubahan
   useEffect(() => {
     if (isHydrated) {
       localStorage.setItem("cattery_mating_drafts", JSON.stringify(drafts));

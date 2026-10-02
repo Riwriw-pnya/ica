@@ -21,7 +21,7 @@ export default function DraftPage() {
   return (
     <div className="p-4 sm:p-8 pb-24 sm:pb-8">
       {/* ========================================================= */}
-      {/* 1. TAMPILAN MOBILE VIEW (DI-RAPIMKAN)                    */}
+      {/* 1. TAMPILAN MOBILE VIEW                                   */}
       {/* ========================================================= */}
       <div className="block sm:hidden space-y-4">
         {/* Header Mobile */}
@@ -102,7 +102,7 @@ export default function DraftPage() {
       </div>
 
       {/* ========================================================= */}
-      {/* 2. TAMPILAN DESKTOP VIEW (TETAP SAMA)                     */}
+      {/* 2. TAMPILAN DESKTOP VIEW                                  */}
       {/* ========================================================= */}
       <div className="hidden sm:block">
         <div className="flex items-center justify-between">

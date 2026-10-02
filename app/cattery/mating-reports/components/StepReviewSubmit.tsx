@@ -80,6 +80,7 @@ export default function StepReviewSubmit({
   };
 
   const handleMobileSubmitClick = () => {
+    if (!agreed) return;
     setShowConfirmModal(true);
   };
 
@@ -93,7 +94,7 @@ export default function StepReviewSubmit({
       {/* ========================================================= */}
       {/* 1. MOBILE VIEW                                            */}
       {/* ========================================================= */}
-      <div className="block sm:hidden space-y-4 pb-6">
+      <div className="block sm:hidden space-y-4 pb-20">
         {/* Header Title Mobile */}
         <div>
           <h2 className="text-sm font-bold text-[#1A1513]">Review & submit</h2>
@@ -257,19 +258,37 @@ export default function StepReviewSubmit({
           </p>
         </div>
 
+        {/* Checkbox Pernyataan Pernyataan Mobile */}
+        <label className="flex items-start gap-3 rounded-2xl border border-[#FCE3D2] bg-[#FFF8F2] p-4 cursor-pointer select-none transition-all">
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            className="mt-0.5 h-4 w-4 rounded border-[#F05A1B] text-[#F05A1B] focus:ring-[#F05A1B] cursor-pointer accent-[#F05A1B]"
+          />
+          <span className="text-xs leading-relaxed text-[#6E6359] font-medium">
+            Saya menyatakan data mating dan offspring di atas benar, dan bersedia data pedigree diverifikasi oleh admin ICA.
+          </span>
+        </label>
+
         {/* Mobile Sticky Footer Kirim */}
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#EEDFD5] px-4 py-3 z-40 flex items-center gap-3 shadow-[0_-4px_20px_rgba(0,0,0,0.06)]">
           <button
             type="button"
             onClick={() => onEditStep(6)}
-            className="flex-1 py-3 px-4 rounded-full border border-[#EEDFD5] bg-white text-xs font-bold text-[#1A1513] active:scale-[0.98] transition"
+            className="flex-1 py-3 px-4 rounded-full border border-[#EEDFD5] bg-white text-xs font-bold text-[#1A1513] active:scale-[0.98] transition cursor-pointer"
           >
             Kembali
           </button>
           <button
             type="button"
+            disabled={!agreed}
             onClick={handleMobileSubmitClick}
-            className="flex-1 py-3 px-4 rounded-full bg-gradient-to-b from-[#FFC299] to-[#F05A1B] text-white text-xs font-bold shadow-xs active:scale-[0.98] transition"
+            className={`flex-1 py-3 px-4 rounded-full text-xs font-bold shadow-xs transition-all ${
+              agreed
+                ? "bg-gradient-to-b from-[#FFC299] to-[#F05A1B] text-white active:scale-[0.98] cursor-pointer"
+                : "bg-[#FCE3D2] text-white cursor-not-allowed opacity-70"
+            }`}
           >
             Kirim
           </button>
@@ -290,14 +309,14 @@ export default function StepReviewSubmit({
                 <button
                   type="button"
                   onClick={() => setShowConfirmModal(false)}
-                  className="flex-1 rounded-full border border-[#EEDFD5] bg-white py-3 text-xs font-bold text-[#1A1513] active:bg-gray-50 transition"
+                  className="flex-1 rounded-full border border-[#EEDFD5] bg-white py-3 text-xs font-bold text-[#1A1513] active:bg-gray-50 transition cursor-pointer"
                 >
                   Batal
                 </button>
                 <button
                   type="button"
                   onClick={handleConfirmSubmit}
-                  className="flex-1 rounded-full bg-gradient-to-b from-[#FFC299] to-[#F05A1B] py-3 text-xs font-bold text-white active:scale-95 transition"
+                  className="flex-1 rounded-full bg-gradient-to-b from-[#FFC299] to-[#F05A1B] py-3 text-xs font-bold text-white active:scale-95 transition cursor-pointer"
                 >
                   Kirim
                 </button>
@@ -310,15 +329,17 @@ export default function StepReviewSubmit({
       {/* ========================================================= */}
       {/* 2. DESKTOP VIEW                                            */}
       {/* ========================================================= */}
-      <div className="hidden sm:block rounded-xl border border-[var(--color-ink-100)] bg-white p-6">
-        <h2 className="font-display text-[16px] font-semibold text-[var(--color-ink-900)]">
-          Review & submit
-        </h2>
-        <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
-          Periksa sekali lagi. Setelah dikirim, perubahan hanya bisa lewat permintaan revisi admin.
-        </p>
+      <div className="hidden sm:block rounded-xl border border-[var(--color-ink-100)] bg-white p-6 space-y-5">
+        <div>
+          <h2 className="font-display text-[16px] font-semibold text-[var(--color-ink-900)]">
+            Review & submit
+          </h2>
+          <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
+            Periksa sekali lagi. Setelah dikirim, perubahan hanya bisa lewat permintaan revisi admin.
+          </p>
+        </div>
 
-        <div className="mt-4 space-y-3 border-t border-[var(--color-ink-100)] pt-4">
+        <div className="space-y-3 border-t border-[var(--color-ink-100)] pt-4">
           <ReviewSection title="Pasangan" onEdit={() => onEditStep(2)}>
             <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
               <ReviewField label="Pejantan" value={maleName} />
@@ -355,7 +376,6 @@ export default function StepReviewSubmit({
 
                 return (
                   <div key={kitten.id} className="py-4 first:pt-0 last:pb-0 space-y-3">
-                    {/* Grid Detail Data Offspring */}
                     <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 text-[13px]">
                       <ReviewField label="Nama kitten" value={kitten.name || "Belum diisi"} />
                       <ReviewField
@@ -395,7 +415,20 @@ export default function StepReviewSubmit({
           </ReviewSection>
         </div>
 
-        <div className="mt-5 flex items-center justify-between">
+        {/* Checkbox Pernyataan Desktop */}
+        <label className="flex items-center gap-3 rounded-xl border border-[#FCE3D2] bg-[#FFF8F2] p-4 cursor-pointer select-none transition-all">
+          <input
+            type="checkbox"
+            checked={agreed}
+            onChange={(e) => setAgreed(e.target.checked)}
+            className="h-4 w-4 rounded border-[#F05A1B] text-[#F05A1B] focus:ring-[#F05A1B] cursor-pointer accent-[#F05A1B]"
+          />
+          <span className="text-xs text-[#6E6359] font-medium">
+            Saya menyatakan data mating dan offspring di atas benar, dan bersedia data pedigree diverifikasi oleh admin ICA.
+          </span>
+        </label>
+
+        <div className="pt-2 flex items-center justify-between border-t border-[var(--color-ink-100)]">
           <button
             type="button"
             onClick={() => onEditStep(6)}
@@ -404,12 +437,21 @@ export default function StepReviewSubmit({
             Kembali
           </button>
 
-          <button
-            onClick={executeSubmitWithCleanup}
-            className="rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-8 py-2.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5"
-          >
-            Kirim mating report
-          </button>
+          <div className="flex items-center gap-4">
+            <span className="text-xs text-[#8C8074]">Step 7 dari 7</span>
+            <button
+              type="button"
+              disabled={!agreed}
+              onClick={executeSubmitWithCleanup}
+              className={`rounded-full px-8 py-2.5 text-xs font-bold transition-all duration-150 ${
+                agreed
+                  ? "border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 cursor-pointer"
+                  : "bg-[#FCE3D2] text-white cursor-not-allowed opacity-70"
+              }`}
+            >
+              Kirim mating report
+            </button>
+          </div>
         </div>
       </div>
     </div>
@@ -423,7 +465,7 @@ function ReviewSection({ title, onEdit, children }: { title: string; onEdit: () 
         <h3 className="text-[13px] font-semibold text-[var(--color-ink-900)]">{title}</h3>
         <button
           onClick={onEdit}
-          className="text-[12px] font-medium text-[var(--color-brand-orange-700)] hover:underline"
+          className="text-[12px] font-medium text-[var(--color-brand-orange-700)] hover:underline cursor-pointer"
         >
           Ubah
         </button>
