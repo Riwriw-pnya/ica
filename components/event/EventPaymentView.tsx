@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface EventPaymentViewProps {
   onBack: () => void;
@@ -9,16 +8,49 @@ interface EventPaymentViewProps {
 
 export default function EventPaymentView({ onBack, onNext }: EventPaymentViewProps) {
   const [selectedMethod, setSelectedMethod] = useState("qris");
+  const [secondsLeft, setSecondsLeft] = useState(584);
+
+useEffect(() => {
+  if (secondsLeft <= 0) return;
+
+  const timer = setInterval(() => {
+    setSecondsLeft((prev) => (prev > 0 ? prev - 1 : 0));
+  }, 1000);
+
+  return () => clearInterval(timer);
+}, [secondsLeft]);
+
+const formatTime = (totalSec: number) => {
+  const mins = Math.floor(totalSec / 60)
+    .toString()
+    .padStart(2, "0");
+
+  const secs = (totalSec % 60)
+    .toString()
+    .padStart(2, "0");
+
+  return `${mins}:${secs}`;
+};
   const [selectedBank, setSelectedBank] = useState("");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const bankOptions = [
-    { id: "bca", name: "BCA" },
-    { id: "mandiri", name: "Mandiri" },
-    { id: "bni", name: "BNI" },
-    { id: "bri", name: "BRI" },
-    { id: "permata", name: "Permata" },
-  ];
+  { id: "bca", name: "BCA", va: "8808123456789012" },
+  { id: "mandiri", name: "Bank Mandiri", va: "8908123456789012" },
+  { id: "bni", name: "BNI", va: "8108123456789012" },
+  { id: "bri", name: "BRI", va: "7708123456789012" },
+  { id: "btn", name: "BTN", va: "7508123456789012" },
+  { id: "bsi", name: "Bank Syariah Indonesia", va: "9208123456789012" },
+  { id: "cimb", name: "CIMB Niaga", va: "7808123456789012" },
+  { id: "danamon", name: "Danamon", va: "7308123456789012" },
+  { id: "permata", name: "PermataBank", va: "8208123456789012" },
+  { id: "ocbc", name: "OCBC", va: "8308123456789012" },
+  { id: "uob", name: "UOB Indonesia", va: "8408123456789012" },
+  { id: "maybank", name: "Maybank Indonesia", va: "8508123456789012" },
+  { id: "mega", name: "Bank Mega", va: "8608123456789012" },
+  { id: "panin", name: "PaninBank", va: "8708123456789012" },
+  { id: "btpn", name: "Bank SMBC Indonesia", va: "9108123456789012" },
+];
 
   const selectedBankObj = bankOptions.find((b) => b.id === selectedBank);
 
@@ -41,10 +73,15 @@ export default function EventPaymentView({ onBack, onNext }: EventPaymentViewPro
           <span className="text-[10px] font-bold tracking-wider uppercase text-[#8C8074]">
             SISA WAKTU PEMBAYARAN
           </span>
-          <span className="text-xl font-bold text-[#F05A1B] font-mono">09:44</span>
+          <span className="text-xl font-bold text-[#F05A1B] font-mono">
+            {formatTime(secondsLeft)}
+          </span>
         </div>
         <div className="w-full bg-[#F3EAE1] h-1.5 rounded-full overflow-hidden">
-          <div className="bg-[#F05A1B] h-full w-[85%]" />
+          <div
+  className="bg-[#F05A1B] h-full transition-all duration-1000"
+  style={{ width: `${(secondsLeft / 600) * 100}%` }}
+/>
         </div>
       </div>
 
@@ -147,29 +184,75 @@ export default function EventPaymentView({ onBack, onNext }: EventPaymentViewPro
 
             {/* List Pilihan Bank Tersembunyi (Muncul saat Icon/Card diklik) */}
             {selectedMethod === "transfer" && isDropdownOpen && (
-              <div
-                className="pt-2 border-t border-[#EEDFD5] grid grid-cols-2 sm:grid-cols-5 gap-2"
-                onClick={(e) => e.stopPropagation()}
+          <div
+            className="pt-2 border-t border-[#EEDFD5] space-y-1.5"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {bankOptions.map((bank) => (
+              <button
+                key={bank.id}
+                type="button"
+                onClick={() => {
+                  setSelectedBank(bank.id);
+                  setIsDropdownOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-semibold transition text-left cursor-pointer ${
+                  selectedBank === bank.id
+                    ? "bg-[#FFF2E8] text-[#EE6B28] border border-[#EE6B28]"
+                    : "bg-white text-[#1A1513] border border-[#EEDFD5] hover:border-[#EE6B28] hover:bg-[#FFF8F5]"
+                }`}
               >
-                {bankOptions.map((bank) => (
-                  <button
-                    key={bank.id}
-                    type="button"
-                    onClick={() => {
-                      setSelectedBank(bank.id);
-                      setIsDropdownOpen(false);
-                    }}
-                    className={`px-3 py-2 rounded-xl text-xs font-bold transition text-center border cursor-pointer ${
-                      selectedBank === bank.id
-                        ? "border-[#EE6B28] bg-[#EE6B28] text-white shadow-xs"
-                        : "border-[#EEDFD5] bg-white text-[#1A1513] hover:border-[#EE6B28] hover:text-[#EE6B28]"
-                    }`}
+                <span>{bank.name}</span>
+
+                {selectedBank === bank.id && (
+                  <svg
+                    className="w-4 h-4 text-[#EE6B28]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
                   >
-                    {bank.name}
-                  </button>
-                ))}
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {selectedMethod === "transfer" && selectedBankObj && !isDropdownOpen && (
+          <div className="pt-3 border-t border-[#EEDFD5] space-y-2">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-bold tracking-wider uppercase text-[#8C8074]">
+                  Nomor Virtual Account
+                </p>
+                <p className="text-base font-extrabold text-[#1A1513] tracking-wide">
+                  {selectedBankObj.va}
+                </p>
               </div>
-            )}
+
+              <button
+                type="button"
+                onClick={() =>
+                  navigator.clipboard.writeText(selectedBankObj.va)
+                }
+                className="cursor-pointer rounded-full border border-[#EEDFD5] bg-white px-3.5 py-2 text-[11px] font-bold text-[#EE6B28] hover:bg-[#FFF8F5]"
+              >
+                Salin
+              </button>
+            </div>
+
+            <p className="text-[11px] text-[#8C8074]">
+              Pembayaran melalui {selectedBankObj.name}
+            </p>
+          </div>
+        )}
+
           </div>
         </div>
 

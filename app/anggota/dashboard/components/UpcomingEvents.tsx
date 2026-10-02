@@ -17,7 +17,7 @@ export default function UpcomingEvents({ items = [] }: UpcomingEventsProps) {
         </h2>
         <Link
           href="/anggota/event"
-          className="text-xs font-medium text-[var(--color-brand-orange-500)] hover:text-[var(--color-brand-orange-600)]"
+          className="shrink-0 text-[12px] font-medium text-[#D95D1E] hover:underline"
         >
           Semua <span className="text-[10px]">→</span>
         </Link>

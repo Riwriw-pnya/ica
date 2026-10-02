@@ -11,7 +11,7 @@ export default function NewsSection() {
         </h2>
         <Link
           href="/anggota/berita"
-          className="text-xs font-medium text-[var(--color-brand-orange-500)] hover:text-[var(--color-brand-orange-600)]"
+          className="shrink-0 text-[12px] font-medium text-[#D95D1E] hover:underline"
         >
           Semua berita →
         </Link>

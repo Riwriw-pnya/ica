@@ -14,7 +14,7 @@ import { NotificationItem } from "@/types/cattery";
 export const quickAccessItems: QuickAccessItem[] = [
   { id: 1, title: "Daftar event", icon: "calendar", href: "/anggota/event" },
   { id: 2, title: "Cari cattery", icon: "search", href: "/anggota/direktori" },
-  { id: 3, title: "Berita ICA", icon: "news", href: "/anggota/berita" },
+  { id: 3, title: "Store ICA", icon: "shopping-cart", href: "/anggota/store" },
   {
     id: 4,
     title: "Ajukan cattery",

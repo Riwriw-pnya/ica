@@ -4,6 +4,7 @@ import { useState, useMemo, useEffect } from "react";
 import StorePaymentDesktop from "./desktop/StorePaymentDesktop";
 
 import StoreMobile from "./mobile/StoreMobile";
+import StoreOrderDetailDesktop from "./desktop/OrderDetailDesktop";
 
 import StoreCatalogDesktop from "./desktop/CatalogDesktop";
 import StoreProductDetailDesktop from "./desktop/ProductDetailDesktop";
@@ -13,6 +14,10 @@ import StoreToastDesktop from "./desktop/Toast";
 
 import StoreCheckoutDesktop from "./desktop/StoreCheckoutDesktop";
 import StoreCheckoutMobile from "./mobile/StoreCheckoutMobile";
+
+import OrderDetailDesktop, {
+  type OrderDetailData,
+} from "./desktop/OrderDetailDesktop";
 
 export interface Product {
   id: string;
@@ -225,6 +230,9 @@ export default function StorePage() {
   const [desktopDetailQty, setDesktopDetailQty] = useState<number>(1);
   const [desktopDetailSize, setDesktopDetailSize] = useState<string>("M");
 
+  const [desktopOrderDetail, setDesktopOrderDetail] =
+  useState<OrderDetailData | null>(null);
+
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
   const [showDesktopCheckout, setShowDesktopCheckout] =
@@ -263,6 +271,11 @@ const [desktopCheckoutData, setDesktopCheckoutData] =
     );
   }, [activeCategory]);
 
+  const handleOpenDesktopCart = () => {
+    resetAllDesktopViews();
+    setShowDesktopCart(true);
+  };
+
   const resetAllDesktopViews = () => {
   setSelectedDesktopProduct(null);
   setShowDesktopHistory(false);
@@ -270,12 +283,8 @@ const [desktopCheckoutData, setDesktopCheckoutData] =
   setShowDesktopCheckout(false);
   setShowDesktopPayment(false);
   setDesktopCheckoutData(null);
+  setDesktopOrderDetail(null);
 };
-
-  const handleOpenDesktopCart = () => {
-    resetAllDesktopViews();
-    setShowDesktopCart(true);
-  };
 
   const handleOpenDesktopDetail = (product: Product) => {
     resetAllDesktopViews();
@@ -468,7 +477,13 @@ const handleProceedToDesktopPayment = (data: {
   return (
     <>
       <div className="hidden sm:block mx-auto max-w-[1200px] space-y-6 pb-12 relative">
-        {selectedDesktopProduct ? (
+        {desktopOrderDetail ? (
+  <StoreOrderDetailDesktop
+    order={desktopOrderDetail}
+    onBack={resetAllDesktopViews}
+    formatRupiah={formatRupiah}
+  />
+) : selectedDesktopProduct ? (
   <StoreProductDetailDesktop
     product={selectedDesktopProduct}
     quantity={desktopDetailQty}
@@ -493,14 +508,41 @@ const handleProceedToDesktopPayment = (data: {
     }}
     formatRupiah={formatRupiah}
     onSuccessPayment={() => {
-      triggerToast("Pembayaran berhasil!");
+  const newOrder: OrderDetailData = {
+    orderId: `MRC-2026-${Math.floor(
+      1000 + Math.random() * 9000
+    )}`,
+    orderDate: new Date().toLocaleDateString("id-ID", {
+      day: "2-digit",
+      month: "short",
+      year: "numeric",
+    }),
+    itemsSummary: cart
+      .map(
+        (item) =>
+          `${item.product.title}${
+            item.size ? ` (${item.size})` : ""
+          } · ${item.quantity} barang`
+      )
+      .join(" · "),
+    paymentMethod: "QRIS",
+    totalAmount: desktopCheckoutData.totalPayable,
+    courier: desktopCheckoutData.courierName,
+    shippingAddress: {
+      name: desktopCheckoutData.address.name,
+      phone: desktopCheckoutData.address.phone,
+      address: desktopCheckoutData.address.address,
+      city: desktopCheckoutData.address.city,
+    },
+  };
 
-      setShowDesktopPayment(false);
-      setShowDesktopCheckout(false);
-      setShowDesktopCart(false);
-      setDesktopCheckoutData(null);
-      setCart([]);
-    }}
+  setDesktopOrderDetail(newOrder);
+  setShowDesktopPayment(false);
+  setShowDesktopCheckout(false);
+  setShowDesktopCart(false);
+  setDesktopCheckoutData(null);
+  setCart([]);
+}}
   />
 ) : showDesktopCheckout ? (
   <StoreCheckoutDesktop
