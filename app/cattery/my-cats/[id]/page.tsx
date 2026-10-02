@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 import { catProfileDetails, catEventResults, pedigreeCharts } from "@/data/cattery";
 import { CatProfileCard } from "./components/CatProfileCard";
 import { CatDetailTabs } from "./components/CatDetailTabs";
+import { CatDetailHeaderSetter } from "./components/CatDetailHeaderSetter";
 
 interface CatDetailPageProps {
   params: Promise<{ id: string }>;
@@ -20,11 +21,14 @@ export default async function CatDetailPage({ params }: CatDetailPageProps) {
   const pedigree = pedigreeCharts.find((item) => item.catId === catId);
   const events = catEventResults.filter((item) => item.catId === catId);
 
+  const emsCode = (cat as any).emsCode || "PER f 22";
+
   return (
     <div className="mx-auto w-full max-w-6xl px-4 py-4 sm:px-6 lg:px-8 bg-[var(--color-ink-50)] space-y-4">
+      <CatDetailHeaderSetter name={cat.name} breed={cat.breed} emsCode={emsCode} />
       <Link
         href="/cattery/my-cats"
-        className="inline-flex font-sans text-sm items-center gap-1 font-medium text-orange-600 hover:text-orange-700"
+        className="hidden lg:inline-flex font-sans text-sm items-center gap-1 font-medium text-orange-600 hover:text-orange-700"
       >
         ← Kembali ke My Cats
       </Link>

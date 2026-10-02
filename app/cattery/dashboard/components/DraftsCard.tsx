@@ -1,34 +1,91 @@
 "use client";
 
 import Link from "next/link";
-import React from "react";
+import React, { useEffect } from "react";
+import { useDrafts } from "@/context/DraftContext";
 
-export const draftsData = [
+// Data dummy awal jika local storage kosong
+const initialDummyDrafts = [
   {
     id: "1",
     code: "MR-2026-0147",
     pair: "Rimba × Kirana",
-    step: "Step 4",
-    stepLabel: "Step 4 — Mating Information",
-    savedTime: "tersimpan hari ini 14:32",
-    progress: 57,
-    missingFields: "Estimasi tanggal lahir, Data offspring, Upload dokumen, Konfirmasi",
-    draftUrl: "/cattery/mating-reports?draft=1",
+    currentStep: 4,
+    savedAt: "tersimpan hari ini 14:32",
+    offspringItems: [1, 2],
   },
   {
     id: "2",
     code: "MR-2026-0146",
     pair: "Bagas × Sekar",
-    step: "Step 2",
-    stepLabel: "Step 2 — Pilih Male",
-    savedTime: "tersimpan 26 Agu 2026 09:10",
-    progress: 29,
-    missingFields: "Pilih female, Mating information, Data offspring, Upload dokumen, Konfirmasi",
-    draftUrl: "/cattery/mating-reports?draft=2",
+    currentStep: 2,
+    savedAt: "tersimpan 26 Agu 2026 09:10",
+    offspringItems: [1],
   },
 ];
 
+const stepLabels: Record<number, string> = {
+  1: "Step 1 — Data Cattery",
+  2: "Step 2 — Pilih Pejantan",
+  3: "Step 3 — Pilih Induk",
+  4: "Step 4 — Mating Information",
+  5: "Step 5 — Add Offspring",
+  6: "Step 6 — Upload Dokumen",
+  7: "Step 7 — Review & Submit",
+};
+
 export default function SavedDraftsCard() {
+  const { drafts, saveDraft, isHydrated } = useDrafts();
+
+  // Masukkan data dummy jika draft kosong saat pertama kali dimuat
+  useEffect(() => {
+    if (isHydrated && drafts.length === 0) {
+      initialDummyDrafts.forEach((dummy) => {
+        saveDraft({
+          id: dummy.id,
+          pair: dummy.pair,
+          currentStep: dummy.currentStep,
+          selectedMaleId: 1,
+          selectedFemaleId: 1,
+          matingDate: "2026-08-01",
+          estimatedBirthDate: "2026-10-05",
+          isEstimateAuto: true,
+          witnessName: "Admin",
+          offspringItems: dummy.offspringItems.map((i) => ({
+            id: i,
+            name: "",
+            gender: "M" as any,
+            color: "",
+            birthDate: "",
+            birthWeight: "",
+            breed: "Persian",
+            status: "ALIVE" as any,
+          })),
+        });
+      });
+    }
+  }, [isHydrated, drafts.length, saveDraft]);
+
+  if (!isHydrated) return null;
+
+  // Ubah data dari draft context menjadi format card
+  const displayDrafts = drafts.map((draft) => {
+    const progress = Math.round((draft.currentStep / 7) * 100);
+    return {
+      id: draft.id,
+      code: draft.code,
+      pair: draft.pair,
+      step: `Step ${draft.currentStep}`,
+      stepLabel: stepLabels[draft.currentStep] || `Step ${draft.currentStep}`,
+      savedTime: draft.savedAt,
+      progress,
+      missingFields: "Melengkapi data form dan konfirmasi akhir",
+      draftUrl: `/cattery/mating-reports?draft=${draft.id}`,
+    };
+  });
+
+  if (displayDrafts.length === 0) return null;
+
   return (
     <>
       {/* ========================================= */}
@@ -46,7 +103,7 @@ export default function SavedDraftsCard() {
         </div>
 
         <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 pt-1 -mx-4 px-4 scroll-smooth">
-          {draftsData.map((draft) => (
+          {displayDrafts.map((draft) => (
             <div
               key={draft.id}
               className="min-w-[240px] max-w-[260px] bg-white rounded-2xl p-3.5 border border-[#F5E6DA] shadow-xs shrink-0 flex flex-col justify-between space-y-3"
@@ -103,7 +160,7 @@ export default function SavedDraftsCard() {
           </div>
 
           <div className="space-y-5 divide-y divide-[#f4efe9]">
-            {draftsData.map((draft, idx) => (
+            {displayDrafts.map((draft, idx) => (
               <div key={draft.id} className={`pt-4 ${idx === 0 ? "pt-0" : ""} space-y-3`}>
                 <div className="flex items-start justify-between gap-3 sm:gap-4">
                   <div>
@@ -141,7 +198,7 @@ export default function SavedDraftsCard() {
                 </div>
 
                 <p className="text-xs text-[#d94a11] bg-[#fff6f0] p-2.5 rounded-xl border border-[#fce3d2]">
-                  <span className="font-semibold">Belum terisi:</span> {draft.missingFields}
+                  <span className="font-semibold">Kurang:</span> {draft.missingFields}
                 </p>
               </div>
             ))}

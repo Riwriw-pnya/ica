@@ -52,7 +52,7 @@ export default function Sidebar() {
 
     return (
       <Link
-        key={menu.href}
+        key={menu.label}
         href={menu.href}
         title={!isSidebarOpen ? menu.label : undefined}
         className={`flex items-center rounded-lg py-2.5 text-[13px] font-sans font-semibold transition ${
@@ -66,7 +66,7 @@ export default function Sidebar() {
         }`}
       >
         {menu.icon === "mating" ? (
-          <DashboardIcon name="mating" size={17}/>
+          <DashboardIcon name="mating" size={17} />
         ) : (
           <DashboardIcon name={menu.icon} size={17} />
         )}
@@ -77,10 +77,11 @@ export default function Sidebar() {
 
   return (
     <aside
-      className={`hidden lg:block flex shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 ${
+      className={`hidden lg:flex shrink-0 flex-col border-r border-[var(--color-ink-100)] bg-[var(--color-sidebar)] transition-all duration-200 h-screen sticky top-0 ${
         isSidebarOpen ? "w-[240px]" : "w-[64px]"
       }`}
     >
+      {/* Header Sidebar */}
       <div
         className={`flex h-[54px] items-center border-b border-[var(--color-ink-100)] ${
           isSidebarOpen ? "justify-between gap-3 px-4" : "justify-center px-2"
@@ -118,7 +119,8 @@ export default function Sidebar() {
         )}
       </div>
 
-      <nav className={`flex-1 py-3 ${isSidebarOpen ? "px-3" : "px-2"}`}>
+      {/* Navigasi Utama (mengisi ruang atas) */}
+      <nav className={`flex-1 overflow-y-auto py-3 ${isSidebarOpen ? "px-3" : "px-2"}`}>
         <div className="space-y-1">{menus.map(renderMenu)}</div>
 
         <div className="mt-4 border-t border-[var(--color-ink-100)] pt-4">
@@ -126,15 +128,16 @@ export default function Sidebar() {
         </div>
       </nav>
 
+      {/* Profile / Avatar User Desktop (Menempel Rapi di Dasar Sidebar) */}
       <div
         ref={containerRef}
-        className={`relative border-t border-[var(--color-ink-100)] p-3 ${
+        className={`relative border-t border-[var(--color-ink-100)] p-3 bg-[var(--color-sidebar)] shrink-0 ${
           !isSidebarOpen && "flex justify-center"
         }`}
       >
         <button
           onClick={() => toggleMenu("sidebar")}
-          className={`flex items-center rounded-lg p-1.5 transition hover:bg-[var(--color-brand-orange-50)] ${
+          className={`flex items-center rounded-lg p-1.5 transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer ${
             isSidebarOpen ? "w-full gap-2.5" : "justify-center"
           }`}
         >

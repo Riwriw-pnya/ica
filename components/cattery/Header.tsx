@@ -17,6 +17,7 @@ const pageTitles: Record<string, string> = {
   "/cattery": "Dashboard",
   "/cattery/dashboard": "Dashboard",
   "/cattery/notifications": "Notifikasi",
+  "/cattery/draft": "Drafts",
   "/cattery/my-cats": "My Cats",
   "/cattery/my-cats/[id]": "Detail Kucing",
   "/cattery/applications": "Applications",
@@ -39,7 +40,7 @@ function getPageTitle(pathname: string): string {
 }
 
 export default function Header() {
-  const { customAction } = useHeaderAction();
+  const { customAction, headerTitle, headerSubTitle } = useHeaderAction();
   const { openMenu, toggleMenu, closeMenu } = useUserMenu();
   const { isSidebarOpen, toggleSidebar } = useSidebar();
   const router = useRouter();
@@ -56,6 +57,9 @@ export default function Header() {
   const isNotifications = pathname === "/cattery/notifications"; 
   const isProfile = pathname === "/cattery/profil";
   
+  // Deteksi Halaman Detail Kucing (/cattery/my-cats/[id])
+  const isCatDetailPage = pathname.startsWith("/cattery/my-cats/") && pathname !== "/cattery/my-cats";
+
   const isUserMenuOpen = openMenu === "header";
   const isNotifOpen = openMenu === "notifications";
   const unreadCount = notifications.filter((n) => !n.isRead).length;
@@ -70,7 +74,6 @@ export default function Header() {
 
   const title = getPageTitle(pathname);
 
-  // Inisial untuk avatar (RH)
   const initials = catteryProfile.name
     .split(" ")
     .map((w) => w[0])
@@ -90,12 +93,19 @@ export default function Header() {
   return (
     <header className={`${isDashboard ? "hidden md:flex" : "flex"} h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5`}>
       {/* SISI KIRI: JUDUL & BADGE */}
-      <div className="flex items-center gap-3">
-        {/* Back Chevron Mobile */}
-        {(isNotifications || isMatingReportForm) && (
+      <div className="flex items-center gap-2">
+        {/* Back Chevron Mobile (Kembali ke My Cats / Back) */}
+        {(isNotifications || isMatingReportForm || isCatDetailPage) && (
           <button 
-            onClick={() => router.back()} 
-            className="text-[#8C8074] hover:text-[#F05A1B] transition-colors cursor-pointer -ml-1 mr-1 md:hidden"
+            onClick={() => {
+              if (isCatDetailPage) {
+                router.push("/cattery/my-cats");
+              } else {
+                router.back();
+              }
+            }} 
+            className="text-[#8C8074] hover:text-[#F05A1B] transition-colors cursor-pointer -ml-1 mr-0.5 md:hidden"
+            aria-label="Kembali"
           >
             <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
               <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
@@ -104,11 +114,26 @@ export default function Header() {
         )}
 
         <div className="flex flex-col">
+          {/* Judul Mobile & Desktop */}
           <h1 className="font-display text-sm md:text-base font-bold text-[var(--color-ink-900,#231A14)]">
-            {title}
+            {isCatDetailPage && headerTitle ? (
+              <>
+                <span className="md:hidden">{headerTitle}</span>
+                <span className="hidden md:inline">{title}</span>
+              </>
+            ) : (
+              title
+            )}
           </h1>
           
-          {/* Subtitle Mobile */}
+          {/* Subtitle Mobile Detail Kucing */}
+          {isCatDetailPage && headerSubTitle && (
+            <span className="text-[10px] text-[#8C8074] font-medium leading-none mt-0.5 md:hidden">
+              {headerSubTitle}
+            </span>
+          )}
+
+          {/* Subtitle Mobile Halaman Lain */}
           {isNotifications && (
             <span className="text-[10px] text-[#8C8074] font-medium leading-none mt-0.5 md:hidden">
               4 belum dibaca
@@ -137,14 +162,13 @@ export default function Header() {
       </div>
 
       {/* SISI KANAN: ACTION CONTROLS & AVATAR */}
-      <div className="flex items-center gap-3 md:gap-4">
+      <div className="flex items-center gap-3 md:gap-4 flex-1 md:flex-none justify-end">
         {isNotifications ? (
           <button className="text-xs font-bold text-[#F05A1B] hover:text-[#D95D1E] cursor-pointer">
             Tandai semua dibaca
           </button>
         ) : (
           <>
-            {/* Tombol Buat Mating Report (Khusus Dashboard Desktop) */}
             {isDashboard && (
               <button
                 onClick={() => router.push("/cattery/mating-reports")}
@@ -154,7 +178,6 @@ export default function Header() {
               </button>
             )}
 
-            {/* Icon Cart / Store (Muncul di SEMUA HALAMAN kecuali Mating Report) */}
             {!isMatingReportForm && (
               <button
                 onClick={() => router.push("/cattery/store")}
@@ -170,13 +193,11 @@ export default function Header() {
               </button>
             )}
 
-            {/* Control Khusus Form Mating Report Desktop */}
             {isMatingReportForm && (
               <>
-                {/* Mobile Direct ke Draft */}
                 <Link
                   href="/cattery/draft"
-                  className="text-xs font-semibold text-[#1a1513] hover:text-[#EE6B28] transition-colors md:hidden"
+                  className="text-xs font-semibold text-[#1a1513] hover:text-[#EE6B28] transition-colors md:hidden ml-auto"
                 >
                   Draft
                 </Link>
@@ -205,20 +226,22 @@ export default function Header() {
               </>
             )}
 
-            {/* IKON NOTIFIKASI DESKTOP */}
+            {/* IKON NOTIFIKASI */}
             <div ref={notifRef} className="relative">
-              <button
-                onClick={() => router.push("/cattery/notifications")}
-                className="flex md:hidden relative h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
-                aria-label="Notifikasi Mobile"
-              >
-                <DashboardIcon name="bell" size={20} />
-                {unreadCount > 0 && (
-                  <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
+              {!isMatingReportForm && (
+                <button
+                  onClick={() => router.push("/cattery/notifications")}
+                  className="flex md:hidden relative h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
+                  aria-label="Notifikasi Mobile"
+                >
+                  <DashboardIcon name="bell" size={20} />
+                  {unreadCount > 0 && (
+                    <span className="absolute -top-0.5 -right-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
+                      {unreadCount}
+                    </span>
+                  )}
+                </button>
+              )}
 
               <button
                 onClick={() => toggleMenu("notifications")}
@@ -247,13 +270,15 @@ export default function Header() {
               )}
             </div>
 
-            {/* AVATAR USER DESKTOP */}
+            {/* AVATAR USER */}
             <div ref={containerRef} className="relative">
-              <div className="flex md:hidden items-center px-1 select-none pointer-events-none">
-                <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FFE8DB] text-[10px] font-bold text-[#D95D1E] shrink-0">
-                  {initials}
+              {!isMatingReportForm && (
+                <div className="flex md:hidden items-center px-1 select-none pointer-events-none">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FFE8DB] text-[10px] font-bold text-[#D95D1E] shrink-0">
+                    {initials}
+                  </div>
                 </div>
-              </div>
+              )}
 
               <button
                 onClick={() => toggleMenu("header")}

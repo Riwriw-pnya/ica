@@ -54,7 +54,7 @@ function MatingReportsForm() {
     if (hasLoadedData.current) return;
     hasLoadedData.current = true;
 
-    // Jika ada ID Draft di URL, utamakan load dari Draft Context
+    // Jika ada ID Draft di URL (?draft=...), utamakan load dari Draft Context
     if (draftId) {
       const draft = getDraft(draftId);
       if (!draft) {
@@ -76,33 +76,27 @@ function MatingReportsForm() {
       return;
     }
 
-    // Jika tidak membuka draft, coba muat dari localStorage jika ada
+    // Jika KLIK "+ DRAFT BARU" (Tidak ada parameter ?draft=...)
+    // Reset cache localStorage lama dan buat form benar-benar bersih dari awal
     if (typeof window !== "undefined") {
-      const saved = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (saved) {
-        try {
-          const parsed = JSON.parse(saved);
-          setCurrentStep(parsed.currentStep || (window.innerWidth < 768 ? 2 : 1));
-          setSelectedMaleId(parsed.selectedMaleId ?? null);
-          setSelectedFemaleId(parsed.selectedFemaleId ?? null);
-          setMatingDate(parsed.matingDate || "");
-          setEstimatedBirthDate(parsed.estimatedBirthDate || "");
-          setIsEstimateAuto(parsed.isEstimateAuto ?? true);
-          setWitnessName(parsed.witnessName || "");
-          if (parsed.offspringItems && parsed.offspringItems.length > 0) {
-            setOffspringItems(parsed.offspringItems);
-          }
-          if (parsed.matingPhoto) setMatingPhoto(parsed.matingPhoto);
-          if (parsed.kittenPhotos) setKittenPhotos(parsed.kittenPhotos);
-          if (parsed.vetLetter) setVetLetter(parsed.vetLetter);
-          if (parsed.paymentProof) setPaymentProof(parsed.paymentProof);
-        } catch (e) {
-          console.error("Gagal membaca dari localStorage", e);
-        }
-      } else if (window.innerWidth < 768) {
-        setCurrentStep(2);
-      }
+      localStorage.removeItem(LOCAL_STORAGE_KEY);
     }
+
+    setActiveDraftId(undefined);
+    setSelectedMaleId(null);
+    setSelectedFemaleId(null);
+    setMatingDate("");
+    setEstimatedBirthDate("");
+    setIsEstimateAuto(true);
+    setWitnessName("");
+    setOffspringItems([
+      { id: 1, name: "", gender: "" as any, color: "", birthDate: "", birthWeight: "", breed: "", status: "" as any },
+    ]);
+    setMatingPhoto(null);
+    setKittenPhotos(null);
+    setVetLetter(null);
+    setPaymentProof(null);
+    setCurrentStep(typeof window !== "undefined" && window.innerWidth < 768 ? 2 : 1);
   }, [draftId, getDraft, showToast]);
 
   // 2. OTOMATIS SIMPAN KE LOCAL STORAGE SETIAP KALI STATE BERUBAH
@@ -387,7 +381,6 @@ function MatingReportsForm() {
                 onEditStep={goToStep}
                 onSubmit={async () => {
                   const code = `MR-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-                  // Hapus cache lokal saat formulir berhasil disubmit
                   if (typeof window !== "undefined") {
                     localStorage.removeItem(LOCAL_STORAGE_KEY);
                   }
