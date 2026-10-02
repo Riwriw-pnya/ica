@@ -6,16 +6,21 @@ import { membershipInfo } from "@/data/anggota";
 import AjukanCatteryMobile from "./AjukanCatteryMobile";
 import MyCatsMobile from "./MyCatsMobile";
 import StatusKeanggotaanMobile from "./StatusKeanggotaanMobile";
-import LogAktivitasMobile from "./LogAktivitasMobile";
 import PengaturanAkunMobile from "./PengaturanAkunMobile";
+import type { ActivityLogItem } from "@/types/anggota";
+import ActivityLogSection from "@/app/anggota/log-aktivitas/components/ActivityLogSection";
 
 export type MembershipInfoType = typeof membershipInfo;
 
 interface KeanggotaanMobileProps {
   info?: MembershipInfoType | any;
+  activities: ActivityLogItem[];
 }
 
-export default function KeanggotaanMobile({ info }: KeanggotaanMobileProps) {
+export default function KeanggotaanMobile({
+  info,
+  activities,
+}: KeanggotaanMobileProps) {
   const [showAjukanCattery, setShowAjukanCattery] = useState<boolean>(false);
   const [showMyCats, setShowMyCats] = useState<boolean>(false);
   const [showStatusKeanggotaan, setShowStatusKeanggotaan] = useState<boolean>(false);
@@ -272,11 +277,12 @@ export default function KeanggotaanMobile({ info }: KeanggotaanMobileProps) {
       
       {/* OVERLAY LOG AKTIVITAS */}
       {showLogAktivitas && (
-      <LogAktivitasMobile
-        idMember={idMember}
-        onBack={() => setShowLogAktivitas(false)}
-      />
-    )}
+  <ActivityLogSection
+    activities={activities}
+    mobile
+    onBack={() => setShowLogAktivitas(false)}
+  />
+)}
 
     {/* OVERLAY PENGATURAN AKUN */}
     {showPengaturanAkun && (

@@ -11,7 +11,7 @@ export default function EventCheckoutView({
   onBack,
   onNext,
 }: EventCheckoutViewProps) {
-  const [secondsLeft, setSecondsLeft] = useState(597); // Default: 09:57
+  const [secondsLeft, setSecondsLeft] = useState(597);
 
   useEffect(() => {
     if (secondsLeft <= 0) return;
@@ -27,21 +27,21 @@ export default function EventCheckoutView({
     const mins = Math.floor(totalSec / 60)
       .toString()
       .padStart(2, "0");
+
     const secs = (totalSec % 60)
       .toString()
       .padStart(2, "0");
+
     return `${mins}:${secs}`;
   };
 
-  // Tampilan ketika Sesi Checkout Berakhir (Waktu = 0)
   if (secondsLeft === 0) {
     return (
-      <div className="space-y-6 animate-fadeIn">
+      <div className="w-full space-y-5 sm:space-y-6 animate-fadeIn">
         <h1 className="text-xl sm:text-2xl font-bold text-[#1A1513]">
           Checkout Ticket
         </h1>
 
-        {/* Back Link */}
         <button
           type="button"
           onClick={onBack}
@@ -50,9 +50,7 @@ export default function EventCheckoutView({
           &lt; Kembali ke Event
         </button>
 
-        {/* Card Sesi Checkout Berakhir */}
-        <div className="bg-white rounded-2xl border border-[#EEDFD5] p-8 sm:p-12 text-center shadow-xs space-y-4 max-w-2xl mx-auto my-6">
-          {/* Clock Icon Circle */}
+        <div className="bg-white rounded-2xl border border-[#EEDFD5] p-6 sm:p-12 text-center shadow-xs space-y-4 max-w-2xl mx-auto my-5 sm:my-6">
           <div className="w-12 h-12 rounded-full bg-[#FEE2E2] text-[#DC2626] flex items-center justify-center mx-auto shrink-0">
             <svg
               className="w-6 h-6"
@@ -73,6 +71,7 @@ export default function EventCheckoutView({
             <h2 className="text-lg sm:text-xl font-bold text-[#1A1513]">
               Sesi checkout berakhir
             </h2>
+
             <p className="text-xs sm:text-sm text-[#7E7267] max-w-md mx-auto leading-relaxed">
               Batas waktu 10:00 terlampaui, jadi slot dilepas kembali ke kuota
               kategori Cattery. Pendaftaran harus diulang dari halaman Event.
@@ -83,7 +82,7 @@ export default function EventCheckoutView({
             <button
               type="button"
               onClick={onBack}
-              className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-7 py-2.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 transition-all"
+              className="cursor-pointer w-full sm:w-auto rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-7 py-2.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 transition-all"
             >
               Coba lagi dari Event
             </button>
@@ -93,39 +92,41 @@ export default function EventCheckoutView({
     );
   }
 
-  // Tampilan Normal Checkout
   return (
-    <div className="space-y-6 animate-fadeIn">
-      <h1 className="text-xl sm:text-2xl font-bold text-[#1A1513]">
-        Checkout Ticket
-      </h1>
+    <div className="w-full space-y-5 sm:space-y-6 animate-fadeIn">
+      <div>
+        <h1 className="text-xl sm:text-2xl font-bold text-[#1A1513]">
+          Checkout Ticket
+        </h1>
 
-      {/* Back Button */}
-      <button
-        type="button"
-        onClick={onBack}
-        className="inline-flex items-center gap-1 text-xs font-semibold text-[#EE6B28] hover:underline cursor-pointer"
-      >
-        &lt; Kembali ke Event
-      </button>
+        <button
+          type="button"
+          onClick={onBack}
+          className="mt-2 inline-flex items-center gap-1 text-xs font-semibold text-[#EE6B28] hover:underline cursor-pointer"
+        >
+          &lt; Kembali ke Event
+        </button>
+      </div>
 
-      {/* Countdown Timer Card */}
-      <div className="bg-white rounded-2xl border border-[#EEDFD5] p-5 sm:p-6 shadow-xs space-y-4">
-        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-4">
+      {/* Countdown */}
+      <div className="bg-white rounded-2xl border border-[#EEDFD5] p-4 sm:p-6 shadow-xs space-y-3 sm:space-y-4">
+        <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-2 sm:gap-4">
           <div>
-            <span className="block text-[10px] font-bold tracking-wider uppercase text-[#8C8074]">
+            <span className="block text-[9px] sm:text-[10px] font-bold tracking-wider uppercase text-[#8C8074]">
               SISA WAKTU PEMBAYARAN
             </span>
+
             <span className="text-3xl sm:text-4xl font-extrabold text-[#F05A1B] font-mono leading-tight">
               {formatTime(secondsLeft)}
             </span>
           </div>
-          <p className="text-xs text-[#7E7267] max-w-xs leading-relaxed sm:text-right">
-            Selesaikan pembayaran dalam 10:00 atau slot dilepas ke peserta lain.
+
+          <p className="text-[11px] sm:text-xs text-[#7E7267] max-w-xs leading-relaxed sm:text-right">
+            Selesaikan pembayaran dalam 10:00 atau slot dilepas ke peserta
+            lain.
           </p>
         </div>
 
-        {/* Progress Bar */}
         <div className="w-full bg-[#F3EAE1] h-1.5 rounded-full overflow-hidden">
           <div
             className="bg-[#F05A1B] h-full transition-all duration-1000"
@@ -134,72 +135,79 @@ export default function EventCheckoutView({
         </div>
       </div>
 
-      {/* Checkout Details Card */}
-      <div className="bg-white rounded-2xl border border-[#EEDFD5] p-5 sm:p-6 shadow-xs space-y-6">
+      {/* Checkout Details */}
+      <div className="bg-white rounded-2xl border border-[#EEDFD5] p-4 sm:p-6 shadow-xs space-y-5 sm:space-y-6">
         <h2 className="text-base sm:text-lg font-bold text-[#1A1513]">
           ICA Cat Show Bandung 2026
         </h2>
 
-        <div className="space-y-3.5 text-xs">
-          <div className="flex justify-between items-center py-1">
+        <div className="space-y-3 text-xs">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 py-1">
             <span className="text-[#8C8074]">Tanggal</span>
-            <span className="font-semibold text-[#1A1513]">18–19 Okt 2026</span>
+            <span className="font-semibold text-[#1A1513]">
+              18–19 Okt 2026
+            </span>
           </div>
+
           <hr className="border-[#F5EBE2]" />
 
-          <div className="flex justify-between items-center py-1">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 py-1">
             <span className="text-[#8C8074]">Lokasi</span>
-            <span className="font-semibold text-[#1A1513]">
+            <span className="font-semibold text-[#1A1513] sm:text-right">
               Trans Convention Center, Bandung
             </span>
           </div>
+
           <hr className="border-[#F5EBE2]" />
 
-          <div className="flex justify-between items-center py-1">
+          <div className="flex flex-col sm:flex-row sm:justify-between sm:items-center gap-1 py-1">
             <span className="text-[#8C8074]">Kategori kuota</span>
-            <span className="font-semibold text-[#1A1513]">
+            <span className="font-semibold text-[#1A1513] sm:text-right">
               Cattery · Rumah Hana Cattery
             </span>
           </div>
+
           <hr className="border-[#F5EBE2]" />
 
-          <div className="flex justify-between items-center py-1">
+          <div className="flex justify-between items-center gap-3 py-1">
             <span className="text-[#8C8074]">Sisa slot kategori ini</span>
-            <span className="px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#FFF4E5] text-[#C26D0A]">
+
+            <span className="shrink-0 px-2.5 py-0.5 rounded-md text-[11px] font-semibold bg-[#FFF4E5] text-[#C26D0A]">
               2 slot tersisa
             </span>
           </div>
+
           <hr className="border-[#F5EBE2]" />
 
-          <div className="flex justify-between items-center py-1 pt-1">
+          <div className="flex justify-between items-center py-1">
             <span className="font-bold text-sm text-[#1A1513]">Total</span>
+
             <span className="font-extrabold text-base text-[#F05A1B]">
               Rp 150.000
             </span>
           </div>
         </div>
 
-        {/* Info Box */}
-        <div className="p-3.5 rounded-xl bg-[#FFF8F5] border border-[#FCE3D2] text-xs text-[#8C8074] leading-relaxed">
-          Data kucing yang diikutkan diisi setelah pembayaran berhasil, jadi slot
-          Anda tidak tertahan lebih lama.
+        {/* Info */}
+        <div className="p-3 sm:p-3.5 rounded-xl bg-[#FFF8F5] border border-[#FCE3D2] text-[11px] sm:text-xs text-[#8C8074] leading-relaxed">
+          Data kucing yang diikutkan diisi setelah pembayaran berhasil, jadi
+          slot Anda tidak tertahan lebih lama.
         </div>
 
-        {/* Action Buttons */}
-        <div className="flex flex-wrap items-center gap-3 pt-2">
+        {/* Actions */}
+        <div className="flex flex-col sm:flex-row sm:flex-wrap items-stretch sm:items-center gap-2.5 sm:gap-3 pt-1 sm:pt-2">
           <button
             type="button"
             onClick={onNext}
-            className="cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-6 py-2.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5"
+            className="cursor-pointer w-full sm:w-auto rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-6 py-3 sm:py-2.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5"
           >
             Lanjut ke pembayaran
           </button>
 
-          {/* Tombol Simulasi Tetap "Simulasi: waktu hampir habis" (Mengubah ke 15 Detik) */}
           <button
             type="button"
             onClick={() => setSecondsLeft(15)}
-            className="cursor-pointer rounded-full border border-[#EEDFD5] bg-white px-5 py-2.5 text-xs font-semibold text-[#574D45] hover:bg-[#FAF7F5] active:translate-y-0.5"
+            className="cursor-pointer w-full sm:w-auto rounded-full border border-[#EEDFD5] bg-white px-5 py-3 sm:py-2.5 text-xs font-semibold text-[#574D45] hover:bg-[#FAF7F5] active:translate-y-0.5"
           >
             Simulasi: waktu hampir habis
           </button>

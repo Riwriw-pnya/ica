@@ -1,10 +1,14 @@
-import { eventListItems } from "@/data/anggota";
+import {
+  eventListItems,
+  activityLogItems,
+} from "@/data/anggota";
 import MemberCard from "@/app/anggota/dashboard/components/MemberCard";
 import QuickAccess from "@/app/anggota/dashboard/components/QuickAccess";
 import NewsSection from "@/app/anggota/dashboard/components/NewsSection";
 import UpcomingEvents from "@/app/anggota/dashboard/components/UpcomingEvents";
 import StoreSection from "@/components/store/StoreSection";
 import DashboardMobile from "@/app/anggota/dashboard/components/DashboardMobile";
+import ActivityLogSection from "@/app/anggota/log-aktivitas/components/ActivityLogSection";
 
 export default function DashboardPage() {
   return (
@@ -39,6 +43,11 @@ export default function DashboardPage() {
         <section className="mt-4">
           <StoreSection />
         </section>
+
+        <section className="mt-4">
+          <ActivityLogSection activities={activityLogItems} />
+        </section>
+
       </div>
     </>
   );

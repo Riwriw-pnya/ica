@@ -1,14 +1,20 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+
 import Image from "next/image";
+
 import { Product } from "./StoreMobile";
 
 interface StoreProductDetailMobileProps {
   product: Product;
   onBack: () => void;
   onOpenCart: () => void;
-  addToCart: (product: Product, quantity: number, size: string) => void;
+  addToCart: (
+    product: Product,
+    quantity: number,
+    size: string
+  ) => void;
   totalCartItems: number;
   formatRupiah: (val: number) => string;
 }
@@ -42,6 +48,7 @@ export default function StoreProductDetailMobile({
   // Handler untuk tombol back dengan animasi slide-out
   const handleBack = () => {
     setSlideIn(false);
+
     setTimeout(() => {
       onBack();
     }, 280);
@@ -49,7 +56,6 @@ export default function StoreProductDetailMobile({
 
   const handleAddToCart = () => {
     addToCart(product, quantity, selectedSize);
-
     setToastMessage(`${product.title} ditambahkan ke keranjang.`);
     setShowToast(true);
 
@@ -92,41 +98,17 @@ export default function StoreProductDetailMobile({
                 />
               </svg>
             </button>
+
             <div>
               <h1 className="text-base font-bold text-[#1F1B18] leading-tight line-clamp-1">
                 {product.title}
               </h1>
+
               <p className="text-xs text-[#857B72] mt-0.5">
                 {product.categoryLabel || "Apparel"} · Store ICA
               </p>
             </div>
           </div>
-
-          {/* LOGO KERANJANG DENGAN BADGE ANGKA */}
-          <button
-            type="button"
-            onClick={onOpenCart}
-            className="relative p-2 rounded-full active:bg-[#EAE5DF]/50 transition-colors"
-          >
-            <svg
-              className="w-5.5 h-5.5 text-[#1F1B18]"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
-              />
-            </svg>
-            {totalCartItems > 0 && (
-              <span className="absolute top-1 right-1 bg-[#E55335] text-white text-[9px] font-bold w-4 h-4 rounded-full flex items-center justify-center leading-none">
-                {totalCartItems}
-              </span>
-            )}
-          </button>
         </div>
       </div>
 
@@ -156,7 +138,10 @@ export default function StoreProductDetailMobile({
                   d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z"
                 />
               </svg>
-              <span className="text-xs font-medium">Foto produk belum diunggah</span>
+
+              <span className="text-xs font-medium">
+                Foto produk belum diunggah
+              </span>
             </>
           )}
         </div>
@@ -167,9 +152,11 @@ export default function StoreProductDetailMobile({
             <h2 className="text-lg font-bold text-[#1F1B18] leading-tight">
               {product.title}
             </h2>
+
             <p className="text-lg font-extrabold text-[#D96B27] mt-1.5">
               {formatRupiah(product.price)}
             </p>
+
             <p className="text-xs text-[#857B72] mt-0.5">
               Stok {product.stock}
             </p>
@@ -185,6 +172,7 @@ export default function StoreProductDetailMobile({
             <label className="text-xs font-bold text-[#1F1B18] block">
               Ukuran
             </label>
+
             <div className="flex items-center gap-2.5">
               {sizes.map((sz) => (
                 <button
@@ -208,6 +196,7 @@ export default function StoreProductDetailMobile({
             <label className="text-xs font-bold text-[#1F1B18] block">
               Jumlah
             </label>
+
             <div className="flex items-center gap-3">
               <button
                 type="button"
@@ -216,9 +205,11 @@ export default function StoreProductDetailMobile({
               >
                 -
               </button>
+
               <span className="text-xs font-bold text-[#1F1B18] w-5 text-center">
                 {quantity}
               </span>
+
               <button
                 type="button"
                 onClick={() => setQuantity((q) => q + 1)}
@@ -234,12 +225,14 @@ export default function StoreProductDetailMobile({
       {/* 3. FIXED BOTTOM BUTTON (SELALU DIAM DI ATAS BOTTOM NAV BAR) */}
       <div
         className="fixed bottom-[64px] left-0 right-0 z-40 px-5 py-3.5 bg-[#F7F5F0]/90 backdrop-blur-md border-t border-[#EAE5DF]/60"
-        style={{ paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)" }}
+        style={{
+          paddingBottom: "calc(env(safe-area-inset-bottom, 0px) + 12px)",
+        }}
       >
         <button
           type="button"
           onClick={handleAddToCart}
-          className="w-full py-3.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] shadow-[0_4px_12px_rgba(238,107,40,0.25)] active:scale-98 transition-transform"
+          className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
         >
           Tambahkan ke keranjang
         </button>
@@ -269,6 +262,7 @@ export default function StoreProductDetailMobile({
                 />
               </svg>
             </div>
+
             <p className="text-xs font-medium text-gray-100 truncate">
               {toastMessage}
             </p>

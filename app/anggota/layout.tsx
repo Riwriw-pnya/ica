@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { usePathname } from "next/navigation";
 import Sidebar from "@/components/anggota/Sidebar";
 import Header from "@/components/anggota/Header";
@@ -19,6 +19,22 @@ export default function AnggotaLayout({
   const pathname = usePathname();
   const [notifications, setNotifications] = useState<NotificationItem[]>(initialNotifications);
   const [isMobileNotifOpen, setIsMobileNotifOpen] = useState(false);
+  const [cartCount, setCartCount] = useState(0);
+
+  // Sync jumlah cart secara realtime dari StoreMemberPage
+  useEffect(() => {
+    const handleCartUpdate = (e: Event) => {
+      const customEvent = e as CustomEvent<{ count: number }>;
+      if (typeof customEvent.detail?.count === "number") {
+        setCartCount(customEvent.detail.count);
+      }
+    };
+
+    window.addEventListener("cart-count-updated", handleCartUpdate);
+    return () => {
+      window.removeEventListener("cart-count-updated", handleCartUpdate);
+    };
+  }, []);
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
 
@@ -32,7 +48,6 @@ export default function AnggotaLayout({
     );
   };
 
-  // Cek apakah saat ini sedang berada di halaman dashboard mobile
   const isDashboardMobile = pathname === "/anggota/dashboard";
 
   return (
@@ -46,9 +61,10 @@ export default function AnggotaLayout({
           </div>
 
           <div className="flex min-w-0 flex-1 flex-col h-full relative">
-            {/* Header: Sembunyikan di mobile HANYA KETIKA di halaman dashboard. Di halaman lain tetap tampil. */}
+            {/* Header */}
             <div className={isDashboardMobile ? "hidden lg:block" : "block"}>
               <Header 
+                cartCount={cartCount}
                 unreadNotificationCount={unreadCount}
                 onOpenMobileNotif={() => setIsMobileNotifOpen(true)} 
               />

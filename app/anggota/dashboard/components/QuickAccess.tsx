@@ -4,9 +4,7 @@ import Link from "next/link";
 
 export default function QuickAccess() {
   return (
-    /* Latar & border luar dilepas di Mobile, tetap card putih di Desktop (sm) */
     <section className="w-full max-w-full sm:rounded-xl sm:border sm:border-[var(--color-ink-100)] sm:bg-white sm:p-5 sm:shadow-xs">
-      {/* Judul "Akses cepat" disembunyikan di Mobile agar sesuai acuan foto */}
       <h2 className="hidden sm:block text-sm font-semibold text-[var(--color-ink-900)]">
         Akses cepat
       </h2>
