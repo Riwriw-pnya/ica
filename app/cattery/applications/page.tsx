@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 import ApplicationStepper from "./components/ApplicationStepper";
 import { mockApplications } from "@/data/cattery";
 import { ApplicationItem } from "@/types/cattery";
@@ -12,8 +13,6 @@ export default function ApplicationsPage() {
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // SIMULASI FETCH API BE
-    // Saat BE siap, ganti mockApplications dengan: await fetch('/api/applications').then(res => res.json())
     const fetchData = async () => {
       setLoading(true);
       setTimeout(() => {
@@ -28,13 +27,13 @@ export default function ApplicationsPage() {
   const getStatusBadge = (status: string, label: string) => {
     switch (status) {
       case "review":
-        return <span className="rounded-full bg-sky-50 px-3 py-1 text-[11px] font-semibold text-sky-700">{label}</span>;
+        return <span className="rounded-full bg-sky-50 px-3 py-1 text-[11px] font-bold text-sky-700">{label}</span>;
       case "revision":
-        return <span className="rounded-full bg-[var(--color-brand-orange-100)] px-3 py-1 text-[11px] font-semibold text-amber-700">{label}</span>;
+        return <span className="rounded-full bg-[var(--color-brand-orange-100)] px-3 py-1 text-[11px] font-bold text-amber-700">{label}</span>;
       case "approved":
-        return <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-semibold text-emerald-700">{label}</span>;
+        return <span className="rounded-full bg-emerald-50 px-3 py-1 text-[11px] font-bold text-emerald-700">{label}</span>;
       default:
-        return <span className="rounded-full bg-gray-50 px-3 py-1 text-[11px] font-semibold text-gray-700">{label}</span>;
+        return <span className="rounded-full bg-gray-50 px-3 py-1 text-[11px] font-bold text-gray-700">{label}</span>;
     }
   };
 
@@ -43,43 +42,73 @@ export default function ApplicationsPage() {
   }
 
   return (
-    <div className="min-h-screen bg-[var(--color-ink-50)] p-8">
-    <div>
-      <div className="bg-[var-(--color-ink-50)]">
-        <h1 className="font-display text-xl font-bold text-[var(--color-ink-900)]">Applications</h1>
-        <p className="mt-1 text-xs text-[var(--color-ink-400)]">
-          Semua pengajuan mating report dan pengajuan cattery beserta progres statusnya.
-        </p>
-      </div>
+    <div className="min-h-screen bg-[var(--color-ink-50)] p-4 sm:p-6 lg:p-8 pb-20 lg:pb-8 font-sans">
+      <div className="max-w-5xl mx-auto space-y-4">
+        
+        {/* Header Section */}
+        <div>
+          <h1 className="hidden md:block font-display text-xl sm:text-2xl font-bold text-[#1a1513]">
+            Applications
+          </h1>
+          <p className="text-xs sm:text-sm text-[#8c8074] leading-relaxed mt-1">
+            Semua pengajuan mating report dan pengajuan cattery beserta progres statusnya.
+          </p>
+        </div>
 
-      <div className="mt-6 space-y-4"> 
-        {applications.map((item) => (
-          <div key={item.id} className="rounded-2xl border border-[var(--color-ink-100)] p-6 shadow- bg-gradient-to-b from-[#fdf9f4] to-white">
-            <div className="flex items-start justify-between">
-              <div>
-                <h3 className="font-display text-sm font-bold text-[var(--color-ink-900)]">
-                  {item.code} · {item.title}
-                </h3>
-                <p className="mt-0.5 text-[11px] text-[var(--color-ink-400)]">{item.subtitle}</p>
+        {/* Tombol Mating Report Mobile */}
+        <div className="block md:hidden pt-1">
+          <Link
+            href="/cattery/mating-reports"
+            className="w-full py-3 px-4 rounded-2xl bg-gradient-to-b from-[#ff9b54] to-[#f05a1b] text-white font-bold text-sm shadow-md flex items-center justify-center active:scale-[0.98] transition"
+          >
+            Buat mating report
+          </Link>
+        </div>
+
+        {/* List Applications */}
+        <div className="space-y-4 pt-2"> 
+          {applications.map((item) => (
+            <div 
+              key={item.id} 
+              className="rounded-3xl border border-[#eedfd5] p-5 sm:p-6 shadow-xs bg-white space-y-4"
+            >
+              <div className="flex items-start justify-between gap-4">
+                <div>
+                  <h3 className="font-bold text-sm sm:text-base text-[#1a1513]">
+                    {item.code} · {item.title}
+                  </h3>
+                  <p className="mt-0.5 text-xs text-[#8c8074]">{item.subtitle}</p>
+                </div>
+
+                {/* Badge Status & Tombol Detail (Desktop) */}
+                <div className="flex items-center gap-3 shrink-0">
+                  {getStatusBadge(item.status, item.statusLabel)}
+                  <button
+                    onClick={() => router.push(`/cattery/applications/${item.id}`)}
+                    className="hidden md:inline-block rounded-xl border border-[var(--color-ink-100)] px-3.5 py-1.5 text-[12px] font-medium text-[var(--color-ink-400)] hover:bg-[var(--color-ink-50)] bg-gradient-to-b from-white to-[var(--color-ink-300)] shadow-sm hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
+                  >
+                    Detail
+                  </button>
+                </div>
               </div>
 
-              <div className="flex items-center gap-3">
-                {getStatusBadge(item.status, item.statusLabel)}
+              <ApplicationStepper currentStep={item.currentStep} />
+
+              {/* Tombol Detail Mobile */}
+              <div className="block md:hidden pt-2">
                 <button
                   onClick={() => router.push(`/cattery/applications/${item.id}`)}
-                  className="rounded-xl border border-[var(--color-ink-100)] px-3.5 py-1.5 text-[12px] font-medium text-[var(--color-ink-400)] hover:bg-[var(--color-ink-50)] bg-gradient-to-b from-white to-[var(--color-ink-300)] shadow-sm
-                hover:shadow-md hover:-translate-y-0.5 transition-all duration-150 cursor-pointer"
+                  className="w-full py-2.5 rounded-full border border-[#eedfd5] text-xs font-bold text-[#1a1513] hover:bg-[#faf7f2] transition"
                 >
                   Detail
                 </button>
               </div>
-            </div>
 
-            <ApplicationStepper currentStep={item.currentStep} />
-          </div>
-        ))}
+            </div>
+          ))}
+        </div>
+
       </div>
-    </div>
     </div>
   );
 }

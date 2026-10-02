@@ -107,9 +107,9 @@ export default function TopHealthScoresCard() {
           </div>
         </div>
 
-        <div className="flex items-center justify-between border-t border-[#f4efe9] pt-3 text-xs text-[#8c8074]">
-          <span>Read-only · tidak ada aksi edit skor di sisi cattery.</span>
-          <Link href="/cattery/leaderboard" className="font-bold text-[var(--color-brand-orange-700)] hover:underline">
+        <div className="flex items-center justify-between border-t border-[#f4efe9] pt-3 text-[#8c8074]">
+          <span className="text-[10px]">Read-only · tidak ada aksi edit skor di sisi cattery.</span>
+          <Link href="/cattery/leaderboard" className="font-bold text-[var(--color-brand-orange-700)] text-[11px] hover:underline">
             Leaderboard →
           </Link>
         </div>

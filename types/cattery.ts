@@ -38,6 +38,8 @@ export interface CatteryProfile {
   whatsapp?: string;
   address?: string;
   breeds?: string[];
+  email?: string;
+  memberSince?: string;
   placePhotoUrl?: string;
   profilePhotoUrl?: string;
   provinceRegion?: string;
@@ -134,7 +136,7 @@ export interface CatCertificateFile {
 }
 
 export type OffspringGender = "Jantan" | "Betina" | "Male" | "Female" | "";
-export type OffspringStatus = "Hidup" | "Mati";
+export type OffspringStatus = "Hidup" | "Mati" | "Belum diketahui";
 
 export interface OffspringItem {
   id: number;

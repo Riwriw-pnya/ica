@@ -30,39 +30,37 @@ export const catteryProfile: CatteryProfile = {
   whatsapp: "0812-7788-4400",
   address: "Jl. Sukajadi No. 118, Sukagalih, Sukajadi, Kota Bandung 40163",
   breeds: ["Persian", "Exotic Shorthair"],
-  provinceRegion: "Jawa Barat · Bandung", // baru, khusus halaman profil
+  email: "hana@rumahhana.id",
+  memberSince: "25 Jul 2024",
+  provinceRegion: "Jawa Barat · Bandung", 
 };
 
 export const maleCats: MaleCat[] = [
-  { id: 1, name: "Bagas of Rumah Hana", breed: "Persian", birthDate: "12 Mar 2022", regCode: "ICA-PD-4471", emsCode: "PER n 22", certStatus: "Aktif",
+  { id: 1, name: "Bagas of Rumah Hana", breed: "Persian Longhair", birthDate: "12 Mar 2022", regCode: "ICA-PD-4471", emsCode: "PER n 22", certStatus: "Aktif",
     certificateFile: { fileName: "d1-berkas.pdf", uploadedDate: "3 Jan 2026", sizeLabel: "1.2 MB" } },
   { id: 2, name: "Rimba Anggara", breed: "Maine Coon", birthDate: "2 Jun 2021", regCode: "ICA-PD-3980", emsCode: "MCO ns 24", certStatus: "Aktif",
     certificateFile: { fileName: "d1-berkas.pdf", uploadedDate: "15 Nov 2025", sizeLabel: "1.2 MB" } },
-  { id: 3, name: "Gala Pradipta", breed: "Persian", birthDate: "8 Sep 2023", regCode: "ICA-PD-5120", emsCode: "PER d 03", certStatus: "Aktif",
+  { id: 3, name: "Gala Pradipta", breed: "Persian Longhair", birthDate: "8 Sep 2023", regCode: "ICA-PD-5120", emsCode: "PER d 03", certStatus: "Aktif",
     certificateFile: { fileName: "d1-berkas.pdf", uploadedDate: "20 Des 2025", sizeLabel: "1.2 MB" } },
   { id: 4, name: "Wira Santana", breed: "British Shorthair", birthDate: "19 Jan 2020", regCode: "ICA-PD-2210", emsCode: "BRI a", certStatus: "Perlu perpanjangan" },
 ];
 
 export const femaleCats: FemaleCat[] = [
-  { id: 1, name: "Nara Kencana", breed: "Exotic Shorthair", birthDate: "1 Feb 2022", regCode: "ICA-PD-4950", emsCode: "PER f 22", certStatus: "Aktif",
+  { id: 1, name: "Nara Kencana", breed: "Persian Longhair", birthDate: "1 Feb 2022", regCode: "ICA-PD-4950", emsCode: "PER f 22", certStatus: "Aktif",
     certificateFile: { fileName: "d2-berkas.pdf", uploadedDate: "7 Jan 2026", sizeLabel: "1.2 MB" } },
-  { id: 2, name: "Sekar Ayu", breed: "Exotic Shorthair", birthDate: "27 Jul 2022", regCode: "ICA-PD-1510", emsCode: "MCO f 03", certStatus: "Aktif",
+  { id: 2, name: "Sekar Ayu", breed: "Maine Coon", birthDate: "27 Jul 2022", regCode: "ICA-PD-1510", emsCode: "MCO f 03", certStatus: "Aktif",
     certificateFile: { fileName: "d2-berkas.pdf", uploadedDate: "12 Nov 2025", sizeLabel: "1.2 MB" } },
-  { id: 3, name: "Kirana Melati", breed: "Persian", birthDate: "10 Nov 2021", regCode: "ICA-PD-3766", emsCode: "PER g 24", certStatus: "Aktif",
+  { id: 3, name: "Kirana Melati", breed: "Persian Longhair", birthDate: "10 Nov 2021", regCode: "ICA-PD-3766", emsCode: "PER g 24", certStatus: "Aktif",
     certificateFile: { fileName: "d2-berkas.pdf", uploadedDate: "2 Des 2025", sizeLabel: "1.2 MB" } },
   { id: 4, name: "Tirta Wangi", breed: "British Shorthair", birthDate: "9 Feb 2024", regCode: "ICA-PD-5431", emsCode: "BRI c", certStatus: "Perlu perpanjangan" },
 ];
 
 export const initialNotifications: NotificationItem[] = [
   { id: "n1", type: "event", title: "Pendaftaran event dibuka", message: "ICA Regional Cat Show — Bandung sudah bisa didaftarkan.", time: "2 jam lalu", isRead: false, url: "/cattery/event" },
-  { id: "n2", type: "pedigree", title: "Pedigree disetujui", message: "Pedigree Bagas of Rumah Hana telah diverifikasi Admin ICA.", time: "Kemarin", isRead: false, url: "/cattery/pedigree" },
-  { id: "n3", type: "mating", title: "Mating report menunggu review", message: "Laporan Bagas × Nara Kencana sedang diproses.", time: "3 hari lalu", isRead: true, url: "/cattery/mating" },
+  { id: "n2", type: "pedigree", title: "Pedigree disetujui", message: "Pedigree Bagas of Rumah Hana telah diverifikasi Admin ICA.", time: "Kemarin", isRead: false, url: "/cattery/profil" },
+  { id: "n3", type: "mating", title: "Mating report menunggu review", message: "Laporan Bagas × Nara Kencana sedang diproses.", time: "3 hari lalu", isRead: true, url: "/cattery/application" },
 ];
 
-/**
- * Detail-page-only fields, keyed by the same id used in catItems.
- * Semua 6 kucing sudah ada entrinya biar /cattery/my-cats/[id] jalan untuk semua id.
- */
 export const catProfileDetails: CatProfileDetail[] = [
   {
     ...catItems[0], // Bagas of Rumah Hana

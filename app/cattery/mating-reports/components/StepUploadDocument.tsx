@@ -9,49 +9,89 @@ interface ManualDoc {
 
 interface StepUploadDokumenProps {
   maleCertFile: CatCertificateFile | null;
+  onMaleCertChange: (file: File) => void;
+  onMaleCertRemove: () => void;
+
   femaleCertFile: CatCertificateFile | null;
+  onFemaleCertChange: (file: File) => void;
+  onFemaleCertRemove: () => void;
+
   matingPhoto: ManualDoc;
   onMatingPhotoChange: (file: File) => void;
   onMatingPhotoRemove: () => void;
+
   kittenPhotos: ManualDoc;
   onKittenPhotosChange: (file: File) => void;
   onKittenPhotosRemove: () => void;
+
   vetLetter: ManualDoc;
   onVetLetterChange: (file: File) => void;
   onVetLetterRemove: () => void;
+
   paymentProof: ManualDoc;
   onPaymentProofChange: (file: File) => void;
   onPaymentProofRemove: () => void;
+
   showError?: boolean;
 }
 
-function toFileInfo(file: File): CatCertificateFile {
+export function toFileInfo(file: File): CatCertificateFile {
+  const sizeMB = file.size ? (file.size / (1024 * 1024)).toFixed(1) : "1.2";
   return {
-    fileName: file.name,
+    fileName: file.name || "dokumen.pdf",
     uploadedDate: "Hari ini",
-    sizeLabel: `${(file.size / 1024 / 1024).toFixed(1)} MB`,
+    sizeLabel: `${sizeMB} MB`,
   };
 }
 
 export default function StepUploadDokumen(props: StepUploadDokumenProps) {
   const isInvalid = (props.showError ?? false) && props.matingPhoto.file === null;
 
-  return (
-    <div className="rounded-xl border border-[var(--color-ink-100)] bg-white p-6">
-      <h2 className="font-display text-[16px] font-semibold text-[var(--color-ink-900)]">
-        Upload dokumen & foto
-      </h2>
-      <p className="mt-1 text-[12px] text-[var(--color-ink-700)]">
-        Unggah bukti pendukung. Dokumen bertanda wajib harus ada sebelum submit.
-      </p>
+  const requiredCount = 3;
+  let uploadedRequired = 0;
+  if (props.maleCertFile) uploadedRequired++;
+  if (props.femaleCertFile) uploadedRequired++;
+  if (props.matingPhoto.file) uploadedRequired++;
 
-      <div className="mt-4 space-y-2.5 border-t border-[var(--color-ink-100)] pt-4">
-        <DocumentItem label="Sertifikat pedigree pejantan" icon="cat" isRequired isAuto file={props.maleCertFile} />
-        <DocumentItem label="Sertifikat pedigree induk" icon="cat" isRequired isAuto file={props.femaleCertFile} />
+  const missingRequired = requiredCount - uploadedRequired;
+
+  return (
+    <div className="rounded-2xl sm:rounded-xl border border-[#EEDFD5] bg-white p-4 sm:p-6 transition shadow-2xs space-y-4 pb-20 md:pb-6">
+      <div>
+        <h2 className="font-display text-sm sm:text-base font-bold text-[#1A1513]">
+          Upload dokumen
+        </h2>
+        <p className="mt-1 text-xs text-[#8C8074] leading-relaxed">
+          {missingRequired > 0
+            ? `${missingRequired} dokumen wajib belum diunggah. Ukuran file maksimal 5 MB per dokumen.`
+            : "Semua dokumen wajib telah lengkap. Ukuran file maksimal 5 MB per dokumen."}
+        </p>
+      </div>
+
+      <div className="space-y-3 pt-2">
+        <DocumentItem
+          label="Sertifikat pedigree pejantan"
+          description="PDF atau foto sertifikat asli"
+          icon="document"
+          isRequired
+          file={props.maleCertFile}
+          onPick={props.onMaleCertChange}
+          onRemove={props.onMaleCertRemove}
+        />
+        <DocumentItem
+          label="Sertifikat pedigree induk"
+          description="PDF atau foto sertifikat asli"
+          icon="document"
+          isRequired
+          file={props.femaleCertFile}
+          onPick={props.onFemaleCertChange}
+          onRemove={props.onFemaleCertRemove}
+        />
 
         <DocumentItem
           label="Foto mating / kandang"
-          icon="upload"
+          description="Bukti proses mating di lokasi cattery"
+          icon="camera"
           isRequired
           isInvalid={isInvalid}
           file={props.matingPhoto.file}
@@ -62,7 +102,7 @@ export default function StepUploadDokumen(props: StepUploadDokumenProps) {
         <DocumentItem
           label="Foto tiap kitten"
           description="Satu foto per kitten, wajah terlihat jelas."
-          icon="upload"
+          icon="image"
           isRequired={false}
           file={props.kittenPhotos.file}
           onPick={props.onKittenPhotosChange}
@@ -71,7 +111,7 @@ export default function StepUploadDokumen(props: StepUploadDokumenProps) {
         <DocumentItem
           label="Surat keterangan dokter hewan"
           description="Memperkuat hasil verifikasi admin."
-          icon="upload"
+          icon="medical"
           isRequired={false}
           file={props.vetLetter.file}
           onPick={props.onVetLetterChange}
@@ -80,20 +120,13 @@ export default function StepUploadDokumen(props: StepUploadDokumenProps) {
         <DocumentItem
           label="Bukti pembayaran"
           description="Biaya penerbitan pedigree."
-          icon="upload"
+          icon="receipt"
           isRequired={false}
           file={props.paymentProof.file}
           onPick={props.onPaymentProofChange}
           onRemove={props.onPaymentProofRemove}
         />
       </div>
-
-      <p className="mt-4 text-[11px] text-[var(--color-ink-400)]">
-        Klik &quot;Pilih file&quot; untuk menentukan lokasi upload. Format &amp; ukuran maksimum file
-        masih [PROSES].
-      </p>
     </div>
   );
 }
-
-export { toFileInfo };

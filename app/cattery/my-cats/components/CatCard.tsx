@@ -39,7 +39,7 @@ export default function CatCard({ cat }: { cat: CatItem }) {
         className="hidden"
       />
 
-      <div className="relative flex h-32 flex-col items-center justify-center gap-1 rounded-t-xl border-b border-[var(--color-ink-100)] bg-[var(--color-brand-orange-50)] text-[var(--color-brand-orange-500)]">
+      <div className="relative flex h-32 flex-col items-center justify-center gap-1 rounded-t-xl border-b border-[var(--color-ink-100)] bg-[var(--color-ink-50)] text-[var(--color-ink-400)]">
         {imageUrl ? (
           <Image src={imageUrl} alt={cat.name} fill className="object-cover" />
         ) : (
