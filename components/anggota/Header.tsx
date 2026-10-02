@@ -117,11 +117,15 @@ export default function Header({
 
       {/* Khusus Desktop View */}
       <DesktopHeader
-        desktopTitle={pageMeta.desktopTitle}
-        cartCount={cartCount}
-        onCartClick={handleCartClick}
-        onLogout={handleLogout}
-      />
+      desktopTitle={pageMeta.desktopTitle}
+      cartCount={cartCount}
+      onCartClick={handleCartClick}
+      unreadNotificationCount={unreadNotificationCount}
+      onOpenNotification={() => {
+        onOpenMobileNotif?.();
+      }}
+      onLogout={handleLogout}
+    />
     </header>
   );
 }

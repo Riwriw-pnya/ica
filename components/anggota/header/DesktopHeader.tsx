@@ -1,6 +1,6 @@
 "use client";
 
-import { useRef } from "react";
+import { useRef, useState } from "react";
 import DashboardIcon from "../DashboardIcon";
 import UserMenuDropdown from "../UserMenuDropdown";
 import { useUserMenu } from "@/context/UserMenuContext";
@@ -10,6 +10,8 @@ interface DesktopHeaderProps {
   desktopTitle: string;
   cartCount: number;
   onCartClick: (e: React.MouseEvent) => void;
+  unreadNotificationCount: number;
+  onOpenNotification: () => void;
   onLogout: () => void;
 }
 
@@ -17,64 +19,212 @@ export default function DesktopHeader({
   desktopTitle,
   cartCount,
   onCartClick,
+  unreadNotificationCount,
+  onOpenNotification,
   onLogout,
 }: DesktopHeaderProps) {
   const { openMenu, toggleMenu, closeMenu } = useUserMenu();
   const containerRef = useRef<HTMLDivElement>(null);
+  const notificationRef = useRef<HTMLDivElement>(null);
+
+  const [showNotifications, setShowNotifications] = useState(false);
+
   const isUserMenuOpen = openMenu === "header";
 
   useClickOutside(containerRef, () => {
     if (isUserMenuOpen) closeMenu();
   });
 
+  useClickOutside(notificationRef, () => {
+    if (showNotifications) setShowNotifications(false);
+  });
+
+  const handleNotificationClick = () => {
+    setShowNotifications((prev) => !prev);
+    onOpenNotification();
+  };
+
   return (
     <div className="hidden md:flex w-full items-center justify-between h-13.5">
-      {/* Judul Desktop */}
       <h1 className="font-display text-sm font-semibold text-[#231A14]">
         {desktopTitle}
       </h1>
 
-      {/* Action Right Desktop */}
       <div className="flex items-center gap-3">
-        {/* Cart Icon Desktop */}
+        {/* Cart */}
         <button
-        type="button"
-        onClick={onCartClick}
-        className="relative flex h-9 w-9 items-center justify-center rounded-xl border border-[#E2D7CC] bg-white text-[#231A14] transition hover:bg-[#FAF7F5] cursor-pointer active:scale-95 shrink-0 shadow-xs"
-        aria-label="Keranjang"
+          type="button"
+          onClick={onCartClick}
+          className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#1F1B18] transition hover:bg-[#F8F3EF] cursor-pointer active:scale-95 shrink-0"
+          aria-label="Keranjang"
         >
-        <svg className="w-4.5 h-4.5 text-[#1F1B18]" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z" />
-        </svg>
+          <svg
+            className="h-4 w-4"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+          >
+            <path
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="1.8"
+              d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 100 4 2 2 0 000-4z"
+            />
+          </svg>
 
-        {/* Badge dot oranye dengan angka putih */}
-        {cartCount > 0 && (
-            <span className="absolute -top-1 -right-1 flex h-4 min-w-[16px] px-1 items-center justify-center rounded-full bg-[#EE6B28] text-white text-[9px] font-bold leading-none border border-white shadow-xs">
-            {cartCount}
+          {cartCount > 0 && (
+            <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-[#EE6B28] px-0.5 text-[8px] font-bold leading-none text-white">
+              {cartCount}
             </span>
-        )}
+          )}
         </button>
 
-        {/* Profile Dropdown Desktop */}
+        {/* Notification */}
+        <div ref={notificationRef} className="relative">
+          <button
+            type="button"
+            onClick={handleNotificationClick}
+            className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#1F1B18] transition hover:bg-[#F8F3EF] cursor-pointer active:scale-95"
+            aria-label="Notifikasi"
+          >
+            <svg
+              className="h-4 w-4"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.8"
+                d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+              />
+            </svg>
+
+            {unreadNotificationCount > 0 && (
+              <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-[#EE6B28] px-0.5 text-[8px] font-bold leading-none text-white">
+                {unreadNotificationCount > 9
+                  ? "9+"
+                  : unreadNotificationCount}
+              </span>
+            )}
+          </button>
+
+          {showNotifications && (
+            <div className="absolute right-0 top-10 z-50 w-80 overflow-hidden rounded-2xl border border-[#EDE3DA] bg-white shadow-[0_12px_30px_rgba(54,38,28,0.12)]">
+              <div className="border-b border-[#F0E8E2] px-4 py-3">
+                <h3 className="text-xs font-bold text-[#231A14]">
+                  Notifikasi
+                </h3>
+                <p className="mt-0.5 text-[10px] text-[#8C8074]">
+                  Informasi terbaru untuk akun Anda
+                </p>
+              </div>
+
+              <div className="max-h-72 overflow-y-auto">
+                <button
+                  type="button"
+                  className="flex w-full gap-3 px-4 py-3 text-left transition hover:bg-[#FAF7F5]"
+                >
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFF1E7] text-[#EE6B28]">
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.8"
+                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0l-2 2H6l-2-2m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5"
+                      />
+                    </svg>
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-semibold text-[#231A14]">
+                      Pesanan merchandise sedang diproses
+                    </p>
+                    <p className="mt-0.5 text-[10px] leading-relaxed text-[#8C8074]">
+                      Pesanan MRC-2026-0231 sedang dikemas oleh sekretariat ICA.
+                    </p>
+                    <span className="mt-1 block text-[9px] text-[#B0A49B]">
+                      5 menit lalu
+                    </span>
+                  </div>
+                </button>
+
+                <button
+                  type="button"
+                  className="flex w-full gap-3 border-t border-[#F5EEE9] px-4 py-3 text-left transition hover:bg-[#FAF7F5]"
+                >
+                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFF1E7] text-[#EE6B28]">
+                    <svg
+                      className="h-4 w-4"
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        strokeWidth="1.8"
+                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                      />
+                    </svg>
+                  </div>
+
+                  <div className="min-w-0">
+                    <p className="text-[11px] font-semibold text-[#231A14]">
+                      Event ICA tersedia
+                    </p>
+                    <p className="mt-0.5 text-[10px] leading-relaxed text-[#8C8074]">
+                      Pendaftaran event terbaru ICA telah dibuka.
+                    </p>
+                    <span className="mt-1 block text-[9px] text-[#B0A49B]">
+                      1 jam lalu
+                    </span>
+                  </div>
+                </button>
+              </div>
+
+              <button
+                type="button"
+                onClick={() => setShowNotifications(false)}
+                className="w-full border-t border-[#F0E8E2] px-4 py-2.5 text-[10px] font-semibold text-[#EE6B28] transition hover:bg-[#FFF8F3]"
+              >
+                Tandai semua telah dibaca
+              </button>
+            </div>
+          )}
+        </div>
+
+        {/* User Menu */}
         <div ref={containerRef} className="relative">
           <button
             type="button"
             onClick={() => toggleMenu("header")}
             className={`flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 transition-all cursor-pointer active:scale-98 ${
-              isUserMenuOpen ? "bg-[#FFF2E8]" : "bg-white hover:bg-[#FFF2E8]"
+              isUserMenuOpen
+                ? "bg-[#FFF2E8]"
+                : "bg-white hover:bg-[#FFF2E8]"
             }`}
           >
             <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FEE4CC] text-[10px] font-bold text-[#A85822] shrink-0">
               AP
             </div>
+
             <div className="flex flex-col text-left leading-tight pr-0.5">
               <span className="text-xs font-bold text-[#1A1513]">
                 Ayu Prameswari
               </span>
+
               <span className="text-[10px] font-medium text-[#8C8074]">
                 ICA-M-004821
               </span>
             </div>
+
             <span className="text-[#8C8074] flex items-center pl-0.5">
               <DashboardIcon name="chevron" size={12} />
             </span>
