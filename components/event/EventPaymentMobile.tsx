@@ -91,6 +91,7 @@ export default function EventPaymentMobile({
               <h1 className="text-base font-bold text-[#1F1B18]">
                 Payment
               </h1>
+
               <p className="text-[11px] text-[#857B72] mt-0.5">
                 ICA Cat Show Bandung 2026
               </p>
@@ -129,7 +130,7 @@ export default function EventPaymentMobile({
             <button
               type="button"
               onClick={onBack}
-              className="w-full cursor-pointer rounded-full bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] active:scale-98 transition-transform"
+              className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
             >
               Kembali ke Checkout
             </button>
@@ -200,6 +201,7 @@ export default function EventPaymentMobile({
                   strokeLinecap="round"
                   strokeLinejoin="round"
                 />
+
                 <circle cx="12" cy="12" r="9" strokeWidth="2" />
               </svg>
             </div>
@@ -345,9 +347,7 @@ export default function EventPaymentMobile({
               >
                 <svg
                   className={`w-4 h-4 transition-transform duration-200 ${
-                    isDropdownOpen
-                      ? "rotate-180 text-[#EE6B28]"
-                      : ""
+                    isDropdownOpen ? "rotate-180 text-[#EE6B28]" : ""
                   }`}
                   fill="none"
                   viewBox="0 0 24 24"
@@ -431,7 +431,7 @@ export default function EventPaymentMobile({
         <button
           type="button"
           onClick={onNext}
-          className="w-full cursor-pointer rounded-full bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] py-3.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] active:scale-98 transition-transform"
+          className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
         >
           Bayar sekarang
         </button>

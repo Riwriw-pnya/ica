@@ -17,6 +17,7 @@ export default function EventCheckoutMobile({
     const mins = Math.floor(totalSec / 60)
       .toString()
       .padStart(2, "0");
+
     const secs = (totalSec % 60).toString().padStart(2, "0");
 
     return `${mins}:${secs}`;
@@ -50,6 +51,7 @@ export default function EventCheckoutMobile({
               <h1 className="text-base font-bold text-[#1F1B18]">
                 Checkout Ticket
               </h1>
+
               <p className="text-[11px] text-[#857B72] mt-0.5">
                 ICA Cat Show Bandung 2026
               </p>
@@ -89,7 +91,7 @@ export default function EventCheckoutMobile({
             <button
               type="button"
               onClick={onBack}
-              className="w-full cursor-pointer rounded-full bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] active:scale-98 transition-transform"
+              className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
             >
               Kembali ke Event
             </button>
@@ -126,6 +128,7 @@ export default function EventCheckoutMobile({
             <h1 className="text-base font-bold text-[#1F1B18] leading-tight">
               Checkout Ticket
             </h1>
+
             <p className="text-[11px] text-[#857B72] mt-0.5">
               ICA Cat Show Bandung 2026
             </p>
@@ -154,11 +157,12 @@ export default function EventCheckoutMobile({
                 stroke="currentColor"
               >
                 <path
+                  d="M12 6v6l4 2"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M12 6v6l4 2"
                 />
+
                 <circle
                   cx="12"
                   cy="12"
@@ -173,7 +177,10 @@ export default function EventCheckoutMobile({
             <div
               className="h-full bg-[#F05A1B] transition-all duration-1000"
               style={{
-                width: `${Math.max(0, Math.min(100, (secondsLeft / 600) * 100))}%`,
+                width: `${Math.max(
+                  0,
+                  Math.min(100, (secondsLeft / 600) * 100)
+                )}%`,
               }}
             />
           </div>
@@ -198,6 +205,7 @@ export default function EventCheckoutMobile({
           <div className="space-y-3 text-xs">
             <div className="flex items-start justify-between gap-4">
               <span className="text-[#857B72]">Tanggal</span>
+
               <span className="font-semibold text-[#1F1B18] text-right">
                 18–19 Okt 2026
               </span>
@@ -205,6 +213,7 @@ export default function EventCheckoutMobile({
 
             <div className="flex items-start justify-between gap-4">
               <span className="text-[#857B72]">Lokasi</span>
+
               <span className="font-semibold text-[#1F1B18] text-right">
                 Trans Convention Center, Bandung
               </span>
@@ -212,6 +221,7 @@ export default function EventCheckoutMobile({
 
             <div className="flex items-start justify-between gap-4">
               <span className="text-[#857B72]">Kategori</span>
+
               <span className="font-semibold text-[#1F1B18] text-right">
                 Cattery · Rumah Hana Cattery
               </span>
@@ -219,6 +229,7 @@ export default function EventCheckoutMobile({
 
             <div className="flex items-start justify-between gap-4">
               <span className="text-[#857B72]">Sisa slot</span>
+
               <span className="font-semibold text-[#1F1B18] text-right">
                 2 slot tersisa
               </span>
@@ -251,7 +262,7 @@ export default function EventCheckoutMobile({
         <button
           type="button"
           onClick={onNext}
-          className="w-full cursor-pointer rounded-full bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] py-3.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] active:scale-98 transition-transform"
+          className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
         >
           Lanjut ke pembayaran
         </button>

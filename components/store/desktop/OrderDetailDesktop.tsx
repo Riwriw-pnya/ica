@@ -10,6 +10,8 @@ export interface OrderDetailData {
   totalAmount: number;
   courier: string;
   trackingNumber?: string;
+  status: "Diproses" | "Dikirim" | "Dalam Perjalanan" | "Sampai Tujuan";
+  productImage?: string;
   shippingAddress: {
     name: string;
     phone: string;
@@ -37,17 +39,107 @@ export default function StoreOrderDetailDesktop({
     }, 5000);
 
     return () => clearTimeout(timer);
-  }, []);
+  }, [order.orderId]);
+
+  const statusOrder: OrderDetailData["status"][] = [
+    "Diproses",
+    "Dikirim",
+    "Dalam Perjalanan",
+    "Sampai Tujuan",
+  ];
+
+  const currentStatusIndex = statusOrder.indexOf(order.status);
+
+  const getStatusStyle = () => {
+    switch (order.status) {
+      case "Sampai Tujuan":
+        return "bg-[#EAF7EE] text-[#31834A]";
+      case "Dikirim":
+      case "Dalam Perjalanan":
+        return "bg-[#FFF2E8] text-[#D96B27]";
+      default:
+        return "bg-[#F3F0EE] text-[#756962]";
+    }
+  };
+
+  const getShippingTitle = () => {
+    switch (order.status) {
+      case "Diproses":
+        return "Pesanan sedang diproses";
+      case "Dikirim":
+        return "Pesanan telah dikirim";
+      case "Dalam Perjalanan":
+        return "Pesanan sedang dalam perjalanan";
+      case "Sampai Tujuan":
+        return "Pesanan telah sampai";
+      default:
+        return "Status pengiriman";
+    }
+  };
+
+  const getShippingDescription = () => {
+    switch (order.status) {
+      case "Diproses":
+        return "Pesanan sedang disiapkan dan belum diserahkan kepada kurir.";
+      case "Dikirim":
+        return "Pesanan telah diserahkan kepada kurir dan siap dikirim ke alamat tujuan.";
+      case "Dalam Perjalanan":
+        return "Pesanan sedang dalam perjalanan menuju alamat tujuan.";
+      case "Sampai Tujuan":
+        return "Pesanan telah diterima di alamat tujuan. Pengiriman selesai.";
+      default:
+        return "";
+    }
+  };
+
+  const getToastMessage = () => {
+    switch (order.status) {
+      case "Diproses":
+        return (
+          <>
+            Pesanan{" "}
+            <span className="font-bold">{order.orderId}</span>{" "}
+            sedang diproses sekretariat ICA.
+          </>
+        );
+      case "Dikirim":
+        return (
+          <>
+            Pesanan{" "}
+            <span className="font-bold">{order.orderId}</span>{" "}
+            telah diserahkan kepada kurir.
+          </>
+        );
+      case "Dalam Perjalanan":
+        return (
+          <>
+            Pesanan{" "}
+            <span className="font-bold">{order.orderId}</span>{" "}
+            sedang dalam perjalanan menuju alamat tujuan.
+          </>
+        );
+      case "Sampai Tujuan":
+        return (
+          <>
+            Pesanan{" "}
+            <span className="font-bold">{order.orderId}</span>{" "}
+            telah sampai dan diterima di alamat tujuan.
+          </>
+        );
+      default:
+        return null;
+    }
+  };
 
   return (
     <div className="space-y-6">
       <button
         type="button"
         onClick={onBack}
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D96B27] hover:underline cursor-pointer"
+        className="inline-flex cursor-pointer items-center gap-1.5 text-xs font-bold text-[#D96B27] hover:underline"
       >
         <svg
-          className="w-4 h-4 stroke-[2.5]"
+          className="h-4 w-4 stroke-[2.5]"
           fill="none"
           viewBox="0 0 24 24"
           stroke="currentColor"
@@ -72,13 +164,13 @@ export default function StoreOrderDetailDesktop({
         </p>
       </div>
 
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-6 items-start">
-        <div className="lg:col-span-2 space-y-4">
+      <div className="grid grid-cols-1 items-start gap-6 lg:grid-cols-3">
+        <div className="space-y-4 lg:col-span-2">
           {/* STATUS & TOTAL */}
-          <div className="bg-white rounded-2xl p-5 border border-[#EEDFD5] shadow-2xs space-y-4">
+          <div className="space-y-4 rounded-2xl border border-[#EEDFD5] bg-white p-5 shadow-2xs">
             <div className="flex items-start justify-between gap-4">
               <div>
-                <p className="text-[11px] text-[#857B72] mb-1">
+                <p className="mb-1 text-[11px] text-[#857B72]">
                   Nomor Pesanan
                 </p>
 
@@ -86,39 +178,53 @@ export default function StoreOrderDetailDesktop({
                   {order.orderId}
                 </h2>
 
-                <p className="text-[11px] text-[#857B72] mt-1">
+                <p className="mt-1 text-[11px] text-[#857B72]">
                   {order.orderDate}
                 </p>
               </div>
 
-              <span className="inline-flex px-2.5 py-1 rounded-md text-[10px] font-bold bg-[#FFF2E8] text-[#D96B27]">
-                Diproses
+              <span
+                className={`inline-flex rounded-md px-2.5 py-1 text-[10px] font-bold ${getStatusStyle()}`}
+              >
+                {order.status}
               </span>
             </div>
 
-            <div className="pt-3 border-t border-[#EEDFD5]">
-              <p className="text-xs font-semibold text-[#1F1B18]">
-                {order.itemsSummary}
-              </p>
+            <div className="border-t border-[#EEDFD5] pt-3">
+              <div className="flex items-start gap-4">
+                {order.productImage && (
+                  <div className="h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#EEDFD5] bg-[#FAF7F5]">
+                    <img
+                      src={order.productImage}
+                      alt={order.itemsSummary}
+                      className="h-full w-full object-cover"
+                    />
+                  </div>
+                )}
+
+                <p className="pt-1 text-xs font-semibold text-[#1F1B18]">
+                  {order.itemsSummary}
+                </p>
+              </div>
             </div>
 
             <div className="grid grid-cols-2 gap-3 pt-1">
-              <div className="rounded-xl bg-[#FAF7F5] border border-[#EEDFD5] p-3">
+              <div className="rounded-xl border border-[#EEDFD5] bg-[#FAF7F5] p-3">
                 <p className="text-[10px] text-[#857B72]">
                   Metode Bayar
                 </p>
 
-                <p className="text-xs font-bold text-[#1F1B18] mt-1">
+                <p className="mt-1 text-xs font-bold text-[#1F1B18]">
                   {order.paymentMethod}
                 </p>
               </div>
 
-              <div className="rounded-xl bg-[#FAF7F5] border border-[#EEDFD5] p-3">
+              <div className="rounded-xl border border-[#EEDFD5] bg-[#FAF7F5] p-3">
                 <p className="text-[10px] text-[#857B72]">
                   Total Pembayaran
                 </p>
 
-                <p className="text-xs font-extrabold text-[#1F1B18] mt-1">
+                <p className="mt-1 text-xs font-extrabold text-[#1F1B18]">
                   {formatRupiah(order.totalAmount)}
                 </p>
               </div>
@@ -126,14 +232,24 @@ export default function StoreOrderDetailDesktop({
           </div>
 
           {/* PENGIRIMAN */}
-          <div className="bg-white rounded-2xl p-5 border border-[#EEDFD5] shadow-2xs space-y-4">
-            <h2 className="text-sm font-bold text-[#1F1B18]">
-              Pengiriman
-            </h2>
+          <div className="space-y-4 rounded-2xl border border-[#EEDFD5] bg-white p-5 shadow-2xs">
+            <div>
+              <h2 className="text-sm font-bold text-[#1F1B18]">
+                Pengiriman
+              </h2>
 
-            <div className="grid grid-cols-2 gap-x-6 gap-y-4">
+              <p className="mt-1 text-xs font-semibold text-[#D96B27]">
+                {getShippingTitle()}
+              </p>
+
+              <p className="mt-1 text-[10px] leading-relaxed text-[#857B72]">
+                {getShippingDescription()}
+              </p>
+            </div>
+
+            <div className="grid grid-cols-2 gap-x-6 gap-y-4 border-t border-[#EEDFD5] pt-4">
               <div>
-                <p className="text-[10px] text-[#857B72] mb-1">
+                <p className="mb-1 text-[10px] text-[#857B72]">
                   Kurir
                 </p>
 
@@ -143,23 +259,25 @@ export default function StoreOrderDetailDesktop({
               </div>
 
               <div>
-                <p className="text-[10px] text-[#857B72] mb-1">
+                <p className="mb-1 text-[10px] text-[#857B72]">
                   Nomor Resi
                 </p>
 
                 <p className="text-[11px] text-[#857B72]">
                   {order.trackingNumber ||
-                    "Terbit setelah paket diserahkan ke kurir"}
+                    (order.status === "Diproses"
+                      ? "Belum diterbitkan"
+                      : "Tidak tersedia")}
                 </p>
               </div>
             </div>
 
-            <div className="pt-3 border-t border-[#EEDFD5]">
-              <p className="text-[10px] text-[#857B72] mb-1.5">
+            <div className="border-t border-[#EEDFD5] pt-3">
+              <p className="mb-1.5 text-[10px] text-[#857B72]">
                 Alamat Pengiriman
               </p>
 
-              <p className="text-xs text-[#1F1B18] leading-relaxed">
+              <p className="text-xs leading-relaxed text-[#1F1B18]">
                 <span className="font-bold">
                   {order.shippingAddress.name}
                 </span>{" "}
@@ -172,89 +290,133 @@ export default function StoreOrderDetailDesktop({
           </div>
 
           {/* TIMELINE */}
-          <div className="bg-white rounded-2xl p-5 border border-[#EEDFD5] shadow-2xs">
-            <h2 className="text-sm font-bold text-[#1F1B18] mb-5">
-              Status Pengiriman
-            </h2>
+<div className="rounded-2xl border border-[#EEDFD5] bg-white p-5 shadow-2xs">
+  <h2 className="mb-6 text-sm font-bold text-[#1F1B18]">
+    Status Pengiriman
+  </h2>
 
-            <div className="relative pl-8 space-y-7">
-              <div className="absolute left-[10px] top-2 bottom-2 w-0.5 bg-[#EAE5DF]" />
+  <div className="relative pl-9">
+    {/* Base Line */}
+    <div className="absolute bottom-3 left-[12px] top-3 w-[3px] rounded-full bg-[#EEE7E2] shadow-[inset_1px_1px_2px_rgba(120,100,90,0.12),inset_-1px_-1px_2px_rgba(255,255,255,0.9)]" />
 
-              {/* STEP 1 */}
-              <div className="relative flex items-start gap-3">
-                <div className="absolute -left-8 top-0 w-5 h-5 rounded-full bg-[#D96B27] text-white text-[10px] font-bold flex items-center justify-center z-10">
-                  1
+    {/* Progress Line */}
+    {currentStatusIndex > 0 && (
+      <div
+        className="absolute left-[12px] top-3 w-[3px] rounded-full bg-[#EE6B28] shadow-[1px_1px_3px_rgba(180,80,25,0.25),-1px_-1px_2px_rgba(255,255,255,0.6)] transition-all duration-500"
+        style={{
+          height: `calc(${(currentStatusIndex / (statusOrder.length - 1)) * 100}% - 6px)`,
+        }}
+      />
+    )}
+
+    <div className="space-y-8">
+      {statusOrder.map((status, index) => {
+        const isCompleted = index <= currentStatusIndex;
+        const isCurrent = index === currentStatusIndex;
+
+        const descriptions: Record<
+          OrderDetailData["status"],
+          string
+        > = {
+          Diproses:
+            "Pembayaran terverifikasi · pesanan sedang disiapkan",
+          Dikirim:
+            "Pesanan telah diserahkan kepada kurir",
+          "Dalam Perjalanan":
+            "Pesanan sedang menuju alamat tujuan",
+          "Sampai Tujuan":
+            "Pesanan telah diterima · pengiriman selesai",
+        };
+
+        return (
+          <div
+            key={status}
+            className="relative flex items-start gap-4"
+          >
+            {/* Polymorphic Circle */}
+            <div
+              className={`absolute -left-[36px] top-0 flex items-center justify-center rounded-full transition-all duration-300 ${
+                isCurrent
+                  ? "h-7 w-7 -translate-x-[2px] -translate-y-[1px]"
+                  : "h-6 w-6"
+              } ${
+                isCompleted
+                  ? "bg-[#EE6B28] text-white shadow-[3px_3px_7px_rgba(194,91,35,0.28),-2px_-2px_5px_rgba(255,255,255,0.9)]"
+                  : "bg-[#F7F3F0] text-[#A99B92] shadow-[3px_3px_6px_rgba(150,135,125,0.16),-2px_-2px_5px_rgba(255,255,255,0.95)]"
+              }`}
+            >
+              {/* Inner Highlight */}
+              <div
+                className={`absolute inset-[3px] rounded-full ${
+                  isCompleted
+                    ? "bg-gradient-to-br from-[#FFB47D] via-[#EE6B28] to-[#D45F20]"
+                    : "bg-gradient-to-br from-white via-[#F7F3F0] to-[#EAE3DE]"
+                }`}
+              />
+
+              <span className="relative z-10 text-[9px] font-extrabold">
+                {isCompleted ? "✓" : index + 1}
+              </span>
+            </div>
+
+            {/* Content */}
+            <div className="min-w-0">
+              <p
+                className={`text-xs font-bold ${
+                  isCurrent
+                    ? "text-[#D96B27]"
+                    : isCompleted
+                      ? "text-[#1F1B18]"
+                      : "text-[#857B72]"
+                }`}
+              >
+                {status}
+              </p>
+
+              <p
+                className={`mt-1 text-[10px] leading-relaxed ${
+                  isCompleted
+                    ? "text-[#857B72]"
+                    : "text-[#A09387]"
+                }`}
+              >
+                {isCompleted
+                  ? descriptions[status]
+                  : "Menunggu"}
+              </p>
+
+              {isCurrent && (
+                <div className="mt-2 inline-flex items-center rounded-full border border-[#F7D4BE] bg-[#FFF7F1] px-2 py-0.5 shadow-[inset_1px_1px_2px_rgba(210,120,70,0.08),1px_1px_3px_rgba(180,100,60,0.08)]">
+                  <span className="text-[9px] font-bold text-[#D96B27]">
+                    Status saat ini
+                  </span>
                 </div>
-
-                <div>
-                  <p className="text-xs font-bold text-[#1F1B18]">
-                    Diproses
-                  </p>
-
-                  <p className="text-[10px] text-[#857B72] mt-1">
-                    Pembayaran terverifikasi · dikemas sekretariat ICA ·{" "}
-                    {order.orderDate} · 10:16
-                  </p>
-                </div>
-              </div>
-
-              {/* STEP 2 */}
-              <div className="relative flex items-start gap-3">
-                <div className="absolute -left-8 top-0 w-5 h-5 rounded-full bg-[#EAE5DF] text-[#857B72] text-[10px] font-bold flex items-center justify-center z-10">
-                  2
-                </div>
-
-                <div>
-                  <p className="text-xs font-bold text-[#857B72]">
-                    Dikirim
-                  </p>
-
-                  <p className="text-[10px] text-[#A09387] mt-1">
-                    Menunggu
-                  </p>
-                </div>
-              </div>
-
-              {/* STEP 3 */}
-              <div className="relative flex items-start gap-3">
-                <div className="absolute -left-8 top-0 w-5 h-5 rounded-full bg-[#EAE5DF] text-[#857B72] text-[10px] font-bold flex items-center justify-center z-10">
-                  3
-                </div>
-
-                <div>
-                  <p className="text-xs font-bold text-[#857B72]">
-                    Dalam Perjalanan
-                  </p>
-
-                  <p className="text-[10px] text-[#A09387] mt-1">
-                    Menunggu
-                  </p>
-                </div>
-              </div>
-
-              {/* STEP 4 */}
-              <div className="relative flex items-start gap-3">
-                <div className="absolute -left-8 top-0 w-5 h-5 rounded-full bg-[#EAE5DF] text-[#857B72] text-[10px] font-bold flex items-center justify-center z-10">
-                  4
-                </div>
-
-                <div>
-                  <p className="text-xs font-bold text-[#857B72]">
-                    Sampai Tujuan
-                  </p>
-
-                  <p className="text-[10px] text-[#A09387] mt-1">
-                    Menunggu
-                  </p>
-                </div>
-              </div>
+              )}
             </div>
           </div>
+        );
+      })}
+    </div>
+  </div>
+
+  {order.status === "Sampai Tujuan" && (
+    <div className="mt-6 rounded-xl border border-[#D9EBDD] bg-[#F3FAF5] p-3 shadow-[inset_1px_1px_3px_rgba(80,130,90,0.05),2px_2px_5px_rgba(80,130,90,0.06)]">
+      <p className="text-xs font-bold text-[#31834A]">
+        Pengiriman selesai
+      </p>
+
+      <p className="mt-1 text-[10px] leading-relaxed text-[#5F7866]">
+        Pesanan telah sampai di alamat tujuan dan proses
+        pengiriman telah selesai.
+      </p>
+    </div>
+  )}
+</div>
         </div>
 
         {/* RINGKASAN */}
-        <div className="bg-white rounded-2xl border border-[#EEDFD5] p-5 space-y-4 sticky top-24">
-          <h2 className="text-sm font-bold text-[#1F1B18] pb-3 border-b border-[#EEDFD5]">
+        <div className="sticky top-24 space-y-4 rounded-2xl border border-[#EEDFD5] bg-white p-5">
+          <h2 className="border-b border-[#EEDFD5] pb-3 text-sm font-bold text-[#1F1B18]">
             Ringkasan Pesanan
           </h2>
 
@@ -264,8 +426,24 @@ export default function StoreOrderDetailDesktop({
                 Nomor Pesanan
               </span>
 
-              <span className="font-semibold text-[#1F1B18] text-right">
+              <span className="text-right font-semibold text-[#1F1B18]">
                 {order.orderId}
+              </span>
+            </div>
+
+            <div className="flex justify-between gap-4">
+              <span className="text-[#857B72]">
+                Status
+              </span>
+
+              <span
+                className={`text-right font-semibold ${
+                  order.status === "Sampai Tujuan"
+                    ? "text-[#31834A]"
+                    : "text-[#D96B27]"
+                }`}
+              >
+                {order.status}
               </span>
             </div>
 
@@ -274,7 +452,7 @@ export default function StoreOrderDetailDesktop({
                 Metode Bayar
               </span>
 
-              <span className="font-semibold text-[#1F1B18] text-right">
+              <span className="text-right font-semibold text-[#1F1B18]">
                 {order.paymentMethod}
               </span>
             </div>
@@ -284,13 +462,13 @@ export default function StoreOrderDetailDesktop({
                 Kurir
               </span>
 
-              <span className="font-semibold text-[#1F1B18] text-right">
+              <span className="text-right font-semibold text-[#1F1B18]">
                 {order.courier}
               </span>
             </div>
           </div>
 
-          <div className="pt-3 border-t border-[#EEDFD5] flex justify-between items-center">
+          <div className="flex items-center justify-between border-t border-[#EEDFD5] pt-3">
             <span className="text-xs font-bold text-[#1F1B18]">
               Total
             </span>
@@ -303,35 +481,37 @@ export default function StoreOrderDetailDesktop({
           <button
             type="button"
             onClick={onBack}
-            className="w-full py-3 bg-[#EE6B28] hover:bg-[#C8601D] text-white font-bold text-xs rounded-xl transition-colors cursor-pointer"
+            className="w-full cursor-pointer rounded-xl border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
           >
             Kembali ke Store
           </button>
         </div>
       </div>
 
-      {/* SUCCESS TOAST */}
+      {/* SUCCESS / STATUS TOAST */}
       {showToast && (
         <div className="fixed bottom-6 right-6 z-[70] w-[360px]">
-          <div className="bg-white rounded-2xl p-3.5 shadow-2xl border border-[#EAE5DF] flex items-start gap-3">
-            <div className="w-5 h-5 rounded-full bg-[#FFF8F3] text-[#D96B27] border border-[#FADEC9] flex items-center justify-center shrink-0 mt-0.5">
+          <div className="flex items-start gap-3 rounded-2xl border border-[#EAE5DF] bg-white p-3.5 shadow-2xl">
+            <div
+              className={`mt-0.5 flex h-5 w-5 shrink-0 items-center justify-center rounded-full border ${
+                order.status === "Sampai Tujuan"
+                  ? "border-[#D9EBDD] bg-[#F3FAF5] text-[#31834A]"
+                  : "border-[#FADEC9] bg-[#FFF8F3] text-[#D96B27]"
+              }`}
+            >
               <span className="text-xs font-bold">
-                i
+                {order.status === "Sampai Tujuan" ? "✓" : "i"}
               </span>
             </div>
 
-            <p className="text-xs text-[#1F1B18] leading-snug flex-1">
-              Pembayaran berhasil. Pesanan{" "}
-              <span className="font-bold">
-                {order.orderId}
-              </span>{" "}
-              sedang diproses sekretariat ICA.
+            <p className="flex-1 text-xs leading-snug text-[#1F1B18]">
+              {getToastMessage()}
             </p>
 
             <button
               type="button"
               onClick={() => setShowToast(false)}
-              className="text-[#857B72] hover:text-[#1F1B18] p-1 text-xs cursor-pointer"
+              className="cursor-pointer p-1 text-xs text-[#857B72] hover:text-[#1F1B18]"
             >
               ✕
             </button>

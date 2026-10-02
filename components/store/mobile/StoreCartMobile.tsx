@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useEffect, useState } from "react";
+
 import Image from "next/image";
 
 import type { CartItem } from "../StorePage";
@@ -46,8 +47,7 @@ export default function StoreCartMobile({
   };
 
   const totalPayable = cartItems.reduce(
-    (acc, item) =>
-      acc + item.product.price * item.quantity,
+    (acc, item) => acc + item.product.price * item.quantity,
     0
   );
 
@@ -64,7 +64,7 @@ export default function StoreCartMobile({
     >
       {/* HEADER KERANJANG */}
       <div
-        className="shrink-0 sticky top-0 z-30 bg-[#F7F5F0] px-4 pb-3 border-b border-[#EAE5DF]/60 shadow-2xs"
+        className="sticky top-0 z-30 shrink-0 border-b border-[#EAE5DF]/60 bg-[#F7F5F0] px-4 pb-3 shadow-2xs"
         style={{
           paddingTop:
             "calc(env(safe-area-inset-top, 0px) + 24px)",
@@ -75,10 +75,10 @@ export default function StoreCartMobile({
             <button
               type="button"
               onClick={handleClose}
-              className="text-[#D96B27] active:opacity-60 cursor-pointer p-1.5 -ml-1 rounded-full hover:bg-[#EAE5DF]/50 transition-colors"
+              className="-ml-1 cursor-pointer rounded-full p-1.5 text-[#D96B27] transition-colors hover:bg-[#EAE5DF]/50 active:opacity-60"
             >
               <svg
-                className="w-5 h-5 stroke-[2.5]"
+                className="h-5 w-5 stroke-[2.5]"
                 fill="none"
                 viewBox="0 0 24 24"
                 stroke="currentColor"
@@ -91,7 +91,7 @@ export default function StoreCartMobile({
               </svg>
             </button>
 
-            <h1 className="text-base font-bold text-[#1F1B18] leading-tight">
+            <h1 className="text-base font-bold leading-tight text-[#1F1B18]">
               Keranjang Belanja
             </h1>
           </div>
@@ -103,10 +103,10 @@ export default function StoreCartMobile({
       </div>
 
       {/* DAFTAR ITEM KERANJANG */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-3 pb-36 scrollbar-none">
+      <div className="scrollbar-none flex-1 space-y-3 overflow-y-auto px-4 py-4 pb-36">
         {cartItems.length === 0 ? (
-          <div className="flex flex-col items-center justify-center py-20 text-center space-y-2">
-            <div className="w-16 h-16 rounded-full bg-[#EAE5DF]/60 flex items-center justify-center text-[#857B72] text-2xl">
+          <div className="flex flex-col items-center justify-center space-y-2 py-20 text-center">
+            <div className="flex h-16 w-16 items-center justify-center rounded-full bg-[#EAE5DF]/60 text-2xl text-[#857B72]">
               🛒
             </div>
 
@@ -126,10 +126,10 @@ export default function StoreCartMobile({
             return (
               <div
                 key={`${product.id}-${item.size ?? "default"}`}
-                className="bg-white rounded-2xl p-3 border border-[#EAE5DF] shadow-2xs flex items-center gap-3"
+                className="flex items-center gap-3 rounded-2xl border border-[#EAE5DF] bg-white p-3 shadow-2xs"
               >
                 {/* GAMBAR BARANG */}
-                <div className="relative w-16 h-16 rounded-xl bg-[#F8F6F2] overflow-hidden shrink-0 border border-[#EAE5DF]">
+                <div className="relative h-16 w-16 shrink-0 overflow-hidden rounded-xl border border-[#EAE5DF] bg-[#F8F6F2]">
                   {product.image ? (
                     <Image
                       src={product.image}
@@ -139,15 +139,15 @@ export default function StoreCartMobile({
                       className="object-cover"
                     />
                   ) : (
-                    <div className="flex items-center justify-center h-full text-[10px] text-[#A09387]">
+                    <div className="flex h-full items-center justify-center text-[10px] text-[#A09387]">
                       Foto
                     </div>
                   )}
                 </div>
 
                 {/* RINCIAN PRODUK */}
-                <div className="flex-1 min-w-0 space-y-0.5">
-                  <h3 className="text-xs font-bold text-[#1F1B18] truncate">
+                <div className="min-w-0 flex-1 space-y-0.5">
+                  <h3 className="truncate text-xs font-bold text-[#1F1B18]">
                     {product.title}
                   </h3>
 
@@ -157,24 +157,24 @@ export default function StoreCartMobile({
                     </p>
                   )}
 
-                  <p className="text-xs font-extrabold text-[#D96B27] pt-0.5">
+                  <p className="pt-0.5 text-xs font-extrabold text-[#D96B27]">
                     {formatRupiah(product.price)}
                   </p>
                 </div>
 
                 {/* KONTROL JUMLAH & HAPUS */}
-                <div className="flex flex-col items-end gap-2 shrink-0">
+                <div className="flex shrink-0 flex-col items-end gap-2">
                   <button
                     type="button"
                     onClick={() =>
                       onRemoveItem(product.id, item.size)
                     }
-                    className="text-[#857B72] hover:text-[#D9534F] p-0.5 text-xs transition-colors"
+                    className="p-0.5 text-xs text-[#857B72] transition-colors hover:text-[#D9534F]"
                   >
                     ✕
                   </button>
 
-                  <div className="flex items-center border border-[#EAE5DF] rounded-lg bg-[#FAF8F5] overflow-hidden">
+                  <div className="flex items-center overflow-hidden rounded-lg border border-[#EAE5DF] bg-[#FAF8F5]">
                     <button
                       type="button"
                       onClick={() => {
@@ -191,7 +191,7 @@ export default function StoreCartMobile({
                           );
                         }
                       }}
-                      className="w-6 h-6 flex items-center justify-center text-xs font-bold text-[#1F1B18] active:bg-[#EAE5DF]"
+                      className="flex h-6 w-6 items-center justify-center text-xs font-bold text-[#1F1B18] active:bg-[#EAE5DF]"
                     >
                       -
                     </button>
@@ -209,7 +209,7 @@ export default function StoreCartMobile({
                           1
                         )
                       }
-                      className="w-6 h-6 flex items-center justify-center text-xs font-bold text-[#1F1B18] active:bg-[#EAE5DF]"
+                      className="flex h-6 w-6 items-center justify-center text-xs font-bold text-[#1F1B18] active:bg-[#EAE5DF]"
                     >
                       +
                     </button>
@@ -223,7 +223,7 @@ export default function StoreCartMobile({
 
       {/* BOTTOM CTA */}
       {cartItems.length > 0 && (
-        <div className="fixed bottom-0 left-0 right-0 z-[60] bg-white border-t border-[#EAE5DF] p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-lg space-y-3">
+        <div className="fixed bottom-0 left-0 right-0 z-[60] space-y-3 border-t border-[#EAE5DF] bg-white p-4 pb-[max(1rem,env(safe-area-inset-bottom))] shadow-lg">
           <div className="flex items-center justify-between text-xs">
             <span className="text-[#857B72]">
               Total pembayaran
@@ -237,9 +237,9 @@ export default function StoreCartMobile({
           <button
             type="button"
             onClick={onProceedToCheckout}
-            className="w-full py-3 bg-[#D96B27] hover:bg-[#C25A1C] active:scale-98 text-white text-xs font-bold rounded-xl transition-all shadow-xs cursor-pointer"
+            className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
           >
-            Lanjut ke Checkout
+            Checkout
           </button>
         </div>
       )}

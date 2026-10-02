@@ -338,10 +338,10 @@ export default function EventCatRegistrationMobile({
               type="button"
               onClick={onNext}
               disabled={selectedCatIds.length === 0}
-              className={`w-full py-3.5 rounded-full text-xs font-bold transition-transform ${
+              className={`w-full rounded-full border-t px-5 py-3.5 text-xs font-bold transition-all duration-200 ${
                 selectedCatIds.length > 0
-                  ? "bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] active:scale-98 cursor-pointer"
-                  : "bg-[#EEDFD5] text-[#8C8074] cursor-not-allowed"
+                  ? "cursor-pointer border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
+                  : "cursor-not-allowed border-[#E5D9D0] bg-[#EEDFD5] text-[#8C8074] shadow-none"
               }`}
             >
               Daftarkan kucing terpilih
@@ -356,7 +356,7 @@ export default function EventCatRegistrationMobile({
             <button
               type="button"
               onClick={onNext}
-              className="w-full py-3.5 rounded-full bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] text-white text-xs font-bold shadow-[0_4px_12px_rgba(238,107,40,0.25)] active:scale-98 cursor-pointer"
+              className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
             >
               Daftarkan kucing ini
             </button>

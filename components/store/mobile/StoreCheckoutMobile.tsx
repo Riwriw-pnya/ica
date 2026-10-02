@@ -375,12 +375,12 @@ export default function StoreCheckoutMobile({
         </div>
 
         <button
-          type="button"
-          onClick={handleCheckoutSubmit}
-          className="w-full py-3.5 rounded-full text-xs font-bold text-white bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] shadow-[0_4px_12px_rgba(238,107,40,0.25)] active:scale-98 transition-transform cursor-pointer"
-        >
-          Lanjut ke pembayaran
-        </button>
+        type="button"
+        onClick={handleCheckoutSubmit}
+        className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:scale-[0.98] active:shadow-xs"
+      >
+        Lanjut ke pembayaran
+      </button>
       </div>
     </div>
   );

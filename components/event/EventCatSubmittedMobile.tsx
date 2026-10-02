@@ -1,6 +1,7 @@
 "use client";
 
 import React from "react";
+
 import { ArrowLeft, Check, FileText } from "lucide-react";
 
 interface EventCatSubmittedMobileProps {
@@ -187,7 +188,7 @@ export default function EventCatSubmittedMobile({
           <button
             type="button"
             onClick={onEditCatData}
-            className="flex-1 h-11 rounded-full bg-gradient-to-r from-[#FFA26B] via-[#EE6B28] to-[#E35610] text-white text-[11px] font-semibold shadow-[0_4px_12px_rgba(238,107,40,0.18)] active:scale-[0.98] transition-all"
+            className="flex-1 h-11 rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 text-[11px] font-semibold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
           >
             Ubah data kucing
           </button>

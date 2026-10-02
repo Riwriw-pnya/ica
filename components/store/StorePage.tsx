@@ -4,7 +4,6 @@ import { useState, useMemo, useEffect } from "react";
 import StorePaymentDesktop from "./desktop/StorePaymentDesktop";
 
 import StoreMobile from "./mobile/StoreMobile";
-import StoreOrderDetailDesktop from "./desktop/OrderDetailDesktop";
 
 import StoreCatalogDesktop from "./desktop/CatalogDesktop";
 import StoreProductDetailDesktop from "./desktop/ProductDetailDesktop";
@@ -472,13 +471,41 @@ const handleProceedToDesktopPayment = (data: {
   setShowDesktopPayment(true);
 };
 
+const handleOpenDesktopOrderDetail = (order: OrderHistoryItem) => {
+  const product = INITIAL_PRODUCTS.find((product) =>
+    order.summary.toLowerCase().includes(product.title.toLowerCase())
+  );
+
+  const orderDetail: OrderDetailData = {
+    orderId: order.orderId,
+    orderDate: order.date,
+    itemsSummary: order.summary,
+    paymentMethod: order.paymentMethod,
+    totalAmount: order.total,
+    courier: order.courierInfo?.split(" ")[0] || "Belum ditentukan",
+    trackingNumber: order.courierInfo
+      ? order.courierInfo.replace(/^[^\s]+\s/, "")
+      : undefined,
+    status: order.status,
+    productImage: product?.image,
+    shippingAddress: {
+      name: "Rizkya Rilly",
+      phone: "0812 3456 7890",
+      address: "Jl. Contoh No. 12",
+      city: "Bandung",
+    },
+  };
+
+  resetAllDesktopViews();
+  setDesktopOrderDetail(orderDetail);
+};
 
 
   return (
     <>
       <div className="hidden sm:block mx-auto max-w-[1200px] space-y-6 pb-12 relative">
         {desktopOrderDetail ? (
-  <StoreOrderDetailDesktop
+  <OrderDetailDesktop
     order={desktopOrderDetail}
     onBack={resetAllDesktopViews}
     formatRupiah={formatRupiah}
@@ -509,32 +536,33 @@ const handleProceedToDesktopPayment = (data: {
     formatRupiah={formatRupiah}
     onSuccessPayment={() => {
   const newOrder: OrderDetailData = {
-    orderId: `MRC-2026-${Math.floor(
-      1000 + Math.random() * 9000
-    )}`,
-    orderDate: new Date().toLocaleDateString("id-ID", {
-      day: "2-digit",
-      month: "short",
-      year: "numeric",
-    }),
-    itemsSummary: cart
-      .map(
-        (item) =>
-          `${item.product.title}${
-            item.size ? ` (${item.size})` : ""
-          } · ${item.quantity} barang`
-      )
-      .join(" · "),
-    paymentMethod: "QRIS",
-    totalAmount: desktopCheckoutData.totalPayable,
-    courier: desktopCheckoutData.courierName,
-    shippingAddress: {
-      name: desktopCheckoutData.address.name,
-      phone: desktopCheckoutData.address.phone,
-      address: desktopCheckoutData.address.address,
-      city: desktopCheckoutData.address.city,
-    },
-  };
+  orderId: `MRC-2026-${Math.floor(
+    1000 + Math.random() * 9000
+  )}`,
+  orderDate: new Date().toLocaleDateString("id-ID", {
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }),
+  itemsSummary: cart
+    .map(
+      (item) =>
+        `${item.product.title}${
+          item.size ? ` (${item.size})` : ""
+        } · ${item.quantity} barang`
+    )
+    .join(" · "),
+  paymentMethod: "QRIS",
+  totalAmount: desktopCheckoutData.totalPayable,
+  courier: desktopCheckoutData.courierName,
+  status: "Diproses",
+  shippingAddress: {
+    name: desktopCheckoutData.address.name,
+    phone: desktopCheckoutData.address.phone,
+    address: desktopCheckoutData.address.address,
+    city: desktopCheckoutData.address.city,
+  },
+};
 
   setDesktopOrderDetail(newOrder);
   setShowDesktopPayment(false);
@@ -567,10 +595,11 @@ const handleProceedToDesktopPayment = (data: {
   />
 ) : showDesktopHistory ? (
   <StoreOrderHistoryDesktop
-    orders={DUMMY_DESKTOP_ORDERS}
-    onBack={resetAllDesktopViews}
-    formatRupiah={formatRupiah}
-  />
+  orders={DUMMY_DESKTOP_ORDERS}
+  onBack={resetAllDesktopViews}
+  onOpenDetail={handleOpenDesktopOrderDetail}
+  formatRupiah={formatRupiah}
+/>
 ) : (
   <StoreCatalogDesktop
     products={filteredProducts}

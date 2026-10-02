@@ -1,141 +1,144 @@
 "use client";
 
-import type { OrderHistoryItem } from "../StorePage";
+export interface OrderHistoryItem {
+  id: string;
+  orderId: string;
+  status: "Diproses" | "Dikirim" | "Dalam Perjalanan" | "Sampai Tujuan";
+  summary: string;
+  date: string;
+  paymentMethod: string;
+  courierInfo?: string;
+  total: number;
+  productImage?: string;
+}
 
 interface Props {
   orders: OrderHistoryItem[];
   onBack: () => void;
+  onOpenDetail: (order: OrderHistoryItem) => void;
   formatRupiah: (value: number) => string;
 }
 
 export default function StoreOrderHistoryDesktop({
   orders,
   onBack,
+  onOpenDetail,
   formatRupiah,
 }: Props) {
-  const getStatusBadgeStyle = (
-    status: OrderHistoryItem["status"]
-  ) => {
-    switch (status) {
-      case "Diproses":
-        return "bg-[#FFF2E8] text-[#D96B27] border-[#FADEC9]";
-
-      case "Dikirim":
-        return "bg-[#EBF5FF] text-[#0066CC] border-[#C2E0FF]";
-
-      case "Dalam Perjalanan":
-        return "bg-[#F3E8FF] text-[#7E22CE] border-[#E9D5FF]";
-
-      case "Sampai Tujuan":
-        return "bg-[#ECFDF5] text-[#059669] border-[#A7F3D0]";
-
-      default:
-        return "bg-gray-100 text-gray-700 border-gray-200";
-    }
-  };
-
   return (
-    <div className="space-y-5">
-      <button
-        type="button"
-        onClick={onBack}
-        className="inline-flex items-center gap-1.5 text-xs font-bold text-[#D96B27] hover:underline cursor-pointer"
-      >
-        <svg
-          className="w-4 h-4 stroke-[2.5]"
-          fill="none"
-          viewBox="0 0 24 24"
-          stroke="currentColor"
+    <div className="space-y-6">
+      {/* Header */}
+      <div className="flex items-center justify-between">
+        <div>
+          <h1 className="text-xl font-bold text-[#1A1513]">
+            Riwayat Pesanan
+          </h1>
+          <p className="mt-1 text-xs text-[#8A7E78]">
+            Lihat daftar pesanan yang pernah kamu lakukan.
+          </p>
+        </div>
+
+        <button
+          type="button"
+          onClick={onBack}
+          className="cursor-pointer rounded-xl border border-[#EEDFD5] bg-white px-4 py-2 text-xs font-bold text-[#5E514A] transition-all hover:bg-[#FAF7F5]"
         >
-          <path
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            d="M15 19l-7-7 7-7"
-          />
-        </svg>
-
-        <span>Kembali ke store</span>
-      </button>
-
-      <div>
-        <h1 className="font-display text-[22px] font-bold tracking-tight text-[#1F1B18]">
-          Riwayat pesanan
-        </h1>
-
-        <p className="mt-1 text-[12px] text-[#857B72]">
-          Pesanan produk Store ICA. Status pengiriman diperbarui
-          otomatis dari sistem kurir.
-        </p>
+          Kembali
+        </button>
       </div>
 
-      <div className="space-y-3.5">
+      {/* Order List */}
+      <div className="space-y-4">
         {orders.map((order) => (
-          <div
+          <button
             key={order.id}
-            className="bg-white rounded-2xl border border-[#EEDFD5] p-5 shadow-2xs flex items-center justify-between hover:border-[#FADEC9] transition-all cursor-pointer group"
+            type="button"
+            onClick={() => onOpenDetail(order)}
+            className="group flex w-full cursor-pointer items-center justify-between rounded-2xl border border-[#EEDFD5] bg-white p-5 text-left shadow-2xs transition-all hover:border-[#FADEC9] hover:shadow-sm"
           >
-            <div className="flex items-start gap-4">
-              <div className="w-10 h-10 rounded-xl bg-[#FFF8EE] border border-[#F7F2EB] flex items-center justify-center text-[#D96B27] shrink-0 mt-0.5">
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="1.8"
-                    d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4"
+            <div className="flex min-w-0 flex-1 items-center gap-4">
+              {/* Product preview */}
+              <div className="flex h-16 w-16 shrink-0 items-center justify-center overflow-hidden rounded-xl border border-[#F0E7E2] bg-[#FAF7F5]">
+                {order.productImage ? (
+                  <img
+                    src={order.productImage}
+                    alt={order.summary}
+                    className="h-full w-full object-cover"
                   />
-                </svg>
+                ) : (
+                  <div className="text-[10px] font-semibold text-[#B4A9A3]">
+                    ICA
+                  </div>
+                )}
               </div>
 
-              <div className="space-y-1">
-                <div className="flex items-center gap-2.5">
-                  <span className="text-sm font-bold text-[#1F1B18]">
+              {/* Order info */}
+              <div className="min-w-0 flex-1">
+                <div className="flex items-center gap-2">
+                  <p className="text-sm font-bold text-[#1A1513]">
                     {order.orderId}
-                  </span>
+                  </p>
 
                   <span
-                    className={`px-2.5 py-0.5 rounded-md text-[10px] font-bold border ${getStatusBadgeStyle(
-                      order.status
-                    )}`}
+                    className={`rounded-full px-2.5 py-1 text-[10px] font-bold ${
+                      order.status === "Sampai Tujuan"
+                        ? "bg-[#EAF7EE] text-[#31834A]"
+                        : order.status === "Dikirim" ||
+                            order.status === "Dalam Perjalanan"
+                          ? "bg-[#FFF4E8] text-[#D66A20]"
+                          : "bg-[#F3F0EE] text-[#756962]"
+                    }`}
                   >
                     {order.status}
                   </span>
                 </div>
 
-                <p className="text-xs font-semibold text-[#574D45]">
+                <p className="mt-1 truncate text-xs text-[#6F625C]">
                   {order.summary}
                 </p>
 
-                <p className="text-[11px] text-[#8C8074]">
-                  {order.date} · {order.paymentMethod}
-                  {order.courierInfo &&
-                    ` · ${order.courierInfo}`}
-                </p>
+                <div className="mt-2 flex flex-wrap items-center gap-x-3 gap-y-1 text-[10px] text-[#9A8D86]">
+                  <span>{order.date}</span>
+                  <span>•</span>
+                  <span>{order.paymentMethod}</span>
+
+                  {order.courierInfo && (
+                    <>
+                      <span>•</span>
+                      <span>{order.courierInfo}</span>
+                    </>
+                  )}
+                </div>
               </div>
             </div>
 
-            <div className="flex items-center gap-4">
-              <span className="text-sm font-extrabold text-[#1F1B18]">
-                {formatRupiah(order.total)}
-              </span>
+            {/* Total + arrow */}
+            <div className="ml-4 flex shrink-0 items-center gap-4">
+              <div className="text-right">
+                <p className="text-[10px] text-[#9A8D86]">Total</p>
+
+                <p className="mt-0.5 text-sm font-bold text-[#1A1513]">
+                  {formatRupiah(order.total)}
+                </p>
+              </div>
 
               <svg
-                className="w-4 h-4 text-[#C8BDB2] group-hover:text-[#D96B27] group-hover:translate-x-0.5 transition-all"
-                fill="none"
+                width="18"
+                height="18"
                 viewBox="0 0 24 24"
+                fill="none"
+                className="text-[#B7AAA3] transition-transform duration-200 group-hover:translate-x-1 group-hover:text-[#EE6B28]"
               >
                 <path
+                  d="M9 18L15 12L9 6"
+                  stroke="currentColor"
+                  strokeWidth="2"
                   strokeLinecap="round"
                   strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M9 5l7 7-7 7"
                 />
               </svg>
             </div>
-          </div>
+          </button>
         ))}
       </div>
     </div>

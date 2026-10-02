@@ -31,25 +31,39 @@ export default function StorePaymentDesktop({
   onSuccessPayment,
 }: StorePaymentDesktopProps) {
   const [activeTab, setActiveTab] = useState<
-    "qris" | "va" | "ewallet" | "kartu"
+    "qris" | "va" | "ewallet"
   >("qris");
 
-  const [selectedBank, setSelectedBank] =
-    useState("BCA");
+  const [selectedBank, setSelectedBank] = useState("BCA");
+  const [isBankDropdownOpen, setIsBankDropdownOpen] =
+    useState(false);
 
   const [selectedEwallet, setSelectedEwallet] =
     useState("GoPay");
-
-  const [cardNumber, setCardNumber] = useState("");
-  const [cardName, setCardName] = useState("");
-  const [cardExpiry, setCardExpiry] = useState("");
-  const [cardCvv, setCardCvv] = useState("");
 
   const subtotalProducts = cartItems.reduce(
     (acc, item) =>
       acc + item.product.price * item.quantity,
     0
   );
+
+  const bankOptions = [
+    "BCA",
+    "Mandiri",
+    "BNI",
+    "BRI",
+    "BTN",
+    "BSI",
+    "CIMB Niaga",
+    "Danamon",
+    "PermataBank",
+    "OCBC",
+    "UOB Indonesia",
+    "Maybank Indonesia",
+    "Bank Mega",
+    "PaninBank",
+    "Bank SMBC Indonesia",
+  ];
 
   const paymentTabs = [
     {
@@ -64,23 +78,9 @@ export default function StorePaymentDesktop({
       id: "ewallet" as const,
       label: "E-Wallet",
     },
-    {
-      id: "kartu" as const,
-      label: "Kartu",
-    },
   ];
 
-  const isCardValid =
-    cardNumber.trim() !== "" &&
-    cardName.trim() !== "" &&
-    cardExpiry.trim() !== "" &&
-    cardCvv.trim() !== "";
-
   const handlePay = () => {
-    if (activeTab === "kartu" && !isCardValid) {
-      return;
-    }
-
     onSuccessPayment();
   };
 
@@ -130,7 +130,7 @@ export default function StorePaymentDesktop({
               </p>
             </div>
 
-            <div className="grid grid-cols-4 gap-2 mb-5">
+            <div className="grid grid-cols-3 gap-2 mb-5">
               {paymentTabs.map((tab) => {
                 const active = activeTab === tab.id;
 
@@ -156,22 +156,24 @@ export default function StorePaymentDesktop({
                 <div className="flex flex-col items-center justify-center text-center">
                   <div className="w-44 h-44 rounded-xl border border-[#E4D8D0] bg-white p-4 flex items-center justify-center">
                     <div className="w-full h-full grid grid-cols-9 grid-rows-9 gap-1">
-                      {Array.from({ length: 81 }).map((_, index) => (
-                        <div
-                          key={index}
-                          className={`rounded-[1px] ${
-                            (
-                              index * 17 +
-                              index * index +
-                              7
-                            ) %
-                              5 <
-                            2
-                              ? "bg-[#1F1B18]"
-                              : "bg-white"
-                          }`}
-                        />
-                      ))}
+                      {Array.from({ length: 81 }).map(
+                        (_, index) => (
+                          <div
+                            key={index}
+                            className={`rounded-[1px] ${
+                              (
+                                index * 17 +
+                                index * index +
+                                7
+                              ) %
+                                5 <
+                              2
+                                ? "bg-[#1F1B18]"
+                                : "bg-white"
+                            }`}
+                          />
+                        )
+                      )}
                     </div>
                   </div>
 
@@ -197,25 +199,93 @@ export default function StorePaymentDesktop({
                   Pilih Bank
                 </p>
 
-                <div className="grid grid-cols-3 gap-2">
-                  {["BCA", "Mandiri", "BNI"].map((bank) => {
-                    const active = selectedBank === bank;
+                <div className="relative">
+                  <button
+                    type="button"
+                    onClick={() =>
+                      setIsBankDropdownOpen(
+                        (prev) => !prev
+                      )
+                    }
+                    className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border bg-white text-left transition-all cursor-pointer ${
+                      isBankDropdownOpen
+                        ? "border-[#EE6B28] ring-1 ring-[#F9D7C0]"
+                        : "border-[#EEDFD5] hover:border-[#F2C7AB]"
+                    }`}
+                  >
+                    <div>
+                      <p className="text-[10px] text-[#8C8074]">
+                        Bank
+                      </p>
 
-                    return (
-                      <button
-                        key={bank}
-                        type="button"
-                        onClick={() => setSelectedBank(bank)}
-                        className={`py-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                          active
-                            ? "border-[#EE6B28] bg-[#FFF7F0] text-[#D96B27]"
-                            : "border-[#EEDFD5] text-[#756A62] hover:border-[#F2C7AB]"
-                        }`}
-                      >
-                        {bank}
-                      </button>
-                    );
-                  })}
+                      <p className="mt-0.5 text-xs font-bold text-[#1F1B18]">
+                        {selectedBank}
+                      </p>
+                    </div>
+
+                    <svg
+                      className={`w-4 h-4 text-[#8C8074] transition-transform ${
+                        isBankDropdownOpen
+                          ? "rotate-180"
+                          : ""
+                      }`}
+                      fill="none"
+                      viewBox="0 0 24 24"
+                      stroke="currentColor"
+                      strokeWidth={2}
+                    >
+                      <path
+                        strokeLinecap="round"
+                        strokeLinejoin="round"
+                        d="M19 9l-7 7-7-7"
+                      />
+                    </svg>
+                  </button>
+
+                  {isBankDropdownOpen && (
+                    <div className="absolute z-20 left-0 right-0 mt-2 rounded-xl border border-[#EEDFD5] bg-white shadow-lg overflow-hidden">
+                      <div className="max-h-64 overflow-y-auto p-1.5">
+                        {bankOptions.map((bank) => {
+                          const active =
+                            selectedBank === bank;
+
+                          return (
+                            <button
+                              key={bank}
+                              type="button"
+                              onClick={() => {
+                                setSelectedBank(bank);
+                                setIsBankDropdownOpen(false);
+                              }}
+                              className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left text-xs font-semibold transition-all cursor-pointer ${
+                                active
+                                  ? "bg-[#FFF7F0] text-[#D96B27]"
+                                  : "text-[#574D45] hover:bg-[#FAF7F5]"
+                              }`}
+                            >
+                              <span>{bank}</span>
+
+                              {active && (
+                                <svg
+                                  className="w-4 h-4 text-[#EE6B28]"
+                                  fill="none"
+                                  viewBox="0 0 24 24"
+                                  stroke="currentColor"
+                                  strokeWidth={2.5}
+                                >
+                                  <path
+                                    strokeLinecap="round"
+                                    strokeLinejoin="round"
+                                    d="M5 12l4 4L19 6"
+                                  />
+                                </svg>
+                              )}
+                            </button>
+                          );
+                        })}
+                      </div>
+                    </div>
+                  )}
                 </div>
 
                 <div className="mt-5 p-4 rounded-xl bg-white border border-[#EEDFD5]">
@@ -241,27 +311,29 @@ export default function StorePaymentDesktop({
                 </p>
 
                 <div className="grid grid-cols-3 gap-2">
-                  {["GoPay", "OVO", "DANA"].map((wallet) => {
-                    const active =
-                      selectedEwallet === wallet;
+                  {["GoPay", "OVO", "DANA"].map(
+                    (wallet) => {
+                      const active =
+                        selectedEwallet === wallet;
 
-                    return (
-                      <button
-                        key={wallet}
-                        type="button"
-                        onClick={() =>
-                          setSelectedEwallet(wallet)
-                        }
-                        className={`py-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                          active
-                            ? "border-[#EE6B28] bg-[#FFF7F0] text-[#D96B27]"
-                            : "border-[#EEDFD5] text-[#756A62] hover:border-[#F2C7AB]"
-                        }`}
-                      >
-                        {wallet}
-                      </button>
-                    );
-                  })}
+                      return (
+                        <button
+                          key={wallet}
+                          type="button"
+                          onClick={() =>
+                            setSelectedEwallet(wallet)
+                          }
+                          className={`py-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
+                            active
+                              ? "border-[#EE6B28] bg-[#FFF7F0] text-[#D96B27]"
+                              : "border-[#EEDFD5] text-[#756A62] hover:border-[#F2C7AB]"
+                          }`}
+                        >
+                          {wallet}
+                        </button>
+                      );
+                    }
+                  )}
                 </div>
 
                 <div className="mt-5 p-4 rounded-xl bg-white border border-[#EEDFD5]">
@@ -270,79 +342,10 @@ export default function StorePaymentDesktop({
                   </p>
 
                   <p className="mt-1 text-[10px] text-[#8C8074]">
-                    Anda akan diarahkan ke aplikasi {selectedEwallet}
-                    untuk menyelesaikan pembayaran.
+                    Anda akan diarahkan ke aplikasi{" "}
+                    {selectedEwallet} untuk menyelesaikan
+                    pembayaran.
                   </p>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "kartu" && (
-              <div className="border border-[#EEDFD5] rounded-2xl p-5 bg-[#FFFCFA] space-y-4">
-                <div>
-                  <label className="block text-[11px] font-bold text-[#5F554E] mb-1.5">
-                    Nomor Kartu
-                  </label>
-
-                  <input
-                    type="text"
-                    value={cardNumber}
-                    onChange={(e) =>
-                      setCardNumber(e.target.value)
-                    }
-                    placeholder="1234 5678 9012 3456"
-                    className="w-full h-10 px-3 rounded-xl border border-[#EEDFD5] bg-white text-xs text-[#1F1B18] outline-none focus:border-[#EE6B28]"
-                  />
-                </div>
-
-                <div>
-                  <label className="block text-[11px] font-bold text-[#5F554E] mb-1.5">
-                    Nama pada Kartu
-                  </label>
-
-                  <input
-                    type="text"
-                    value={cardName}
-                    onChange={(e) =>
-                      setCardName(e.target.value)
-                    }
-                    placeholder="Nama lengkap"
-                    className="w-full h-10 px-3 rounded-xl border border-[#EEDFD5] bg-white text-xs text-[#1F1B18] outline-none focus:border-[#EE6B28]"
-                  />
-                </div>
-
-                <div className="grid grid-cols-2 gap-4">
-                  <div>
-                    <label className="block text-[11px] font-bold text-[#5F554E] mb-1.5">
-                      Masa Berlaku
-                    </label>
-
-                    <input
-                      type="text"
-                      value={cardExpiry}
-                      onChange={(e) =>
-                        setCardExpiry(e.target.value)
-                      }
-                      placeholder="MM/YY"
-                      className="w-full h-10 px-3 rounded-xl border border-[#EEDFD5] bg-white text-xs text-[#1F1B18] outline-none focus:border-[#EE6B28]"
-                    />
-                  </div>
-
-                  <div>
-                    <label className="block text-[11px] font-bold text-[#5F554E] mb-1.5">
-                      CVV
-                    </label>
-
-                    <input
-                      type="password"
-                      value={cardCvv}
-                      onChange={(e) =>
-                        setCardCvv(e.target.value)
-                      }
-                      placeholder="•••"
-                      className="w-full h-10 px-3 rounded-xl border border-[#EEDFD5] bg-white text-xs text-[#1F1B18] outline-none focus:border-[#EE6B28]"
-                    />
-                  </div>
                 </div>
               </div>
             )}
@@ -447,14 +450,7 @@ export default function StorePaymentDesktop({
             <button
               type="button"
               onClick={handlePay}
-              disabled={
-                activeTab === "kartu" && !isCardValid
-              }
-              className={`w-full mt-4 py-3 text-xs font-bold rounded-xl transition-all ${
-                activeTab !== "kartu" || isCardValid
-                  ? "bg-[#EE6B28] hover:bg-[#C8601D] text-white cursor-pointer"
-                  : "bg-[#E9E2DD] text-[#A99D93] cursor-not-allowed"
-              }`}
+              className="w-full mt-4 cursor-pointer rounded-xl border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
             >
               Bayar {formatRupiah(totalPayable)}
             </button>

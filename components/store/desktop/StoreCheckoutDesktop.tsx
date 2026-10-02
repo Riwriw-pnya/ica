@@ -362,10 +362,10 @@ export default function StoreCheckoutDesktop({
             type="button"
             disabled={!isFormValid}
             onClick={handleCheckoutSubmit}
-            className={`w-full py-3 text-xs font-bold rounded-xl transition-all ${
+            className={`w-full rounded-xl border-t px-5 py-3 text-xs font-bold transition-all duration-200 ${
               isFormValid
-                ? "bg-[#EE6B28] hover:bg-[#C8601D] text-white cursor-pointer"
-                : "bg-[#E9E2DD] text-[#A99D93] cursor-not-allowed"
+                ? "cursor-pointer border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
+                : "cursor-not-allowed border-[#E5D9D0] bg-[#EEDFD5] text-[#A99D93] shadow-none"
             }`}
           >
             Lanjut ke Pembayaran
