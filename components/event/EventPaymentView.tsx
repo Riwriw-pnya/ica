@@ -1,6 +1,5 @@
 "use client";
-
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 
 interface EventPaymentViewProps {
   onBack: () => void;
@@ -9,6 +8,51 @@ interface EventPaymentViewProps {
 
 export default function EventPaymentView({ onBack, onNext }: EventPaymentViewProps) {
   const [selectedMethod, setSelectedMethod] = useState("qris");
+  const [secondsLeft, setSecondsLeft] = useState(584);
+
+useEffect(() => {
+  if (secondsLeft <= 0) return;
+
+  const timer = setInterval(() => {
+    setSecondsLeft((prev) => (prev > 0 ? prev - 1 : 0));
+  }, 1000);
+
+  return () => clearInterval(timer);
+}, [secondsLeft]);
+
+const formatTime = (totalSec: number) => {
+  const mins = Math.floor(totalSec / 60)
+    .toString()
+    .padStart(2, "0");
+
+  const secs = (totalSec % 60)
+    .toString()
+    .padStart(2, "0");
+
+  return `${mins}:${secs}`;
+};
+  const [selectedBank, setSelectedBank] = useState("");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const bankOptions = [
+  { id: "bca", name: "BCA", va: "8808123456789012" },
+  { id: "mandiri", name: "Bank Mandiri", va: "8908123456789012" },
+  { id: "bni", name: "BNI", va: "8108123456789012" },
+  { id: "bri", name: "BRI", va: "7708123456789012" },
+  { id: "btn", name: "BTN", va: "7508123456789012" },
+  { id: "bsi", name: "Bank Syariah Indonesia", va: "9208123456789012" },
+  { id: "cimb", name: "CIMB Niaga", va: "7808123456789012" },
+  { id: "danamon", name: "Danamon", va: "7308123456789012" },
+  { id: "permata", name: "PermataBank", va: "8208123456789012" },
+  { id: "ocbc", name: "OCBC", va: "8308123456789012" },
+  { id: "uob", name: "UOB Indonesia", va: "8408123456789012" },
+  { id: "maybank", name: "Maybank Indonesia", va: "8508123456789012" },
+  { id: "mega", name: "Bank Mega", va: "8608123456789012" },
+  { id: "panin", name: "PaninBank", va: "8708123456789012" },
+  { id: "btpn", name: "Bank SMBC Indonesia", va: "9108123456789012" },
+];
+
+  const selectedBankObj = bankOptions.find((b) => b.id === selectedBank);
 
   return (
     <div className="space-y-6 animate-fadeIn">
@@ -29,10 +73,15 @@ export default function EventPaymentView({ onBack, onNext }: EventPaymentViewPro
           <span className="text-[10px] font-bold tracking-wider uppercase text-[#8C8074]">
             SISA WAKTU PEMBAYARAN
           </span>
-          <span className="text-xl font-bold text-[#F05A1B] font-mono">09:44</span>
+          <span className="text-xl font-bold text-[#F05A1B] font-mono">
+            {formatTime(secondsLeft)}
+          </span>
         </div>
         <div className="w-full bg-[#F3EAE1] h-1.5 rounded-full overflow-hidden">
-          <div className="bg-[#F05A1B] h-full w-[85%]" />
+          <div
+  className="bg-[#F05A1B] h-full transition-all duration-1000"
+  style={{ width: `${(secondsLeft / 600) * 100}%` }}
+/>
         </div>
       </div>
 
@@ -70,48 +119,140 @@ export default function EventPaymentView({ onBack, onNext }: EventPaymentViewPro
             </div>
           </div>
 
-          {/* Option 2: Transfer BCA */}
+          {/* Option 2: Transfer Bank dengan Icon Dropdown Saja */}
           <div
-            onClick={() => setSelectedMethod("bca")}
-            className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center gap-3 ${
-              selectedMethod === "bca"
+            onClick={() => {
+              setSelectedMethod("transfer");
+              if (!isDropdownOpen && !selectedBank) setIsDropdownOpen(true);
+            }}
+            className={`p-4 rounded-xl border cursor-pointer transition-all space-y-3 ${
+              selectedMethod === "transfer"
                 ? "border-[#EE6B28] bg-[#FFF8F5]"
                 : "border-[#EEDFD5] bg-white hover:border-[#D6C2B4]"
             }`}
           >
-            <input
-              type="radio"
-              name="payment"
-              checked={selectedMethod === "bca"}
-              onChange={() => setSelectedMethod("bca")}
-              className="accent-[#EE6B28]"
-            />
-            <div>
-              <p className="font-bold text-xs text-[#1A1513]">Transfer BCA</p>
-              <p className="text-[11px] text-[#8C8074]">Virtual account · verifikasi otomatis</p>
-            </div>
-          </div>
+            <div className="flex items-center justify-between gap-3">
+              <div className="flex items-center gap-3">
+                <input
+                  type="radio"
+                  name="payment"
+                  checked={selectedMethod === "transfer"}
+                  onChange={() => {
+                    setSelectedMethod("transfer");
+                    setIsDropdownOpen(true);
+                  }}
+                  className="accent-[#EE6B28]"
+                />
+                <div>
+                  <div className="flex items-center gap-2">
+                    <p className="font-bold text-xs text-[#1A1513]">Transfer Bank</p>
+                    {selectedBankObj && (
+                      <span className="text-[10px] font-bold text-[#EE6B28] bg-[#FFE5D4] px-2 py-0.5 rounded-full">
+                        {selectedBankObj.name}
+                      </span>
+                    )}
+                  </div>
+                  <p className="text-[11px] text-[#8C8074]">
+                    {selectedBankObj ? "Virtual Account aktif" : "Virtual account / Transfer manual"}
+                  </p>
+                </div>
+              </div>
 
-          {/* Option 3: Transfer Mandiri */}
-          <div
-            onClick={() => setSelectedMethod("mandiri")}
-            className={`p-4 rounded-xl border cursor-pointer transition-all flex items-center gap-3 ${
-              selectedMethod === "mandiri"
-                ? "border-[#EE6B28] bg-[#FFF8F5]"
-                : "border-[#EEDFD5] bg-white hover:border-[#D6C2B4]"
-            }`}
-          >
-            <input
-              type="radio"
-              name="payment"
-              checked={selectedMethod === "mandiri"}
-              onChange={() => setSelectedMethod("mandiri")}
-              className="accent-[#EE6B28]"
-            />
-            <div>
-              <p className="font-bold text-xs text-[#1A1513]">Transfer Mandiri</p>
-              <p className="text-[11px] text-[#8C8074]">Virtual account · verifikasi otomatis</p>
+              {/* Icon Dropdown Saja */}
+              {selectedMethod === "transfer" && (
+                <button
+                  type="button"
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsDropdownOpen(!isDropdownOpen);
+                  }}
+                  className="p-2 rounded-full hover:bg-[#FFE5D4]/60 text-[#8C8074] transition-colors cursor-pointer"
+                >
+                  <svg
+                    className={`h-4 w-4 transition-transform duration-200 ${
+                      isDropdownOpen ? "rotate-180 text-[#EE6B28]" : ""
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M19 9l-7 7-7-7" />
+                  </svg>
+                </button>
+              )}
             </div>
+
+            {/* List Pilihan Bank Tersembunyi (Muncul saat Icon/Card diklik) */}
+            {selectedMethod === "transfer" && isDropdownOpen && (
+          <div
+            className="pt-2 border-t border-[#EEDFD5] space-y-1.5"
+            onClick={(e) => e.stopPropagation()}
+          >
+            {bankOptions.map((bank) => (
+              <button
+                key={bank.id}
+                type="button"
+                onClick={() => {
+                  setSelectedBank(bank.id);
+                  setIsDropdownOpen(false);
+                }}
+                className={`w-full flex items-center justify-between px-3.5 py-3 rounded-xl text-xs font-semibold transition text-left cursor-pointer ${
+                  selectedBank === bank.id
+                    ? "bg-[#FFF2E8] text-[#EE6B28] border border-[#EE6B28]"
+                    : "bg-white text-[#1A1513] border border-[#EEDFD5] hover:border-[#EE6B28] hover:bg-[#FFF8F5]"
+                }`}
+              >
+                <span>{bank.name}</span>
+
+                {selectedBank === bank.id && (
+                  <svg
+                    className="w-4 h-4 text-[#EE6B28]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M5 13l4 4L19 7"
+                    />
+                  </svg>
+                )}
+              </button>
+            ))}
+          </div>
+        )}
+
+        {selectedMethod === "transfer" && selectedBankObj && !isDropdownOpen && (
+          <div className="pt-3 border-t border-[#EEDFD5] space-y-2">
+            <div className="flex items-center justify-between">
+              <div>
+                <p className="text-[10px] font-bold tracking-wider uppercase text-[#8C8074]">
+                  Nomor Virtual Account
+                </p>
+                <p className="text-base font-extrabold text-[#1A1513] tracking-wide">
+                  {selectedBankObj.va}
+                </p>
+              </div>
+
+              <button
+                type="button"
+                onClick={() =>
+                  navigator.clipboard.writeText(selectedBankObj.va)
+                }
+                className="cursor-pointer rounded-full border border-[#EEDFD5] bg-white px-3.5 py-2 text-[11px] font-bold text-[#EE6B28] hover:bg-[#FFF8F5]"
+              >
+                Salin
+              </button>
+            </div>
+
+            <p className="text-[11px] text-[#8C8074]">
+              Pembayaran melalui {selectedBankObj.name}
+            </p>
+          </div>
+        )}
+
           </div>
         </div>
 

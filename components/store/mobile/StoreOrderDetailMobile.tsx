@@ -46,7 +46,8 @@ export default function StoreOrderDetailMobile({
 
   return (
     <div
-      className={`fixed inset-0 z-50 flex flex-col bg-[#F7F5F0] font-sans transition-transform duration-300 ease-out ${
+      /* Menggunakan z-[60] agar menutupi seluruh layar dan Bottom Navigation */
+      className={`fixed inset-0 z-[60] flex flex-col bg-[#F7F5F0] font-sans transition-transform duration-300 ease-out ${
         slideIn ? "translate-x-0" : "translate-x-full"
       }`}
     >
@@ -86,7 +87,7 @@ export default function StoreOrderDetailMobile({
       </div>
 
       {/* 2. AREA KONTEN SCROLLABLE */}
-      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 pb-28 scrollbar-none">
+      <div className="flex-1 overflow-y-auto px-4 py-4 space-y-4 pb-32 scrollbar-none">
         {/* KARTU 1: STATUS PESANAN & TOTAL */}
         <div className="bg-white rounded-2xl p-4 border border-[#EAE5DF] shadow-2xs space-y-3">
           <div>
@@ -201,7 +202,7 @@ export default function StoreOrderDetailMobile({
 
       {/* 3. TOAST POP-UP NOTIFIKASI SUKSES PEMBAYARAN */}
       {showToast && (
-        <div className="fixed bottom-6 left-4 right-4 z-50 transition-all duration-300 ease-out">
+        <div className="fixed bottom-[max(1.5rem,env(safe-area-inset-bottom))] left-4 right-4 z-[70] transition-all duration-300 ease-out">
           <div className="bg-white rounded-2xl p-3.5 shadow-2xl border border-[#EAE5DF] flex items-start gap-3">
             <div className="w-5 h-5 rounded-full bg-[#FFF8F3] text-[#D96B27] border border-[#FADEC9] flex items-center justify-center shrink-0 mt-0.5">
               <span className="text-xs font-bold">i</span>
@@ -214,7 +215,7 @@ export default function StoreOrderDetailMobile({
             <button
               type="button"
               onClick={() => setShowToast(false)}
-              className="text-[#857B72] hover:text-[#1F1B18] p-1 text-xs"
+              className="text-[#857B72] hover:text-[#1F1B18] p-1 text-xs cursor-pointer"
             >
               ✕
             </button>

@@ -221,7 +221,6 @@ export default function EventPage() {
             categories={categories}
             activeCategory={activeCategory}
             setActiveCategory={setActiveCategory}
-            onCheckout={() => setActiveStep("checkout")}
           />
         </>
       )}
