@@ -33,8 +33,8 @@ export default function EventPage() {
           {/* 1. TAMPILAN DESKTOP (KODE UTAMA KAMU - UNTOUCHED) */}
           {/* ========================================================= */}
           <div className="hidden sm:block space-y-6">
-            <div className="space-y-1">
-              <h1 className="text-xl sm:text-2xl font-bold text-[#1A1513]">
+            <div className="space-y-">
+              <h1 className="text-xl sm:text-2xl font-bold text-[#1A1513] pt-8">
                 Event &amp; Cat Show
               </h1>
               <p className="text-xs sm:text-sm text-[#7E7267] leading-relaxed max-w-3xl">

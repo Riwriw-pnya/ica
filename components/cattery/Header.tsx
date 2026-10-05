@@ -50,8 +50,9 @@ export default function Header() {
   const isProfile = pathname === "/cattery/profil";
   const isCatDetailPage = pathname.startsWith("/cattery/my-cats/") && pathname !== "/cattery/my-cats";
   
-  // PENAMBAHAN PENTING: Pengecekan Halaman Detail Aplikasi
+  // DETEKSI HALAMAN DETAIL APLIKASI & DRAFT
   const isApplicationDetailPage = pathname.startsWith("/cattery/applications/") && pathname !== "/cattery/applications";
+  const isDraftPage = pathname === "/cattery/draft";
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
   const title = getPageTitle(pathname);
@@ -96,6 +97,7 @@ export default function Header() {
         headerSubTitle={headerSubTitle}
         isCatDetailPage={isCatDetailPage}
         isApplicationDetailPage={isApplicationDetailPage}
+        isDraftPage={isDraftPage}
         isNotifications={isNotifications}
         isMatingReportForm={isMatingReportForm}
         isProfile={isProfile}

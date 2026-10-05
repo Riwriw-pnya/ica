@@ -144,82 +144,87 @@ export default function DocumentItem({
       {/* ========================================================= */}
       {/* 2. DESKTOP VIEW                                            */}
       {/* ========================================================= */}
-      <div
-        className={`hidden sm:flex items-center justify-between gap-3 rounded-lg border p-3.5 transition-all ${
-          file
-            ? "border-[var(--color-success)]/40 bg-[var(--color-success-bg)]"
-            : isInvalid
-            ? "bg-red-50"
-            : "border-[var(--color-ink-100)]"
-        }`}
-      >
-        <div className="flex min-w-0 items-center gap-3">
-          <span
-            className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full ${
-              file
-                ? "bg-[var(--color-success)] text-white"
-                : isInvalid
-                ? "bg-[var(--color-danger)] text-white"
-                : "bg-gray-100 text-gray-400"
-            }`}
-          >
-            {file ? (
-              <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
-              </svg>
-            ) : (
-              <DashboardIcon name={icon} size={22} />
-            )}
+{/* DESKTOP VIEW */}
+<div
+  className={`hidden sm:flex items-center justify-between gap-3 rounded-lg border p-3.5 transition-all w-full max-w-full min-w-0 overflow-hidden ${
+    file
+      ? "border-[var(--color-success)]/40 bg-[var(--color-success-bg)]"
+      : isInvalid
+      ? "bg-red-50"
+      : "border-[var(--color-ink-100)]"
+  }`}
+>
+  <div className="flex min-w-0 flex-1 items-center gap-3 overflow-hidden">
+    <span
+      className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-lg ${
+        file
+          ? "bg-[var(--color-success)] text-white"
+          : isInvalid
+          ? "bg-[var(--color-danger)] text-white"
+          : "bg-gray-100 text-gray-400"
+      }`}
+    >
+      {file ? (
+        <svg className="h-4 w-4" fill="none" stroke="currentColor" strokeWidth="3" viewBox="0 0 24 24">
+          <path strokeLinecap="round" strokeLinejoin="round" d="M5 13l4 4L19 7" />
+        </svg>
+      ) : (
+        <DashboardIcon name={icon} size={22} />
+      )}
+    </span>
+
+    {/* KUNCI MIN-W-0 DI SINI */}
+    <div className="min-w-0 flex-1 overflow-hidden">
+      <p className="flex items-center gap-1.5 text-[12px] font-medium text-[var(--color-ink-900)] truncate min-w-0">
+        <span className="truncate">{label}</span>
+        <span
+          className={`text-[10px] font-normal shrink-0 ${
+            isInvalid ? "font-semibold text-[var(--color-danger)]" : "text-[var(--color-ink-400)]"
+          }`}
+        >
+          <span className={`font-medium ${isRequired ? "text-[#F05A1B]" : "text-[#8C8074]"}`}>
+            {isRequired ? "· wajib" : "· opsional"}
           </span>
+        </span>
+      </p>
+      {file ? (
+        <p className="truncate min-w-0 text-[11px] text-[var(--color-ink-700)]">
+          Terunggah · {displayFileName} · {displaySizeLabel}
+        </p>
+      ) : (
+        <p
+          className={`text-[11px] truncate min-w-0 ${
+            isInvalid ? "font-medium text-[var(--color-danger)]" : "text-[var(--color-ink-400)]"
+          }`}
+        >
+          {isInvalid ? "Dokumen ini wajib diunggah" : description ?? "Belum ada file"}
+        </p>
+      )}
+    </div>
+  </div>
 
-          <div className="min-w-0">
-            <p className="flex items-center gap-1.5 text-[12px] font-medium text-[var(--color-ink-900)]">
-              {label}
-              <span
-                className={`text-[10px] font-normal ${
-                  isInvalid ? "font-semibold text-[var(--color-danger)]" : "text-[var(--color-ink-400)]"
-                }`}
-              >
-                · {isRequired ? "wajib" : "opsional"}
-              </span>
-            </p>
-            {file ? (
-              <p className="truncate text-[11px] text-[var(--color-ink-700)]">
-                Terunggah · {displayFileName} · {displaySizeLabel}
-              </p>
-            ) : (
-              <p
-                className={`text-[11px] ${
-                  isInvalid ? "font-medium text-[var(--color-danger)]" : "text-[var(--color-ink-400)]"
-                }`}
-              >
-                {isInvalid ? "Dokumen ini wajib diunggah" : description ?? "Belum ada file"}
-              </p>
-            )}
-          </div>
-        </div>
-
-        {file ? (
-          <button
-            type="button"
-            onClick={onRemove}
-            className="shrink-0 rounded-full border border-[var(--color-ink-400)]/50 px-4 py-1.5 text-[11px] font-medium text-[var(--color-ink-700)] hover:bg-gray-300 transition"
-          >
-            Hapus
-          </button>
-        ) : (
-          <label
-            className={`shrink-0 cursor-pointer rounded-full border px-4 py-1.5 text-[11px] font-medium transition ${
-              isInvalid
-                ? "border-[var(--color-danger)] text-[var(--color-danger)] hover:bg-red-50"
-                : "border-[var(--color-brand-orange-300)] text-[var(--color-brand-orange-700)] hover:bg-[var(--color-brand-orange-50)]"
-            }`}
-          >
-            Pilih file
-            <input type="file" className="sr-only" onChange={handleChange} />
-          </label>
-        )}
-      </div>
+  {/* Tombol Aksi Kanan Tetap Shrink-0 */}
+  {file ? (
+    <button
+      type="button"
+      onClick={onRemove}
+      className="shrink-0 rounded-lg border border-[var(--color-ink-400)]/20 px-4 py-1.5 text-[11px] font-medium text-[var(--color-ink-700)] hover:bg-[var(--color-ink-400)]/5 cursor-pointer transition"
+    >
+      Hapus
+    </button>
+  ) : (
+    <label
+      className={`shrink-0 cursor-pointer rounded-full border px-4 py-1.5 text-[11px] font-medium transition ${
+        isInvalid
+          ? "border-[var(--color-danger)] text-[var(--color-danger)] hover:bg-red-50"
+          : "border-[var(--color-brand-orange-300)] text-[var(--color-brand-orange-700)] hover:bg-[var(--color-brand-orange-50)]"
+      }`}
+    >
+      Pilih file
+      <input type="file" className="sr-only" onChange={handleChange} />
+    </label>
+  )}
+</div>
 
       {/* ========================================================= */}
       {/* 3. MODAL BOTTOM SHEET: PREVIEW DOKUMEN                    */}

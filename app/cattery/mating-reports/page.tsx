@@ -25,7 +25,7 @@ function MatingReportsForm() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const draftId = searchParams.get("draft");
-  const { getDraft, saveDraft } = useDrafts();
+  const { getDraft, saveDraft, deleteDraft } = useDrafts();
   const { setCustomAction } = useHeaderAction();
 
   const [activeDraftId, setActiveDraftId] = useState<string | undefined>(undefined);
@@ -49,12 +49,19 @@ function MatingReportsForm() {
 
   const hasLoadedData = useRef(false);
 
-/// 1. LOAD DATA DARI SESSION STORAGE ATAU DRAFT
+  // Ref untuk lacak data saat unmount/navigasi keluar
+  const selectedMaleIdRef = useRef(selectedMaleId);
+  useEffect(() => {
+    selectedMaleIdRef.current = selectedMaleId;
+  }, [selectedMaleId]);
+
+  const submittedRef = useRef(false);
+
+  // 1. LOAD DATA DARI SESSION STORAGE ATAU DRAFT
   useEffect(() => {
     if (hasLoadedData.current) return;
     hasLoadedData.current = true;
 
-    // A. Jika ada ID Draft di URL (?draft=...), utamakan load dari Draft Context
     if (draftId) {
       const draft = getDraft(draftId);
       if (!draft) {
@@ -76,14 +83,12 @@ function MatingReportsForm() {
       return;
     }
 
-    // B. Cek apakah pengguna melakukan REFRESH (Reload Page / F5)
     const isPageReloaded =
       typeof window !== "undefined" &&
       performance.getEntriesByType("navigation").some(
         (nav: any) => nav.type === "reload"
       );
 
-    // C. HANYA load dari sessionStorage JIKA HALAMAN DI-REFRESH
     if (isPageReloaded && typeof window !== "undefined") {
       const savedForm = sessionStorage.getItem(SESSION_STORAGE_KEY);
       if (savedForm) {
@@ -102,7 +107,7 @@ function MatingReportsForm() {
             if (parsed.kittenPhotos) setKittenPhotos(parsed.kittenPhotos);
             if (parsed.vetLetter) setVetLetter(parsed.vetLetter);
             if (parsed.paymentProof) setPaymentProof(parsed.paymentProof);
-            return; // Berhasil dipulihkan dari refresh
+            return;
           }
         } catch (e) {
           console.error("Gagal membaca cache form:", e);
@@ -110,8 +115,6 @@ function MatingReportsForm() {
       }
     }
 
-    // D. JIKA DATANG DARI MENU LAIN (Bukan Refresh & Bukan Draft)
-    // Bersihkan sessionStorage dan reset form ke Step awal
     if (typeof window !== "undefined") {
       sessionStorage.removeItem(SESSION_STORAGE_KEY);
     }
@@ -133,7 +136,7 @@ function MatingReportsForm() {
     setCurrentStep(typeof window !== "undefined" && window.innerWidth < 768 ? 2 : 1);
   }, [draftId, getDraft, showToast]);
 
-// 2. OTOMATIS SIMPAN KE SESSION STORAGE SETIAP KALI STATE BERUBAH
+  // 2. OTOMATIS SIMPAN KE SESSION STORAGE SETIAP KALI STATE BERUBAH
   useEffect(() => {
     if (typeof window === "undefined") return;
 
@@ -171,15 +174,36 @@ function MatingReportsForm() {
   const selectedMale = maleCats.find((c) => c.id === selectedMaleId);
   const selectedFemale = femaleCats.find((c) => c.id === selectedFemaleId);
 
-  const handleSaveDraft = useCallback(() => {
-    const pair =
-      selectedMale && selectedFemale
-        ? `${selectedMale.name.split(" ")[0]} × ${selectedFemale.name.split(" ")[0]}`
-        : "Belum lengkap";
+  const handleSaveDraft = useCallback(
+    (options?: { silent?: boolean }) => {
+      const pair =
+        selectedMale && selectedFemale
+          ? `${selectedMale.name.split(" ")[0]} × ${selectedFemale.name.split(" ")[0]}`
+          : "Belum lengkap";
 
-    const newId = saveDraft({
-      id: activeDraftId,
-      pair,
+      const newId = saveDraft({
+        id: activeDraftId,
+        pair,
+        currentStep,
+        selectedMaleId,
+        selectedFemaleId,
+        matingDate,
+        estimatedBirthDate,
+        isEstimateAuto,
+        witnessName,
+        offspringItems,
+      });
+
+      setActiveDraftId(newId);
+      if (!options?.silent) {
+        showToast("Draft tersimpan", "Anda bisa melanjutkan pengisian kapan saja dari halaman Draft.");
+      }
+    },
+    [
+      saveDraft,
+      activeDraftId,
+      selectedMale,
+      selectedFemale,
       currentStep,
       selectedMaleId,
       selectedFemaleId,
@@ -188,31 +212,28 @@ function MatingReportsForm() {
       isEstimateAuto,
       witnessName,
       offspringItems,
-    });
-
-    setActiveDraftId(newId);
-    showToast("Draft tersimpan", "Anda bisa melanjutkan pengisian kapan saja dari halaman Draft.");
-  }, [
-    saveDraft,
-    activeDraftId,
-    selectedMale,
-    selectedFemale,
-    currentStep,
-    selectedMaleId,
-    selectedFemaleId,
-    matingDate,
-    estimatedBirthDate,
-    isEstimateAuto,
-    witnessName,
-    offspringItems,
-    showToast,
-  ]);
+      showToast,
+    ]
+  );
 
   const handleSaveDraftRef = useRef(handleSaveDraft);
-
   useEffect(() => {
     handleSaveDraftRef.current = handleSaveDraft;
   }, [handleSaveDraft]);
+
+  // AUTO-SAVE SAAT NAVIGASI KELUAR / UNMOUNT
+  useEffect(() => {
+    return () => {
+      if (submittedRef.current) return;
+      if (typeof window === "undefined") return;
+
+      if (selectedMaleIdRef.current !== null) {
+        handleSaveDraftRef.current?.({ silent: true });
+      }
+
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    };
+  }, []);
 
   useEffect(() => {
     setCustomAction(() => () => {
@@ -320,15 +341,31 @@ function MatingReportsForm() {
     }
   }, [selectedFemale]);
 
+  // FUNGSI SUBMIT UTAMA & CLEANUP DRAFT
+  const handleSubmit = async () => {
+    submittedRef.current = true;
+
+    if (draftId || activeDraftId) {
+      deleteDraft(draftId || activeDraftId!);
+    }
+
+    if (typeof window !== "undefined") {
+      sessionStorage.removeItem(SESSION_STORAGE_KEY);
+    }
+
+    const code = `MR-2026-${Math.floor(1000 + Math.random() * 9000)}`;
+    router.push(`/cattery/mating-reports/success?code=${encodeURIComponent(code)}`);
+  };
+
   return (
-    <div className="p-3 sm:p-8 pb-28 md:pb-8">
+    <div className="p-3 sm:p-8 pb-12 sm:pb-8">
       <main className="min-h-full bg-[var(--color-ink-50)]">
         <div className="mx-auto max-w-[1200px] p-2 sm:p-6">
           <Stepper currentStep={currentStep} onStepClick={goToStep} />
 
           <div className="mt-3 sm:mt-4">
             {currentStep === 1 && <StepDataCattery profile={catteryProfile} />}
-            
+
             {currentStep === 2 && (
               <StepPilihPejantan
                 cats={maleCats}
@@ -337,7 +374,7 @@ function MatingReportsForm() {
                 showError={showError}
               />
             )}
-            
+
             {currentStep === 3 && (
               <StepPilihInduk
                 cats={femaleCats}
@@ -348,6 +385,7 @@ function MatingReportsForm() {
                 showError={showError}
               />
             )}
+
             {currentStep === 4 && (
               <StepMatingInformation
                 maleRegCode={selectedMale?.regCode ?? "-"}
@@ -363,9 +401,11 @@ function MatingReportsForm() {
                 showError={showError}
               />
             )}
+
             {currentStep === 5 && (
               <StepAddOffspring items={offspringItems} onChangeItems={setOffspringItems} defaultBreed={breedLabel} showError={showError} />
             )}
+
             {currentStep === 6 && (
               <StepUploadDokumen
                 maleCertFile={maleCertFile}
@@ -394,6 +434,7 @@ function MatingReportsForm() {
                 showError={showError}
               />
             )}
+
             {currentStep === 7 && (
               <StepReviewSubmit
                 maleName={selectedMale?.name ?? "-"}
@@ -413,14 +454,7 @@ function MatingReportsForm() {
                   { label: "Bukti pembayaran", file: paymentProof },
                 ]}
                 onEditStep={goToStep}
-                onSubmit={async () => {
-                  const code = `MR-2026-${Math.floor(1000 + Math.random() * 9000)}`;
-                  if (typeof window !== "undefined") {
-                    sessionStorage.removeItem(SESSION_STORAGE_KEY);
-                  }
-                  router.push(`/cattery/mating-reports/success?code=${code}`);
-                  return code;
-                }}
+                onSubmit={handleSubmit}
               />
             )}
           </div>

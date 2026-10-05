@@ -56,7 +56,7 @@ export default function StepUploadDokumen(props: StepUploadDokumenProps) {
   const missingRequired = requiredCount - uploadedRequired;
 
   return (
-    <div className="rounded-2xl sm:rounded-xl border border-[#EEDFD5] bg-white p-4 sm:p-6 transition shadow-2xs space-y-4 pb-20 md:pb-6">
+    <div className="rounded-2xl min-w-0 w-full max-w-full min-w-0 overflow-hidden sm:rounded-xl border border-[#EEDFD5] bg-white p-4 sm:p-6 transition shadow-2xs space-y-4 pb-20 md:pb-6">
       <div>
         <h2 className="font-display text-sm sm:text-base font-bold text-[#1A1513]">
           Upload dokumen
