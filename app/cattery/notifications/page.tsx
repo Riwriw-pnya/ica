@@ -20,7 +20,7 @@ const initialNotificationsData: NotificationItem[] = [
     desc: "Admin ICA wilayah Bandung meminta sertifikat induk yang lebih jelas.",
     time: "15 menit lalu",
     isUnread: true,
-    link: "/cattery/mating-reports",
+    link: "/cattery/applications",
     category: "HARI INI",
   },
   {
@@ -29,7 +29,7 @@ const initialNotificationsData: NotificationItem[] = [
     desc: "SiCepat REG - resi 0023 8841 7720.",
     time: "2 jam lalu",
     isUnread: true,
-    link: "/cattery/orders",
+    link: "/cattery/store",
     category: "HARI INI",
   },
   {
@@ -38,7 +38,7 @@ const initialNotificationsData: NotificationItem[] = [
     desc: "Jadwal disarankan Okt 2026. Booking lewat Mitra Klinik Pelihara.",
     time: "Kemarin · 08:00",
     isUnread: true,
-    link: "/cattery/my-cats/1",
+    link: "/cattery/my-cats/2",
     category: "SEBELUMNYA",
   },
   {
@@ -56,7 +56,7 @@ const initialNotificationsData: NotificationItem[] = [
     desc: "Pedigree 5 kitten diterbitkan admin ICA.",
     time: "09 Agu 2026",
     isUnread: false,
-    link: "/cattery/mating-reports",
+    link: "/cattery/applications",
     category: "SEBELUMNYA",
   },
 ];

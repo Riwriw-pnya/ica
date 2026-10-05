@@ -39,7 +39,7 @@ export default function LatestProgressCard({ currentStep = 2 }: LatestProgressCa
             Sedang direview
           </span>
           <a href="/cattery/applications">
-            <button className="px-4 py-2 rounded-full border border-[#eedfd5] text-xs font-semibold text-[#544940] hover:bg-[#fff7f2] hover:border-[#f05a1b]/40 hover:text-[#f05a1b] transition shrink-0 cursor-pointer">
+            <button className="px-4 py-2 rounded-full border border-[#eedfd5] text-xs font-semibold text-[var(--color-ink-500)] hover:bg-[var(--color-ink-50)] hover:shadow-md hover:-translate-y-0.5 transition shrink-0 cursor-pointer">
               Semua pengajuan
             </button>
           </a>
