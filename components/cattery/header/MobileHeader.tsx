@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import Link from "next/link";
-import { useRouter } from "next/navigation";
+import { useRouter, useSearchParams } from "next/navigation";
 import DashboardIcon from "../../anggota/DashboardIcon";
 
 interface MobileHeaderProps {
@@ -11,10 +11,11 @@ interface MobileHeaderProps {
   headerSubTitle: string | null;
   isCatDetailPage: boolean;
   isApplicationDetailPage: boolean;
+  isDraftPage?: boolean;
   isNotifications: boolean;
   isMatingReportForm: boolean;
   isProfile: boolean;
-  isStorePage: boolean; 
+  isStorePage: boolean;
   unreadCount: number;
   initials: string;
   catteryName: string;
@@ -77,6 +78,7 @@ export default function MobileHeader({
   headerSubTitle,
   isCatDetailPage,
   isApplicationDetailPage,
+  isDraftPage = false,
   isNotifications,
   isMatingReportForm,
   isProfile,
@@ -88,6 +90,9 @@ export default function MobileHeader({
   onCartClick,
 }: MobileHeaderProps) {
   const router = useRouter();
+  const searchParams = useSearchParams();
+  const isDraftMode = searchParams.get("draft");
+
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   const [notifications, setNotifications] = useState<NotificationItem[]>(mockNotifications);
   
@@ -97,9 +102,7 @@ export default function MobileHeader({
     setMounted(true);
   }, []);
 
-  // Hitung jumlah unread
   const localUnreadCount = notifications.filter((n) => n.isUnread).length;
-  // Saat SSR/awal mount pakai unreadCount dari props, setelah mounted pakai localUnreadCount
   const displayUnreadCount = mounted ? localUnreadCount : unreadCount;
 
   const handleNotifClick = (id: number, link: string) => {
@@ -110,19 +113,23 @@ export default function MobileHeader({
     router.push(link);
   };
 
+  const showBackButton = isNotifications || isMatingReportForm || isCatDetailPage || isApplicationDetailPage || isDraftPage;
+
   return (
     <>
       <div className="flex md:hidden w-full items-center justify-between">
         {/* SISI KIRI: CHEVRON BACK ORANGE & JUDUL */}
         <div className="flex items-center gap-2">
-          {(isNotifications || isMatingReportForm || isCatDetailPage || isApplicationDetailPage) && (
+          {showBackButton && (
             <button
               type="button"
               onClick={() => {
                 if (isCatDetailPage) {
                   router.push("/cattery/my-cats");
-                } else if (isApplicationDetailPage) {
+                } else if (isDraftPage || isApplicationDetailPage || (isMatingReportForm && !isDraftMode)) {
                   router.push("/cattery/applications");
+                } else if (isMatingReportForm && isDraftMode) {
+                  router.push("/cattery/draft");
                 } else {
                   router.back();
                 }
@@ -138,10 +145,16 @@ export default function MobileHeader({
 
           <div className="flex flex-col">
             <h1 className="font-display text-sm font-bold text-[#231A14]">
-              {isApplicationDetailPage ? "Detail Aplikasi" : isCatDetailPage && headerTitle ? headerTitle : title}
+              {isApplicationDetailPage
+                ? "Detail Aplikasi"
+                : isDraftPage
+                ? "Drafts"
+                : isCatDetailPage && headerTitle
+                ? headerTitle
+                : title}
             </h1>
 
-            {isApplicationDetailPage && (
+            {(isDraftPage || isApplicationDetailPage) && (
               <span className="text-[10px] text-[#8C8074] font-medium leading-none mt-0.5">
                 Kembali ke applications
               </span>

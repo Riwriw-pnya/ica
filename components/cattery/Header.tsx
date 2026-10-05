@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react"; // 1. Masing-masing import Suspense dari react
 import { usePathname, useRouter } from "next/navigation";
 import MobileHeader from "./header/MobileHeader";
 import DesktopHeader from "./header/DesktopHeader";
@@ -50,8 +50,8 @@ export default function Header() {
   const isProfile = pathname === "/cattery/profil";
   const isCatDetailPage = pathname.startsWith("/cattery/my-cats/") && pathname !== "/cattery/my-cats";
   
-  // PENAMBAHAN PENTING: Pengecekan Halaman Detail Aplikasi
   const isApplicationDetailPage = pathname.startsWith("/cattery/applications/") && pathname !== "/cattery/applications";
+  const isDraftPage = pathname === "/cattery/draft";
 
   const unreadCount = notifications.filter((n) => !n.isRead).length;
   const title = getPageTitle(pathname);
@@ -89,23 +89,26 @@ export default function Header() {
 
   return (
     <header className={`${isDashboard ? "hidden md:flex" : "flex"} h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5`}>
-      {/* Khusus Mobile View */}
-      <MobileHeader
-        title={title}
-        headerTitle={headerTitle}
-        headerSubTitle={headerSubTitle}
-        isCatDetailPage={isCatDetailPage}
-        isApplicationDetailPage={isApplicationDetailPage}
-        isNotifications={isNotifications}
-        isMatingReportForm={isMatingReportForm}
-        isProfile={isProfile}
-        isStorePage={isStorePage}
-        unreadCount={unreadCount}
-        initials={initials}
-        catteryName={catteryProfile.name}
-        catteryRegion={catteryProfile.region}
-        onCartClick={handleCartClick}
-      />
+      {/* 2. Bungkus MobileHeader dengan Suspense boundary */}
+      <Suspense fallback={<div className="h-[54px]" />}>
+        <MobileHeader
+          title={title}
+          headerTitle={headerTitle}
+          headerSubTitle={headerSubTitle}
+          isCatDetailPage={isCatDetailPage}
+          isApplicationDetailPage={isApplicationDetailPage}
+          isDraftPage={isDraftPage}
+          isNotifications={isNotifications}
+          isMatingReportForm={isMatingReportForm}
+          isProfile={isProfile}
+          isStorePage={isStorePage}
+          unreadCount={unreadCount}
+          initials={initials}
+          catteryName={catteryProfile.name}
+          catteryRegion={catteryProfile.region}
+          onCartClick={handleCartClick}
+        />
+      </Suspense>
 
       {/* Khusus Desktop View */}
       <DesktopHeader

@@ -39,7 +39,7 @@ export default function StepFooter({
           type="button"
           onClick={onBack}
           disabled={currentStep === 1}
-          className="flex-1 py-3 px-4 rounded-full border border-[#eedfd5] bg-white text-xs font-bold text-[#8c8074] hover:bg-[#faf7f2] active:scale-[0.98] transition disabled:opacity-40 disabled:pointer-events-none"
+          className="flex-1 py-3 px-4 rounded-full border border-[var(--color-brand-orange-500)] bg-white text-xs font-bold text-[var(--color-brand-orange-700)] hover:bg-[#faf7f2] active:scale-[0.98] transition disabled:opacity-40 disabled:pointer-events-none"
         >
           Kembali
         </button>
@@ -54,14 +54,14 @@ export default function StepFooter({
       </div>
 
       {/* ========================================================= */}
-      {/* 2. TAMPILAN DESKTOP FOOTER (Tidak Tersentuh Sama Sekali)  */}
+      {/* 2. TAMPILAN DESKTOP FOOTER                                */}
       {/* ========================================================= */}
       <div className="hidden md:flex mt-6 items-center justify-between border-t border-[var(--color-ink-100)] pt-5">
         <button
           type="button"
           onClick={onBack}
           disabled={currentStep === 1}
-          className="cursor-pointer rounded-full border border-[var(--color-ink-100)] bg-gradient-to-b from-white to-[var(--color-ink-100)] px-6 py-2.5 text-[13px] font-medium text-[var(--color-ink-700)] shadow-xs transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
+          className="cursor-pointer rounded-full border border-[var(--color-brand-orange-500)] bg-white px-6 py-2.5 text-[13px] font-medium text-[var(--color-brand-orange-700)] shadow-xs transition-all duration-150 hover:-translate-y-0.5 hover:shadow-md disabled:cursor-not-allowed disabled:opacity-40 disabled:hover:translate-y-0"
         >
           Kembali
         </button>

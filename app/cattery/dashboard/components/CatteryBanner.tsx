@@ -31,7 +31,7 @@ export default function CatteryBanner({ profile }: CatteryBannerProps) {
         </div>
       </div>
 
-      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between md:justify-end gap-4 sm:gap-8 border-t md:border-t-0 border-[#f3eae1] pt-4 md:pt-0">
+      <div className="flex flex-col sm:flex-row items-stretch sm:items-center justify-between md:justify-end gap-4 sm:gap-8 border-t md:border-t-0 border-[#f3eae1] pt-4 md:pt-0 border-l border-[#EEDFD5] pl-6">
         <div className="flex items-center justify-around md:justify-end gap-6 sm:gap-8">
           <div className="text-center md:text-left">
             <span className="block text-xs text-[#8c8074] font-medium">Male</span>

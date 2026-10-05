@@ -28,7 +28,7 @@ export default async function CatDetailPage({ params }: CatDetailPageProps) {
       <CatDetailHeaderSetter name={cat.name} breed={cat.breed} emsCode={emsCode} />
       <Link
         href="/cattery/my-cats"
-        className="hidden lg:inline-flex font-sans text-sm items-center gap-1 font-medium text-orange-600 hover:text-orange-700"
+        className="hidden lg:inline-flex display: inline-block font-sans text-sm items-center gap-1 font-medium text-orange-600 hover:text-orange-700"
       >
         ← Kembali ke My Cats
       </Link>
