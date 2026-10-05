@@ -172,7 +172,7 @@ export default function KeanggotaanMobile({
 
       {/* 5. MENU NAVIGASI PROFIL */}
       <div className="bg-white rounded-2xl border border-[#EAE5DF] shadow-2xs divide-y divide-[#F5F2ED] overflow-hidden">
-        {/* ITEM 1: MY CATS */}
+        {/* ITEM 1: MY CATS 
         <button
           type="button"
           onClick={() => setShowMyCats(true)}
@@ -188,7 +188,7 @@ export default function KeanggotaanMobile({
             <span className="text-[11px] font-medium text-[#857B72]">4 kucing</span>
             <span className="text-[#857B72] text-sm font-semibold">›</span>
           </div>
-        </button>
+        </button> */} 
 
         {/* ITEM 2: RIWAYAT PEMESANAN */}
         <Link href="/anggota/store" className="flex items-center justify-between p-3.5 hover:bg-[#FAF8F5] active:bg-[#F5F2ED] transition-colors w-full">

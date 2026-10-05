@@ -1,163 +1,448 @@
 "use client";
 
+import React, { useState, useEffect } from "react";
 import Link from "next/link";
 
+interface StepConfig {
+  stepNumber: number;
+  badgeText: string;
+  badgeStyle: string;
+  title: string;
+  desc: string;
+  timeStr: string;
+}
+
+const STEPS_DATA: StepConfig[] = [
+  {
+    stepNumber: 1,
+    badgeText: "Diterima",
+    badgeStyle: "bg-[#EBF7EE] text-[#2E7D32]",
+    title: "Pengajuan dikirim",
+    desc: "Form cattery dan data pet diterima sistem ICA. Berkas Anda masuk ke antrean.",
+    timeStr: "09:12",
+  },
+  {
+    stepNumber: 2,
+    badgeText: "Direview",
+    badgeStyle: "bg-[#EBF3FE] text-[#1E63D0]",
+    title: "Data sedang direview admin wilayah",
+    desc: "Admin memeriksa nama cattery, alamat, dan pedigree pet yang didaftarkan. Anda tidak perlu melakukan apa pun saat ini.",
+    timeStr: "09:14",
+  },
+  {
+    stepNumber: 3,
+    badgeText: "Pemeriksaan tempat",
+    badgeStyle: "bg-[#FFF4EC] text-[#D96B27]",
+    title: "Pemeriksaan tempat dijadwalkan",
+    desc: "Admin wilayah akan berkunjung ke alamat cattery pada Sen, 5 Okt 2026 pukul 10:00. Siapkan kandang, area breeding, dan dokumen pedigree.",
+    timeStr: "09:21",
+  },
+  {
+    stepNumber: 4,
+    badgeText: "Disetujui",
+    badgeStyle: "bg-[#EBF7EE] text-[#2E7D32]",
+    title: "Pengajuan cattery disetujui",
+    desc: "Cattery Anda memenuhi standar ICA. Kode cattery sedang diterbitkan oleh sekretariat.",
+    timeStr: "09:28",
+  },
+  {
+    stepNumber: 5,
+    badgeText: "Aktif",
+    badgeStyle: "bg-[#EBF7EE] text-[#2E7D32]",
+    title: "Kode cattery terbit",
+    desc: "Kode ICA-CTY-2026-0517 aktif. Masuk ke portal cattery dengan email akun ini untuk mulai mengirim mating report.",
+    timeStr: "09:35",
+  },
+];
+
+const TAHAPAN_LIST = [
+  {
+    id: 1,
+    title: "Pengajuan dikirim",
+    desc: "Data tercatat di sistem ICA",
+    time: "09:12",
+  },
+  {
+    id: 2,
+    title: "Review data admin wilayah",
+    desc: "Cek nama cattery, alamat, dan pedigree",
+    time: "09:14",
+  },
+  {
+    id: 3,
+    title: "Pemeriksaan tempat",
+    desc: "Kunjungan admin ke alamat cattery",
+    time: "09:21",
+  },
+  {
+    id: 4,
+    title: "Disetujui",
+    desc: "Memenuhi standar breeding ICA",
+    time: "09:28",
+  },
+  {
+    id: 5,
+    title: "Kode cattery terbit",
+    desc: "Akses portal cattery aktif",
+    time: "09:35",
+  },
+];
+
+const RIWAYAT_ALL_ITEMS = [
+  {
+    id: 5,
+    title: "Kode cattery diterbitkan",
+    desc: "ICA-CTY-2026-0517 · akses portal cattery aktif.",
+    sender: "Sekretariat ICA",
+    time: "09:35",
+    bgColor: "bg-[#EBF7EE]",
+    iconColor: "text-[#2E7D32]",
+  },
+  {
+    id: 4,
+    title: "Pemeriksaan selesai · disetujui",
+    desc: "Hasil kunjungan memenuhi standar. Diteruskan ke sekretariat untuk penerbitan kode.",
+    sender: "Admin ICA wilayah",
+    time: "09:28",
+    bgColor: "bg-[#EBF7EE]",
+    iconColor: "text-[#2E7D32]",
+  },
+  {
+    id: 3,
+    title: "Data lolos review",
+    desc: "Pemeriksaan tempat dijadwalkan Sen, 5 Okt 2026 · 10:00.",
+    sender: "Admin ICA wilayah",
+    time: "09:21",
+    bgColor: "bg-[#FFF4EC]",
+    iconColor: "text-[#D96B27]",
+  },
+  {
+    id: 2,
+    title: "Masuk antrean review",
+    desc: "Pengajuan diteruskan ke admin wilayah untuk pengecekan data.",
+    sender: "Admin ICA wilayah",
+    time: "09:14",
+    bgColor: "bg-[#EBF3FE]",
+    iconColor: "text-[#1E63D0]",
+  },
+  {
+    id: 1,
+    title: "Pengajuan dikirim",
+    desc: "Form cattery dan data pet diterima sistem ICA.",
+    sender: "Sistem ICA",
+    time: "09:12",
+    bgColor: "bg-[#F5F2ED]",
+    iconColor: "text-[#857B72]",
+  },
+];
+
 export default function PengajuanTerkirimPage() {
+  const [currentStep, setCurrentStep] = useState<number>(1);
+
+  // Auto-step berjalan tiap 4 detik (4000ms)
+  useEffect(() => {
+    if (currentStep >= 5) return;
+
+    const timer = setInterval(() => {
+      setCurrentStep((prev) => (prev < 5 ? prev + 1 : prev));
+    }, 4000);
+
+    return () => clearInterval(timer);
+  }, [currentStep]);
+
+  const activeStepData = STEPS_DATA[currentStep - 1];
+
+  // Riwayat update dinamis sesuai step berjalan
+  const visibleRiwayatItems = RIWAYAT_ALL_ITEMS.filter(
+    (item) => item.id <= currentStep
+  );
+
   return (
-    <div className="relative min-h-[calc(100vh-80px)] w-full py-6">
-      {/* Main Container Card */}
-      <div className="mx-auto max-w-2xl rounded-2xl border border-[#efe9e2] bg-white p-8 shadow-xs space-y-6">
-        {/* Success Icon */}
-        <div className="flex h-12 w-12 items-center justify-center rounded-full bg-[#e8f5e9] text-[#2e7d32]">
-          <svg
-            width="22"
-            height="22"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="3"
-            strokeLinecap="round"
-            strokeLinejoin="round"
+    <div className="fixed inset-0 z-50 overflow-y-auto bg-[#F7F4EF] font-sans text-[#1F1B18]">
+      <div className="w-full max-w-md mx-auto min-h-screen pb-12 pt-3 px-4 space-y-3.5 relative">
+        {/* HEADER BAR */}
+        <div className="flex items-center gap-3 pt-1 pb-1">
+          <Link
+            href="/anggota/keanggotaan"
+            className="p-1 -ml-1 text-[#D96B27] hover:bg-black/5 rounded-full transition-colors cursor-pointer"
           >
-            <polyline points="20 6 9 17 4 12" />
-          </svg>
-        </div>
-
-        {/* Title & Description */}
-        <div className="space-y-1.5">
-          <h1 className="text-xl font-bold text-[#1a1817]">
-            Pengajuan cattery terkirim
-          </h1>
-          <p className="text-xs text-[#5e5852] leading-relaxed">
-            Berkas Anda masuk ke antrean review admin wilayah Jawa Barat. Perkembangan status dikirim ke email terdaftar dan tampil di halaman ini.
-          </p>
-        </div>
-
-        {/* Status Box */}
-        <div className="flex items-center justify-between rounded-xl bg-[var(--color-ink-100)]/35 p-3.5">
-          <div>
-            <p className="text-[11px] font-medium text-[#8c857b]">Nomor pengajuan</p>
-            <p className="text-sm font-bold text-[#1a1817] mt-0.5">ICA-CTY-2026-0517</p>
-          </div>
-          <span className="rounded-full bg-[#fef3e7] px-3.5 py-1 text-[11px] font-bold text-[#d97706]">
-            Menunggu review
-          </span>
-        </div>
-
-        {/* Timeline Tracking */}
-        <div className="relative pl-10 space-y-7 my-4">
-          {/* Garis Vertikal */}
-          <div className="absolute left-[11px] top-3 h-11 w-[2px] bg-gradient-to-b from-[#ff9b53] to-[#ee6b28]" />
-          <div className="absolute left-[11px] top-14 bottom-3 w-[2px] bg-[#e8e2da]" />
-
-          {/* Item 1: Completed */}
-          <div className="relative flex items-start">
-            <div className="absolute -left-10 top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] border-t border-[#FFE5D4] text-white ring-4 ring-white z-10">
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 24 24"
-                fill="none"
-                stroke="currentColor"
-                strokeWidth="3"
+            <svg
+              className="w-5 h-5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
                 strokeLinecap="round"
                 strokeLinejoin="round"
-              >
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            </div>
-            <div>
-              <p className="text-xs font-bold text-[#1a1817]">Pengajuan terkirim</p>
-              <p className="text-[11px] text-[#8c857b] mt-0.5">
-                01 Sep 2026, 09:32 · berkas lengkap
-              </p>
-            </div>
-          </div>
-
-          {/* Item 2: In Progress */}
-          <div className="relative flex items-start">
-            <div className="absolute -left-10 top-0.5 flex h-6 w-6 items-center justify-center rounded-full bg-gradient-to-br from-[#ff9b53] to-[#ee6b28] p-[2px] ring-4 ring-white z-10">
-              <div className="h-full w-full rounded-full bg-white" />
-            </div>
-            <div>
-              <p className="text-xs font-bold text-[#1a1817]">
-                Review admin wilayah Jawa Barat
-              </p>
-              <p className="text-[11px] text-[#8c857b] mt-0.5">
-                Sedang berjalan · estimasi 3 hari kerja
-              </p>
-            </div>
-          </div>
-
-          {/* Item 3: Pending */}
-          <div className="relative flex items-start">
-            <div className="absolute -left-10 top-0.5 h-6 w-6 rounded-full border border-[#d6cfc7] bg-white ring-4 ring-white z-10" />
-            <div>
-              <p className="text-xs font-bold text-[#a39c94]">Keputusan pengajuan</p>
-              <p className="text-[11px] text-[#a39c94] mt-0.5">
-                Disetujui, revisi, atau ditolak
-              </p>
-            </div>
-          </div>
-
-          {/* Item 4: Pending */}
-          <div className="relative flex items-start">
-            <div className="absolute -left-10 top-0.5 h-6 w-6 rounded-full border border-[#d6cfc7] bg-white ring-4 ring-white z-10" />
-            <div>
-              <p className="text-xs font-bold text-[#a39c94]">
-                Verification code diterbitkan
-              </p>
-              <p className="text-[11px] text-[#a39c94] mt-0.5">
-                Dikirim ke email terdaftar setelah disetujui
-              </p>
-            </div>
-          </div>
-        </div>
-
-        {/* Warning / Lock Banner */}
-        <div className="flex items-start gap-3 rounded-xl bg-[#fff8f3] border border-[#fde8d7] p-4 text-xs text-[#5e5852]">
-          <svg
-            width="18"
-            height="18"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            className="shrink-0 text-[#ee6b28] mt-0.5"
-          >
-            <rect x="3" y="11" width="18" height="11" rx="2" ry="2" />
-            <path d="M7 11V7a5 5 0 0 1 10 0v4" />
-          </svg>
-          <span className="leading-relaxed">
-            Verification code untuk Cattery Portal diterbitkan admin setelah pengajuan disetujui. Kode bersifat tetap, bukan kode sekali pakai.
-          </span>
-        </div>
-
-        {/* Action Buttons */}
-        <div className="space-y-2.5 pt-2">
-          <Link
-            href="/anggota/log-aktivitas"
-            className="block w-full rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-center py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)]
-            border-t border-[#FFE5D4] hover:-translate-y-0.5 hover:brightness-95 active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] transition-all duration-150 cursor-pointer"
-          >
-            Lihat log aktivitas
+                strokeWidth="2.5"
+                d="M15 19l-7-7 7-7"
+              />
+            </svg>
           </Link>
+          <div>
+            <h1 className="text-base font-bold leading-tight text-[#1F1B18]">
+              Status pengajuan cattery
+            </h1>
+            <p className="text-[11px] font-medium text-[#857B72]">
+              CTY-APP-2026-0318
+            </p>
+          </div>
+        </div>
+
+        {/* TOP BANNER NOTIFIKASI GREEN */}
+        <div className="bg-[#EBF7EE] border border-[#C6EAD0] rounded-2xl p-3.5 flex items-start gap-3">
+          <div className="w-6 h-6 rounded-full bg-[#2E7D32] flex items-center justify-center shrink-0 text-white mt-0.5">
+            <svg
+              className="w-3.5 h-3.5"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
+            >
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="3"
+                d="M5 13l4 4L19 7"
+              />
+            </svg>
+          </div>
+          <div>
+            <h2 className="text-xs font-bold text-[#1E5624]">
+              Pengajuan cattery terkirim
+            </h2>
+            <p className="text-[10px] text-[#2E7D32] leading-relaxed mt-0.5">
+              Setiap perubahan status dikirim lewat notifikasi aplikasi dan
+              WhatsApp. Halaman ini juga bisa dibuka dari Profil.
+            </p>
+          </div>
+        </div>
+
+        {/* CARD STATUS UTAMA */}
+        <div className="bg-white rounded-2xl p-4 border border-[#EAE5DF] shadow-2xs space-y-3 relative overflow-hidden">
+          <div className="flex items-center justify-between">
+            <span
+              className={`px-2.5 py-0.5 rounded-full text-[10px] font-bold ${activeStepData.badgeStyle}`}
+            >
+              {activeStepData.badgeText}
+            </span>
+            <span className="text-[10px] font-medium text-[#857B72]">
+              Tahap {currentStep} dari 5
+            </span>
+          </div>
+
+          <div>
+            <h3 className="text-sm font-bold text-[#1F1B18]">
+              {activeStepData.title}
+            </h3>
+            <p className="text-[11px] text-[#857B72] leading-relaxed mt-1">
+              {activeStepData.desc}
+            </p>
+          </div>
+
+          {/* Progress Bar Oranye Meluncur Halus sampai Penuh (20% - 100%) */}
+          <div className="w-full h-1.5 bg-[#F5EFE8] rounded-full overflow-hidden mt-2">
+            <div
+              className="h-full bg-[#D96B27] rounded-full transition-all duration-700 ease-out"
+              style={{ width: `${(currentStep / 5) * 100}%` }}
+            />
+          </div>
+
+          <div className="flex items-center gap-1.5 pt-0.5 text-[10px] text-[#A0958B]">
+            <span className="w-1.5 h-1.5 rounded-full bg-[#D96B27] animate-pulse" />
+            <span>
+              Status diperbarui otomatis · terakhir {activeStepData.timeStr}
+            </span>
+          </div>
+        </div>
+
+        {/* TAHAPAN TIMELINE CARD */}
+        <div className="bg-white rounded-2xl p-4 border border-[#EAE5DF] shadow-2xs space-y-3">
+          <h3 className="text-[11px] font-bold uppercase tracking-wider text-[#857B72]">
+            Tahapan
+          </h3>
+
+          <div className="relative pl-6 space-y-4 pt-1">
+            {TAHAPAN_LIST.map((item, idx) => {
+              const itemStep = item.id;
+              // Jika item sudah dilewati ATAU jika sudah mencapai step 5 (termasuk item 5), jadikan status diselesaikan (hijau)
+              const isFinished =
+                itemStep < currentStep || (currentStep === 5 && itemStep === 5);
+              const isCurrentActive =
+                itemStep === currentStep && currentStep !== 5;
+
+              return (
+                <div key={item.id} className="relative flex items-start justify-between">
+                  {/* Garis Vertikal */}
+                  {idx < TAHAPAN_LIST.length - 1 && (
+                    <div
+                      className={`absolute left-[-15px] top-3.5 bottom-[-16px] w-[2px] transition-colors duration-500 ${
+                        itemStep < currentStep ? "bg-[#2E7D32]" : "bg-[#EAE5DF]"
+                      }`}
+                    />
+                  )}
+
+                  {/* Node Icon */}
+                  <div className="absolute left-[-20px] top-0.5 z-10 flex items-center justify-center">
+                    {isFinished ? (
+                      <div className="w-3.5 h-3.5 rounded-full bg-[#2E7D32] flex items-center justify-center text-white transition-all duration-300">
+                        <svg
+                          className="w-2.5 h-2.5"
+                          fill="none"
+                          viewBox="0 0 24 24"
+                          stroke="currentColor"
+                        >
+                          <path
+                            strokeLinecap="round"
+                            strokeLinejoin="round"
+                            strokeWidth="3.5"
+                            d="M5 13l4 4L19 7"
+                          />
+                        </svg>
+                      </div>
+                    ) : isCurrentActive ? (
+                      <div className="w-3.5 h-3.5 rounded-full border-2 border-[#D96B27] bg-white flex items-center justify-center transition-all duration-300">
+                        <div className="w-1.5 h-1.5 rounded-full bg-[#D96B27]" />
+                      </div>
+                    ) : (
+                      <div className="w-3.5 h-3.5 rounded-full border-2 border-[#C5BCB3] bg-white transition-all duration-300" />
+                    )}
+                  </div>
+
+                  {/* Text Label */}
+                  <div className="pr-2">
+                    <p
+                      className={`text-xs font-bold transition-colors duration-300 ${
+                        isFinished
+                          ? "text-[#1F1B18]"
+                          : isCurrentActive
+                          ? "text-[#D96B27]"
+                          : "text-[#A0958B]"
+                      }`}
+                    >
+                      {item.title}
+                    </p>
+                    <p className="text-[10px] text-[#857B72] mt-0.5">
+                      {item.desc}
+                    </p>
+                  </div>
+
+                  {/* Time Stamp */}
+                  <span className="text-[10px] text-[#A0958B] shrink-0 font-medium">
+                    {item.time}
+                  </span>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+
+        {/* CARD RIWAYAT UPDATE */}
+        <div className="bg-white rounded-2xl p-4 border border-[#EAE5DF] shadow-2xs space-y-3">
+          <div className="flex items-center justify-between">
+            <h3 className="text-xs font-bold text-[#1F1B18]">
+              Riwayat update
+            </h3>
+            <span className="text-[11px] font-medium text-[#857B72]">
+              {visibleRiwayatItems.length} update
+            </span>
+          </div>
+
+          <div className="space-y-3 divide-y divide-[#F5EFE8]">
+            {visibleRiwayatItems.map((item, idx) => (
+              <div
+                key={item.id}
+                className={`flex items-start gap-3 ${
+                  idx > 0 ? "pt-3" : ""
+                }`}
+              >
+                {/* Bell Icon */}
+                <div
+                  className={`w-9 h-9 rounded-xl ${item.bgColor} ${item.iconColor} flex items-center justify-center shrink-0 mt-0.5`}
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="1.8"
+                      d="M15 17h5l-1.405-1.405A2.032 2.032 0 0118 14.158V11a6.002 6.002 0 00-4-5.659V5a2 2 0 10-4 0v.341C7.67 6.165 6 8.388 6 11v3.159c0 .538-.214 1.055-.595 1.436L4 17h5m6 0v1a3 3 0 11-6 0v-1m6 0H9"
+                    />
+                  </svg>
+                </div>
+
+                {/* Content */}
+                <div className="flex-1 min-w-0">
+                  <div className="flex items-center justify-between gap-1">
+                    <h4 className="text-xs font-bold text-[#1F1B18] truncate">
+                      {item.title}
+                    </h4>
+                    <span className="text-[10px] text-[#A0958B] shrink-0 font-medium">
+                      {item.time}
+                    </span>
+                  </div>
+                  <p className="text-[10px] text-[#524B43] mt-0.5 leading-normal">
+                    {item.desc}
+                  </p>
+                  <p className="text-[10px] text-[#A0958B] mt-1 font-medium">
+                    {item.sender}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* RINGKASAN PENGAJUAN CARD */}
+        <div className="bg-white rounded-2xl p-4 border border-[#EAE5DF] shadow-2xs space-y-3">
+          <h3 className="text-[11px] font-bold uppercase tracking-wider text-[#857B72]">
+            Ringkasan Pengajuan
+          </h3>
+
+          <div className="space-y-2.5 text-xs divide-y divide-[#F5EFE8]">
+            <div className="flex justify-between items-center pt-1">
+              <span className="text-[#857B72]">Nama cattery</span>
+              <span className="font-bold text-[#1F1B18]">Auroria</span>
+            </div>
+            <div className="flex justify-between items-center pt-2">
+              <span className="text-[#857B72]">Wilayah</span>
+              <span className="font-bold text-[#1F1B18]">Semarang</span>
+            </div>
+            <div className="flex justify-between items-center pt-2">
+              <span className="text-[#857B72]">Ras</span>
+              <span className="font-bold text-[#1F1B18]">Scottish Fold</span>
+            </div>
+            <div className="flex justify-between items-center pt-2">
+              <span className="text-[#857B72]">Pet didaftarkan</span>
+              <span className="font-bold text-[#1F1B18]">
+                1 kucing · 1 ber-pedigree
+              </span>
+            </div>
+          </div>
 
           <button
             type="button"
-            className="w-full rounded-full border border-[#e8e2da] bg-white py-3 text-xs font-semibold text-[#38332e] hover:bg-[#fcfbf9] transition cursor-pointer"
+            className="w-full mt-2 py-2.5 rounded-xl border border-[#EAE5DF] bg-[#FAF8F5] text-xs font-bold text-[#524B43] flex items-center justify-center gap-2 hover:bg-[#F5F2ED] transition-colors cursor-pointer"
           >
-            Pratinjau Cattery Portal
-          </button>
-
-          <div className="pt-1 text-center">
-            <Link
-              href="/anggota/keanggotaan"
-              className="inline-block text-xs font-semibold text-[#38332e] hover:text-[#ee6b28] transition"
+            <svg
+              className="w-4 h-4 text-[#857B72]"
+              fill="none"
+              viewBox="0 0 24 24"
+              stroke="currentColor"
             >
-              Kembali ke keanggotaan
-            </Link>
-          </div>
+              <path
+                strokeLinecap="round"
+                strokeLinejoin="round"
+                strokeWidth="1.8"
+                d="M8 12h.01M12 12h.01M16 12h.01M21 12c0 4.418-4.03 8-9 8a9.863 9.863 0 01-4.255-.949L3 20l1.395-3.72C3.512 15.042 3 13.574 3 12c0-4.418 4.03-8 9-8s9 3.582 9 8z"
+              />
+            </svg>
+            <span>Hubungi admin wilayah</span>
+          </button>
         </div>
       </div>
     </div>
