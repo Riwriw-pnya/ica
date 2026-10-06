@@ -35,13 +35,7 @@ export default function NotificationDropdown({
 
   return (
     <div
-      className="
-        /* Posisi & Responsivitas Tampilan Mobile */
-        fixed inset-x-4 top-16 z-50 mx-auto w-[calc(100vw-2rem)] max-w-sm rounded-xl border border-[var(--color-ink-100)] bg-white shadow-xl
-        
-        /* Posisi Tampilan Desktop (sm:) */
-        sm:absolute sm:inset-auto sm:right-0 sm:top-full sm:mt-2 sm:w-80 sm:max-w-none
-      "
+      className="top-16 z-50 absolute right-0 top-full mt-2 w-80 rounded-xl border border-[var(--color-ink-100)] bg-white shadow-xl"
     >
       <div className="flex items-center justify-between border-b border-[var(--color-ink-100)] px-4 py-3">
         <p className="font-display text-[13px] font-semibold text-[var(--color-ink-900)]">

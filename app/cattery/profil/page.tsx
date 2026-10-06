@@ -1,73 +1,9 @@
 "use client";
 
 import { useState } from "react";
-import Link from "next/link";
 import { catteryProfile as initialProfile } from "@/data/cattery";
 import type { CatteryProfile } from "@/types/cattery";
 import { useToast } from "@/context/ToastContext";
-import DashboardIcon from "@/components/anggota/DashboardIcon";
-import StoreOrderHistoryMobile from "@/components/store/mobile/StoreOrderHistoryMobile"; 
-// List data lencana (3 sudah diikuti, selebihnya belum diikuti)
-const badgesData = [
-  {
-    id: "1",
-    title: "Cat Show",
-    subtitle: "ICA Cat Show Bandung 2026",
-    isEarned: true,
-  },
-  {
-    id: "2",
-    title: "Regional",
-    subtitle: "Regional Show Bandung 2026",
-    isEarned: true,
-  },
-  {
-    id: "3",
-    title: "Cattery",
-    subtitle: "Diklat Cattery Dasar",
-    isEarned: true,
-  },
-  {
-    id: "4",
-    title: "Grooming",
-    subtitle: "Belum diikuti",
-    isEarned: false,
-  },
-  {
-    id: "5",
-    title: "Breeder",
-    subtitle: "Belum diikuti",
-    isEarned: false,
-  },
-];
-
-// Helper Format Rupiah
-const formatRupiah = (val: number) => {
-  return new Intl.NumberFormat("id-ID", {
-    style: "currency",
-    currency: "IDR",
-    maximumFractionDigits: 0,
-  }).format(val);
-};
-
-// Helper Icon Pita (Award Ribbon Badge)
-function RibbonBadgeIcon({ className }: { className?: string }) {
-  return (
-    <svg
-      className={className || "w-5 h-5"}
-      viewBox="0 0 24 24"
-      fill="none"
-      stroke="currentColor"
-      strokeWidth="2"
-      strokeLinecap="round"
-      strokeLinejoin="round"
-    >
-      <circle cx="12" cy="9" r="6" />
-      <path d="M9.09 14.5L7 22l5-3 5 3-2.09-7.5" />
-      <polygon points="12 6 13 8 15 8.3 13.5 10 14 12 12 11 10 12 10.5 10 9 8.3 11 8 12 6" fill="currentColor" />
-    </svg>
-  );
-}
 
 export default function CatteryProfilePage() {
   const { showToast } = useToast();
@@ -75,9 +11,6 @@ export default function CatteryProfilePage() {
   const [profile, setProfile] = useState<CatteryProfile>(initialProfile);
   const [placePhoto, setPlacePhoto] = useState<string | null>(initialProfile.placePhotoUrl ?? null);
   const [profilePhoto, setProfilePhoto] = useState<string | null>(initialProfile.profilePhotoUrl ?? null);
-  
-  // State untuk mengontrol pembukaan modal riwayat pemesanan di mobile
-  const [isOrderHistoryOpen, setIsOrderHistoryOpen] = useState(false);
 
   const update = (patch: Partial<CatteryProfile>) => setProfile((prev) => ({ ...prev, ...patch }));
 
@@ -111,237 +44,129 @@ export default function CatteryProfilePage() {
     setProfilePhoto(initialProfile.profilePhotoUrl ?? null);
   };
 
-  const initials = (profile.name ?? "Rumah Hana")
+  const initials = (profile.ownerName ?? "Hana Prameswari")
     .split(" ")
     .map((w) => w[0])
     .slice(0, 2)
     .join("")
     .toUpperCase();
 
-  const earnedCount = badgesData.filter((b) => b.isEarned).length;
-
   return (
-    <div className="min-h-screen bg-[#F8F6F2] text-[#2d2825] font-sans pb-20 lg:pb-8">
+    <div className="min-h-screen bg-[#F8F6F2] text-[#2d2825] font-sans p-4 md:p-8 pb-20 md:pb-8">
       
-      {/* ========================================================= */}
-      {/* 1. TAMPILAN MOBILE                                        */}
-      {/* ========================================================= */}
-      <div className="block lg:hidden px-4 pt-4 space-y-4 max-w-md mx-auto">
-        
-        {/* Card 1: Identitas Utama Cattery */}
-        <div className="bg-white rounded-3xl p-5 border border-[#eedfd5] shadow-2xs flex items-center gap-4">
-          <div className="w-16 h-16 rounded-full bg-[#fff4eb] border border-[#fce3d2] text-[#f05a1b] font-extrabold text-xl flex items-center justify-center shrink-0">
-            {initials}
-          </div>
-          <div className="space-y-1 min-w-0">
-            <h2 className="font-bold text-base text-[#1a1513] leading-tight truncate">
-              {profile.name}
-            </h2>
-            <p className="text-xs text-[#8c8074] truncate">
-              {profile.regNumber} · Cattery
-            </p>
-            <span className="inline-block px-2.5 py-0.5 rounded-full bg-[#eaf8f0] text-[#1b804d] text-[10px] font-bold border border-[#c3f0d5]">
-              Terverifikasi
-            </span>
-          </div>
+      {/* ========================================= */}
+      {/* 1. TAMPILAN MOBILE (Sesuai Foto)          */}
+      {/* ========================================= */}
+      <div className="block md:hidden max-w-md mx-auto space-y-4">
+        {/* Subtitle Mobile */}
+        <p className="text-xs text-[#8C8074] leading-relaxed">
+          Data yang tampil di Direktori Cattery untuk member ICA.
+        </p>
+
+        {/* Card 1: Banner Foto Tempat Cattery */}
+        <div className="rounded-[24px] border border-[#FCD3B0] bg-[#FFF5EC] p-5 relative min-h-[160px] flex flex-col items-center justify-center text-center overflow-hidden">
+          {placePhoto ? (
+            <img src={placePhoto} alt="Foto tempat" className="absolute inset-0 h-full w-full object-cover rounded-[24px]" />
+          ) : (
+            <div className="flex flex-col items-center justify-center gap-2 mb-6">
+              {/* Icon Rumah/Cattery Bawaan Kode */}
+              <div className="text-[#c26d0a]">
+                <svg className="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.6">
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M2.25 12l8.954-8.955c.44-.439 1.152-.439 1.591 0L21.75 12M4.5 9.75v10.125c0 .621.504 1.125 1.125 1.125H9.75v-4.875c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125V21h4.125c.621 0 1.125-.504 1.125-1.125V9.75M8.25 21h8.25"
+                  />
+                </svg>
+              </div>
+              <span className="text-xs font-semibold text-[#D97706]">
+                Foto tempat cattery belum diunggah
+              </span>
+            </div>
+          )}
+
+          {/* Tombol Dipindah ke Pojok Kanan Bawah */}
+          <label className="absolute bottom-3.5 right-3.5 z-10 cursor-pointer rounded-full bg-white border border-[#EEDFD5] px-4 py-1.5 text-[11px] font-bold text-[#1A1513] shadow-2xs hover:bg-[#FAF7F5] active:scale-95 transition-all">
+            {placePhoto ? "Ganti foto tempat" : "Unggah foto tempat"}
+            <input type="file" accept="image/*" className="hidden" onChange={handlePlacePhotoPick} />
+          </label>
         </div>
 
-        {/* Card 2: Personal Details Table */}
-        <div className="bg-white rounded-3xl p-4 border border-[#eedfd5] shadow-2xs divide-y divide-[#f4efe9]">
-          <div className="flex items-center justify-between py-2.5">
-            <span className="text-xs font-medium text-[#8c8074]">Pemilik</span>
-            <span className="text-xs font-bold text-[#1a1513]">{profile.ownerName}</span>
+        {/* Card 2: Detail Profil & Formulir Info Cattery */}
+        <div className="rounded-[24px] border border-[#EEDFD5] bg-white p-5 shadow-2xs space-y-5">
+          {/* Header Pemilik */}
+          <div className="flex items-center gap-3">
+            <div className="w-12 h-12 rounded-full bg-[#FFF0E5] border border-[#FCE3D2] text-[#D95D1E] font-bold text-sm flex items-center justify-center shrink-0">
+              {profilePhoto ? (
+                <img src={profilePhoto} alt={profile.ownerName} className="h-full w-full object-cover rounded-full" />
+              ) : (
+                initials
+              )}
+            </div>
+            <div className="min-w-0">
+              <h2 className="text-sm font-bold text-[#1A1513] truncate">{profile.ownerName}</h2>
+              <p className="text-[11px] text-[#8C8074] truncate mt-0.5">
+                Pemilik cattery · member {profile.memberCode}
+              </p>
+            </div>
           </div>
-          <div className="flex items-center justify-between py-2.5">
-            <span className="text-xs font-medium text-[#8c8074]">Email</span>
-            <span className="text-xs font-bold text-[#1a1513]">hana@rumahhana.id</span>
-          </div>
-          <div className="flex items-center justify-between py-2.5">
-            <span className="text-xs font-medium text-[#8c8074]">WhatsApp</span>
-            <span className="text-xs font-bold text-[#1a1513]">{profile.whatsapp}</span>
-          </div>
-          <div className="flex items-center justify-between py-2.5">
-            <span className="text-xs font-medium text-[#8c8074]">Wilayah ICA</span>
-            <span className="text-xs font-bold text-[#1a1513]">{profile.provinceRegion || profile.region}</span>
-          </div>
-          <div className="flex items-center justify-between py-2.5">
-            <span className="text-xs font-medium text-[#8c8074]">Member sejak</span>
-            <span className="text-xs font-bold text-[#1a1513]">24 Jul 2024</span>
-          </div>
-        </div>
 
-        {/* Card 3: Keanggotaan & Lencana Event Dinamis */}
-        <div className="bg-white rounded-3xl p-5 border border-[#eedfd5] shadow-2xs space-y-4">
-          <div className="flex items-start justify-between">
+          {/* Tombol Unggah Foto Profil */}
+          <label className="block w-full text-center cursor-pointer rounded-full bg-white border border-[#EEDFD5] py-2 text-xs font-semibold text-[#1A1513] shadow-2xs hover:bg-[#FAF7F5] active:scale-95 transition-all">
+            {profilePhoto ? "Ganti foto profil" : "Unggah foto profil"}
+            <input type="file" accept="image/*" className="hidden" onChange={handleProfilePhotoPick} />
+          </label>
+
+          <hr className="border-[#F4EFE9]" />
+
+          {/* List Isian Data */}
+          <div className="space-y-4">
             <div>
-              <h3 className="font-bold text-xs text-[#1a1513]">Tingkat keanggotaan · Perak</h3>
-              <p className="text-[10px] text-[#8c8074] mt-0.5">{earnedCount} dari 5 event diikuti</p>
+              <span className="block text-[11px] font-medium text-[#8C8074]">Nama cattery</span>
+              <p className="text-xs font-bold text-[#1A1513] mt-0.5">{profile.name}</p>
             </div>
-            <span className="px-2.5 py-1 rounded-full bg-[#fff4eb] text-[#f05a1b] text-[10px] font-bold border border-[#fce3d2]">
-              60% lengkap
-            </span>
+
+            <div>
+              <span className="block text-[11px] font-medium text-[#8C8074]">Nomor registrasi</span>
+              <p className="text-xs font-bold text-[#1A1513] mt-0.5">{profile.regNumber}</p>
+            </div>
+
+            <div>
+              <span className="block text-[11px] font-medium text-[#8C8074]">Wilayah</span>
+              <p className="text-xs font-bold text-[#1A1513] mt-0.5">{profile.provinceRegion || profile.region}</p>
+            </div>
+
+            <div>
+              <span className="block text-[11px] font-medium text-[#8C8074]">Nomor WhatsApp</span>
+              <p className="text-xs font-bold text-[#1A1513] mt-0.5">{profile.whatsapp}</p>
+            </div>
+
+            <div>
+              <span className="block text-[11px] font-medium text-[#8C8074]">Alamat</span>
+              <p className="text-xs font-bold text-[#1A1513] leading-relaxed mt-0.5">{profile.address}</p>
+            </div>
+
+            <div>
+              <span className="block text-[11px] font-medium text-[#8C8074] mb-2">Ras yang dikembangkan</span>
+              <div className="flex flex-wrap gap-2">
+                {(profile.breeds ?? []).map((breed) => (
+                  <span
+                    key={breed}
+                    className="rounded-full bg-[#FFF5EC] border border-[#FDE3CE] px-3 py-1 text-[11px] font-semibold text-[#D95D1E]"
+                  >
+                    {breed}
+                  </span>
+                ))}
+              </div>
+            </div>
           </div>
-
-          <div className="w-full bg-[#f4efe9] h-2 rounded-full overflow-hidden">
-            <div className="bg-[#f05a1b] h-full w-[60%] rounded-full" />
-          </div>
-
-          <p className="text-[11px] text-[#8c8074]">Ikuti 2 event lagi untuk tingkat Emas.</p>
-
-          <div className="pt-2 space-y-3">
-            <span className="block text-[10px] font-bold tracking-wider uppercase text-[#a09488]">
-              LENCANA EVENT &amp; DIKLAT ASOSIASI
-            </span>
-
-            {/* Horizontal Badge Carousel */}
-            <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2 pt-1 -mx-1 px-1">
-              {badgesData.map((badge) => (
-                <div
-                  key={badge.id}
-                  className={`min-w-[130px] rounded-2xl p-3 border shadow-2xs flex flex-col justify-between space-y-3 shrink-0 transition-all ${
-                    badge.isEarned
-                      ? "bg-white border-[#eedfd5]"
-                      : "bg-[#FAFAFA] border-[#F0EBE5]"
-                  }`}
-                >
-                  {badge.isEarned ? (
-                    <div className="w-12 h-12 rounded-2xl bg-gradient-to-br from-[#FFC299] to-[#EE6B28] shadow-[0_6px_16px_rgba(238,107,40,0.25)] flex items-center justify-center">
-                      <RibbonBadgeIcon className="w-6 h-6 text-white" />
-                    </div>
-                  ) : (
-                    <div className="w-12 h-12 rounded-2xl bg-[#F2F0ED] flex items-center justify-center">
-                      <RibbonBadgeIcon className="w-6 h-6 text-[#A39990]" />
-                    </div>
-                  )}
-
-                  <div>
-                    <h4
-                      className={`font-bold text-xs leading-tight truncate ${
-                        badge.isEarned ? "text-[#1a1513]" : "text-[#70665D]"
-                      }`}
-                    >
-                      {badge.title}
-                    </h4>
-                    <p
-                      className={`text-[10px] leading-tight mt-0.5 line-clamp-2 ${
-                        badge.isEarned ? "text-[#8c8074]" : "text-[#B0A69D]"
-                      }`}
-                    >
-                      {badge.subtitle}
-                    </p>
-                  </div>
-                </div>
-              ))}
-            </div>
-
-            <p className="text-[10px] text-[#a09488] pt-1">
-              Lencana diberikan admin ICA setelah event selesai.
-            </p>
-          </div>
-        </div>
-
-        {/* Quick Menu Navigation Links */}
-        <div className="bg-white rounded-3xl border border-[#eedfd5] shadow-2xs divide-y divide-[#f4efe9] overflow-hidden">
-          <Link href="/cattery/mating-reports" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
-            <div className="flex items-center gap-3">
-              <div className="text-[var(--color-brand-orange-700)]/90">
-                <DashboardIcon name="mating" size={18} />
-              </div>
-              <span className="font-bold text-xs text-[#1a1513]">Mating Report</span>
-            </div>
-            <span className="text-xs text-[#8c8074]">Buat baru</span>
-          </Link>
-
-          <Link href="/cattery/profil" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
-            <div className="flex items-center gap-3">
-              <div className="text-[var(--color-brand-orange-700)]/90">
-                <DashboardIcon name="home" size={18} />
-              </div>
-              <span className="font-bold text-xs text-[#1a1513]">Profil Cattery</span>
-            </div>
-            <span className="text-xs text-[#8c8074]"></span>
-          </Link>
-
-          <Link href="/cattery/documents" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
-            <div className="flex items-center gap-3">
-              <div className="text-[var(--color-brand-orange-700)]/90">
-                <DashboardIcon name="news" size={18} />
-              </div>
-              <span className="font-bold text-xs text-[#1a1513]">Documents</span>
-            </div>
-            <span className="text-xs text-[#8c8074]">5 berkas</span>
-          </Link>
-
-          <Link href="/cattery/leaderboard" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
-            <div className="flex items-center gap-3">
-              <div className="text-[var(--color-brand-orange-700)]/90">
-                <DashboardIcon name="trophy" size={18} />
-              </div>
-              <span className="font-bold text-xs text-[#1a1513]">Leaderboard</span>
-            </div>
-            <span className="text-xs text-[#8c8074]"></span>
-          </Link>
-
-          <Link href="/cattery/store" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
-            <div className="flex items-center gap-3">
-              <div className="text-[var(--color-brand-orange-700)]/90">
-                <DashboardIcon name="shopping-cart" size={18} />
-              </div>
-              <span className="font-bold text-xs text-[#1a1513]">Store</span>
-            </div>
-            <span className="text-xs text-[#8c8074]"></span>
-          </Link>
-
-          {/* Mengubah Link menjadi button click handler untuk membuka slider riwayat pemesanan */}
-          <button
-            type="button"
-            onClick={() => setIsOrderHistoryOpen(true)}
-            className="w-full flex items-center justify-between p-4 hover:bg-[#faf7f2] transition text-left cursor-pointer"
-          >
-            <div className="flex items-center gap-3">
-              <div className="text-[var(--color-brand-orange-700)]/90">
-                <DashboardIcon name="payment" size={18} />
-              </div>
-              <span className="font-bold text-xs text-[#1a1513]">Riwayat pesanan</span>
-            </div>
-            <span className="text-xs text-[#8c8074]">3 pesanan</span>
-          </button>
-
-          <Link href="/cattery/settings" className="flex items-center justify-between p-4 hover:bg-[#faf7f2] transition">
-            <div className="flex items-center gap-3">
-              <div className="text-[var(--color-brand-orange-700)]/90">
-                <DashboardIcon name="settings" size={18} />
-              </div>
-              <span className="font-bold text-xs text-[#1a1513]">Pengaturan akun</span>
-            </div>
-            <span className="text-xs text-[#8c8074]"></span>
-          </Link>
-        </div>
-
-        {/* Logout Action Button */}
-        <div className="pt-1">
-          <Link href="/auth/login/cattery">
-            <button className="w-full bg-white text-[#c23c3c] border border-[#fde9e9] hover:bg-[#fde9e9]/30 rounded-3xl py-3.5 font-bold text-xs shadow-2xs transition">
-              Keluar dari akun
-            </button>
-          </Link>
         </div>
       </div>
 
-      {/* ========================================================= */}
-      {/* SLIDER RIWAYAT PEMESANAN (KHUSUS MOBILE)                 */}
-      {/* ========================================================= */}
-      {isOrderHistoryOpen && (
-        <StoreOrderHistoryMobile
-          onClose={() => setIsOrderHistoryOpen(false)}
-          formatRupiah={formatRupiah}
-        />
-      )}
-
-      {/* ========================================================= */}
-      {/* 2. TAMPILAN DESKTOP                                       */}
-      {/* ========================================================= */}
-      <main className="hidden lg:block p-4 sm:p-6 lg:p-8 space-y-6 max-w-5xl mx-auto">
+      {/* ========================================= */}
+      {/* 2. TAMPILAN DESKTOP (Sesuai Kode Asli)    */}
+      {/* ========================================= */}
+      <main className="hidden md:block space-y-6 max-w-5xl mx-auto">
         <div className="space-y-1">
           <h1 className="text-xl sm:text-2xl font-bold text-[#1a1513]">
             Profil Cattery
@@ -447,7 +272,7 @@ export default function CatteryProfilePage() {
                   type="text"
                   value={profile.whatsapp ?? ""}
                   onChange={(e) => update({ whatsapp: e.target.value })}
-                  className="w-full bg-transparent font-bold text-[#1a1513] outline-none  focus:border-b focus:border-[#EE6B28]"
+                  className="w-full bg-transparent font-bold text-[#1a1513] outline-none focus:border-b focus:border-[#EE6B28]"
                 />
               </div>
 
