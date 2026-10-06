@@ -155,7 +155,7 @@ export default function StatusKeanggotaanMobile({
             onClick={
               onPerpanjang || (() => alert("Proses perpanjangan keanggotaan"))
             }
-            className="w-full py-3.5 px-4 rounded-full bg-gradient-to-r from-[#FFB073] via-[#F88C43] to-[#EE6B2B] text-white font-bold text-xs shadow-[0_8px_20px_rgba(242,120,40,0.35)] active:scale-[0.98] transition-all cursor-pointer"
+            className="w-full shrink-0 cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
           >
             Perpanjang keanggotaan
           </button>

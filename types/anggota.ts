@@ -84,6 +84,6 @@ export interface DeviceItem {
   browser: string;
   os: string;
   location: string;
-  lastActive: string; // "Aktif sekarang" | "2 jam lalu" | ...
+  lastActive: string; 
   isCurrent: boolean;
 }

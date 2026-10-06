@@ -4,21 +4,32 @@ import React, { useState } from "react";
 
 interface PengaturanAkunMobileProps {
   onBack?: () => void;
+  onLogAktivitas?: () => void;
   onAjukanPenghapusan?: () => void;
 }
 
 export default function PengaturanAkunMobile({
   onBack,
+  onLogAktivitas,
   onAjukanPenghapusan,
 }: PengaturanAkunMobileProps) {
-  // State untuk Toggle Switch Notifikasi
+  // State Toggle Switch Notifikasi
   const [notifAplikasi, setNotifAplikasi] = useState(true);
   const [emailPengumuman, setEmailPengumuman] = useState(true);
   const [pesanWhatsapp, setPesanWhatsapp] = useState(false);
 
+  // State Modal / Bottom Sheet Konfirmasi
+  const [showConfirmModal, setShowConfirmModal] = useState(false);
+
+  const handleConfirmPenghapusan = () => {
+    setShowConfirmModal(false);
+    if (onAjukanPenghapusan) {
+      onAjukanPenghapusan();
+    }
+  };
+
   return (
     <>
-      {/* ANIMASI SLIDE IN DARI KANAN */}
       <style jsx>{`
         @keyframes slideInFromRight {
           from {
@@ -28,13 +39,25 @@ export default function PengaturanAkunMobile({
             transform: translateX(0);
           }
         }
+        @keyframes slideUpFromBottom {
+          from {
+            transform: translateY(100%);
+          }
+          to {
+            transform: translateY(0);
+          }
+        }
         .animate-slide-in {
           animation: slideInFromRight 0.28s cubic-bezier(0.16, 1, 0.3, 1)
             forwards;
         }
+        .animate-slide-up {
+          animation: slideUpFromBottom 0.25s cubic-bezier(0.16, 1, 0.3, 1)
+            forwards;
+        }
       `}</style>
 
-      {/* OVERLAY WRAPPER UTAMA */}
+      {/* OVERLAY MOBILE UTAMA */}
       <div className="fixed inset-0 z-50 bg-[#F7F4EE] animate-slide-in flex flex-col justify-between">
         {/* AREA KONTEN SCROLLABLE */}
         <div className="w-full max-w-md mx-auto h-full overflow-y-auto font-sans pt-3 pb-24 px-4 space-y-4 text-[#1F1B18]">
@@ -88,7 +111,6 @@ export default function PengaturanAkunMobile({
             </h2>
 
             <div className="space-y-4 divide-y divide-[#F5F2ED]">
-              {/* TOGGLE 1: NOTIFIKASI APLIKASI */}
               <div className="flex items-center justify-between pt-1">
                 <div className="pr-3">
                   <h3 className="text-xs font-bold text-[#111111]">
@@ -113,7 +135,6 @@ export default function PengaturanAkunMobile({
                 </button>
               </div>
 
-              {/* TOGGLE 2: EMAIL PENGUMUMAN ICA */}
               <div className="flex items-center justify-between pt-3">
                 <div className="pr-3">
                   <h3 className="text-xs font-bold text-[#111111]">
@@ -138,7 +159,6 @@ export default function PengaturanAkunMobile({
                 </button>
               </div>
 
-              {/* TOGGLE 3: PESAN WHATSAPP DARI ADMIN */}
               <div className="flex items-center justify-between pt-3">
                 <div className="pr-3">
                   <h3 className="text-xs font-bold text-[#111111]">
@@ -171,42 +191,68 @@ export default function PengaturanAkunMobile({
               KEAMANAN
             </h2>
 
-            {/* ITEM: GANTI KATA SANDI */}
-            <button
-              type="button"
-              onClick={() => alert("Form Ganti Kata Sandi")}
-              className="w-full flex items-center justify-between pt-1 cursor-pointer group"
-            >
-              <div className="flex items-center gap-3">
-                <svg
-                  className="w-4.5 h-4.5 text-[#C85A17]"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  stroke="currentColor"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 0121 9z"
-                  />
-                </svg>
-                <span className="text-xs font-bold text-[#111111]">
-                  Ganti kata sandi
-                </span>
-              </div>
-              <span className="text-[#A0958B] text-sm font-semibold">›</span>
-            </button>
+            <div className="space-y-3 divide-y divide-[#F5F2ED]">
+              {/* GANTI KATA SANDI */}
+              <button
+                type="button"
+                onClick={() => alert("Form Ganti Kata Sandi")}
+                className="w-full flex items-center justify-between pt-1 cursor-pointer group"
+              >
+                <div className="flex items-center gap-3">
+                  <svg
+                    className="w-4.5 h-4.5 text-[#C85A17]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M15 7a2 2 0 012 2m4 0a6 6 0 01-7.743 5.743L11 17H9v2H7v2H4a1 1 0 01-1-1v-2.586a1 1 0 01.293-.707l5.964-5.964A6 6 0 0121 9z"
+                    />
+                  </svg>
+                  <span className="text-xs font-bold text-[#111111]">
+                    Ganti kata sandi
+                  </span>
+                </div>
+                <span className="text-[#A0958B] text-sm font-semibold">›</span>
+              </button>
+
+              {/* LOG AKTIVITAS (CALLS PARENT STATE CHANGE) */}
+              <button
+                type="button"
+                onClick={onLogAktivitas}
+                className="w-full flex items-center justify-between pt-3 cursor-pointer group"
+              >
+                <div className="flex items-center gap-3">
+                  <svg
+                    className="w-4.5 h-4.5 text-[#C85A17]"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"
+                    />
+                  </svg>
+                  <span className="text-xs font-bold text-[#111111]">
+                    Log aktivitas
+                  </span>
+                </div>
+                <span className="text-[#A0958B] text-sm font-semibold">›</span>
+              </button>
+            </div>
           </div>
 
           {/* SECTION TOMBOL HAPUS AKUN & FOOTER */}
           <div className="pt-2 space-y-2.5">
             <button
               type="button"
-              onClick={
-                onAjukanPenghapusan ||
-                (() => alert("Pengajuan penghapusan akun dikirim"))
-              }
+              onClick={() => setShowConfirmModal(true)}
               className="w-full py-3.5 px-4 rounded-full bg-white border border-[#F5C2C2] text-[#9E2A2A] text-xs font-bold shadow-2xs active:bg-[#FDF2F2] transition-colors cursor-pointer"
             >
               Ajukan penghapusan akun
@@ -219,94 +265,83 @@ export default function PengaturanAkunMobile({
           </div>
         </div>
 
-        {/* BOTTOM NAVIGATION BAR */}
+        {/* BOTTOM NAVIGATION BAR MOBILE */}
         <div className="fixed bottom-0 left-0 right-0 bg-white border-t border-[#EAE5DF] py-2 px-4 flex justify-around items-center z-50 max-w-md mx-auto">
           <button className="flex flex-col items-center gap-1 text-[#857B72]">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.8"
-                d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6"
-              />
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
             </svg>
             <span className="text-[9px] font-medium">Home</span>
           </button>
-
           <button className="flex flex-col items-center gap-1 text-[#857B72]">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.8"
-                d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-              />
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
             </svg>
             <span className="text-[9px] font-medium">Direktori</span>
           </button>
-
           <button className="flex flex-col items-center gap-1 text-[#857B72]">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.8"
-                d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
-              />
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
             </svg>
             <span className="text-[9px] font-medium">Store</span>
           </button>
-
           <button className="flex flex-col items-center gap-1 text-[#857B72]">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="1.8"
-                d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-              />
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.8" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
             </svg>
             <span className="text-[9px] font-medium">Event</span>
           </button>
-
           <button className="flex flex-col items-center gap-1 text-[#D96B27]">
-            <svg
-              className="w-5 h-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                strokeWidth="2"
-                d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-              />
+            <svg className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z" />
             </svg>
             <span className="text-[9px] font-bold">Profil</span>
           </button>
         </div>
       </div>
+
+      {/* BOTTOM SHEET KONFIRMASI PENGHAPUSAN AKUN */}
+      {showConfirmModal && (
+        <div className="fixed inset-0 z-50 flex items-end justify-center bg-black/40 backdrop-blur-[2px]">
+          <div
+            className="absolute inset-0"
+            onClick={() => setShowConfirmModal(false)}
+          />
+
+          <div className="relative w-full max-w-md bg-white rounded-t-[28px] p-6 pb-8 shadow-2xl animate-slide-up space-y-5 z-10 font-sans">
+            <div className="w-12 h-1 bg-[#E2DBD1] rounded-full mx-auto -mt-1" />
+
+            <div className="space-y-2">
+              <h3 className="text-lg font-bold text-[#111111] leading-snug">
+                Ajukan penghapusan akun?
+              </h3>
+              <p className="text-xs text-[#59524C] leading-relaxed font-normal">
+                Penghapusan tidak dilakukan otomatis — permintaan diteruskan ke
+                admin ICA wilayah. Riwayat keanggotaan dan pedigree tetap
+                tersimpan sebagai arsip organisasi.
+              </p>
+            </div>
+
+            <div className="space-y-2.5 pt-1">
+              <button
+                type="button"
+                onClick={handleConfirmPenghapusan}
+                className="w-full py-3.5 px-4 rounded-full bg-[#E05347] active:bg-[#C84338] text-white text-xs font-bold shadow-sm transition-colors cursor-pointer"
+              >
+                Ajukan penghapusan
+              </button>
+
+              <button
+                type="button"
+                onClick={() => setShowConfirmModal(false)}
+                className="w-full py-3.5 px-4 rounded-full bg-white border border-[#EAE5DF] text-[#111111] text-xs font-bold active:bg-[#F7F4EE] transition-colors cursor-pointer"
+              >
+                Batal
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </>
   );
 }

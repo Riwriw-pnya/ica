@@ -67,7 +67,9 @@ export default function MobileNotification({
 
   return (
     <>
-      <style dangerouslySetInnerHTML={{ __html: `
+      <style
+        dangerouslySetInnerHTML={{
+          __html: `
         @keyframes panelSlideInRight {
           from {
             transform: translateX(100%);
@@ -92,9 +94,11 @@ export default function MobileNotification({
         .animate-modal-slide {
           animation: modalSlideUp 0.3s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
-      `}} />
+      `,
+        }}
+      />
 
-      {/* Gunakan z-[9999] agar dipastikan berada di lapisan paling atas menutupi BottomNav sejak awal */}
+      {/* Overlay Utama Mobile Notifications Panel */}
       <div className="fixed inset-0 z-[9999] flex flex-col bg-[#FAF8F5] md:hidden animate-panel-right">
         {/* Header Slide */}
         <div className="flex items-center justify-between border-b border-[#EFE9E1] bg-white px-4 py-3 pt-[max(env(safe-area-inset-top),0.75rem)] shadow-xs">
@@ -108,14 +112,28 @@ export default function MobileNotification({
               className="flex h-8 w-8 items-center justify-center rounded-full hover:bg-[#EFE9E1]/50 text-[#231A14] cursor-pointer"
               aria-label="Tutup"
             >
-              <svg className="w-5 h-5 text-[#D95D1E]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+              <svg
+                className="w-5 h-5 text-[#D95D1E]"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke="currentColor"
+                strokeWidth="2.5"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  d="M15 19l-7-7 7-7"
+                />
               </svg>
             </button>
             <div>
-              <h1 className="text-[18px] font-bold text-[#231A14] leading-tight">Notifikasi</h1>
+              <h1 className="text-[18px] font-bold text-[#231A14] leading-tight">
+                Notifikasi
+              </h1>
               <p className="text-[11px] text-[#8C827A] mt-0.5">
-                {unreadCount > 0 ? `${unreadCount} belum dibaca` : "Semua sudah dibaca"}
+                {unreadCount > 0
+                  ? `${unreadCount} belum dibaca`
+                  : "Semua sudah dibaca"}
               </p>
             </div>
           </div>
@@ -151,11 +169,15 @@ export default function MobileNotification({
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
-                      <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${theme.iconBg}`}>
+                      <div
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${theme.iconBg}`}
+                      >
                         <DashboardIcon name="bell" size={18} />
                       </div>
                       <div>
-                        <h3 className="text-xs font-bold text-[#231A14]">{item.title}</h3>
+                        <h3 className="text-xs font-bold text-[#231A14]">
+                          {item.title}
+                        </h3>
                         <p className="mt-0.5 text-xs text-[#6E6359] leading-relaxed whitespace-pre-line">
                           {item.message}
                         </p>
@@ -168,7 +190,9 @@ export default function MobileNotification({
 
                   <div className="flex items-center justify-between pt-2 border-t border-[#F7F3ED] text-[11px]">
                     <div className="flex items-center gap-2">
-                      <span className={`rounded-md px-2 py-0.5 font-semibold ${theme.badgeBg}`}>
+                      <span
+                        className={`rounded-md px-2 py-0.5 font-semibold ${theme.badgeBg}`}
+                      >
                         {item.category || item.type || "Informasi"}
                       </span>
                       <span className="text-[#8C827A]">{item.time}</span>
@@ -198,11 +222,15 @@ export default function MobileNotification({
                 >
                   <div className="flex items-start justify-between gap-3">
                     <div className="flex items-start gap-3">
-                      <div className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${theme.iconBg}`}>
+                      <div
+                        className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-xl ${theme.iconBg}`}
+                      >
                         <DashboardIcon name="bell" size={18} />
                       </div>
                       <div>
-                        <h3 className="text-xs font-bold text-[#231A14]">{item.title}</h3>
+                        <h3 className="text-xs font-bold text-[#231A14]">
+                          {item.title}
+                        </h3>
                         <p className="mt-0.5 text-xs text-[#6E6359] leading-relaxed whitespace-pre-line">
                           {item.message}
                         </p>
@@ -215,7 +243,9 @@ export default function MobileNotification({
 
                   <div className="flex items-center justify-between pt-2 border-t border-[#F7F3ED] text-[11px]">
                     <div className="flex items-center gap-2">
-                      <span className={`rounded-md px-2 py-0.5 font-semibold ${theme.badgeBg}`}>
+                      <span
+                        className={`rounded-md px-2 py-0.5 font-semibold ${theme.badgeBg}`}
+                      >
                         {item.category || item.type || "Informasi"}
                       </span>
                       <span className="text-[#8C8074]">{item.time}</span>
@@ -235,8 +265,18 @@ export default function MobileNotification({
           <div className="absolute bottom-6 left-4 right-4 z-[10010] flex items-center justify-between rounded-2xl border border-[#EFE9E1] bg-white p-4 shadow-lg">
             <div className="flex items-center gap-3">
               <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FFF2E8] text-[#D95D1E]">
-                <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2.5">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+                <svg
+                  className="w-4 h-4"
+                  fill="none"
+                  viewBox="0 0 24 24"
+                  stroke="currentColor"
+                  strokeWidth="2.5"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+                  />
                 </svg>
               </div>
               <p className="text-xs font-semibold text-[#231A14]">
@@ -255,37 +295,41 @@ export default function MobileNotification({
 
         {/* Bottom Sheet Modal Konfirmasi */}
         {showConfirmModal && (
-          <div 
+          <div
             className="absolute inset-0 z-[10000] flex items-end bg-black/50 backdrop-blur-xs"
             onClick={() => setShowConfirmModal(false)}
           >
-            <div 
+            <div
               className="w-full rounded-t-3xl bg-white p-6 pb-8 space-y-5 shadow-2xl animate-modal-slide"
               onClick={(e) => e.stopPropagation()}
             >
-              <div 
-                className="mx-auto h-1.5 w-12 rounded-full bg-[#E2D7CC] cursor-pointer hover:bg-[#C8BCB2] transition" 
+              <div
+                className="mx-auto h-1.5 w-12 rounded-full bg-[#E2D7CC] cursor-pointer hover:bg-[#C8BCB2] transition"
                 onClick={() => setShowConfirmModal(false)}
                 title="Tutup"
               />
-              
+
               <div className="space-y-1.5">
                 <h2 className="text-base font-bold text-[#231A14]">
                   Tandai semua terbaca?
                 </h2>
                 <p className="text-xs text-[#7E7267] leading-relaxed">
-                  Notifikasi tetap tersimpan — hanya penanda belum dibaca yang dihapus.
+                  Notifikasi tetap tersimpan — hanya penanda belum dibaca yang
+                  dihapus.
                 </p>
               </div>
 
               <div className="space-y-3 pt-1">
+                {/* Tombol Gradient Full Width */}
                 <button
                   type="button"
                   onClick={handleConfirmMarkAll}
-                  className="w-full rounded-2xl bg-gradient-to-r from-[#F07A3B] to-[#E54D2E] py-3.5 text-xs font-bold text-white shadow-md active:scale-98 transition cursor-pointer"
+                  className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3.5 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
                 >
                   Tandai semua terbaca
                 </button>
+
+                {/* Tombol Batal */}
                 <button
                   type="button"
                   onClick={() => setShowConfirmModal(false)}

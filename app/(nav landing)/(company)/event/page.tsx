@@ -1,50 +1,33 @@
 "use client";
 
 import { useState } from "react";
-import Image from "next/image";
+import Link from "next/link";
 import Navbar from "@/app/landing-page/components/Navbar";
 import Footer from "@/app/landing-page/components/Footer";
 
-// Data Foto Banner / Carousel
-const EVENT_IMAGES = [
-  "/images/event/1.webp",
-  "/images/event/2.jpg",
-  "/images/event/3.jpg",
-  "/images/event/4.jpg",
-];
-
 // Data Kalender Kegiatan 2026
 const EVENT_DATA = [
-  { id: 1, date: "31 Jan - 1 Feb 2026", branch: "SURABAYA", title: "The 286th-287th ICS", status: "TERLAKSANA", isHighlight: false },
-  { id: 2, date: "1 Feb 2026", branch: "PEKANBARU", title: "PCS", status: "TERLAKSANA", isHighlight: false },
-  { id: 3, date: "7 - 8 Feb 2026", branch: "TANGERANG", title: "The 288th-289th ICS", status: "TERLAKSANA", isHighlight: false },
-  { id: 4, date: "18 Feb - 29 Mar 2026", branch: "-", title: "Estimasi Puasa dan Libur Lebaran", status: "AGENDA KHUSUS", isHighlight: true },
-  { id: 5, date: "25 - 26 Apr 2026", branch: "PALEMBANG", title: "The 290th-291st ICS", status: "TERLAKSANA", isHighlight: false },
-  { id: 6, date: "03 Mei 2026", branch: "TANGERANG", title: "PCS", status: "TERLAKSANA", isHighlight: false },
-  { id: 7, date: "02 - 03 Mei 2026", branch: "YOGYAKARTA", title: "The 292nd-293rd ICS", status: "TERLAKSANA", isHighlight: false },
-  { id: 8, date: "16 Mei 2026", branch: "SAMARINDA", title: "PCS", status: "TERLAKSANA", isHighlight: false },
-  { id: 9, date: "16 - 17 Mei 2026", branch: "TANGERANG", title: "Diklat Dasar Cattery", status: "TERLAKSANA", isHighlight: false },
-  { id: 10, date: "27 Mei 2026", branch: "-", title: "Estimasi Libur Lebaran Idul Adha", status: "AGENDA KHUSUS", isHighlight: true },
-  { id: 11, date: "28 - 31 Mei 2026", branch: "-", title: "GA FIFE 26", status: "AGENDA KHUSUS", isHighlight: true },
-  { id: 12, date: "31 Mei 2026", branch: "SURABAYA", title: "PCS", status: "TERLAKSANA", isHighlight: false },
-  { id: 13, date: "27 - 28 Jun 2026", branch: "PEKANBARU", title: "The 294th-295th ICS", status: "TERLAKSANA", isHighlight: false },
-  { id: 14, date: "04 - 05 Jul 2026", branch: "CIREBON", title: "The 296th-297th ICS", status: "TERLAKSANA", isHighlight: false },
-  { id: 15, date: "01 - 02 Agt 2026", branch: "China Cat Union (CCU) - Bangkok", title: "Two 1 day, 2 cert. show (IW)", status: "MENDATANG", isHighlight: false },
-  { id: 16, date: "02 Agt 2026", branch: "JOGJA", title: "PCS", status: "MENDATANG", isHighlight: false },
+  { id: 1, date: "31 Jan - 1 Feb 2026", branch: "SURABAYA", title: "The 286th-287th ICS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 2, date: "1 Feb 2026", branch: "PEKANBARU", title: "PCS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 3, date: "7 - 8 Feb 2026", branch: "TANGERANG", title: "The 288th-289th ICS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 4, date: "18 Feb - 29 Mar 2026", branch: "-", title: "Estimasi Puasa dan Libur Lebaran", status: "AGENDA KHUSUS", isHighlight: true, href: "/anggota/event" },
+  { id: 5, date: "25 - 26 Apr 2026", branch: "PALEMBANG", title: "The 290th-291st ICS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 6, date: "03 Mei 2026", branch: "TANGERANG", title: "PCS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 7, date: "02 - 03 Mei 2026", branch: "YOGYAKARTA", title: "The 292nd-293rd ICS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 8, date: "16 Mei 2026", branch: "SAMARINDA", title: "PCS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 9, date: "16 - 17 Mei 2026", branch: "TANGERANG", title: "Diklat Dasar Cattery", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 10, date: "27 Mei 2026", branch: "-", title: "Estimasi Libur Lebaran Idul Adha", status: "AGENDA KHUSUS", isHighlight: true, href: "/anggota/event" },
+  { id: 11, date: "28 - 31 Mei 2026", branch: "-", title: "GA FIFE 26", status: "AGENDA KHUSUS", isHighlight: true, href: "/anggota/event" },
+  { id: 12, date: "31 Mei 2026", branch: "SURABAYA", title: "PCS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 13, date: "27 - 28 Jun 2026", branch: "PEKANBARU", title: "The 294th-295th ICS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 14, date: "04 - 05 Jul 2026", branch: "CIREBON", title: "The 296th-297th ICS", status: "TERLAKSANA", isHighlight: false, href: "/anggota/event" },
+  { id: 15, date: "01 - 02 Agt 2026", branch: "China Cat Union (CCU) - Bangkok", title: "Two 1 day, 2 cert. show (IW)", status: "MENDATANG", isHighlight: false, href: "/anggota/event" },
+  { id: 16, date: "02 Agt 2026", branch: "JOGJA", title: "PCS", status: "MENDATANG", isHighlight: false, href: "/anggota/event" },
 ];
 
 export default function EventPage() {
   const [searchQuery, setSearchQuery] = useState("");
   const [entries, setEntries] = useState(10);
-  const [activeSlide, setActiveSlide] = useState(0);
-
-  const handlePrevSlide = () => {
-    setActiveSlide((prev) => (prev === 0 ? EVENT_IMAGES.length - 1 : prev - 1));
-  };
-
-  const handleNextSlide = () => {
-    setActiveSlide((prev) => (prev === EVENT_IMAGES.length - 1 ? 0 : prev + 1));
-  };
 
   const filteredEvents = EVENT_DATA.filter(
     (item) =>
@@ -73,59 +56,7 @@ export default function EventPage() {
           </div>
         </section>
 
-        {/* Banner Carousel - Ukuran Diperbesar (max-w-2xl) */}
-        <section className="max-w-md sm:max-w-xl md:max-w-2xl mx-auto px-4 md:px-6 -mt-6">
-          <div className="relative rounded-2xl overflow-hidden p-2.5 md:p-3 border-2 border-dashed border-[#EE6B28]/60 bg-white shadow-xs">
-            
-            <div className="relative aspect-[16/9] w-full rounded-xl overflow-hidden bg-[#FFF6EC] flex items-center justify-center">
-              <Image
-                src={EVENT_IMAGES[activeSlide]}
-                alt={`Dokumentasi Event ${activeSlide + 1}`}
-                fill
-                className="object-cover transition-all duration-300"
-                priority
-              />
-            </div>
-
-            {/* Tombol Panah Kiri (<) */}
-            <button
-              onClick={handlePrevSlide}
-              aria-label="Previous Slide"
-              className="absolute left-5 top-1/2 -translate-y-1/2 z-10 p-2.5 md:p-3 rounded-full bg-black/50 hover:bg-[#EE6B28] text-white backdrop-blur-md transition-all duration-200 shadow-md group"
-            >
-              <svg className="w-5 h-5 group-hover:-translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M15 19l-7-7 7-7" />
-              </svg>
-            </button>
-
-            {/* Tombol Panah Kanan (>) */}
-            <button
-              onClick={handleNextSlide}
-              aria-label="Next Slide"
-              className="absolute right-5 top-1/2 -translate-y-1/2 z-10 p-2.5 md:p-3 rounded-full bg-black/50 hover:bg-[#EE6B28] text-white backdrop-blur-md transition-all duration-200 shadow-md group"
-            >
-              <svg className="w-5 h-5 group-hover:translate-x-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2.5" d="M9 5l7 7-7 7" />
-              </svg>
-            </button>
-
-            {/* Carousel Indicator Dots */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex items-center gap-2 bg-black/50 backdrop-blur-md px-3.5 py-1.5 rounded-full z-10 border border-white/10">
-              {EVENT_IMAGES.map((_, dot) => (
-                <button
-                  key={dot}
-                  onClick={() => setActiveSlide(dot)}
-                  className={`h-2 rounded-full transition-all duration-300 ${
-                    activeSlide === dot ? "w-5 bg-[#EE6B28]" : "w-2 bg-white/70 hover:bg-white"
-                  }`}
-                />
-              ))}
-            </div>
-
-          </div>
-        </section>
-
-        {/* Table Content */}
+        {/* Main Content */}
         <main className="max-w-6xl mx-auto px-4 md:px-6 py-10 space-y-6">
           <div className="text-center">
             <h2 className="text-xl md:text-3xl font-black text-[#EE6B28] tracking-tight">
@@ -191,33 +122,41 @@ export default function EventPage() {
                   filteredEvents.map((item) => (
                     <tr
                       key={item.id}
-                      className={`transition-colors duration-150 ${
+                      className={`cursor-pointer transition-colors duration-150 ${
                         item.isHighlight ? "bg-[#FFF2F2] hover:bg-[#FFE8E8]" : "hover:bg-[#FFF9F5]"
                       }`}
                     >
                       <td className={`py-4 px-6 font-semibold ${item.isHighlight ? "text-[#DC2626]" : "text-[#4A3E3D]"}`}>
-                        {item.date}
+                        <Link href="/anggota/event" className="block w-full h-full">
+                          {item.date}
+                        </Link>
                       </td>
                       <td className={`py-4 px-6 font-bold ${item.isHighlight ? "text-[#DC2626]" : "text-[#231A14]"}`}>
-                        {item.branch}
+                        <Link href="/anggota/event" className="block w-full h-full">
+                          {item.branch}
+                        </Link>
                       </td>
                       <td className={`py-4 px-6 ${item.isHighlight ? "text-[#DC2626] font-bold" : "text-[#231A14] font-medium"}`}>
-                        {item.title}
+                        <Link href="/anggota/event" className="block w-full h-full hover:underline hover:text-[#EE6B28]">
+                          {item.title}
+                        </Link>
                       </td>
                       <td className="py-4 px-6 text-center">
-                        {item.isHighlight ? (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FEE2E2] text-[#DC2626]">
-                            AGENDA KHUSUS
-                          </span>
-                        ) : item.status === "TERLAKSANA" ? (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#E6F4EA] text-[#137333]">
-                            TERLAKSANA
-                          </span>
-                        ) : (
-                          <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FEF3C7] text-[#D97706]">
-                            MENDATANG
-                          </span>
-                        )}
+                        <Link href="/anggota/event" className="block w-full h-full">
+                          {item.isHighlight ? (
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FEE2E2] text-[#DC2626]">
+                              AGENDA KHUSUS
+                            </span>
+                          ) : item.status === "TERLAKSANA" ? (
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#E6F4EA] text-[#137333]">
+                              TERLAKSANA
+                            </span>
+                          ) : (
+                            <span className="inline-flex items-center px-2.5 py-1 rounded-full text-[11px] font-bold bg-[#FEF3C7] text-[#D97706]">
+                              MENDATANG
+                            </span>
+                          )}
+                        </Link>
                       </td>
                     </tr>
                   ))

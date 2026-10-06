@@ -44,6 +44,7 @@ export interface OrderHistoryItem {
   paymentMethod: string;
   courierInfo?: string;
   total: number;
+  productImage?: string; // Menyimpan URL / path foto produk
 }
 
 export interface CartItem {
@@ -161,6 +162,7 @@ export const INITIAL_PRODUCTS: Product[] = [
   },
 ];
 
+// Menghubungkan DUMMY_DESKTOP_ORDERS dengan gambar dari INITIAL_PRODUCTS
 export const DUMMY_DESKTOP_ORDERS: OrderHistoryItem[] = [
   {
     id: "1",
@@ -170,6 +172,7 @@ export const DUMMY_DESKTOP_ORDERS: OrderHistoryItem[] = [
     date: "25 Sep 2026",
     paymentMethod: "QRIS",
     total: 106000,
+    productImage: INITIAL_PRODUCTS.find((p) => p.id === "3")?.image,
   },
   {
     id: "2",
@@ -180,6 +183,7 @@ export const DUMMY_DESKTOP_ORDERS: OrderHistoryItem[] = [
     date: "22 Sep 2026",
     paymentMethod: "QRIS",
     total: 248000,
+    productImage: INITIAL_PRODUCTS.find((p) => p.id === "1")?.image,
   },
   {
     id: "3",
@@ -190,6 +194,7 @@ export const DUMMY_DESKTOP_ORDERS: OrderHistoryItem[] = [
     paymentMethod: "Virtual Account BCA",
     courierInfo: "J&T Express JX2300416875",
     total: 205000,
+    productImage: INITIAL_PRODUCTS.find((p) => p.id === "1")?.image,
   },
   {
     id: "4",
@@ -200,6 +205,7 @@ export const DUMMY_DESKTOP_ORDERS: OrderHistoryItem[] = [
     paymentMethod: "GoPay",
     courierInfo: "SiCepat 004221889012",
     total: 342000,
+    productImage: INITIAL_PRODUCTS.find((p) => p.id === "8")?.image,
   },
   {
     id: "5",
@@ -210,6 +216,7 @@ export const DUMMY_DESKTOP_ORDERS: OrderHistoryItem[] = [
     paymentMethod: "Virtual Account Mandiri",
     courierInfo: "AnterAja 10002647716520",
     total: 138000,
+    productImage: INITIAL_PRODUCTS.find((p) => p.id === "6")?.image,
   },
 ];
 
@@ -230,18 +237,15 @@ export default function StorePage() {
   const [desktopDetailSize, setDesktopDetailSize] = useState<string>("M");
 
   const [desktopOrderDetail, setDesktopOrderDetail] =
-  useState<OrderDetailData | null>(null);
+    useState<OrderDetailData | null>(null);
 
   const [toastMessage, setToastMessage] = useState<string | null>(null);
 
-  const [showDesktopCheckout, setShowDesktopCheckout] =
-  useState(false);
+  const [showDesktopCheckout, setShowDesktopCheckout] = useState(false);
 
-const [showDesktopPayment, setShowDesktopPayment] =
-  useState(false);
+  const [showDesktopPayment, setShowDesktopPayment] = useState(false);
 
-const [desktopCheckoutData, setDesktopCheckoutData] =
-  useState<{
+  const [desktopCheckoutData, setDesktopCheckoutData] = useState<{
     address: {
       name: string;
       phone: string;
@@ -276,14 +280,14 @@ const [desktopCheckoutData, setDesktopCheckoutData] =
   };
 
   const resetAllDesktopViews = () => {
-  setSelectedDesktopProduct(null);
-  setShowDesktopHistory(false);
-  setShowDesktopCart(false);
-  setShowDesktopCheckout(false);
-  setShowDesktopPayment(false);
-  setDesktopCheckoutData(null);
-  setDesktopOrderDetail(null);
-};
+    setSelectedDesktopProduct(null);
+    setShowDesktopHistory(false);
+    setShowDesktopCart(false);
+    setShowDesktopCheckout(false);
+    setShowDesktopPayment(false);
+    setDesktopCheckoutData(null);
+    setDesktopOrderDetail(null);
+  };
 
   const handleOpenDesktopDetail = (product: Product) => {
     resetAllDesktopViews();
@@ -298,10 +302,7 @@ const [desktopCheckoutData, setDesktopCheckoutData] =
   };
 
   const emitCartCountUpdate = (newCartItems: CartItem[]) => {
-    const total = newCartItems.reduce(
-      (acc, item) => acc + item.quantity,
-      0
-    );
+    const total = newCartItems.reduce((acc, item) => acc + item.quantity, 0);
 
     if (typeof window !== "undefined") {
       window.dispatchEvent(
@@ -339,8 +340,7 @@ const [desktopCheckoutData, setDesktopCheckoutData] =
   ) => {
     setCart((prevCart) => {
       const existingIndex = prevCart.findIndex(
-        (item) =>
-          item.product.id === product.id && item.size === size
+        (item) => item.product.id === product.id && item.size === size
       );
 
       let updated: CartItem[];
@@ -446,172 +446,174 @@ const [desktopCheckoutData, setDesktopCheckoutData] =
     0
   );
 
-const handleOpenDesktopCheckout = () => {
-  setSelectedDesktopProduct(null);
-  setShowDesktopHistory(false);
-  setShowDesktopCart(false);
-  setShowDesktopPayment(false);
-  setShowDesktopCheckout(true);
-};
-
-const handleProceedToDesktopPayment = (data: {
-  address: {
-    name: string;
-    phone: string;
-    address: string;
-    city: string;
-    postalCode?: string;
-  };
-  courierName: string;
-  courierPrice: number;
-  totalPayable: number;
-}) => {
-  setDesktopCheckoutData(data);
-  setShowDesktopCheckout(false);
-  setShowDesktopPayment(true);
-};
-
-const handleOpenDesktopOrderDetail = (order: OrderHistoryItem) => {
-  const product = INITIAL_PRODUCTS.find((product) =>
-    order.summary.toLowerCase().includes(product.title.toLowerCase())
-  );
-
-  const orderDetail: OrderDetailData = {
-    orderId: order.orderId,
-    orderDate: order.date,
-    itemsSummary: order.summary,
-    paymentMethod: order.paymentMethod,
-    totalAmount: order.total,
-    courier: order.courierInfo?.split(" ")[0] || "Belum ditentukan",
-    trackingNumber: order.courierInfo
-      ? order.courierInfo.replace(/^[^\s]+\s/, "")
-      : undefined,
-    status: order.status,
-    productImage: product?.image,
-    shippingAddress: {
-      name: "Rizkya Rilly",
-      phone: "0812 3456 7890",
-      address: "Jl. Contoh No. 12",
-      city: "Bandung",
-    },
+  const handleOpenDesktopCheckout = () => {
+    setSelectedDesktopProduct(null);
+    setShowDesktopHistory(false);
+    setShowDesktopCart(false);
+    setShowDesktopPayment(false);
+    setShowDesktopCheckout(true);
   };
 
-  resetAllDesktopViews();
-  setDesktopOrderDetail(orderDetail);
-};
+  const handleProceedToDesktopPayment = (data: {
+    address: {
+      name: string;
+      phone: string;
+      address: string;
+      city: string;
+      postalCode?: string;
+    };
+    courierName: string;
+    courierPrice: number;
+    totalPayable: number;
+  }) => {
+    setDesktopCheckoutData(data);
+    setShowDesktopCheckout(false);
+    setShowDesktopPayment(true);
+  };
 
+  const handleOpenDesktopOrderDetail = (order: OrderHistoryItem) => {
+    const product = INITIAL_PRODUCTS.find((product) =>
+      order.summary.toLowerCase().includes(product.title.toLowerCase())
+    );
+
+    const orderDetail: OrderDetailData = {
+      orderId: order.orderId,
+      orderDate: order.date,
+      itemsSummary: order.summary,
+      paymentMethod: order.paymentMethod,
+      totalAmount: order.total,
+      courier: order.courierInfo?.split(" ")[0] || "Belum ditentukan",
+      trackingNumber: order.courierInfo
+        ? order.courierInfo.replace(/^[^\s]+\s/, "")
+        : undefined,
+      status: order.status,
+      productImage: order.productImage || product?.image,
+      shippingAddress: {
+        name: "Rizkya Rilly",
+        phone: "0812 3456 7890",
+        address: "Jl. Contoh No. 12",
+        city: "Bandung",
+      },
+    };
+
+    resetAllDesktopViews();
+    setDesktopOrderDetail(orderDetail);
+  };
 
   return (
     <>
       <div className="hidden sm:block mx-auto max-w-[1200px] space-y-6 pb-12 relative">
         {desktopOrderDetail ? (
-  <OrderDetailDesktop
-    order={desktopOrderDetail}
-    onBack={resetAllDesktopViews}
-    formatRupiah={formatRupiah}
-  />
-) : selectedDesktopProduct ? (
-  <StoreProductDetailDesktop
-    product={selectedDesktopProduct}
-    quantity={desktopDetailQty}
-    size={desktopDetailSize}
-    setQuantity={setDesktopDetailQty}
-    setSize={setDesktopDetailSize}
-    onBack={resetAllDesktopViews}
-    onAddToCart={handleAddToCartFromDetail}
-    onBuyNow={handleBuyNowFromDetail}
-    formatRupiah={formatRupiah}
-  />
-) : showDesktopPayment && desktopCheckoutData ? (
-  <StorePaymentDesktop
-    cartItems={cart}
-    totalPayable={desktopCheckoutData.totalPayable}
-    courierName={desktopCheckoutData.courierName}
-    courierPrice={desktopCheckoutData.courierPrice}
-    shippingAddress={desktopCheckoutData.address}
-    onBack={() => {
-      setShowDesktopPayment(false);
-      setShowDesktopCheckout(true);
-    }}
-    formatRupiah={formatRupiah}
-    onSuccessPayment={() => {
-  const newOrder: OrderDetailData = {
-  orderId: `MRC-2026-${Math.floor(
-    1000 + Math.random() * 9000
-  )}`,
-  orderDate: new Date().toLocaleDateString("id-ID", {
-    day: "2-digit",
-    month: "short",
-    year: "numeric",
-  }),
-  itemsSummary: cart
-    .map(
-      (item) =>
-        `${item.product.title}${
-          item.size ? ` (${item.size})` : ""
-        } · ${item.quantity} barang`
-    )
-    .join(" · "),
-  paymentMethod: "QRIS",
-  totalAmount: desktopCheckoutData.totalPayable,
-  courier: desktopCheckoutData.courierName,
-  status: "Diproses",
-  shippingAddress: {
-    name: desktopCheckoutData.address.name,
-    phone: desktopCheckoutData.address.phone,
-    address: desktopCheckoutData.address.address,
-    city: desktopCheckoutData.address.city,
-  },
-};
+          <OrderDetailDesktop
+            order={desktopOrderDetail}
+            onBack={resetAllDesktopViews}
+            formatRupiah={formatRupiah}
+          />
+        ) : selectedDesktopProduct ? (
+          <StoreProductDetailDesktop
+            product={selectedDesktopProduct}
+            quantity={desktopDetailQty}
+            size={desktopDetailSize}
+            setQuantity={setDesktopDetailQty}
+            setSize={setDesktopDetailSize}
+            onBack={resetAllDesktopViews}
+            onAddToCart={handleAddToCartFromDetail}
+            onBuyNow={handleBuyNowFromDetail}
+            formatRupiah={formatRupiah}
+          />
+        ) : showDesktopPayment && desktopCheckoutData ? (
+          <StorePaymentDesktop
+            cartItems={cart}
+            totalPayable={desktopCheckoutData.totalPayable}
+            courierName={desktopCheckoutData.courierName}
+            courierPrice={desktopCheckoutData.courierPrice}
+            shippingAddress={desktopCheckoutData.address}
+            onBack={() => {
+              setShowDesktopPayment(false);
+              setShowDesktopCheckout(true);
+            }}
+            formatRupiah={formatRupiah}
+            onSuccessPayment={() => {
+              const firstCartProduct = cart[0]?.product;
 
-  setDesktopOrderDetail(newOrder);
-  setShowDesktopPayment(false);
-  setShowDesktopCheckout(false);
-  setShowDesktopCart(false);
-  setDesktopCheckoutData(null);
-  setCart([]);
-}}
-  />
-) : showDesktopCheckout ? (
-  <StoreCheckoutDesktop
-    cartItems={cart}
-    onBack={() => {
-      setShowDesktopCheckout(false);
-      setShowDesktopCart(true);
-    }}
-    formatRupiah={formatRupiah}
-    onProceedToPayment={handleProceedToDesktopPayment}
-  />
-) : showDesktopCart ? (
-  <StoreCartDesktop
-    cart={cart}
-    totalCartItems={totalCartItems}
-    totalCartPrice={totalCartPrice}
-    onBack={resetAllDesktopViews}
-    onUpdateQuantity={updateQuantity}
-    onRemoveItem={removeCartItem}
-    formatRupiah={formatRupiah}
-    onProceedToCheckout={handleOpenDesktopCheckout}
-  />
-) : showDesktopHistory ? (
-  <StoreOrderHistoryDesktop
-  orders={DUMMY_DESKTOP_ORDERS}
-  onBack={resetAllDesktopViews}
-  onOpenDetail={handleOpenDesktopOrderDetail}
-  formatRupiah={formatRupiah}
-/>
-) : (
-  <StoreCatalogDesktop
-    products={filteredProducts}
-    categories={INITIAL_CATEGORIES}
-    activeCategory={activeCategory}
-    setActiveCategory={setActiveCategory}
-    onOpenProduct={handleOpenDesktopDetail}
-    onOpenHistory={handleOpenDesktopHistory}
-    formatRupiah={formatRupiah}
-  />
-)}
-{toastMessage && (
+              const newOrder: OrderDetailData = {
+                orderId: `MRC-2026-${Math.floor(
+                  1000 + Math.random() * 9000
+                )}`,
+                orderDate: new Date().toLocaleDateString("id-ID", {
+                  day: "2-digit",
+                  month: "short",
+                  year: "numeric",
+                }),
+                itemsSummary: cart
+                  .map(
+                    (item) =>
+                      `${item.product.title}${
+                        item.size ? ` (${item.size})` : ""
+                      } · ${item.quantity} barang`
+                  )
+                  .join(" · "),
+                paymentMethod: "QRIS",
+                totalAmount: desktopCheckoutData.totalPayable,
+                courier: desktopCheckoutData.courierName,
+                status: "Diproses",
+                productImage: firstCartProduct?.image,
+                shippingAddress: {
+                  name: desktopCheckoutData.address.name,
+                  phone: desktopCheckoutData.address.phone,
+                  address: desktopCheckoutData.address.address,
+                  city: desktopCheckoutData.address.city,
+                },
+              };
+
+              setDesktopOrderDetail(newOrder);
+              setShowDesktopPayment(false);
+              setShowDesktopCheckout(false);
+              setShowDesktopCart(false);
+              setDesktopCheckoutData(null);
+              setCart([]);
+            }}
+          />
+        ) : showDesktopCheckout ? (
+          <StoreCheckoutDesktop
+            cartItems={cart}
+            onBack={() => {
+              setShowDesktopCheckout(false);
+              setShowDesktopCart(true);
+            }}
+            formatRupiah={formatRupiah}
+            onProceedToPayment={handleProceedToDesktopPayment}
+          />
+        ) : showDesktopCart ? (
+          <StoreCartDesktop
+            cart={cart}
+            totalCartItems={totalCartItems}
+            totalCartPrice={totalCartPrice}
+            onBack={resetAllDesktopViews}
+            onUpdateQuantity={updateQuantity}
+            onRemoveItem={removeCartItem}
+            formatRupiah={formatRupiah}
+            onProceedToCheckout={handleOpenDesktopCheckout}
+          />
+        ) : showDesktopHistory ? (
+          <StoreOrderHistoryDesktop
+            orders={DUMMY_DESKTOP_ORDERS}
+            onBack={resetAllDesktopViews}
+            onOpenDetail={handleOpenDesktopOrderDetail}
+            formatRupiah={formatRupiah}
+          />
+        ) : (
+          <StoreCatalogDesktop
+            products={filteredProducts}
+            categories={INITIAL_CATEGORIES}
+            activeCategory={activeCategory}
+            setActiveCategory={setActiveCategory}
+            onOpenProduct={handleOpenDesktopDetail}
+            onOpenHistory={handleOpenDesktopHistory}
+            formatRupiah={formatRupiah}
+          />
+        )}
+        {toastMessage && (
           <StoreToastDesktop
             message={toastMessage}
             onClose={() => setToastMessage(null)}
@@ -621,19 +623,19 @@ const handleOpenDesktopOrderDetail = (order: OrderHistoryItem) => {
       </div>
 
       <StoreMobile
-      products={filteredProducts}
-      categories={INITIAL_CATEGORIES}
-      activeCategory={activeCategory}
-      setActiveCategory={setActiveCategory}
-      cart={cart}
-      addToCart={(product, quantity, size) => {
-        addProductToCart(product, quantity || 1, size);
-      }}
-      updateQuantity={updateQuantity}
-      removeCartItem={removeCartItem}
-      totalCartItems={totalCartItems}
-      formatRupiah={formatRupiah}
-    />
+        products={filteredProducts}
+        categories={INITIAL_CATEGORIES}
+        activeCategory={activeCategory}
+        setActiveCategory={setActiveCategory}
+        cart={cart}
+        addToCart={(product, quantity, size) => {
+          addProductToCart(product, quantity || 1, size);
+        }}
+        updateQuantity={updateQuantity}
+        removeCartItem={removeCartItem}
+        totalCartItems={totalCartItems}
+        formatRupiah={formatRupiah}
+      />
     </>
   );
 }

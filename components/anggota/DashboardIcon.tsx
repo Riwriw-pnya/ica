@@ -9,16 +9,19 @@ export default function DashboardIcon({
   size = 18,
   className,
 }: DashboardIconProps) {
+  // Gabungkan warna default text-[#CE7034] dengan className eksternal jika ada
+  const computedClassName = className ? className : "text-[#CE7034]";
+
   const commonProps: React.SVGProps<SVGSVGElement> = {
     width: size,
     height: size,
-    className: className,
+    className: computedClassName,
     viewBox: "0 0 24 24",
     fill: "none",
     stroke: "currentColor",
     strokeWidth: 1.8,
     strokeLinecap: "round",
-    strokeLinejoin:"round",
+    strokeLinejoin: "round",
   };
 
   switch (name) {
@@ -142,7 +145,15 @@ export default function DashboardIcon({
         <svg {...commonProps}>
           <rect x="3" y="4" width="18" height="16" rx="2" />
           <path d="M9 4v16" />
-          <rect x="4.5" y="5.5" width="3" height="13" rx="0.5" fill="currentColor" stroke="none" />
+          <rect
+            x="4.5"
+            y="5.5"
+            width="3"
+            height="13"
+            rx="0.5"
+            fill="currentColor"
+            stroke="none"
+          />
         </svg>
       );
 
@@ -165,14 +176,22 @@ export default function DashboardIcon({
     case "shopping-cart":
       return (
         <svg {...commonProps}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M16 11V7a4 4 0 00-8 0v4M5 9h14l1 12H4L5 9z"
+          />
         </svg>
       );
 
     case "payment":
       return (
         <svg {...commonProps}>
-          <path strokeLinecap="round" strokeLinejoin="round" d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M3 10h18M7 15h1m4 0h1m-7 4h12a2 2 0 002-2V7a2 2 0 00-2-2H6a2 2 0 00-2 2v10a2 2 0 002 2z"
+          />
         </svg>
       );
 
@@ -186,45 +205,105 @@ export default function DashboardIcon({
       );
 
     case "document":
-      case "file-text":
-        return (
-          <svg className={className} width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
-          </svg>
-        );
+    case "file-text":
+      return (
+        <svg
+          className={computedClassName}
+          width={size}
+          height={size}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+          />
+        </svg>
+      );
 
-      case "camera":
-        return (
-          <svg className={className} width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-            <path strokeLinecap="round" strokeLinejoin="round" d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z" />
-            <circle cx="12" cy="13" r="4" />
-          </svg>
-        );
+    case "camera":
+      return (
+        <svg
+          className={computedClassName}
+          width={size}
+          height={size}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M23 19a2 2 0 01-2 2H3a2 2 0 01-2-2V8a2 2 0 012-2h4l2-3h6l2 3h4a2 2 0 012 2z"
+          />
+          <circle cx="12" cy="13" r="4" />
+        </svg>
+      );
 
-      case "image":
-        return (
-          <svg className={className} width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-            <rect x="3" y="3" width="18" height="18" rx="3" ry="3" />
-            <circle cx="8.5" cy="8.5" r="1.5" />
-            <polyline points="21 15 16 10 5 21" />
-          </svg>
-        );
+    case "image":
+      return (
+        <svg
+          className={computedClassName}
+          width={size}
+          height={size}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          viewBox="0 0 24 24"
+        >
+          <rect x="3" y="3" width="18" height="18" rx="3" ry="3" />
+          <circle cx="8.5" cy="8.5" r="1.5" />
+          <polyline points="21 15 16 10 5 21" />
+        </svg>
+      );
 
-        case "medical":
-          return (
-            <svg className={className} width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <rect x="4" y="4" width="16" height="16" rx="3" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M12 8v8m-4-4h8" />
-            </svg>
-          );
+    case "medical":
+      return (
+        <svg
+          className={computedClassName}
+          width={size}
+          height={size}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          viewBox="0 0 24 24"
+        >
+          <rect x="4" y="4" width="16" height="16" rx="3" />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M12 8v8m-4-4h8"
+          />
+        </svg>
+      );
 
-        case "receipt":
-          return (
-            <svg className={className} width={size} height={size} fill="none" stroke="currentColor" strokeWidth="1.8" viewBox="0 0 24 24">
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 5H7a2 2 0 00-2 2v12l3-1.5 3 1.5 3-1.5 3 1.5V7a2 2 0 00-2-2h-2" />
-              <path strokeLinecap="round" strokeLinejoin="round" d="M9 3h6v4H9zM9 11h6M9 15h4" />
-            </svg>
-          );
+    case "receipt":
+      return (
+        <svg
+          className={computedClassName}
+          width={size}
+          height={size}
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.8"
+          viewBox="0 0 24 24"
+        >
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 5H7a2 2 0 00-2 2v12l3-1.5 3 1.5 3-1.5 3 1.5V7a2 2 0 00-2-2h-2"
+          />
+          <path
+            strokeLinecap="round"
+            strokeLinejoin="round"
+            d="M9 3h6v4H9zM9 11h6M9 15h4"
+          />
+        </svg>
+      );
 
     default:
       return null;
