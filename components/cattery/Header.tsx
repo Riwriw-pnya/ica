@@ -11,7 +11,6 @@ import type { NotificationItem } from "@/types/cattery";
 import { initialNotifications } from "@/data/cattery";
 
 import { useUserMenu } from "@/context/UserMenuContext";
-import { useSidebar } from "@/context/SidebarContext";
 import { useClickOutside } from "@/hooks/useClickOutside";
 import { useHeaderAction } from "@/context/HeaderActionContext";
 
@@ -48,7 +47,6 @@ function getPageTitle(pathname: string): string {
 export default function Header() {
   const { customAction } = useHeaderAction();
   const { openMenu, toggleMenu, closeMenu } = useUserMenu();
-  const { isSidebarOpen, toggleSidebar } = useSidebar();
 
   const router = useRouter();
   const pathname = usePathname();
@@ -107,7 +105,6 @@ export default function Header() {
       } h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5`}
     >
       <div className="flex items-center gap-3">
-        {/* Tombol Back Dinamis Khusus Halaman Notifikasi */}
         {isNotifications && (
           <button
             type="button"
@@ -203,7 +200,6 @@ export default function Header() {
               </>
             )}
 
-            {/* Icon Bell & Menu User */}
             <div
               ref={notifRef}
               className="relative"
