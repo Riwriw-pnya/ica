@@ -17,7 +17,7 @@ export default function ApplicationStepper({ currentStep }: ApplicationStepperPr
       {/* ========================================================= */}
       {/*  TAMPILAN MOBILE                                          */}
       {/* ========================================================= */}
-      <div className="block md:hidden mt-4 pl-1">
+      <div className="block md:hidden pl-1">
         <div className="relative space-y-5">
           {/* Garis Penghubung Vertikal Background */}
           <div className="absolute left-[11px] top-3 bottom-3 w-[2px] bg-[#EFE9E1]" />
@@ -39,9 +39,9 @@ export default function ApplicationStepper({ currentStep }: ApplicationStepperPr
                 <div
                   className={`flex h-6 w-6 items-center justify-center rounded-full text-[11px] font-bold shrink-0 transition ${
                     isCompleted
-                      ? "border-2 border-[#f48637] bg-gradient-to-b from-[#ff9a51] to-[#f05a1b] text-white shadow-xs"
+                      ? "border-2 border-[#EE6B28] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white shadow-xs"
                       : isCurrent
-                      ? "border-2 border-[#f48637] bg-white ring-4 ring-[#fff4eb]"
+                      ? "border-2 border-[#EE6B28] bg-white ring-4 ring-[#EE6B28]/20"
                       : "border-2 border-gray-300 bg-white text-gray-400"
                   }`}
                 >
@@ -64,7 +64,7 @@ export default function ApplicationStepper({ currentStep }: ApplicationStepperPr
       {/* ========================================================= */}
       {/* TAMPILAN DESKTOP                                          */}
       {/* ========================================================= */}
-      <div className="hidden md:flex relative mt-6 items-center justify-between px-6">
+      <div className="hidden md:flex relative mt- items-center justify-between px-6">
         {/* Connector Line */}
         <div className="absolute left-12 right-12 top-2.5 h-[2px] bg-[var(--color-ink-100)]" />
         

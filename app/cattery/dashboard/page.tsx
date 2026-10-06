@@ -6,6 +6,8 @@ import Link from "next/link";
 import { Home } from "lucide-react";
 import DashboardIcon from "@/components/anggota/DashboardIcon";
 import { catteryProfile } from "@/data/cattery";
+import { useState } from "react";
+import NotificationDrawer from "@/components/cattery/NotificationMobile";
 
 import CatteryBanner from "./components/CatteryBanner";
 import QuickLinks from "./components/QuickLinks";
@@ -17,6 +19,7 @@ import MatingReportsCard from "./components/MatingCard";
 
 export default function DashboardPage() {
   const router = useRouter();
+  const [isNotifOpen, setIsNotifOpen] = useState(false);
 
   const getInitials = (name: string) => {
     if (!name) return "CT";
@@ -74,7 +77,7 @@ export default function DashboardPage() {
             </div>
             
             <button 
-              onClick={() => router.push("/cattery/notifications")}
+              onClick={() => setIsNotifOpen(true)}
               className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center relative shrink-0 text-white cursor-pointer hover:bg-white/30 transition-colors"
             >
               <DashboardIcon name="bell" size={16} />
@@ -156,7 +159,7 @@ export default function DashboardPage() {
           
         </div>
       </div>
-
+      <NotificationDrawer isOpen={isNotifOpen} onClose={() => setIsNotifOpen(false)} />
     </main>
   );
 }

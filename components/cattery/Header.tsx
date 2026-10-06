@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, Suspense } from "react"; // 1. Masing-masing import Suspense dari react
+import { useState, Suspense } from "react";
 import { usePathname, useRouter } from "next/navigation";
 import MobileHeader from "./header/MobileHeader";
 import DesktopHeader from "./header/DesktopHeader";
@@ -23,6 +23,7 @@ const pageTitles: Record<string, string> = {
   "/cattery/event": "Events",
   "/cattery/store": "Store",
   "/cattery/profil": "Profil",
+  "/cattery/mprofil": "Profil",
   "/cattery/settings": "Settings",
 };
 
@@ -48,6 +49,7 @@ export default function Header() {
   const isDashboard = pathname === "/cattery" || pathname === "/cattery/dashboard";
   const isNotifications = pathname === "/cattery/notifications"; 
   const isProfile = pathname === "/cattery/profil";
+  const isProfileMobile = pathname === "/cattery/mprofil";
   const isCatDetailPage = pathname.startsWith("/cattery/my-cats/") && pathname !== "/cattery/my-cats";
   
   const isApplicationDetailPage = pathname.startsWith("/cattery/applications/") && pathname !== "/cattery/applications";
@@ -89,7 +91,6 @@ export default function Header() {
 
   return (
     <header className={`${isDashboard ? "hidden md:flex" : "flex"} h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5`}>
-      {/* 2. Bungkus MobileHeader dengan Suspense boundary */}
       <Suspense fallback={<div className="h-[54px]" />}>
         <MobileHeader
           title={title}
@@ -101,6 +102,7 @@ export default function Header() {
           isNotifications={isNotifications}
           isMatingReportForm={isMatingReportForm}
           isProfile={isProfile}
+          isProfileMobile={isProfileMobile}
           isStorePage={isStorePage}
           unreadCount={unreadCount}
           initials={initials}
@@ -110,7 +112,6 @@ export default function Header() {
         />
       </Suspense>
 
-      {/* Khusus Desktop View */}
       <DesktopHeader
         title={title}
         isDashboard={isDashboard}
