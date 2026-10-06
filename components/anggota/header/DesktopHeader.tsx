@@ -16,29 +16,17 @@ export type MenuSource = "header" | "notifications";
 
 interface DesktopHeaderProps {
   desktopTitle: string;
-
   cartCount: number;
-
   onCartClick: (e: React.MouseEvent) => void;
-
   unreadCount?: number;
-
   unreadNotificationCount?: number;
-
   notifications?: MemberNotificationItem[];
-
   openMenu?: MenuSource | null;
-
   toggleMenu?: (menu: MenuSource) => void;
-
   closeMenu?: () => void;
-
   onMarkAllRead?: () => void;
-
   onMarkOneRead?: (id: string) => void;
-
   onOpenNotification?: () => void;
-
   onLogout?: () => void;
 }
 
@@ -77,7 +65,6 @@ export default function DesktopHeader({
   onLogout = () => {},
 }: DesktopHeaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
-
   const notifRef = useRef<HTMLDivElement>(null);
 
   const [internalOpenMenu, setInternalOpenMenu] =
@@ -86,7 +73,6 @@ export default function DesktopHeader({
   const [localNotifications, setLocalNotifications] =
     useState<MemberNotificationItem[]>(notifications);
 
-  // Sinkronkan state jika props notifications berubah dari luar
   useEffect(() => {
     setLocalNotifications(notifications);
   }, [notifications]);
@@ -115,7 +101,6 @@ export default function DesktopHeader({
   };
 
   const isUserMenuOpen = activeOpenMenu === "header";
-
   const isNotifOpen = activeOpenMenu === "notifications";
 
   useClickOutside(containerRef, () => {
@@ -130,7 +115,6 @@ export default function DesktopHeader({
     }
   });
 
-  // Handler klik Tandai Semua Dibaca
   const handleMarkAllRead = () => {
     if (onMarkAllRead) {
       onMarkAllRead();
@@ -144,7 +128,6 @@ export default function DesktopHeader({
     );
   };
 
-  // Handler klik Tandai Satu Dibaca
   const handleMarkOneRead = (id: string) => {
     if (onMarkOneRead) {
       onMarkOneRead(id);
@@ -162,12 +145,11 @@ export default function DesktopHeader({
     );
   };
 
-  // Hitung jumlah notifikasi yang belum dibaca
   const currentUnreadCount =
     localNotifications.filter((n) => !n.isRead).length;
 
   return (
-    <div className="hidden md:flex w-full items-center justify-between h-13.5">
+    <div className="hidden md:flex h-13.5 w-full items-center justify-between">
       {/* SISI KIRI DESKTOP */}
       <h1 className="font-display text-sm font-semibold text-[#231A14]">
         {desktopTitle}
@@ -179,7 +161,7 @@ export default function DesktopHeader({
         <button
           type="button"
           onClick={onCartClick}
-          className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#1F1B18] transition hover:bg-[#F8F3EF] cursor-pointer active:scale-95 shrink-0"
+          className="relative flex h-8 w-8 shrink-0 cursor-pointer items-center justify-center rounded-full text-[#1F1B18] transition hover:bg-[#F8F3EF] active:scale-95"
           aria-label="Keranjang"
         >
           <svg
@@ -216,11 +198,11 @@ export default function DesktopHeader({
 
               handleToggleMenu("notifications");
             }}
-            className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#1F1B18] transition hover:bg-[#F8F3EF] cursor-pointer active:scale-95"
+            className="relative flex h-8 w-8 cursor-pointer items-center justify-center rounded-full text-[#1F1B18] transition hover:bg-[#F8F3EF] active:scale-95"
             aria-label="Notifikasi"
           >
             <svg
-              className="h-4 w-4 pointer-events-none"
+              className="pointer-events-none h-4 w-4"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -233,9 +215,8 @@ export default function DesktopHeader({
               />
             </svg>
 
-            {/* Badge Oranye Jumlah Notifikasi */}
             {currentUnreadCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-[#EE6B28] px-0.5 text-[8px] font-bold leading-none text-white pointer-events-none">
+              <span className="pointer-events-none absolute -right-0.5 -top-0.5 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-[#EE6B28] px-0.5 text-[8px] font-bold leading-none text-white">
                 {currentUnreadCount > 9
                   ? "9+"
                   : currentUnreadCount}
@@ -256,35 +237,24 @@ export default function DesktopHeader({
         {/* User Menu */}
         <div ref={containerRef} className="relative z-50">
           <button
-            type="button"
-            onClick={(e) => {
-              e.stopPropagation();
-              handleToggleMenu("header");
-            }}
-            className={`flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 transition-all cursor-pointer active:scale-98 ${
-              isUserMenuOpen
-                ? "bg-[#FFF2E8]"
-                : "bg-white hover:bg-[#FFF2E8]"
-            }`}
-          >
-            <div className="flex h-7 w-7 items-center justify-center rounded-full bg-[#FEE4CC] text-[10px] font-bold text-[#A85822] shrink-0">
-              AP
-            </div>
+          type="button"
+          onClick={(e) => {
+            e.stopPropagation();
+            handleToggleMenu("header");
+          }}
+          className="flex h-9 w-[66px] cursor-pointer items-center justify-between rounded-full border border-[#D8C9BA] bg-gradient-to-b from-white to-[#F3ECE4] px-2 shadow-[0_2px_5px_rgba(0,0,0,0.07)] transition-all hover:border-[#CBB8A7] hover:from-white hover:to-[#EEE5DB] active:scale-[0.98]"
+        >
+          <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FFD09F] to-[#F27A32] text-[10px] font-bold text-white shadow-[inset_0_1px_2px_rgba(255,255,255,0.45),0_1px_3px_rgba(0,0,0,0.08)]">
+            RH
+          </div>
 
-            <div className="flex flex-col text-left leading-tight pr-0.5">
-              <span className="text-xs font-bold text-[#1A1513]">
-                Ayu Prameswari
-              </span>
-
-              <span className="text-[10px] font-medium text-[#8C8074]">
-                ICA-M-004821
-              </span>
-            </div>
-
-            <span className="text-[#8C8074] flex items-center pl-0.5">
-              <DashboardIcon name="chevron" size={12} />
-            </span>
-          </button>
+          <span className="flex items-center justify-center pr-1 text-[#D95D1E]">
+            <DashboardIcon
+              name="chevron"
+              size={10}
+            />
+          </span>
+        </button>
 
           {isUserMenuOpen && (
             <UserMenuDropdown
