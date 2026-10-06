@@ -31,7 +31,7 @@ export default function MyCatsPage() {
             </p>
           </div>
 
-          {/* Button Tambah Kucing: Melebar penuh (w-full) di mobile, auto (md:w-auto) di desktop */}
+          {/* Button Tambah Kucing: w-full di mobile, auto (md:w-auto) di desktop */}
           <button 
             onClick={handleAddCatClick} 
             className="w-full md:w-auto shrink-0 rounded-xl md:rounded-full px-5 py-2.5 text-xs md:text-[13px] font-bold bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white 

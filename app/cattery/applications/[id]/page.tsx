@@ -55,12 +55,36 @@ export default function ApplicationDetailPage({ params }: { params: Promise<{ id
           <ApplicationStepper currentStep={data.currentStep} />
         </div>
 
-        <div className="mt-5 relative pl-4 space-y-5 border-l-2 border-gray-200">
+        {/* Timeline (Desktop view) */}
+        <div className="mt-5 hidden sm:block relative pl-4 space-y-5 border-l-2 border-gray-200">
           {data.timeline?.map((log, idx) => (
             <div key={idx} className="relative flex items-start gap-3">
               <span className="absolute -left-[21px] mt-1 h-2.5 w-2.5 shrink-0 rounded-full bg-gray-300 ring-4 ring-white" />
               <div>
                 <p className="text-xs font-bold text-[var(--color-ink-900)]">{log.title}</p>
+                <p className="mt-0.5 text-[11px] text-[var(--color-ink-400)]">
+                  {log.date} · {log.actor}
+                </p>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+
+      {/* Card Log Aktivitas (Khusus Mobile) */}
+      <div className="mt-4 block sm:hidden rounded-2xl border border-[var(--color-ink-100)] bg-white p-5 shadow-xs">
+        <h2 className="text-sm font-bold text-[var(--color-ink-900)] mb-3">
+          Log aktivitas
+        </h2>
+        <div className="space-y-4">
+          {data.timeline?.map((log, idx) => (
+            <div key={idx} className="flex items-start gap-3">
+              {/* Bulatan Kuning/Oranye di samping kiri */}
+              <span className="mt-1 h-2 w-2 shrink-0 rounded-full bg-[var(--color-warning)]" />
+              <div className="min-w-0 flex-1">
+                <p className="text-xs font-bold text-[var(--color-ink-900)] leading-tight">
+                  {log.title}
+                </p>
                 <p className="mt-0.5 text-[11px] text-[var(--color-ink-400)]">
                   {log.date} · {log.actor}
                 </p>
