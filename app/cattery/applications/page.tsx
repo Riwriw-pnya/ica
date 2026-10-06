@@ -59,7 +59,7 @@ export default function ApplicationsPage() {
         <div className="block md:hidden pt-1">
           <Link
             href="/cattery/mating-reports"
-            className="w-full py-3 px-4 rounded-2xl bg-gradient-to-b from-[#ff9b54] to-[#f05a1b] text-white font-bold text-sm shadow-md flex items-center justify-center active:scale-[0.98] transition"
+            className="w-full py-3 px-4 rounded-2xl bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-sm shadow-md flex items-center justify-center active:scale-[0.98] transition"
           >
             Buat mating report
           </Link>

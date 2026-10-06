@@ -28,22 +28,75 @@ export default function DocumentsPage() {
     switch (status) {
       case "Aktif":
       case "Terverifikasi":
-        return "bg-emerald-50 text-emerald-600";
+        return "bg-[#EBF7EE] text-[#2D8A4E]";
       case "Sedang direview":
-        return "bg-sky-50 text-sky-600";
+        return "bg-[#EAF3FA] text-[#2B78C5]";
       case "Perlu revisi":
-        return "bg-amber-50 text-amber-600";
+        return "bg-[#FFF4E5] text-[#D97706]";
     }
   };
 
   return (
-    <div className="p-8">
-      <h1 className="font-display text-2xl font-bold text-[var(--color-ink-900)]">Documents</h1>
-      <p className="mt-1 text-xs text-[var(--color-ink-400)]">
+    <div className="p-4 md:p-8">
+      {/* Subtitle Deskripsi Khusus Mobile */}
+      <p className="block md:hidden text-xs text-[#8C8074] mb-4 leading-relaxed">
         Sertifikat, berkas pengajuan, dan dokumen cattery.
       </p>
 
-      <div className="mt-6 divide-y divide-[var(--color-ink-100)] rounded-2xl border border-[var(--color-ink-100)] bg-white shadow-sm">
+      {/* Header Khusus Desktop */}
+      <div className="hidden md:block">
+        <h1 className="font-display text-2xl font-bold text-[var(--color-ink-900)]">Documents</h1>
+        <p className="mt-1 text-xs text-[var(--color-ink-400)]">
+          Sertifikat, berkas pengajuan, dan dokumen cattery.
+        </p>
+      </div>
+
+      {/* ========================================= */}
+      {/* 1. TAMPILAN MOBILE (Sesuai Foto Persis)    */}
+      {/* ========================================= */}
+      <div className="block md:hidden space-y-3">
+        {DOCUMENTS.map((doc) => (
+          <div
+            key={doc.id}
+            className="rounded-[18px] border border-[#EFE8E1] bg-white p-3.5 shadow-2xs space-y-3"
+          >
+            {/* Bagian Atas: Icon Box + Title & Subtitle */}
+            <div className="flex items-start gap-3">
+              {/* Box Icon dengan style terinspirasi gambar (Orange Tinted Rounded Box) */}
+              <div className="flex h-11 w-11 shrink-0 items-center justify-center rounded-[14px] bg-[#FFF5EB] border border-[#FDE3CE] text-[#F05A1B]">
+                <svg className="h-5 w-5" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z" />
+                </svg>
+              </div>
+
+              <div className="flex-1 min-w-0 pt-0.5">
+                <h3 className="text-[13px] font-bold text-[#231A14] leading-snug">{doc.title}</h3>
+                <p className="mt-0.5 text-[11px] text-[#8C8074] leading-relaxed">{doc.subtitle}</p>
+              </div>
+            </div>
+
+            {/* Bagian Bawah: Badge Status (Kiri) & Tombol Unduh Oval (Kanan) */}
+            <div className="flex items-center justify-between pt-0.5">
+              <span className={`rounded-full px-3 py-1 text-[11px] font-semibold ${getStatusBadge(doc.status)}`}>
+                {doc.status}
+              </span>
+
+              <button
+                type="button"
+                onClick={() => handleDownload(doc.title)}
+                className="cursor-pointer rounded-full bg-white border border-[#E3D8CE] px-5 py-1 text-xs font-semibold text-[#231A14] hover:bg-[#FAF7F5] active:scale-95 transition-all"
+              >
+                Unduh
+              </button>
+            </div>
+          </div>
+        ))}
+      </div>
+
+      {/* ========================================= */}
+      {/* 2. TAMPILAN DESKTOP (Sesuai Kode Asli)     */}
+      {/* ========================================= */}
+      <div className="hidden md:block mt-6 divide-y divide-[var(--color-ink-100)] rounded-2xl border border-[var(--color-ink-100)] bg-white shadow-sm">
         {DOCUMENTS.map((doc) => (
           <div key={doc.id} className="flex items-center justify-between p-4 px-6">
             <div className="flex items-center gap-4 hover:bg-gray-50/50">

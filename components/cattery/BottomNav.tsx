@@ -25,7 +25,7 @@ const menus = [
   { label: "Leaderboard", icon: "trophy", href: "/cattery/leaderboard" },
   { label: "Events", icon: "calendar", href: "/cattery/event" },
   { label: "Store", icon: "shopping-cart", href: "/cattery/store" },
-  { label: "Profil Cattery", icon: "home", href: "/cattery/profil" },
+  { label: "Profil Cattery", icon: "home", href: "/cattery/mprofil" },
   { label: "Settings", icon: "settings", href: "/cattery/settings" },
 ];
 

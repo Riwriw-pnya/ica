@@ -39,7 +39,7 @@ export default function Stepper({ currentStep, onStepClick }: StepperProps) {
           {/* Progress Bar Top */}
           <div className="w-full bg-[#F4EFE9] h-1.5 rounded-full overflow-hidden mt-2.5 mb-3.5">
             <div
-              className="bg-[#F05A1B] h-full transition-all duration-300 rounded-full"
+              className="bg-gradient-to-r from-[var(--color-brand-orange-500)] to-[#f05a1b] h-full transition-all duration-300 rounded-full"
               style={{ width: `${(mobileActiveStep / totalMobileSteps) * 100}%` }}
             />
           </div>
@@ -51,7 +51,7 @@ export default function Stepper({ currentStep, onStepClick }: StepperProps) {
 
             {/* Garis Progress Vertikal Aktif */}
             <div
-              className="absolute left-[11px] top-2 w-[1.5px] bg-[#F05A1B] transition-all duration-300"
+              className="absolute left-[11px] top-2 w-[1.5px] bg-gradient-to-r from-[var(--color-brand-orange-500)] to-[#f05a1b] transition-all duration-300"
               style={{
                 height: `${((Math.min(mobileActiveStep, totalMobileSteps) - 1) / (totalMobileSteps - 1)) * 100}%`,
               }}
@@ -75,7 +75,7 @@ export default function Stepper({ currentStep, onStepClick }: StepperProps) {
                   <div
                     className={`flex h-5 w-5 items-center justify-center rounded-full text-[10px] font-bold shrink-0 transition ${
                       isCompleted
-                        ? "border-2 border-[#F48637] bg-gradient-to-b from-[#FF9A51] to-[#F05A1B] text-white"
+                        ? "border-2 border-[#EE6B28] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white"
                         : isCurrent
                         ? "border-2 border-[#F48637] bg-white text-[#F05A1B] ring-3 ring-[#FFF4EB]"
                         : "border border-[#EEDFD5] bg-white text-[#8C8074]"

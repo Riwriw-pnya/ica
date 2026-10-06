@@ -216,7 +216,7 @@ export const mockApplications: ApplicationItem[] = [
       {
         title: "Masuk antrean review admin",
         date: "21 Agu 2026",
-        actor: "Sistem",
+        actor: "Admin ICA wilayah Bandung",
       },
     ],
   },
@@ -228,6 +228,23 @@ export const mockApplications: ApplicationItem[] = [
     status: "revision",
     statusLabel: "Perlu revisi",
     currentStep: 3,
+        timeline: [
+      {
+        title: "Report dikirim ke admin wilayah Bandung",
+        date: "01 Agu 2026",
+        actor: "Rumah Hana Cattery",
+      },
+      {
+        title: "Masuk antrean review admin",
+        date: "01 Agu 2026",
+        actor: "Admin ICA wilayah Bandung",
+      },
+      {
+        title: "Revisi diminta: sertifikat induk kurang jelas",
+        date: "03 Agu 2026",
+        actor: "Admin ICA wilayah Bandung",
+      },
+    ],
   },
   {
     id: "3",
@@ -237,6 +254,23 @@ export const mockApplications: ApplicationItem[] = [
     status: "approved",
     statusLabel: "Disetujui",
     currentStep: 4,
+        timeline: [
+      {
+        title: "Report dikirim ke admin wilayah Bandung",
+        date: "15 Jul 2026",
+        actor: "Rumah Hana Cattery",
+      },
+      {
+        title: "Verifikasi dokumen selesai",
+        date: "17 Jul 2026",
+        actor: "Admin ICA wilayah Bandung",
+      },
+      {
+        title: "Pedigree diterbitkan",
+        date: "19 Jul 2026",
+        actor: "Admin ICA",
+      },
+    ],
   },
   {
     id: "4",
@@ -246,6 +280,18 @@ export const mockApplications: ApplicationItem[] = [
     status: "approved",
     statusLabel: "Disetujui",
     currentStep: 4,
+        timeline: [
+      {
+        title: "Report dikirim ke admin wilayah Bandung",
+        date: "05 Jul 2026",
+        actor: "Rumah Hana Cattery",
+      },
+      {
+        title: "Kode cattery diterbitkan: ICA-CTY-2024-0188",
+        date: "10 Agu 2026",
+        actor: "Admin ICA",
+      },
+    ],
   },
 ];
 
