@@ -1,27 +1,44 @@
 "use client";
 
 import { useRef, useState, useEffect } from "react";
+
 import DashboardIcon from "../DashboardIcon";
+
 import UserMenuDropdown from "../UserMenuDropdown";
+
 import MemberNotificationDropdown, {
   MemberNotificationItem,
 } from "./MemberNotification";
+
 import { useClickOutside } from "@/hooks/useClickOutside";
 
 export type MenuSource = "header" | "notifications";
 
 interface DesktopHeaderProps {
   desktopTitle: string;
+
   cartCount: number;
+
   onCartClick: (e: React.MouseEvent) => void;
+
   unreadCount?: number;
+
+  unreadNotificationCount?: number;
+
   notifications?: MemberNotificationItem[];
+
   openMenu?: MenuSource | null;
+
   toggleMenu?: (menu: MenuSource) => void;
+
   closeMenu?: () => void;
+
   onMarkAllRead?: () => void;
+
   onMarkOneRead?: (id: string) => void;
+
   onOpenNotification?: () => void;
+
   onLogout?: () => void;
 }
 
@@ -49,6 +66,7 @@ export default function DesktopHeader({
   cartCount,
   onCartClick,
   unreadCount,
+  unreadNotificationCount,
   notifications = DEFAULT_NOTIFICATIONS,
   openMenu: externalOpenMenu,
   toggleMenu: externalToggleMenu,
@@ -59,9 +77,12 @@ export default function DesktopHeader({
   onLogout = () => {},
 }: DesktopHeaderProps) {
   const containerRef = useRef<HTMLDivElement>(null);
+
   const notifRef = useRef<HTMLDivElement>(null);
 
-  const [internalOpenMenu, setInternalOpenMenu] = useState<MenuSource | null>(null);
+  const [internalOpenMenu, setInternalOpenMenu] =
+    useState<MenuSource | null>(null);
+
   const [localNotifications, setLocalNotifications] =
     useState<MemberNotificationItem[]>(notifications);
 
@@ -71,13 +92,17 @@ export default function DesktopHeader({
   }, [notifications]);
 
   const activeOpenMenu =
-    externalOpenMenu !== undefined ? externalOpenMenu : internalOpenMenu;
+    externalOpenMenu !== undefined
+      ? externalOpenMenu
+      : internalOpenMenu;
 
   const handleToggleMenu = (menu: MenuSource) => {
     if (externalToggleMenu) {
       externalToggleMenu(menu);
     } else {
-      setInternalOpenMenu((prev) => (prev === menu ? null : menu));
+      setInternalOpenMenu((prev) =>
+        prev === menu ? null : menu
+      );
     }
   };
 
@@ -90,14 +115,19 @@ export default function DesktopHeader({
   };
 
   const isUserMenuOpen = activeOpenMenu === "header";
+
   const isNotifOpen = activeOpenMenu === "notifications";
 
   useClickOutside(containerRef, () => {
-    if (isUserMenuOpen) handleCloseMenu();
+    if (isUserMenuOpen) {
+      handleCloseMenu();
+    }
   });
 
   useClickOutside(notifRef, () => {
-    if (isNotifOpen) handleCloseMenu();
+    if (isNotifOpen) {
+      handleCloseMenu();
+    }
   });
 
   // Handler klik Tandai Semua Dibaca
@@ -105,8 +135,12 @@ export default function DesktopHeader({
     if (onMarkAllRead) {
       onMarkAllRead();
     }
+
     setLocalNotifications((prev) =>
-      prev.map((item) => ({ ...item, isRead: true }))
+      prev.map((item) => ({
+        ...item,
+        isRead: true,
+      }))
     );
   };
 
@@ -115,13 +149,22 @@ export default function DesktopHeader({
     if (onMarkOneRead) {
       onMarkOneRead(id);
     }
+
     setLocalNotifications((prev) =>
-      prev.map((item) => (item.id === id ? { ...item, isRead: true } : item))
+      prev.map((item) =>
+        item.id === id
+          ? {
+              ...item,
+              isRead: true,
+            }
+          : item
+      )
     );
   };
 
   // Hitung jumlah notifikasi yang belum dibaca
-  const currentUnreadCount = localNotifications.filter((n) => !n.isRead).length;
+  const currentUnreadCount =
+    localNotifications.filter((n) => !n.isRead).length;
 
   return (
     <div className="hidden md:flex w-full items-center justify-between h-13.5">
@@ -166,7 +209,11 @@ export default function DesktopHeader({
             type="button"
             onClick={(e) => {
               e.stopPropagation();
-              if (onOpenNotification) onOpenNotification();
+
+              if (onOpenNotification) {
+                onOpenNotification();
+              }
+
               handleToggleMenu("notifications");
             }}
             className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#1F1B18] transition hover:bg-[#F8F3EF] cursor-pointer active:scale-95"
@@ -186,10 +233,12 @@ export default function DesktopHeader({
               />
             </svg>
 
-            {/* Badge Oranye Jumlah Notifikasi (Otomatis Hilang Ketika unread = 0) */}
+            {/* Badge Oranye Jumlah Notifikasi */}
             {currentUnreadCount > 0 && (
               <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-[#EE6B28] px-0.5 text-[8px] font-bold leading-none text-white pointer-events-none">
-                {currentUnreadCount > 9 ? "9+" : currentUnreadCount}
+                {currentUnreadCount > 9
+                  ? "9+"
+                  : currentUnreadCount}
               </span>
             )}
           </button>
