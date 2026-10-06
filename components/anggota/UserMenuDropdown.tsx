@@ -1,6 +1,7 @@
 "use client";
 
 import Link from "next/link";
+
 import DashboardIcon from "./DashboardIcon";
 
 interface UserMenuDropdownProps {
@@ -26,6 +27,7 @@ export default function UserMenuDropdown({
         <p className="font-display text-[13px] font-semibold text-[var(--color-ink-900)]">
           Ayu Prameswari
         </p>
+
         <p className="text-[11px] text-[var(--color-ink-400)]">
           ICA-M-004821 · Member
         </p>
@@ -35,7 +37,7 @@ export default function UserMenuDropdown({
         <Link
           href="/anggota/keanggotaan"
           onClick={onNavigate}
-          className="flex items-center gap-2.5 rounded-lg px-3 py-2 font-sans font-semibold text-[12px] text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
+          className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
         >
           <DashboardIcon name="user" size={16} />
           Lihat profil
@@ -44,7 +46,7 @@ export default function UserMenuDropdown({
         <Link
           href="/anggota/pengaturan"
           onClick={onNavigate}
-          className="flex items-center gap-2.5 rounded-lg px-3 py-2 font-sans font-semibold text-[12px] text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
+          className="flex items-center gap-2.5 rounded-lg px-3 py-2 text-[13px] text-[var(--color-ink-700)] transition hover:bg-[var(--color-brand-orange-50)]"
         >
           <DashboardIcon name="settings" size={16} />
           Pengaturan akun
@@ -54,7 +56,7 @@ export default function UserMenuDropdown({
       <div className="border-t border-[var(--color-ink-100)] pt-1.5">
         <button
           onClick={onLogout}
-          className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 font-sans font-semibold text-left text-[12px] text-[var(--color-danger)] transition hover:bg-[var(--color-danger-bg)]"
+          className="flex w-full items-center gap-2.5 rounded-lg px-3 py-2 text-left text-[13px] text-[var(--color-danger)] transition hover:bg-[var(--color-danger-bg)]"
         >
           <DashboardIcon name="logout" size={16} />
           Logout
