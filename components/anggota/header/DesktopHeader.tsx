@@ -1,55 +1,136 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useRef, useState, useEffect } from "react";
 import DashboardIcon from "../DashboardIcon";
 import UserMenuDropdown from "../UserMenuDropdown";
-import { useUserMenu } from "@/context/UserMenuContext";
+import MemberNotificationDropdown, {
+  MemberNotificationItem,
+} from "./MemberNotification";
 import { useClickOutside } from "@/hooks/useClickOutside";
+
+export type MenuSource = "header" | "notifications";
 
 interface DesktopHeaderProps {
   desktopTitle: string;
   cartCount: number;
   onCartClick: (e: React.MouseEvent) => void;
-  unreadNotificationCount: number;
-  onOpenNotification: () => void;
-  onLogout: () => void;
+  unreadCount?: number;
+  notifications?: MemberNotificationItem[];
+  openMenu?: MenuSource | null;
+  toggleMenu?: (menu: MenuSource) => void;
+  closeMenu?: () => void;
+  onMarkAllRead?: () => void;
+  onMarkOneRead?: (id: string) => void;
+  onOpenNotification?: () => void;
+  onLogout?: () => void;
 }
+
+const DEFAULT_NOTIFICATIONS: MemberNotificationItem[] = [
+  {
+    id: "1",
+    title: "Pesanan merchandise sedang diproses",
+    message: "Pesanan MRC-2026-0231 sedang dikemas oleh sekretariat ICA.",
+    time: "5 menit lalu",
+    isRead: false,
+    url: "/anggota/log-aktivitas",
+  },
+  {
+    id: "2",
+    title: "Event ICA tersedia",
+    message: "Pendaftaran event terbaru ICA telah dibuka.",
+    time: "1 jam lalu",
+    isRead: false,
+    url: "/anggota/event",
+  },
+];
 
 export default function DesktopHeader({
   desktopTitle,
   cartCount,
   onCartClick,
-  unreadNotificationCount,
+  unreadCount,
+  notifications = DEFAULT_NOTIFICATIONS,
+  openMenu: externalOpenMenu,
+  toggleMenu: externalToggleMenu,
+  closeMenu: externalCloseMenu,
+  onMarkAllRead,
+  onMarkOneRead,
   onOpenNotification,
-  onLogout,
+  onLogout = () => {},
 }: DesktopHeaderProps) {
-  const { openMenu, toggleMenu, closeMenu } = useUserMenu();
   const containerRef = useRef<HTMLDivElement>(null);
-  const notificationRef = useRef<HTMLDivElement>(null);
+  const notifRef = useRef<HTMLDivElement>(null);
 
-  const [showNotifications, setShowNotifications] = useState(false);
+  const [internalOpenMenu, setInternalOpenMenu] = useState<MenuSource | null>(null);
+  const [localNotifications, setLocalNotifications] =
+    useState<MemberNotificationItem[]>(notifications);
 
-  const isUserMenuOpen = openMenu === "header";
+  // Sinkronkan state jika props notifications berubah dari luar
+  useEffect(() => {
+    setLocalNotifications(notifications);
+  }, [notifications]);
+
+  const activeOpenMenu =
+    externalOpenMenu !== undefined ? externalOpenMenu : internalOpenMenu;
+
+  const handleToggleMenu = (menu: MenuSource) => {
+    if (externalToggleMenu) {
+      externalToggleMenu(menu);
+    } else {
+      setInternalOpenMenu((prev) => (prev === menu ? null : menu));
+    }
+  };
+
+  const handleCloseMenu = () => {
+    if (externalCloseMenu) {
+      externalCloseMenu();
+    } else {
+      setInternalOpenMenu(null);
+    }
+  };
+
+  const isUserMenuOpen = activeOpenMenu === "header";
+  const isNotifOpen = activeOpenMenu === "notifications";
 
   useClickOutside(containerRef, () => {
-    if (isUserMenuOpen) closeMenu();
+    if (isUserMenuOpen) handleCloseMenu();
   });
 
-  useClickOutside(notificationRef, () => {
-    if (showNotifications) setShowNotifications(false);
+  useClickOutside(notifRef, () => {
+    if (isNotifOpen) handleCloseMenu();
   });
 
-  const handleNotificationClick = () => {
-    setShowNotifications((prev) => !prev);
-    onOpenNotification();
+  // Handler klik Tandai Semua Dibaca
+  const handleMarkAllRead = () => {
+    if (onMarkAllRead) {
+      onMarkAllRead();
+    }
+    setLocalNotifications((prev) =>
+      prev.map((item) => ({ ...item, isRead: true }))
+    );
   };
+
+  // Handler klik Tandai Satu Dibaca
+  const handleMarkOneRead = (id: string) => {
+    if (onMarkOneRead) {
+      onMarkOneRead(id);
+    }
+    setLocalNotifications((prev) =>
+      prev.map((item) => (item.id === id ? { ...item, isRead: true } : item))
+    );
+  };
+
+  // Hitung jumlah notifikasi yang belum dibaca
+  const currentUnreadCount = localNotifications.filter((n) => !n.isRead).length;
 
   return (
     <div className="hidden md:flex w-full items-center justify-between h-13.5">
+      {/* SISI KIRI DESKTOP */}
       <h1 className="font-display text-sm font-semibold text-[#231A14]">
         {desktopTitle}
       </h1>
 
+      {/* SISI KANAN DESKTOP */}
       <div className="flex items-center gap-3">
         {/* Cart */}
         <button
@@ -79,16 +160,20 @@ export default function DesktopHeader({
           )}
         </button>
 
-        {/* Notification */}
-        <div ref={notificationRef} className="relative">
+        {/* Dropdown Notifikasi Member */}
+        <div ref={notifRef} className="relative z-50">
           <button
             type="button"
-            onClick={handleNotificationClick}
+            onClick={(e) => {
+              e.stopPropagation();
+              if (onOpenNotification) onOpenNotification();
+              handleToggleMenu("notifications");
+            }}
             className="relative flex h-8 w-8 items-center justify-center rounded-full text-[#1F1B18] transition hover:bg-[#F8F3EF] cursor-pointer active:scale-95"
             aria-label="Notifikasi"
           >
             <svg
-              className="h-4 w-4"
+              className="h-4 w-4 pointer-events-none"
               fill="none"
               viewBox="0 0 24 24"
               stroke="currentColor"
@@ -101,110 +186,32 @@ export default function DesktopHeader({
               />
             </svg>
 
-            {unreadNotificationCount > 0 && (
-              <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-[#EE6B28] px-0.5 text-[8px] font-bold leading-none text-white">
-                {unreadNotificationCount > 9
-                  ? "9+"
-                  : unreadNotificationCount}
+            {/* Badge Oranye Jumlah Notifikasi (Otomatis Hilang Ketika unread = 0) */}
+            {currentUnreadCount > 0 && (
+              <span className="absolute -right-0.5 -top-0.5 flex h-3.5 min-w-[14px] items-center justify-center rounded-full bg-[#EE6B28] px-0.5 text-[8px] font-bold leading-none text-white pointer-events-none">
+                {currentUnreadCount > 9 ? "9+" : currentUnreadCount}
               </span>
             )}
           </button>
 
-          {showNotifications && (
-            <div className="absolute right-0 top-10 z-50 w-80 overflow-hidden rounded-2xl border border-[#EDE3DA] bg-white shadow-[0_12px_30px_rgba(54,38,28,0.12)]">
-              <div className="border-b border-[#F0E8E2] px-4 py-3">
-                <h3 className="text-xs font-bold text-[#231A14]">
-                  Notifikasi
-                </h3>
-                <p className="mt-0.5 text-[10px] text-[#8C8074]">
-                  Informasi terbaru untuk akun Anda
-                </p>
-              </div>
-
-              <div className="max-h-72 overflow-y-auto">
-                <button
-                  type="button"
-                  className="flex w-full gap-3 px-4 py-3 text-left transition hover:bg-[#FAF7F5]"
-                >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFF1E7] text-[#EE6B28]">
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.8"
-                        d="M20 13V6a2 2 0 00-2-2H6a2 2 0 00-2 2v7m16 0l-2 2H6l-2-2m16 0v5a2 2 0 01-2 2H6a2 2 0 01-2-2v-5"
-                      />
-                    </svg>
-                  </div>
-
-                  <div className="min-w-0">
-                    <p className="text-[11px] font-semibold text-[#231A14]">
-                      Pesanan merchandise sedang diproses
-                    </p>
-                    <p className="mt-0.5 text-[10px] leading-relaxed text-[#8C8074]">
-                      Pesanan MRC-2026-0231 sedang dikemas oleh sekretariat ICA.
-                    </p>
-                    <span className="mt-1 block text-[9px] text-[#B0A49B]">
-                      5 menit lalu
-                    </span>
-                  </div>
-                </button>
-
-                <button
-                  type="button"
-                  className="flex w-full gap-3 border-t border-[#F5EEE9] px-4 py-3 text-left transition hover:bg-[#FAF7F5]"
-                >
-                  <div className="flex h-8 w-8 shrink-0 items-center justify-center rounded-full bg-[#FFF1E7] text-[#EE6B28]">
-                    <svg
-                      className="h-4 w-4"
-                      fill="none"
-                      viewBox="0 0 24 24"
-                      stroke="currentColor"
-                    >
-                      <path
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="1.8"
-                        d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
-                      />
-                    </svg>
-                  </div>
-
-                  <div className="min-w-0">
-                    <p className="text-[11px] font-semibold text-[#231A14]">
-                      Event ICA tersedia
-                    </p>
-                    <p className="mt-0.5 text-[10px] leading-relaxed text-[#8C8074]">
-                      Pendaftaran event terbaru ICA telah dibuka.
-                    </p>
-                    <span className="mt-1 block text-[9px] text-[#B0A49B]">
-                      1 jam lalu
-                    </span>
-                  </div>
-                </button>
-              </div>
-
-              <button
-                type="button"
-                onClick={() => setShowNotifications(false)}
-                className="w-full border-t border-[#F0E8E2] px-4 py-2.5 text-[10px] font-semibold text-[#EE6B28] transition hover:bg-[#FFF8F3]"
-              >
-                Tandai semua telah dibaca
-              </button>
-            </div>
+          {isNotifOpen && (
+            <MemberNotificationDropdown
+              notifications={localNotifications}
+              onMarkAllRead={handleMarkAllRead}
+              onMarkOneRead={handleMarkOneRead}
+              onClose={handleCloseMenu}
+            />
           )}
         </div>
 
         {/* User Menu */}
-        <div ref={containerRef} className="relative">
+        <div ref={containerRef} className="relative z-50">
           <button
             type="button"
-            onClick={() => toggleMenu("header")}
+            onClick={(e) => {
+              e.stopPropagation();
+              handleToggleMenu("header");
+            }}
             className={`flex items-center gap-2.5 rounded-xl px-2.5 py-1.5 transition-all cursor-pointer active:scale-98 ${
               isUserMenuOpen
                 ? "bg-[#FFF2E8]"
@@ -234,7 +241,7 @@ export default function DesktopHeader({
             <UserMenuDropdown
               position="bottom"
               widthClass="w-64 right-0"
-              onNavigate={closeMenu}
+              onNavigate={handleCloseMenu}
               onLogout={onLogout}
             />
           )}

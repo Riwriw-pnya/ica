@@ -174,7 +174,7 @@ export const eventListItems: EventListItem[] = [
     scope: "Regional",
     quota: 120,
     status: "Pendaftaran dibuka",
-    registerHref: "/anggota/event/1",
+    registerHref: "/anggota/event",
   },
   {
     id: 2,
@@ -185,7 +185,7 @@ export const eventListItems: EventListItem[] = [
     scope: "Regional",
     quota: 80,
     status: "Segera dibuka",
-    registerHref: "/anggota/event/2",
+    registerHref: "/anggota/event/",
   },
   {
     id: 3,
@@ -196,7 +196,7 @@ export const eventListItems: EventListItem[] = [
     scope: "Nasional",
     quota: 240,
     status: "Segera dibuka",
-    registerHref: "/anggota/event/3",
+    registerHref: "/anggota/event/",
   },
   {
     id: 4,
@@ -207,7 +207,7 @@ export const eventListItems: EventListItem[] = [
     scope: "Eksibisi",
     quota: 100,
     status: "Draft jadwal",
-    registerHref: "/anggota/event/4",
+    registerHref: "/anggota/event/",
   },
 ];
 
