@@ -46,9 +46,13 @@ export default function EventMobile({
           label: "Cat Show",
           color: "bg-[#F2ECE6] text-[#63584E]",
         },
+        {
+          label: "Kuota Member",
+          color: "bg-[#F2ECE6] text-[#63584E]",
+        },
       ],
       bottomBadge: {
-        label: "Sisa 8 dari 60",
+        label: "8 slot tersisa",
         color: "bg-[#FFF4E5] text-[#C26D0A]",
       },
       detailBadges: [
@@ -61,27 +65,36 @@ export default function EventMobile({
           color: "bg-[#F2ECE6] text-[#63584E]",
         },
         {
-          label: "Sisa 8 slot dari 60",
+          label: "Kuota Member",
+          color: "bg-[#F2ECE6] text-[#63584E]",
+        },
+        {
+          label: "8 slot tersisa",
           color: "bg-[#FFF4E5] text-[#C26D0A]",
         },
       ],
       isFull: false,
-      quotaUmum: "6 / 80",
-      quotaMember: "8 / 60",
-      quotaCattery: "2 / 50",
-      quotaSponsor: "6 / 10",
+      quotaUmum: "15 slot tersisa",
+      quotaUmumProgress: "75%",
+      quotaMember: "8 slot tersisa",
+      quotaMemberProgress: "50%",
+      quotaCattery: "2 slot tersisa",
+      quotaCatteryProgress: "20%",
+      quotaSponsor: "5 slot tersisa",
+      quotaSponsorProgress: "30%",
+      quotaCatteryAvailable: true,
       description:
         "Penilaian juri FIFe. Nomor meja dan denah area diatur admin ICA. Nomor meja (benching) dibagikan admin ICA 3 hari sebelum event.",
     },
     {
       id: "2",
-      displayDay: "4",
+      displayDay: "04",
       monthLabel: "NOV",
       title: "ICA Kitten Fest Jakarta",
       date: "4 Nov 2026",
       location: "Kuningan City Hall, Jakarta",
       price: "Rp 120.000",
-      paymentDeadline: "10:00 setelah checkout",
+      paymentDeadline: "08:00 setelah checkout",
       topBadges: [
         {
           label: "Pendaftaran dibuka",
@@ -89,6 +102,10 @@ export default function EventMobile({
         },
         {
           label: "Cat Show",
+          color: "bg-[#F2ECE6] text-[#63584E]",
+        },
+        {
+          label: "Kuota Member",
           color: "bg-[#F2ECE6] text-[#63584E]",
         },
       ],
@@ -106,17 +123,126 @@ export default function EventMobile({
           color: "bg-[#F2ECE6] text-[#63584E]",
         },
         {
+          label: "Kuota Member",
+          color: "bg-[#F2ECE6] text-[#63584E]",
+        },
+        {
           label: "Kuota penuh",
           color: "bg-[#FEE2E2] text-[#DC2626]",
         },
       ],
       isFull: true,
-      quotaUmum: "12 / 60",
-      quotaMember: "0 / 40",
-      quotaCattery: "0 / 30",
-      quotaSponsor: "2 / 8",
+      quotaUmum: "12 slot tersisa",
+      quotaUmumProgress: "20%",
+      quotaMember: "Kuota penuh",
+      quotaMemberProgress: "100%",
+      quotaCattery: "Kuota penuh",
+      quotaCatteryProgress: "100%",
+      quotaSponsor: "2 slot tersisa",
+      quotaSponsorProgress: "25%",
+      quotaCatteryAvailable: false,
       description:
         "Penilaian juri FIFe khusus kelas kitten. Benching dibagi per ring kitten.",
+    },
+    {
+      id: "3",
+      displayDay: "15",
+      monthLabel: "NOV",
+      title: "Sertifikasi Manajemen Cattery Nasional ICA",
+      date: "15 Nov 2026",
+      location: "Online via Zoom & LMS ICA",
+      price: "Rp 350.000",
+      paymentDeadline: "15:00 setelah checkout",
+      topBadges: [
+        {
+          label: "Pendaftaran dibuka",
+          color: "bg-[#EAF6ED] text-[#28844B]",
+        },
+        {
+          label: "Diklat Cattery",
+          color: "bg-[#F2ECE6] text-[#63584E]",
+        },
+      ],
+      bottomBadge: {
+        label: "15 slot tersisa",
+        color: "bg-[#FFF4E5] text-[#C26D0A]",
+      },
+      detailBadges: [
+        {
+          label: "Pendaftaran dibuka",
+          color: "bg-[#EAF6ED] text-[#28844B]",
+        },
+        {
+          label: "Diklat Cattery",
+          color: "bg-[#F2ECE6] text-[#63584E]",
+        },
+        {
+          label: "15 slot tersisa",
+          color: "bg-[#FFF4E5] text-[#C26D0A]",
+        },
+      ],
+      isFull: false,
+      quotaUmum: "40 slot tersisa",
+      quotaUmumProgress: "80%",
+      quotaMember: "30 slot tersisa",
+      quotaMemberProgress: "60%",
+      quotaCattery: "20 slot tersisa",
+      quotaCatteryProgress: "50%",
+      quotaSponsor: "Kuota penuh",
+      quotaSponsorProgress: "100%",
+      quotaCatteryAvailable: true,
+      description:
+        "Program sertifikasi manajemen cattery nasional ICA untuk meningkatkan standar pengelolaan cattery, administrasi, dan kesejahteraan kucing.",
+    },
+    {
+      id: "4",
+      displayDay: "02",
+      monthLabel: "DES",
+      title: "Workshop Professional Cat Grooming & Handling",
+      date: "2 Des 2026",
+      location: "Sekretariat Pusat ICA, Jakarta Selatan",
+      price: "Rp 250.000",
+      paymentDeadline: "15:00 setelah checkout",
+      topBadges: [
+        {
+          label: "Pendaftaran dibuka",
+          color: "bg-[#EAF6ED] text-[#28844B]",
+        },
+        {
+          label: "Diklat Grooming",
+          color: "bg-[#F2ECE6] text-[#63584E]",
+        },
+      ],
+      bottomBadge: {
+        label: "5 slot tersisa",
+        color: "bg-[#FFF4E5] text-[#C26D0A]",
+      },
+      detailBadges: [
+        {
+          label: "Pendaftaran dibuka",
+          color: "bg-[#EAF6ED] text-[#28844B]",
+        },
+        {
+          label: "Diklat Grooming",
+          color: "bg-[#F2ECE6] text-[#63584E]",
+        },
+        {
+          label: "5 slot tersisa",
+          color: "bg-[#FFF4E5] text-[#C26D0A]",
+        },
+      ],
+      isFull: false,
+      quotaUmum: "25 slot tersisa",
+      quotaUmumProgress: "75%",
+      quotaMember: "15 slot tersisa",
+      quotaMemberProgress: "60%",
+      quotaCattery: "10 slot tersisa",
+      quotaCatteryProgress: "50%",
+      quotaSponsor: "Kuota penuh",
+      quotaSponsorProgress: "100%",
+      quotaCatteryAvailable: true,
+      description:
+        "Workshop praktik professional cat grooming dan handling untuk meningkatkan kemampuan peserta dalam melakukan grooming serta menangani kucing dengan aman dan tepat.",
     },
   ];
 
@@ -155,9 +281,6 @@ export default function EventMobile({
     return () => clearInterval(timer);
   }, [mobileView, secondsLeft]);
 
-  // ============================================================
-  // MOBILE CHECKOUT
-  // ============================================================
   if (mobileView === "checkout") {
     return (
       <EventCheckoutMobile
@@ -173,9 +296,6 @@ export default function EventMobile({
     );
   }
 
-  // ============================================================
-  // MOBILE PAYMENT
-  // ============================================================
   if (mobileView === "payment") {
     return (
       <EventPaymentMobile
@@ -191,9 +311,6 @@ export default function EventMobile({
     );
   }
 
-  // ============================================================
-  // MOBILE CAT REGISTRATION
-  // ============================================================
   if (mobileView === "registration") {
     return (
       <EventCatRegistrationMobile
@@ -204,9 +321,6 @@ export default function EventMobile({
     );
   }
 
-  // ============================================================
-  // MOBILE CAT SUBMITTED
-  // ============================================================
   if (mobileView === "submitted") {
     return (
       <EventCatSubmittedMobile
@@ -224,11 +338,7 @@ export default function EventMobile({
 
   return (
     <div className="relative block sm:hidden w-full bg-[#F7F5F0] font-sans min-h-screen">
-      {/* ========================================================= */}
-      {/* MAIN VIEW: TAB JADWAL & RIWAYAT SAYA                     */}
-      {/* ========================================================= */}
       <div className="px-4 space-y-3 pb-24 pt-4">
-        {/* Toggle Pills */}
         <div className="flex items-center gap-2">
           <button
             type="button"
@@ -257,7 +367,6 @@ export default function EventMobile({
 
         {activeTab === "jadwal" ? (
           <div className="space-y-3 pt-1">
-            {/* Box Keterangan Kuota */}
             <div className="rounded-2xl border border-[#FADEC9] bg-[#FFF8F2] p-3.5 text-xs text-[#857B72] leading-relaxed">
               Kuota tiket dibagi per kategori peserta. Akun member / cattery
               dapat membeli dari kuota kategori{" "}
@@ -265,7 +374,6 @@ export default function EventMobile({
               <span className="font-bold text-[#1F1B18]">Cattery</span>.
             </div>
 
-            {/* Filter Kategori Horizontal */}
             <div className="flex items-center gap-2 overflow-x-auto pb-1 scrollbar-none -mx-4 px-4">
               {categories.map((cat) => (
                 <button
@@ -285,7 +393,6 @@ export default function EventMobile({
 
             <IcaBadgeCard />
 
-            {/* Daftar Event Card */}
             <div className="space-y-3">
               {eventsData.map((ev) => (
                 <div
@@ -321,7 +428,7 @@ export default function EventMobile({
                       </h2>
 
                       <p className="text-[11px] text-[#857B72] leading-tight">
-                        {ev.date} · {ev.location}
+                        {ev.date} · {ev.location} · {ev.price}
                       </p>
 
                       {ev.bottomBadge && (
@@ -361,15 +468,11 @@ export default function EventMobile({
         )}
       </div>
 
-      {/* ========================================================= */}
-      {/* SLIDE OVER PANEL: DETAIL EVENT                           */}
-      {/* ========================================================= */}
       <div
         className={`fixed top-0 left-0 right-0 bottom-[56px] z-40 bg-[#F7F5F0] flex flex-col transition-transform duration-300 ease-in-out ${
           selectedEventId ? "translate-x-0" : "translate-x-full"
         }`}
       >
-        {/* Header */}
         <div className="shrink-0 bg-[#F7F5F0] px-5 pt-10 pb-3 z-10">
           <div className="flex items-center gap-3.5">
             <button
@@ -403,9 +506,7 @@ export default function EventMobile({
           </div>
         </div>
 
-        {/* Body */}
         <div className="flex-1 overflow-y-auto px-5 space-y-4 pb-6 scrollbar-none">
-          {/* Badge Status */}
           <div className="flex flex-wrap items-center gap-1.5 pt-1">
             {selectedEvent.detailBadges.map((b, idx) => (
               <span
@@ -417,12 +518,11 @@ export default function EventMobile({
             ))}
           </div>
 
-          {/* Kartu Detail Informasi Event */}
           <div className="rounded-2xl bg-white p-4 border border-[#EAE5DF] space-y-3 text-xs">
             <div className="flex justify-between items-center pb-2.5 border-b border-[#F4EFEA]">
               <span className="text-[#857B72]">Tanggal</span>
 
-              <span className="font-bold text-[#1F1B18]">
+              <span className="font-bold text-[#1F1B18] text-right">
                 {selectedEvent.date}
               </span>
             </div>
@@ -430,7 +530,7 @@ export default function EventMobile({
             <div className="flex justify-between items-center pb-2.5 border-b border-[#F4EFEA]">
               <span className="text-[#857B72]">Lokasi</span>
 
-              <span className="font-semibold text-[#1F1B18] text-right">
+              <span className="font-semibold text-[#1F1B18] text-right max-w-[65%]">
                 {selectedEvent.location}
               </span>
             </div>
@@ -452,32 +552,31 @@ export default function EventMobile({
             </div>
           </div>
 
-          {/* Kartu Progress Kuota */}
           <div className="rounded-2xl bg-white p-4 border border-[#EAE5DF] space-y-3.5 shadow-xs">
             <h3 className="text-xs font-bold text-[#1F1B18]">
               Kuota per kategori peserta
             </h3>
 
-            {/* Umum */}
             <div className="space-y-1">
               <div className="flex justify-between text-xs">
                 <span className="font-bold text-[#1F1B18]">Umum</span>
-
-                <span className="text-[#857B72] font-semibold">
+                <span className="text-[#28844B] font-bold">
                   {selectedEvent.quotaUmum}
                 </span>
               </div>
 
               <div className="h-1.5 w-full bg-[#EAE5DF] rounded-full overflow-hidden">
-                <div className="h-full bg-[#857B72] w-1/5 rounded-full" />
+                <div
+                  className="h-full bg-[#28844B] rounded-full"
+                  style={{ width: selectedEvent.quotaUmumProgress }}
+                />
               </div>
 
-              <p className="text-[10px] text-[#A09387]">
-                Khusus pendaftar tanpa keanggotaan ICA.
+              <p className="text-[10px] text-[#8C8074]">
+                Non-member, bayar penuh
               </p>
             </div>
 
-            {/* Member */}
             <div className="space-y-1 pt-1">
               <div className="flex justify-between text-xs">
                 <span className="font-bold text-[#1F1B18]">Member</span>
@@ -486,7 +585,7 @@ export default function EventMobile({
                   className={`font-bold ${
                     selectedEvent.isFull
                       ? "text-[#DC2626]"
-                      : "text-[#D96B27]"
+                      : "text-[#28844B]"
                   }`}
                 >
                   {selectedEvent.quotaMember}
@@ -498,17 +597,23 @@ export default function EventMobile({
                   className={`h-full rounded-full ${
                     selectedEvent.isFull
                       ? "bg-[#DC2626]"
-                      : "bg-[#D96B27]"
-                  } ${selectedEvent.isFull ? "w-full" : "w-[15%]"}`}
+                      : "bg-[#28844B]"
+                  }`}
+                  style={{ width: selectedEvent.quotaMemberProgress }}
                 />
               </div>
 
-              <p className="text-[10px] text-[#857B72]">
-                Kuota yang bisa Anda beli (Member / Cattery).
+              <p
+                className={`text-[10px] ${
+                  selectedEvent.isFull
+                    ? "text-[#DC2626]"
+                    : "text-[#8C8074]"
+                }`}
+              >
+                Butuh keanggotaan aktif
               </p>
             </div>
 
-            {/* Cattery */}
             <div className="space-y-1 pt-1">
               <div className="flex justify-between text-xs">
                 <span className="font-bold text-[#1F1B18]">Cattery</span>
@@ -517,7 +622,7 @@ export default function EventMobile({
                   className={`font-bold ${
                     selectedEvent.isFull
                       ? "text-[#DC2626]"
-                      : "text-[#D96B27]"
+                      : "text-[#28844B]"
                   }`}
                 >
                   {selectedEvent.quotaCattery}
@@ -526,43 +631,65 @@ export default function EventMobile({
 
               <div className="h-1.5 w-full bg-[#EAE5DF] rounded-full overflow-hidden">
                 <div
-                  className={`h-full rounded-full transition-all duration-300 ${
+                  className={`h-full rounded-full ${
                     selectedEvent.isFull
-                      ? "bg-[#DC2626] w-full"
-                      : "bg-[#D96B27] w-1/12"
+                      ? "bg-[#DC2626]"
+                      : "bg-[#28844B]"
                   }`}
+                  style={{ width: selectedEvent.quotaCatteryProgress }}
                 />
               </div>
 
-              <p className="text-[10px] text-[#DC2626] font-medium">
-                Kuota kategori Cattery telah habis.
+              <p
+                className={`text-[10px] ${
+                  selectedEvent.isFull
+                    ? "text-[#DC2626]"
+                    : "text-[#8C8074]"
+                }`}
+              >
+                {selectedEvent.quotaCatteryAvailable
+                  ? "Kategori akun Anda · bisa dibeli"
+                  : "Kategori akun Anda · penuh"}
               </p>
             </div>
 
-            {/* Sponsor */}
             <div className="space-y-1 pt-1">
               <div className="flex justify-between text-xs">
-                <span className="font-bold text-[#1F1B18]">Sponsor</span>
+                <span className="font-bold text-[#1F1B18]">
+                  Sponsor (Cattery)
+                </span>
 
-                <span className="text-[#857B72] font-semibold">
+                <span
+                  className={`font-bold ${
+                    selectedEvent.quotaSponsor === "Kuota penuh"
+                      ? "text-[#DC2626]"
+                      : "text-[#28844B]"
+                  }`}
+                >
                   {selectedEvent.quotaSponsor}
                 </span>
               </div>
 
               <div className="h-1.5 w-full bg-[#EAE5DF] rounded-full overflow-hidden">
-                <div className="h-full bg-[#857B72] w-1/3 rounded-full" />
+                <div
+                  className={`h-full rounded-full ${
+                    selectedEvent.quotaSponsor === "Kuota penuh"
+                      ? "bg-[#DC2626]"
+                      : "bg-[#28844B]"
+                  }`}
+                  style={{ width: selectedEvent.quotaSponsorProgress }}
+                />
               </div>
 
-              <p className="text-[10px] text-[#A09387]">
-                Khusus pihak sponsor / mitra resmi.
+              <p className="text-[10px] text-[#8C8074]">
+                Alur assignment belum final
               </p>
             </div>
           </div>
 
-          {/* Kartu Deskripsi */}
           <div className="rounded-2xl bg-white p-4 border border-[#EAE5DF] space-y-1.5 text-xs">
             <p className="text-[10px] font-bold tracking-wider text-[#A09387]">
-              JENIS EVENT · CAT SHOW
+              JENIS EVENT
             </p>
 
             <p className="text-[#1F1B18] leading-relaxed">
@@ -571,14 +698,14 @@ export default function EventMobile({
           </div>
 
           {selectedEvent.isFull && (
-            <div className="rounded-2xl bg-[#FEF2F2] p-4 border border-[#FECACA] text-xs text-[#DC2626] leading-relaxed">
-              Kuota kategori Member / Cattery untuk event ini penuh. Slot bisa terbuka
-              lagi kalau ada peserta yang gagal membayar sebelum batas waktu.
+            <div className="rounded-2xl bg-[#FFF2F2] p-4 border border-[#FCD2D2] text-xs text-[#B91C1C] leading-relaxed">
+              Maaf, kuota kategori Member & Cattery untuk event ini baru saja
+              penuh. Slot bisa terbuka lagi kalau ada peserta yang gagal
+              membayar sebelum batas waktu, pantau halaman ini.
             </div>
           )}
         </div>
 
-        {/* Bottom Action */}
         <div className="shrink-0 bg-[#F7F5F0] border-t border-[#EAE5DF]/60 px-5 pt-3 pb-3 z-10">
           <div className="space-y-1.5">
             <button
