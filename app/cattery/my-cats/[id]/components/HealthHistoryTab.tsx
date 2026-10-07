@@ -230,8 +230,8 @@ export function HealthHistoryTab({
           
           {/* Header Ringkas */}
           <div className="flex items-center justify-between">
-            <div>
-              <h3 className="text-base font-bold text-slate-800">Riwayat kesehatan</h3>
+            <div className="pt-1">
+              <h3 className="font-display text-base font-bold text-[var(--color-ink-900)]">Riwayat kesehatan</h3>
               <p className="text-xs text-slate-500">Status vaksinasi {catName}.</p>
             </div>
 

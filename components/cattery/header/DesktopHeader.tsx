@@ -88,6 +88,7 @@ export default function DesktopHeader({
           </button>
         ) : (
           <>
+            {/* Tombol Khusus Dashboard */}
             {isDashboard && (
               <button
                 type="button"
@@ -98,22 +99,7 @@ export default function DesktopHeader({
               </button>
             )}
 
-            {!isMatingReportForm && (
-              <button
-                type="button"
-                onClick={onCartClick}
-                className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-[#231A14] hover:bg-[#FAF7F2] transition cursor-pointer"
-                aria-label="Store Cart Desktop"
-              >
-                <svg className="w-4 h-4 text-[#231A14]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 000-4z" />
-                </svg>
-                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#D95D1E] text-[9px] font-bold text-white">
-                  1
-                </span>
-              </button>
-            )}
-
+            {/* Akses Khusus Halaman Form Mating Report */}
             {isMatingReportForm && (
               <>
                 <span className="text-[11px] text-[#A89F95]">
@@ -138,6 +124,23 @@ export default function DesktopHeader({
                   Keluar
                 </button>
               </>
+            )}
+
+            {/* Icon Keranjang (Tampil di SEMUA HALAMAN KECUALI Mating Report Form) */}
+            {!isMatingReportForm && (
+              <button
+                type="button"
+                onClick={onCartClick}
+                className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-[#231A14] hover:bg-[#FAF7F2] transition cursor-pointer"
+                aria-label="Store Cart Desktop"
+              >
+                <svg className="w-4 h-4 text-[#231A14]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 000-4z" />
+                </svg>
+                <span className="absolute -top-1 -right-1 flex h-4 w-4 items-center justify-center rounded-full bg-[#D95D1E] text-[9px] font-bold text-white">
+                  1
+                </span>
+              </button>
             )}
 
             {/* Dropdown Notifikasi */}

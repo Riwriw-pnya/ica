@@ -62,11 +62,11 @@ export function EventHistoryList({ catName, events }: EventHistoryListProps) {
       {/* 2. TAMPILAN DESKTOP VIEW                                  */}
       {/* ========================================================= */}
       <div className="hidden lg:block rounded-2xl border border-slate-200 bg-white p-5 shadow-xs space-y-4">
-        <div className="flex items-center justify-between">
-          <h3 className="text-base font-bold text-slate-800">Riwayat event</h3>
+        <div className="flex items-center justify-between pt-2">
+          <h3 className="font-display text-base font-bold text-[var(--color-ink-900)]">Riwayat event</h3>
           <span className="text-xs text-slate-400">{events.length} event</span>
         </div>
-        <p className="text-xs text-slate-500 -mt-2">
+        <p className="text-xs text-slate-500 -mt-3">
           Keikutsertaan {catName} pada cat show resmi ICA beserta hasil penjurian.
         </p>
 
