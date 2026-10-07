@@ -30,16 +30,11 @@ export default function StorePaymentDesktop({
   formatRupiah,
   onSuccessPayment,
 }: StorePaymentDesktopProps) {
-  const [activeTab, setActiveTab] = useState<
-    "qris" | "va" | "ewallet"
-  >("qris");
+  const [activeTab, setActiveTab] = useState<"qris" | "va">("qris");
 
   const [selectedBank, setSelectedBank] = useState("BCA");
   const [isBankDropdownOpen, setIsBankDropdownOpen] =
     useState(false);
-
-  const [selectedEwallet, setSelectedEwallet] =
-    useState("GoPay");
 
   const subtotalProducts = cartItems.reduce(
     (acc, item) =>
@@ -73,10 +68,6 @@ export default function StorePaymentDesktop({
     {
       id: "va" as const,
       label: "Virtual Account",
-    },
-    {
-      id: "ewallet" as const,
-      label: "E-Wallet",
     },
   ];
 
@@ -130,7 +121,7 @@ export default function StorePaymentDesktop({
               </p>
             </div>
 
-            <div className="grid grid-cols-3 gap-2 mb-5">
+            <div className="grid grid-cols-2 gap-2 mb-5">
               {paymentTabs.map((tab) => {
                 const active = activeTab === tab.id;
 
@@ -299,52 +290,6 @@ export default function StorePaymentDesktop({
 
                   <p className="mt-1 text-[10px] text-[#8C8074]">
                     {selectedBank}
-                  </p>
-                </div>
-              </div>
-            )}
-
-            {activeTab === "ewallet" && (
-              <div className="border border-[#EEDFD5] rounded-2xl p-5 bg-[#FFFCFA]">
-                <p className="text-xs font-bold text-[#1F1B18] mb-3">
-                  Pilih E-Wallet
-                </p>
-
-                <div className="grid grid-cols-3 gap-2">
-                  {["GoPay", "OVO", "DANA"].map(
-                    (wallet) => {
-                      const active =
-                        selectedEwallet === wallet;
-
-                      return (
-                        <button
-                          key={wallet}
-                          type="button"
-                          onClick={() =>
-                            setSelectedEwallet(wallet)
-                          }
-                          className={`py-3 rounded-xl border text-xs font-bold transition-all cursor-pointer ${
-                            active
-                              ? "border-[#EE6B28] bg-[#FFF7F0] text-[#D96B27]"
-                              : "border-[#EEDFD5] text-[#756A62] hover:border-[#F2C7AB]"
-                          }`}
-                        >
-                          {wallet}
-                        </button>
-                      );
-                    }
-                  )}
-                </div>
-
-                <div className="mt-5 p-4 rounded-xl bg-white border border-[#EEDFD5]">
-                  <p className="text-xs font-bold text-[#1F1B18]">
-                    {selectedEwallet}
-                  </p>
-
-                  <p className="mt-1 text-[10px] text-[#8C8074]">
-                    Anda akan diarahkan ke aplikasi{" "}
-                    {selectedEwallet} untuk menyelesaikan
-                    pembayaran.
                   </p>
                 </div>
               </div>

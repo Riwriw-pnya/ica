@@ -587,30 +587,32 @@ export default function CatteryDirectory({
     return (
       <div className="flex items-center gap-2">
         <a
-  href={getWhatsAppUrl(item)}
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Check WhatsApp"
-  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#EEDFD5] bg-white transition-colors hover:bg-[#EAF6ED] [&_svg]:stroke-[#28844B]"
->
-  <DashboardIcon
-    name="chat"
-    size={16}
-  />
-</a>
+          href={getWhatsAppUrl(item)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Check WhatsApp"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#EEDFD5] bg-white text-[#28844B] transition-colors hover:bg-[#EAF6ED]"
+        >
+          <DashboardIcon
+            name="chat"
+            size={16}
+            className="!text-[#28844B]"
+          />
+        </a>
 
-<a
-  href={getMapsUrl(item)}
-  target="_blank"
-  rel="noopener noreferrer"
-  aria-label="Buka Google Maps"
-  className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#EEDFD5] bg-white transition-colors hover:bg-[#EAF6ED] [&_svg]:stroke-[#28844B]"
->
-  <DashboardIcon
-    name="pin"
-    size={16}
-  />
-</a>
+        <a
+          href={getMapsUrl(item)}
+          target="_blank"
+          rel="noopener noreferrer"
+          aria-label="Buka Google Maps"
+          className="flex h-9 w-9 shrink-0 items-center justify-center rounded-lg border border-[#EEDFD5] bg-white text-[#28844B] transition-colors hover:bg-[#EAF6ED]"
+        >
+          <DashboardIcon
+            name="pin"
+            size={16}
+            className="!text-[#28844B]"
+          />
+        </a>
 
         <Link
           href={
@@ -627,6 +629,7 @@ export default function CatteryDirectory({
 
   return (
     <>
+      {/* MOBILE HEADER */}
       <div className="mb-3 space-y-2 sm:hidden">
         <div className="flex items-center gap-2">
           <div className="relative flex-1">
@@ -649,6 +652,7 @@ export default function CatteryDirectory({
           </div>
 
           <button
+            type="button"
             onClick={handleOpenFilter}
             className={`flex items-center gap-1.5 rounded-xl border px-3.5 py-2 text-[12px] font-semibold shadow-xs transition-colors ${
               region !== "Semua wilayah" ||
@@ -688,6 +692,7 @@ export default function CatteryDirectory({
         matchCount={tempFilteredCount}
       />
 
+      {/* DESKTOP FILTER */}
       <div className="mb-4 hidden rounded-xl border border-[#EEDFD5] bg-white p-4 shadow-sm sm:block">
         <div className="relative">
           <span className="pointer-events-none absolute left-3 top-1/2 -translate-y-1/2 text-[#8C8074]">
@@ -945,21 +950,32 @@ export default function CatteryDirectory({
         </div>
       </div>
 
+      {/* ========================= */}
+      {/* MOBILE CARDS              */}
+      {/* ========================= */}
+      <div className="space-y-3 sm:hidden">
+        {filteredItems.map((item) => (
+          <CatteryCardMobile
+            key={item.id}
+            item={item}
+          />
+        ))}
+      </div>
+
+      {/* ========================= */}
+      {/* DESKTOP CARDS             */}
+      {/* ========================= */}
       <div
         className={
           viewMode === "grid"
             ? "hidden sm:grid grid-cols-2 gap-4 lg:grid-cols-3 xl:grid-cols-4"
-            : "space-y-3"
+            : "hidden sm:block space-y-3"
         }
       >
         {filteredItems.map((item) => (
           <React.Fragment key={item.id}>
-            <div className="sm:hidden">
-              <CatteryCardMobile item={item} />
-            </div>
-
             {viewMode === "grid" && (
-              <div className="hidden overflow-hidden rounded-2xl border border-[#EEDFD5] bg-white shadow-sm sm:block">
+              <div className="overflow-hidden rounded-2xl border border-[#EEDFD5] bg-white shadow-sm">
                 {renderPhotoSlider(item, "grid")}
 
                 <div className="p-4">
@@ -1002,7 +1018,7 @@ export default function CatteryDirectory({
             )}
 
             {viewMode === "list" && (
-              <div className="hidden min-h-[200px] overflow-hidden rounded-2xl border border-[#EEDFD5] bg-white shadow-sm sm:flex">
+              <div className="min-h-[200px] overflow-hidden rounded-2xl border border-[#EEDFD5] bg-white shadow-sm sm:flex">
                 <div className="h-[200px] w-[230px] shrink-0">
                   {renderPhotoSlider(item, "list")}
                 </div>
