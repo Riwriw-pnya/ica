@@ -5,7 +5,6 @@ import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { 
   LayoutDashboard, 
-  Cat, 
   FileText, 
   Users, 
   FolderDown, 
@@ -15,6 +14,7 @@ import {
   Home, 
   Settings,
 } from "lucide-react";
+import DashboardIcon from "../anggota/DashboardIcon";
 
 const menus = [
   { label: "Dashboard", icon: "dashboard", href: "/cattery/dashboard" },
@@ -34,7 +34,7 @@ function MenuIcon({ icon, className }: { icon: string; className?: string }) {
     case "dashboard":
       return <LayoutDashboard className={className} />;
     case "cat":
-      return <Cat className={className} />;
+      return <DashboardIcon name="cat" className={className} />;
     case "news":
       return <FileText className={className} />;
     case "users":

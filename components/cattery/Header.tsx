@@ -1,17 +1,15 @@
 "use client";
 
-import { useRef, useState } from "react";
+import { useState, Suspense } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
-import DashboardIcon from "@/components/anggota/DashboardIcon";
-import NotificationDropdown from "./NotificationDropdown";
-import CatteryUserMenuDropdown from "./CatteryUserMenuDropdown";
+import DesktopHeader from "./header/DesktopHeader";
+import MobileHeader from "./header/MobileHeader";
 
 import type { NotificationItem } from "@/types/cattery";
 import { initialNotifications } from "@/data/cattery";
 
 import { useUserMenu } from "@/context/UserMenuContext";
-import { useClickOutside } from "@/hooks/useClickOutside";
 import { useHeaderAction } from "@/context/HeaderActionContext";
 
 const pageTitles: Record<string, string> = {
@@ -24,9 +22,10 @@ const pageTitles: Record<string, string> = {
   "/cattery/mating-reports": "Buat Mating Reports",
   "/cattery/documents": "Documents",
   "/cattery/leaderboard": "Leaderboard",
-  "/cattery/events": "Events",
+  "/cattery/event": "Event",
   "/cattery/store": "Store",
   "/cattery/profil": "Profil Cattery",
+  "/cattery/mprofil": "Profil Cattery",
   "/cattery/settings": "Settings",
 };
 
@@ -54,35 +53,33 @@ export default function Header() {
   const [notifications, setNotifications] =
     useState<NotificationItem[]>(initialNotifications);
 
-  const containerRef = useRef<HTMLDivElement>(null);
-  const notifRef = useRef<HTMLDivElement>(null);
+  const isMatingReportForm = pathname.startsWith("/cattery/mating-reports");
+  const isDashboard = pathname === "/cattery" || pathname === "/cattery/dashboard";
+  const isNotifications = pathname === "/cattery/notifications";
+  const isCatDetailPage = pathname.startsWith("/cattery/my-cats/");
+  const isApplicationDetailPage = pathname.startsWith("/cattery/applications/");
+  const isDraftPage = pathname === "/cattery/draft";
+  const isProfile = pathname === "/cattery/profil";
+  const isProfileMobile = pathname === "/cattery/mprofil";
+  const isEventsPage = pathname === "/cattery/events";
+  const isStorePage = pathname === "/cattery/store";
 
-  const isMatingReportForm =
-    pathname.startsWith("/cattery/mating-reports");
-
-  const isDashboard =
-    pathname === "/cattery" ||
-    pathname === "/cattery/dashboard";
-
-  const isNotifications =
-    pathname === "/cattery/notifications";
-
-  const isUserMenuOpen = openMenu === "header";
-  const isNotifOpen = openMenu === "notifications";
-
-  const unreadCount = notifications.filter(
-    (n) => !n.isRead
-  ).length;
-
-  useClickOutside(containerRef, () => {
-    if (isUserMenuOpen) closeMenu();
-  });
-
-  useClickOutside(notifRef, () => {
-    if (isNotifOpen) closeMenu();
-  });
-
+  const unreadCount = notifications.filter((n) => !n.isRead).length;
   const title = getPageTitle(pathname);
+
+  const handleCartClick = () => {
+    if (!isStorePage) {
+      if (typeof window !== "undefined") {
+        sessionStorage.setItem("open_cart_on_load", "true");
+      }
+      router.push("/cattery/store");
+    } else {
+      if (typeof window !== "undefined") {
+        window.dispatchEvent(new CustomEvent("open-store-cart"));
+        window.dispatchEvent(new CustomEvent("open-mobile-cart"));
+      }
+    }
+  };
 
   const handleLogout = () => {
     closeMenu();
@@ -98,188 +95,61 @@ export default function Header() {
     );
   };
 
+  const handleMarkOneRead = (id: string) => {
+    setNotifications((prev) =>
+      prev.map((n) => (n.id === id ? { ...n, isRead: true } : n))
+    );
+  };
+
   return (
     <header
-      className={`${
+      className={`sticky top-0 z-40 w-full border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5 py-2.5 shadow-2xs ${
         isDashboard ? "hidden md:flex" : "flex"
-      } h-[54px] items-center justify-between border-b border-[var(--color-ink-100,#EFE9E1)] bg-white px-5`}
+      }`}
     >
-      <div className="flex items-center gap-3">
-        {isNotifications && (
-          <button
-            type="button"
-            onClick={() => router.back()}
-            className="-ml-1 mr-1 cursor-pointer text-[#8C8074] transition-colors hover:text-[#F05A1B]"
-            aria-label="Kembali"
-          >
-            <svg
-              className="h-5 w-5"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-              strokeWidth={2.5}
-            >
-              <path
-                strokeLinecap="round"
-                strokeLinejoin="round"
-                d="M15 19l-7-7 7-7"
-              />
-            </svg>
-          </button>
-        )}
+      {/* TAMPILAN DESKTOP (Tetap Tampil di Dashboard Layar Komputer) */}
+      <DesktopHeader
+        title={title}
+        isDashboard={isDashboard}
+        isMatingReportForm={isMatingReportForm}
+        isNotifications={isNotifications}
+        customAction={customAction}
+        unreadCount={unreadCount}
+        notifications={notifications}
+        initials="RH"
+        openMenu={openMenu}
+        toggleMenu={toggleMenu}
+        closeMenu={closeMenu}
+        onMarkAllRead={handleMarkAllAsRead}
+        onMarkOneRead={handleMarkOneRead}
+        onCartClick={handleCartClick}
+        onLogout={handleLogout}
+      />
 
-        <div className="flex flex-col">
-          <h1 className="font-display text-sm font-semibold text-[var(--color-ink-900,#231A14)]">
-            {title}
-          </h1>
-
-          {isNotifications && (
-            <span className="mt-0.5 text-[10px] font-medium leading-none text-[#8C8074]">
-              {unreadCount} belum dibaca
-            </span>
-          )}
-        </div>
-
-        {isMatingReportForm && (
-          <span className="rounded-full bg-[var(--color-ink-100,#F5EFE9)] px-2.5 py-0.5 text-[10px] font-medium text-[var(--color-ink-700,#7A6E65)]">
-            Draft
-          </span>
-        )}
-      </div>
-
-      <div className="flex items-center gap-3">
-        {isNotifications ? (
-          <button
-            type="button"
-            onClick={handleMarkAllAsRead}
-            className="cursor-pointer text-xs font-bold text-[#F05A1B] hover:text-[#D95D1E]"
-          >
-            Tandai semua dibaca
-          </button>
-        ) : (
-          <>
-            {isDashboard && (
-              <button
-                type="button"
-                onClick={() =>
-                  router.push("/cattery/mating-reports")
-                }
-                className="hidden cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-2 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-150 hover:from-[#EE6B28] hover:to-[#C8601D] active:translate-y-0.5 active:shadow-[0_2px_6px_rgba(0,0,0,0.15)] lg:block"
-              >
-                + Buat Mating Report
-              </button>
-            )}
-
-            {isMatingReportForm && (
-              <>
-                <span className="text-[11px] text-[var(--color-ink-400,#A89F95)]">
-                  Tersimpan otomatis 14:32
-                </span>
-
-                <button
-                  type="button"
-                  onClick={() => {
-                    if (customAction) {
-                      customAction();
-                    }
-                  }}
-                  className="cursor-pointer rounded-full border border-[var(--color-brand-orange-300,#D95D1E)] px-4 py-1.5 text-[12px] font-medium text-[var(--color-brand-orange-700,#D95D1E)] transition hover:bg-[var(--color-brand-orange-50,#FBE3D5)] active:scale-95"
-                >
-                  Simpan draft
-                </button>
-
-                <button
-                  type="button"
-                  onClick={() =>
-                    router.push("/cattery/dashboard")
-                  }
-                  className="text-[12px] font-medium text-[var(--color-ink-700,#7A6E65)] hover:text-[var(--color-ink-900,#231A14)]"
-                >
-                  Keluar
-                </button>
-              </>
-            )}
-
-            <div
-              ref={notifRef}
-              className="relative"
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  toggleMenu("notifications")
-                }
-                className="relative flex h-8 w-8 items-center justify-center rounded-lg text-[var(--color-ink-700,#231A14)] transition hover:bg-[#FAF7F2]"
-                aria-label="Notifikasi"
-              >
-                <DashboardIcon
-                  name="bell"
-                  size={20}
-                />
-
-                {unreadCount > 0 && (
-                  <span className="absolute -right-0.5 -top-0.5 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white shadow-xs">
-                    {unreadCount}
-                  </span>
-                )}
-              </button>
-
-              {isNotifOpen && (
-                <NotificationDropdown
-                  notifications={notifications}
-                  onMarkAllRead={handleMarkAllAsRead}
-                  onMarkOneRead={(id: string) =>
-                    setNotifications((prev) =>
-                      prev.map((n) =>
-                        n.id === id
-                          ? {
-                              ...n,
-                              isRead: true,
-                            }
-                          : n
-                      )
-                    )
-                  }
-                  onClose={closeMenu}
-                />
-              )}
-            </div>
-
-            <div
-              ref={containerRef}
-              className="relative"
-            >
-              <button
-                type="button"
-                onClick={() =>
-                  toggleMenu("header")
-                }
-                className="flex items-center gap-2 rounded-full border border-[#E2D7CC] bg-gradient-to-b from-white to-[#F7F3ED] px-2 py-1 shadow-[inset_0_1px_1px_rgba(255,255,255,0.9),inset_0_-1px_2px_rgba(0,0,0,0.06),0_2px_4px_rgba(0,0,0,0.04)] transition-all hover:border-[#D1C2B3] hover:from-white hover:to-[#F0E7DC] active:scale-98"
-              >
-                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FFCF9E] to-[#F26E27] text-[10px] font-bold text-white shadow-xs">
-                  RH
-                </div>
-
-                <span className="flex items-center pr-1 text-[#6E6359]">
-                  <DashboardIcon
-                    name="chevron"
-                    size={12}
-                  />
-                </span>
-              </button>
-
-              {isUserMenuOpen && (
-                <CatteryUserMenuDropdown
-                  position="bottom"
-                  widthClass="w-64 right-0"
-                  onNavigate={closeMenu}
-                  onLogout={handleLogout}
-                />
-              )}
-            </div>
-          </>
-        )}
-      </div>
+      {/* TAMPILAN MOBILE (Otomatis Tersembunyi Hanya di Dashboard Mobile) */}
+      {!isDashboard && (
+        <Suspense fallback={<div className="h-8 w-full" />}>
+          <MobileHeader
+            title={title}
+            headerTitle={title}
+            headerSubTitle={null}
+            isCatDetailPage={isCatDetailPage}
+            isApplicationDetailPage={isApplicationDetailPage}
+            isDraftPage={isDraftPage}
+            isNotifications={isNotifications}
+            isMatingReportForm={isMatingReportForm}
+            isProfile={isProfile}
+            isProfileMobile={isProfileMobile}
+            isEventsPage={isEventsPage}
+            isStorePage={isStorePage}
+            unreadCount={unreadCount}
+            initials="RH"
+            catteryName="Rumah Hana"
+            catteryRegion="Bandung"
+            onCartClick={handleCartClick}
+          />
+        </Suspense>
+      )}
     </header>
   );
 }

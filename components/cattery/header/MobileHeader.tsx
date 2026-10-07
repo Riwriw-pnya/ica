@@ -17,6 +17,7 @@ interface MobileHeaderProps {
   isMatingReportForm: boolean;
   isProfile: boolean;
   isProfileMobile: boolean;
+  isEventsPage?: boolean;
   isStorePage: boolean;
   unreadCount: number;
   initials: string;
@@ -36,6 +37,7 @@ export default function MobileHeader({
   isMatingReportForm,
   isProfile,
   isProfileMobile,
+  isEventsPage = false,
   isStorePage,
   unreadCount,
   initials,
@@ -49,7 +51,6 @@ export default function MobileHeader({
 
   const [isNotifOpen, setIsNotifOpen] = useState(false);
   
-  // Mencegah Mismatch Hydration
   const [mounted, setMounted] = useState(false);
   useEffect(() => {
     setMounted(true);
@@ -61,9 +62,9 @@ export default function MobileHeader({
     return () => window.removeEventListener("open-mobile-notif", handleOpenNotif);
   }, []);
 
-  // Ditambahkan halaman profile, documents, leaderboard, store, dan settings agar tombol back muncul
   const isSubPageWithBack =
     isProfile ||
+    isEventsPage ||
     title === "Documents" ||
     title === "Leaderboard" ||
     title === "Store" ||
@@ -80,7 +81,7 @@ export default function MobileHeader({
   return (
     <>
       <div className="flex md:hidden w-full items-center justify-between">
-        {/* SISI KIRI: CHEVRON BACK ORANGE & JUDUL */}
+        {/* SISI KIRI: BACK BUTTON & TITLE */}
         <div className="flex items-center gap-2">
           {showBackButton && (
             <button
@@ -149,7 +150,7 @@ export default function MobileHeader({
         </div>
 
         {/* SISI KANAN: ACTIONS MOBILE */}
-        <div className="flex items-center gap-3">
+        <div className="flex items-center gap-2.5">
           {isNotifications ? null : (
             <>
               {isMatingReportForm ? (
@@ -162,21 +163,19 @@ export default function MobileHeader({
               ) : (
                 <>
                   {/* Cart Icon Mobile */}
-                  {isStorePage && (
-                    <button
-                      type="button"
-                      onClick={onCartClick}
-                      className="relative flex h-8 w-8 items-center justify-center rounded-lg text-[#231A14] hover:bg-[#FAF7F2] transition cursor-pointer"
-                      aria-label="Store Cart Mobile"
-                    >
-                      <svg className="w-5 h-5 text-[#231A14]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 000-4z" />
-                      </svg>
-                      <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#D95D1E] text-[9px] font-bold text-white">
-                        1
-                      </span>
-                    </button>
-                  )}
+                  <button
+                    type="button"
+                    onClick={onCartClick}
+                    className="relative flex h-8 w-8 items-center justify-center rounded-lg text-[#231A14] hover:bg-[#FAF7F2] transition cursor-pointer"
+                    aria-label="Store Cart Mobile"
+                  >
+                    <svg className="w-5 h-5 text-[#231A14]" fill="none" stroke="currentColor" strokeWidth="2" viewBox="0 0 24 24">
+                      <path strokeLinecap="round" strokeLinejoin="round" d="M3 3h2l.4 2M7 13h10l4-8H5.4M7 13L5.4 5M7 13L5.4 5M7 13l-2.293 2.293c-.63.63-.184 1.707.707 1.707H17m0 0a2 2 0 100 4 2 2 0 000-4zm-8 2a2 2 0 11-4 0 2 2 0 000-4z" />
+                    </svg>
+                    <span className="absolute -top-0.5 -right-0.5 flex h-4 w-4 items-center justify-center rounded-full bg-[#D95D1E] text-[9px] font-bold text-white shadow-xs">
+                      1
+                    </span>
+                  </button>
 
                   {/* Tombol Notifikasi Mobile */}
                   <button
@@ -206,7 +205,7 @@ export default function MobileHeader({
         </div>
       </div>
 
-      {/* REUSABLE DRAWER NOTIFIKASI */}
+      {/* DRAWER NOTIFIKASI MOBILE */}
       <NotificationDrawer isOpen={isNotifOpen} onClose={() => setIsNotifOpen(false)} />
     </>
   );
