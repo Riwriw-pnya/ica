@@ -495,7 +495,7 @@ export default function CatteryDirectory({
 
     return (
       <div
-        className={`group relative shrink-0 overflow-hidden bg-[#F8E7D1] ${containerClass}`}
+        className={`group relative shrink-0 overflow-hidden border border-dashed border-[#A89B90] bg-[#F8E7D1] ${containerClass}`}
       >
         <img
           src={photos[photoIndex]}
