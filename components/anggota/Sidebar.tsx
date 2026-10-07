@@ -73,11 +73,11 @@ export default function Sidebar() {
         {isSidebarOpen && (
           <button
             onClick={toggleSidebar}
-            className="flex h-7 w-6 shrink-0 items-center justify-center rounded-md text-[#db874b] transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer"
+            className="flex h-7 w-6 shrink-0 items-center justify-center rounded-md text-[#F05A1B] hover:text-[#D95D1E] transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer"
             aria-label="Close sidebar"
             title="Close sidebar"
           >
-            <DashboardIcon name="panel" size={17} />
+            <DashboardIcon name="panel" size={17} className="text-[#F05A1B]" />
           </button>
         )}
       </div>
@@ -106,7 +106,15 @@ export default function Sidebar() {
                     : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-50)]"
                 }`}
               >
-                <DashboardIcon name={menu.icon} size={17} />
+                <DashboardIcon
+                  name={menu.icon}
+                  size={17}
+                  className={
+                    isActive
+                      ? "text-[var(--color-brand-orange-700)]"
+                      : "text-[var(--color-ink-700)]"
+                  }
+                />
                 {isSidebarOpen && <span>{menu.label}</span>}
               </Link>
             );
@@ -123,7 +131,7 @@ export default function Sidebar() {
       >
         <button
           onClick={() => toggleMenu("sidebar")}
-          className={`flex items-center rounded-lg p-1.5 transition hover:bg-[var(--color-brand-orange-50)] ${
+          className={`flex items-center rounded-lg p-1.5 transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer ${
             isSidebarOpen ? "w-full gap-2.5" : "justify-center"
           }`}
         >
@@ -141,7 +149,7 @@ export default function Sidebar() {
                   Member · Jawa Barat
                 </p>
               </div>
-              <DashboardIcon name="chevron" size={14} />
+              <DashboardIcon name="chevron" size={14} className="text-[var(--color-ink-700)]" />
             </>
           )}
         </button>

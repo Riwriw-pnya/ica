@@ -9,7 +9,6 @@ export default function DashboardIcon({
   size = 18,
   className,
 }: DashboardIconProps) {
-  // Gabungkan warna default text-[#CE7034] dengan className eksternal jika ada
   const computedClassName = className ? className : "text-[#CE7034]";
 
   const commonProps: React.SVGProps<SVGSVGElement> = {
@@ -21,7 +20,7 @@ export default function DashboardIcon({
     stroke: "currentColor",
     strokeWidth: 1.8,
     strokeLinecap: "round",
-    strokeLinejoin: "round",
+    strokeLinejoin:"round",
   };
 
   switch (name) {

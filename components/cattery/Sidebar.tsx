@@ -65,11 +65,15 @@ export default function Sidebar() {
             : "text-[var(--color-ink-700)] hover:bg-[var(--color-brand-orange-50)]"
         }`}
       >
-        {menu.icon === "mating" ? (
-          <DashboardIcon name="mating" size={17} />
-        ) : (
-          <DashboardIcon name={menu.icon} size={17} />
-        )}
+        <DashboardIcon
+          name={menu.icon}
+          size={17}
+          className={
+            isActive
+              ? "text-[var(--color-brand-orange-700)]"
+              : "text-[var(--color-ink-700)]"
+          }
+        />
         {isSidebarOpen && <span>{menu.label}</span>}
       </Link>
     );
@@ -110,16 +114,16 @@ export default function Sidebar() {
         {isSidebarOpen && (
           <button
             onClick={toggleSidebar}
-            className="flex h-7 w-6 shrink-0 items-center justify-center rounded-md text-[#db874b] transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer"
+            className="flex h-7 w-6 shrink-0 items-center justify-center rounded-md text-[#F05A1B] hover:text-[#D95D1E] transition hover:bg-[var(--color-brand-orange-50)] cursor-pointer"
             aria-label="Close sidebar"
             title="Close sidebar"
           >
-            <DashboardIcon name="panel" size={17} />
+            <DashboardIcon name="panel" size={17} className="text-[#F05A1B]" />
           </button>
         )}
       </div>
 
-      {/* Navigasi Utama (mengisi ruang atas) */}
+      {/* Navigasi Utama */}
       <nav className={`flex-1 overflow-y-auto py-3 ${isSidebarOpen ? "px-3" : "px-2"}`}>
         <div className="space-y-1">{menus.map(renderMenu)}</div>
 
@@ -128,7 +132,7 @@ export default function Sidebar() {
         </div>
       </nav>
 
-      {/* Profile / Avatar User Desktop (Menempel Rapi di Dasar Sidebar) */}
+      {/* Profile / Avatar User Desktop */}
       <div
         ref={containerRef}
         className={`relative border-t border-[var(--color-ink-100)] p-3 bg-[var(--color-sidebar)] shrink-0 ${
@@ -155,7 +159,7 @@ export default function Sidebar() {
                   Cattery · Bandung
                 </p>
               </div>
-              <DashboardIcon name="chevron" size={14} />
+              <DashboardIcon name="chevron" size={14} className="text-[var(--color-ink-700)]" />
             </>
           )}
         </button>

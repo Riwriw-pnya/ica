@@ -80,7 +80,7 @@ export default function DashboardPage() {
               onClick={() => setIsNotifOpen(true)}
               className="w-8 h-8 rounded-full bg-white/20 flex items-center justify-center relative shrink-0 text-white cursor-pointer hover:bg-white/30 transition-colors"
             >
-              <DashboardIcon name="bell" size={16} />
+              <DashboardIcon name="bell" size={16} className="text-white" />
               <div className="w-[6px] h-[6px] bg-[#EF4444] rounded-full absolute top-[7px] right-[8px]"></div>
             </button>
           </div>
@@ -120,8 +120,6 @@ export default function DashboardPage() {
 
         {/* Isi Konten Utama Mobile */}
         <div className="px-4 mt-5 space-y-8">
-          
-          {/* Card Cattery Terverifikasi dengan Icon Home */}
           <div className="bg-white rounded-[16px] p-4 border border-[#F5E6DA] flex items-center justify-between shadow-xs">
             <div className="flex items-center gap-3">
               <div className="w-10 h-10 bg-[#FFF5EC] rounded-[10px] border border-[#F5E6DA] flex items-center justify-center shrink-0">
