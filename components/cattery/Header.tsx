@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, Suspense } from "react";
 import { usePathname, useRouter } from "next/navigation";
 
 import DesktopHeader from "./header/DesktopHeader";
@@ -128,25 +128,27 @@ export default function Header() {
 
       {/* TAMPILAN MOBILE (Otomatis Tersembunyi Hanya di Dashboard Mobile) */}
       {!isDashboard && (
-        <MobileHeader
-          title={title}
-          headerTitle={title}
-          headerSubTitle={null}
-          isCatDetailPage={isCatDetailPage}
-          isApplicationDetailPage={isApplicationDetailPage}
-          isDraftPage={isDraftPage}
-          isNotifications={isNotifications}
-          isMatingReportForm={isMatingReportForm}
-          isProfile={isProfile}
-          isProfileMobile={isProfileMobile}
-          isEventsPage={isEventsPage}
-          isStorePage={isStorePage}
-          unreadCount={unreadCount}
-          initials="RH"
-          catteryName="Rumah Hana"
-          catteryRegion="Bandung"
-          onCartClick={handleCartClick}
-        />
+        <Suspense fallback={<div className="h-8 w-full" />}>
+          <MobileHeader
+            title={title}
+            headerTitle={title}
+            headerSubTitle={null}
+            isCatDetailPage={isCatDetailPage}
+            isApplicationDetailPage={isApplicationDetailPage}
+            isDraftPage={isDraftPage}
+            isNotifications={isNotifications}
+            isMatingReportForm={isMatingReportForm}
+            isProfile={isProfile}
+            isProfileMobile={isProfileMobile}
+            isEventsPage={isEventsPage}
+            isStorePage={isStorePage}
+            unreadCount={unreadCount}
+            initials="RH"
+            catteryName="Rumah Hana"
+            catteryRegion="Bandung"
+            onCartClick={handleCartClick}
+          />
+        </Suspense>
       )}
     </header>
   );
