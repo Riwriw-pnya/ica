@@ -245,7 +245,7 @@ export default function DesktopHeader({
           className="flex h-9 w-[66px] cursor-pointer items-center justify-between rounded-full border border-[#D8C9BA] bg-gradient-to-b from-white to-[#F3ECE4] px-2 shadow-[0_2px_5px_rgba(0,0,0,0.07)] transition-all hover:border-[#CBB8A7] hover:from-white hover:to-[#EEE5DB] active:scale-[0.98]"
         >
           <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full bg-gradient-to-b from-[#FFD09F] to-[#F27A32] text-[10px] font-bold text-white shadow-[inset_0_1px_2px_rgba(255,255,255,0.45),0_1px_3px_rgba(0,0,0,0.08)]">
-            RH
+            AP
           </div>
 
           <span className="flex items-center justify-center pr-1 text-[#D95D1E]">
