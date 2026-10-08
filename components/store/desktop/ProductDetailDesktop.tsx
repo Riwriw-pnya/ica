@@ -179,7 +179,7 @@ export default function StoreProductDetailDesktop({
             <button
               type="button"
               onClick={onAddToCart}
-              className="flex-1 cursor-pointer rounded-xl border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-4 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
+              className="flex-1 cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-4 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:shadow-xs"
             >
               Tambah ke keranjang
             </button>
@@ -187,7 +187,7 @@ export default function StoreProductDetailDesktop({
             <button
               type="button"
               onClick={onBuyNow}
-              className="flex-1 py-3 px-4 bg-white hover:bg-[#FAF7F5] border border-[#EEDFD5] text-[#1A1513] font-bold text-xs rounded-xl transition-all cursor-pointer"
+              className="flex-1 py-3 px-4 bg-white hover:bg-[#FAF7F5] border border-[#EEDFD5] text-[#1A1513] font-bold text-xs rounded-full transition-all cursor-pointer"
             >
               Beli sekarang
             </button>
