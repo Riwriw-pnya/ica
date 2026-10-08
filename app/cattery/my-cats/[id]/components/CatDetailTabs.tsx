@@ -15,6 +15,7 @@ import { EventHistoryList } from "./EventHistoryList";
 import { HealthHistoryTab, ExtendedCatHealthVaccine } from "./HealthHistoryTab";
 import { useToast } from "@/context/ToastContext";
 import { StatusBadge } from "./StatusBadge";
+import { PedigreeModal } from "./PedigreeModal";
 import {
   qualityBadgeLabel,
   qualityBadgeTone,
@@ -39,13 +40,6 @@ interface CatDetailTabsProps {
   adopters?: CatAdopterItem[];
 }
 
-// Mapping gambar sertifikat berdasarkan ID kucing
-const certificateImages: Record<number, string> = {
-  1: "/certificates/certificate-bagas.jpg",
-  2: "/certificates/certificate-nara.jpg",
-  3: "/certificates/certificate-arum.jpg",
-};
-
 const dummyVaccinesComplete: CatHealthVaccine[] = [
   { id: "1", catId: 1, title: "Tricat (F3)", givenDate: "14 Mar 2024", clinic: "Klinik Mitra Satwa Bandung", status: "Sudah" },
   { id: "2", catId: 1, title: "Rabies", givenDate: "14 Mar 2024", clinic: "Klinik Mitra Satwa Bandung", status: "Sudah" },
@@ -62,7 +56,6 @@ export function CatDetailTabs({
   cat, 
   pedigree, 
   events,
-  healthVaccines = [],
   adopters = []
 }: CatDetailTabsProps) {
   const [active, setActive] = useState<TabKey>("profile");
@@ -124,139 +117,53 @@ export function CatDetailTabs({
   return (
     <div className="flex flex-col h-full space-y-4 overflow-hidden">
       
-      {/* ========================================================= */}
-      {/* 1. HEADER TAB NAVIGATION - DESKTOP (SESUAI FOTO DESAIN)    */}
-      {/* ========================================================= */}
+      {/* 1. HEADER TAB NAVIGATION - DESKTOP */}
       <div className="hidden lg:flex items-center gap-2 shrink-0">
-        <button
-          type="button"
-          onClick={() => setActive("profile")}
-          className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer border ${
-            active === "profile"
-              ? "bg-[#FFF2E8] text-[#D95D1E] border-[#FCE3D2] shadow-2xs"
-              : "bg-white text-[#70665D] border-[#EEDFD5] hover:bg-[#FAF7F2] hover:text-[#1A1513]"
-          }`}
-        >
-          Profile
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActive("silsilah")}
-          className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer border ${
-            active === "silsilah"
-              ? "bg-[#FFF2E8] text-[#D95D1E] border-[#FCE3D2] shadow-2xs"
-              : "bg-white text-[#70665D] border-[#EEDFD5] hover:bg-[#FAF7F2] hover:text-[#1A1513]"
-          }`}
-        >
-          Silsilah
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActive("health")}
-          className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer border ${
-            active === "health"
-              ? "bg-[#FFF2E8] text-[#D95D1E] border-[#FCE3D2] shadow-2xs"
-              : "bg-white text-[#70665D] border-[#EEDFD5] hover:bg-[#FAF7F2] hover:text-[#1A1513]"
-          }`}
-        >
-          Riwayat Kesehatan
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActive("events")}
-          className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer border ${
-            active === "events"
-              ? "bg-[#FFF2E8] text-[#D95D1E] border-[#FCE3D2] shadow-2xs"
-              : "bg-white text-[#70665D] border-[#EEDFD5] hover:bg-[#FAF7F2] hover:text-[#1A1513]"
-          }`}
-        >
-          Event
-        </button>
-
-        <button
-          type="button"
-          onClick={() => setActive("adopter")}
-          className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer border ${
-            active === "adopter"
-              ? "bg-[#FFF2E8] text-[#D95D1E] border-[#FCE3D2] shadow-2xs"
-              : "bg-white text-[#70665D] border-[#EEDFD5] hover:bg-[#FAF7F2] hover:text-[#1A1513]"
-          }`}
-        >
-          Adopter
-        </button>
+        {(["profile", "silsilah", "health", "events", "adopter"] as TabKey[]).map((tab) => (
+          <button
+            key={tab}
+            type="button"
+            onClick={() => setActive(tab)}
+            className={`rounded-full px-5 py-2 text-xs font-bold transition-all cursor-pointer border ${
+              active === tab
+                ? "bg-[#FFF2E8] text-[#D95D1E] border-[#FCE3D2] shadow-2xs"
+                : "bg-white text-[#70665D] border-[#EEDFD5] hover:bg-[#FAF7F2] hover:text-[#1A1513]"
+            }`}
+          >
+            {tab === "profile" && "Profile"}
+            {tab === "silsilah" && "Silsilah"}
+            {tab === "health" && "Riwayat Kesehatan"}
+            {tab === "events" && "Event"}
+            {tab === "adopter" && "Adopter"}
+          </button>
+        ))}
       </div>
 
-      {/* ========================================================= */}
-      {/* 2. HEADER TAB NAVIGATION - MOBILE (DI-KEEP SESUAI ASLI)   */}
-      {/* ========================================================= */}
+      {/* 2. HEADER TAB NAVIGATION - MOBILE */}
       <div className="block lg:hidden shrink-0 rounded-xl border border-slate-200 bg-white p-2 shadow-xs">
         <div className="flex items-center gap-1 overflow-x-auto no-scrollbar scroll-smooth">
-          <button
-            type="button"
-            onClick={() => setActive("profile")}
-            className={`whitespace-nowrap rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
-              active === "profile"
-                ? "bg-orange-100 text-orange-700 shadow-xs"
-                : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
-            }`}
-          >
-            Profile
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActive("silsilah")}
-            className={`whitespace-nowrap rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
-              active === "silsilah"
-                ? "bg-orange-100 text-orange-700 shadow-xs"
-                : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
-            }`}
-          >
-            Silsilah
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActive("health")}
-            className={`whitespace-nowrap rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
-              active === "health"
-                ? "bg-orange-100 text-orange-700 shadow-xs"
-                : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
-            }`}
-          >
-            Riwayat Kesehatan
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActive("events")}
-            className={`whitespace-nowrap rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
-              active === "events"
-                ? "bg-orange-100 text-orange-700 shadow-xs"
-                : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
-            }`}
-          >
-            Event
-          </button>
-
-          <button
-            type="button"
-            onClick={() => setActive("adopter")}
-            className={`whitespace-nowrap rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
-              active === "adopter"
-                ? "bg-orange-100 text-orange-700 shadow-xs"
-                : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
-            }`}
-          >
-            Adopter
-          </button>
+          {(["profile", "silsilah", "health", "events", "adopter"] as TabKey[]).map((tab) => (
+            <button
+              key={tab}
+              type="button"
+              onClick={() => setActive(tab)}
+              className={`whitespace-nowrap rounded-lg px-4 py-2 text-xs font-semibold transition-all cursor-pointer ${
+                active === tab
+                  ? "bg-orange-100 text-orange-700 shadow-xs"
+                  : "text-slate-500 hover:bg-slate-50 hover:text-slate-700"
+              }`}
+            >
+              {tab === "profile" && "Profile"}
+              {tab === "silsilah" && "Silsilah"}
+              {tab === "health" && "Riwayat Kesehatan"}
+              {tab === "events" && "Event"}
+              {tab === "adopter" && "Adopter"}
+            </button>
+          ))}
         </div>
       </div>
 
-      {/* Area Isi Tab */}
+      {/* AREA ISI TAB */}
       <div className="flex-1 overflow-y-auto pr-1 custom-scrollbar">
         {active === "profile" && <ProfileTab cat={cat as ExtendedCatProfile} />}
         {active === "silsilah" && <PedigreeChart cat={cat} pedigree={pedigree} />}
@@ -276,7 +183,7 @@ export function CatDetailTabs({
   );
 }
 
-{/* Icon Chip untuk Card Microchip */}
+{/* Icon Chip */}
 function ChipIcon({ className }: { className?: string }) {
   return (
     <svg className={className} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
@@ -293,7 +200,7 @@ function ChipIcon({ className }: { className?: string }) {
   );
 }
 
-{/* Tab Profile */}
+{/* TAB PROFILE */}
 function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
   const [imagePreview, setImagePreview] = useState<string | null>(cat.image || null);
   const [isCertificateOpen, setIsCertificateOpen] = useState(false);
@@ -309,7 +216,27 @@ function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
     }
   };
 
-  const certImgUrl = cat.certificateUrl || certificateImages[cat.id];
+  // Handler klik tombol Lihat Sertifikat
+  const handleOpenCertificate = () => {
+    const status = cat.pedigreeStatus?.toLowerCase() || "";
+
+    if (status.includes("terverifikasi") || status.includes("aktif")) {
+      // Jika status terverifikasi / aktif -> buka modal
+      setIsCertificateOpen(true);
+    } else if (status.includes("menunggu")) {
+      // Jika masih dalam antrean review admin
+      showToast(
+        "Sertifikat Belum Tersedia",
+        `Pengajuan pedigree ${cat.name} masih dalam proses verifikasi oleh Admin ICA.`
+      );
+    } else {
+      // Jika belum diajukan
+      showToast(
+        "Pedigree Belum Diajukan",
+        `Kucing ${cat.name} belum memiliki sertifikat pedigree terverifikasi.`
+      );
+    }
+  };
 
   return (
     <>
@@ -321,7 +248,7 @@ function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
         className="hidden"
       />
 
-      {/* Mobile Profile View */}
+      {/* MOBILE VIEW */}
       <div className="block lg:hidden space-y-3">
         <div className="rounded-2xl border border-[#EEDFD5] bg-white p-4 shadow-2xs space-y-4">
           <div className="relative flex aspect-[4/3] w-full flex-col items-center justify-center overflow-hidden rounded-2xl border border-dashed border-[#EEDFD5] bg-[#FAF7F2] text-[#8C8074]">
@@ -390,7 +317,7 @@ function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
         {/* Tombol Lihat Sertifikat Mobile */}
         <button
           type="button"
-          onClick={() => setIsCertificateOpen(true)}
+          onClick={handleOpenCertificate}
           className="w-full flex items-center justify-center gap-2 rounded-xl border border-[#F05A1B] bg-[#FFF8F2] hover:bg-[#FFEFE3] py-3 text-xs font-bold text-[#F05A1B] shadow-2xs transition active:scale-[0.99] cursor-pointer"
         >
           <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -400,7 +327,7 @@ function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
         </button>
       </div>
 
-      {/* Desktop Profile View */}
+      {/* DESKTOP VIEW */}
       <div className="hidden lg:block rounded-2xl border border-slate-200 bg-white p-6 shadow-xs space-y-6">
         <div className="flex items-center justify-between">
           <div>
@@ -412,7 +339,7 @@ function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
 
           <button
             type="button"
-            onClick={() => setIsCertificateOpen(true)}
+            onClick={handleOpenCertificate}
             className="flex items-center gap-2 rounded-xl border border-[#F05A1B] bg-[#FFF8F2] hover:bg-[#FFEFE3] px-4 py-2 text-xs font-bold text-[#F05A1B] transition active:scale-95 cursor-pointer shadow-2xs"
           >
             <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2">
@@ -472,7 +399,7 @@ function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
           </div>
         </div>
 
-        {/* Card Banner Nomor Microchip */}
+        {/* Card Nomor Microchip */}
         <div className="flex items-center justify-between rounded-2xl border border-slate-200/80 bg-[#FAF8F5] p-4">
           <div className="flex items-center gap-3.5">
             <div className="flex h-10 w-10 items-center justify-center rounded-xl bg-white border border-slate-200/80 text-[#B57A25] shrink-0">
@@ -494,123 +421,19 @@ function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
             Terdaftar
           </span>
         </div>
-
       </div>
 
-      {/* ========================================================= */}
-      {/* MODAL PREVIEW SERTIFIKAT DIGITAL                          */}
-      {/* ========================================================= */}
-      {isCertificateOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 p-4 backdrop-blur-xs animate-fade-in">
-          <div className="relative w-full max-w-2xl rounded-2xl bg-white p-6 shadow-2xl space-y-4 overflow-hidden border border-slate-100">
-            <div className="flex items-center justify-between border-b border-slate-100 pb-3">
-              <div>
-                <h3 className="text-base font-bold text-slate-900">
-                  Sertifikat Pedigree · {cat.name}
-                </h3>
-                <p className="text-xs text-slate-500 mt-0.5">
-                  No. Registrasi: {cat.registrationNumber || cat.regCode}
-                </p>
-              </div>
-              <button
-                type="button"
-                onClick={() => setIsCertificateOpen(false)}
-                className="flex h-8 w-8 items-center justify-center rounded-full bg-slate-100 text-slate-500 hover:bg-slate-200 transition cursor-pointer"
-              >
-                ✕
-              </button>
-            </div>
-
-            {certImgUrl ? (
-              <div className="relative w-full aspect-[4/3] rounded-xl overflow-hidden border border-slate-200 bg-slate-50 flex items-center justify-center">
-                <Image
-                  src={certImgUrl}
-                  alt={`Sertifikat ${cat.name}`}
-                  fill
-                  className="object-contain"
-                />
-              </div>
-            ) : (
-              <div className="relative overflow-hidden rounded-xl border-2 border-[#D9A76A] bg-[#FFFDF9] p-6 shadow-inner text-center space-y-4">
-                <div className="flex justify-between items-center text-[10px] text-[#9E7846] font-bold uppercase tracking-wider">
-                  <span>Indonesian Cat Association</span>
-                  <span>FIFe Member</span>
-                </div>
-
-                <div className="py-2">
-                  <div className="inline-block rounded-full bg-[#FFF5EC] border border-[#FDE3CE] px-3 py-0.5 text-[10px] font-bold text-[#F05A1B] mb-2">
-                    Official Pedigree Certificate
-                  </div>
-                  <h2 className="font-serif text-xl sm:text-2xl font-bold text-[#3B2D1A] tracking-wide">
-                    {cat.name}
-                  </h2>
-                  <p className="text-xs text-[#8C7355] mt-1 font-medium">
-                    {cat.breed} · EMS: {cat.emsCode || "PER n 22"}
-                  </p>
-                </div>
-
-                <div className="grid grid-cols-2 sm:grid-cols-3 gap-3 rounded-lg border border-[#E8D8C3] bg-white/80 p-3 text-left text-xs">
-                  <div>
-                    <span className="block text-[10px] text-slate-400">No. Registrasi</span>
-                    <span className="font-bold text-slate-800">{cat.registrationNumber || cat.regCode}</span>
-                  </div>
-                  <div>
-                    <span className="block text-[10px] text-slate-400">Tanggal Lahir</span>
-                    <span className="font-bold text-slate-800">{cat.birthDate}</span>
-                  </div>
-                  <div>
-                    <span className="block text-[10px] text-slate-400">Jenis Kelamin</span>
-                    <span className="font-bold text-slate-800">{cat.gender}</span>
-                  </div>
-                  <div>
-                    <span className="block text-[10px] text-slate-400">Warna</span>
-                    <span className="font-bold text-slate-800">{cat.color}</span>
-                  </div>
-                  <div className="col-span-2">
-                    <span className="block text-[10px] text-slate-400">Nomor Microchip</span>
-                    <span className="font-bold text-slate-800">{cat.microchip || "360 0980 0447 0112"}</span>
-                  </div>
-                </div>
-
-                <div className="pt-2 flex items-center justify-between text-[11px] text-[#9E7846]">
-                  <div>
-                    <p className="font-semibold">Terverifikasi oleh Admin ICA</p>
-                    <p className="text-[9px] text-slate-400">Bandung, West Java</p>
-                  </div>
-                  <div className="flex items-center gap-1.5 font-bold text-[#28844B] bg-[#EFF8F3] px-2.5 py-1 rounded-full border border-[#D3EEDD]">
-                    ✓ Valid & Active
-                  </div>
-                </div>
-              </div>
-            )}
-
-            <div className="flex items-center justify-end gap-3 pt-1">
-              <button
-                type="button"
-                onClick={() => {
-                  showToast("Unduh Sertifikat", `Sertifikat ${cat.name} berhasil diunduh.`);
-                  setIsCertificateOpen(false);
-                }}
-                className="flex items-center gap-2 rounded-xl bg-[#F05A1B] hover:bg-[#D95D1E] px-5 py-2.5 text-xs font-bold text-white shadow-xs transition active:scale-95 cursor-pointer"
-              >
-                Unduh PDF
-              </button>
-              <button
-                type="button"
-                onClick={() => setIsCertificateOpen(false)}
-                className="rounded-xl border border-slate-200 bg-white px-5 py-2.5 text-xs font-bold text-slate-600 hover:bg-slate-50 transition cursor-pointer"
-              >
-                Tutup
-              </button>
-            </div>
-          </div>
-        </div>
-      )}
+      {/* MODAL PREVIEW SERTIFIKAT PEDIGREE DARI FILE TERPISAH */}
+      <PedigreeModal
+        isOpen={isCertificateOpen}
+        onClose={() => setIsCertificateOpen(false)}
+        catId={cat.id}
+      />
     </>
   );
 }
 
-{/* Tab Adopter */}
+{/* TAB ADOPTER */}
 function AdopterTab({ catName, adopters }: { catName: string; adopters: CatAdopterItem[] }) {
   const defaultAdopters = [
     {
