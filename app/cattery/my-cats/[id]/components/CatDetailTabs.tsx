@@ -227,13 +227,15 @@ function ProfileTab({ cat }: { cat: ExtendedCatProfile }) {
       // Jika masih dalam antrean review admin
       showToast(
         "Sertifikat Belum Tersedia",
-        `Pengajuan pedigree ${cat.name} masih dalam proses verifikasi oleh Admin ICA.`
+        `Pengajuan pedigree ${cat.name} masih dalam proses verifikasi oleh Admin ICA.`,
+        { tone: "info" } // <-- Bungkus ke dalam objek options
       );
     } else {
       // Jika belum diajukan
       showToast(
         "Pedigree Belum Diajukan",
-        `Kucing ${cat.name} belum memiliki sertifikat pedigree terverifikasi.`
+        `Kucing ${cat.name} belum memiliki sertifikat pedigree terverifikasi.`,
+        { tone: "warning" } // <-- Bungkus ke dalam objek options
       );
     }
   };
