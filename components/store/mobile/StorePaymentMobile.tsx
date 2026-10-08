@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import type { CartItem } from "../StorePage";
 
 interface StorePaymentMobileProps {
@@ -31,9 +31,26 @@ export default function StorePaymentMobile({
 }: StorePaymentMobileProps) {
   const [slideIn, setSlideIn] = useState<boolean>(false);
 
-  const [activeTab, setActiveTab] = useState<
-    "qris" | "va" | "ewallet" | "kartu"
-  >("qris");
+  const [activeTab, setActiveTab] = useState<"qris" | "va">("qris");
+
+  const [selectedBank, setSelectedBank] = useState("BCA");
+  const [isBankDropdownOpen, setIsBankDropdownOpen] =
+    useState(false);
+
+  const bankOptions = [
+    "BCA",
+    "Mandiri",
+    "BNI",
+    "BRI",
+    "BTN",
+    "BSI",
+    "CIMB Niaga",
+    "Danamon",
+    "PermataBank",
+    "OCBC",
+    "UOB Indonesia",
+    "Maybank Indonesia",
+  ];
 
   useEffect(() => {
     const timer = setTimeout(() => setSlideIn(true), 20);
@@ -110,7 +127,7 @@ export default function StorePaymentMobile({
           </h2>
 
           {/* TAB */}
-          <div className="grid grid-cols-4 gap-2">
+          <div className="grid grid-cols-2 gap-2">
             <button
               type="button"
               onClick={() => setActiveTab("qris")}
@@ -132,35 +149,11 @@ export default function StorePaymentMobile({
                   : "bg-white text-[#857B72] border border-[#EAE5DF]"
               }`}
             >
-              VA
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveTab("ewallet")}
-              className={`py-2 rounded-xl text-xs font-bold transition-all ${
-                activeTab === "ewallet"
-                  ? "bg-[#FFF2E8] text-[#D96B27] border-2 border-[#D96B27]"
-                  : "bg-white text-[#857B72] border border-[#EAE5DF]"
-              }`}
-            >
-              E-wallet
-            </button>
-
-            <button
-              type="button"
-              onClick={() => setActiveTab("kartu")}
-              className={`py-2 rounded-xl text-xs font-bold transition-all ${
-                activeTab === "kartu"
-                  ? "bg-[#FFF2E8] text-[#D96B27] border-2 border-[#D96B27]"
-                  : "bg-white text-[#857B72] border border-[#EAE5DF]"
-              }`}
-            >
-              Kartu
+              Virtual Account
             </button>
           </div>
 
-          {/* DETAIL METODE */}
+          {/* QRIS */}
           {activeTab === "qris" && (
             <div className="rounded-2xl border border-[#EAE5DF] p-5 bg-[#FAF8F5] flex flex-col items-center text-center space-y-3">
               <div className="flex items-center gap-1.5 text-xs font-bold text-[#1F1B18]">
@@ -172,23 +165,25 @@ export default function StorePaymentMobile({
               </div>
 
               <div className="w-48 h-48 bg-white border border-[#EAE5DF] rounded-2xl flex items-center justify-center p-2 shadow-2xs">
-                <div className="w-full h-full bg-[#F4EFEA] rounded-xl flex flex-col items-center justify-center text-[#857B72] gap-1">
-                  <svg
-                    className="w-12 h-12 stroke-1"
-                    fill="none"
-                    viewBox="0 0 24 24"
-                    stroke="currentColor"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      d="M12 4v1m6 11h2m-6 0h-2v4m0-11v3m0 0h.01M12 12h4.01M16 20h4M4 12h4m12 0h.01M5 8h2a1 1 0 001-1V5a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1zm12 0h2a1 1 0 001-1V5a1 1 0 00-1-1h-2a1 1 0 00-1 1v2a1 1 0 001 1zM5 20h2a1 1 0 001-1v-2a1 1 0 00-1-1H5a1 1 0 00-1 1v2a1 1 0 001 1z"
-                    />
-                  </svg>
-
-                  <span className="text-[10px] font-semibold">
-                    QR Code
-                  </span>
+                <div className="w-full h-full grid grid-cols-9 grid-rows-9 gap-1">
+                  {Array.from({ length: 81 }).map(
+                    (_, index) => (
+                      <div
+                        key={index}
+                        className={`rounded-[1px] ${
+                          (
+                            index * 17 +
+                            index * index +
+                            7
+                          ) %
+                            5 <
+                          2
+                            ? "bg-[#1F1B18]"
+                            : "bg-white"
+                        }`}
+                      />
+                    )
+                  )}
                 </div>
               </div>
 
@@ -197,24 +192,168 @@ export default function StorePaymentMobile({
               </span>
 
               <p className="text-[11px] text-[#857B72] leading-relaxed max-w-xs">
-                Scan dengan aplikasi m-banking atau e-wallet yang
-                mendukung QRIS. Status pesanan berubah otomatis
-                setelah pembayaran diterima.
+                Scan dengan aplikasi m-banking atau aplikasi
+                pembayaran yang mendukung QRIS. Status pesanan
+                berubah otomatis setelah pembayaran diterima.
               </p>
+
+              <div className="px-4 py-2 rounded-xl bg-[#FFF2E8] text-[#D96B27] text-xs font-extrabold">
+                {formatRupiah(totalPayable)}
+              </div>
             </div>
           )}
 
-          {activeTab !== "qris" && (
-            <div className="rounded-2xl border border-[#EAE5DF] p-6 bg-[#FAF8F5] text-center space-y-2">
-              <p className="text-xs font-bold text-[#1F1B18]">
-                Metode {activeTab.toUpperCase()} Dipilih
-              </p>
+          {/* VIRTUAL ACCOUNT */}
+          {activeTab === "va" && (
+            <div className="rounded-2xl border border-[#EAE5DF] p-4 bg-[#FAF8F5] space-y-4">
+              <div>
+                <p className="text-xs font-bold text-[#1F1B18]">
+                  Virtual Account
+                </p>
 
-              <p className="text-[11px] text-[#857B72]">
-                Petunjuk instruksi pembayaran via{" "}
-                {activeTab.toUpperCase()} akan ditampilkan di
-                sini.
-              </p>
+                <p className="mt-1 text-[11px] text-[#857B72]">
+                  Pilih bank untuk mendapatkan nomor Virtual
+                  Account pembayaran.
+                </p>
+              </div>
+
+              {/* DROPDOWN BANK */}
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() =>
+                    setIsBankDropdownOpen(
+                      (prev) => !prev
+                    )
+                  }
+                  className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border bg-white text-left transition-all ${
+                    isBankDropdownOpen
+                      ? "border-[#D96B27] ring-1 ring-[#F9D7C0]"
+                      : "border-[#EAE5DF]"
+                  }`}
+                >
+                  <div>
+                    <p className="text-[10px] text-[#857B72]">
+                      Bank
+                    </p>
+
+                    <p className="mt-0.5 text-xs font-bold text-[#1F1B18]">
+                      {selectedBank}
+                    </p>
+                  </div>
+
+                  <svg
+                    className={`w-4 h-4 text-[#857B72] transition-transform ${
+                      isBankDropdownOpen
+                        ? "rotate-180"
+                        : ""
+                    }`}
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    stroke="currentColor"
+                    strokeWidth={2}
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M19 9l-7 7-7-7"
+                    />
+                  </svg>
+                </button>
+
+                {isBankDropdownOpen && (
+                  <div className="absolute left-0 right-0 z-30 mt-2 overflow-hidden rounded-xl border border-[#EAE5DF] bg-white shadow-lg">
+                    <div className="max-h-60 overflow-y-auto p-1.5">
+                      {bankOptions.map((bank) => {
+                        const active = selectedBank === bank;
+
+                        return (
+                          <button
+                            key={bank}
+                            type="button"
+                            onClick={() => {
+                              setSelectedBank(bank);
+                              setIsBankDropdownOpen(false);
+                            }}
+                            className={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg text-left text-xs font-semibold transition-all ${
+                              active
+                                ? "bg-[#FFF7F0] text-[#D96B27]"
+                                : "text-[#574D45] hover:bg-[#FAF7F5]"
+                            }`}
+                          >
+                            <span>{bank}</span>
+
+                            {active && (
+                              <svg
+                                className="w-4 h-4 text-[#EE6B28]"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                strokeWidth={2.5}
+                              >
+                                <path
+                                  strokeLinecap="round"
+                                  strokeLinejoin="round"
+                                  d="M5 12l4 4L19 6"
+                                />
+                              </svg>
+                            )}
+                          </button>
+                        );
+                      })}
+                    </div>
+                  </div>
+                )}
+              </div>
+
+              {/* VIRTUAL ACCOUNT CODE */}
+              <div className="rounded-xl border border-[#EAE5DF] bg-white p-4">
+                <p className="text-[10px] text-[#857B72]">
+                  Nomor Virtual Account
+                </p>
+
+                <p className="mt-1 text-lg font-extrabold tracking-wider text-[#1F1B18]">
+                  {selectedBank === "BCA" &&
+                    "8808 2026 0148 9271"}
+                  {selectedBank === "Mandiri" &&
+                    "8808 2026 0148 9272"}
+                  {selectedBank === "BNI" &&
+                    "8808 2026 0148 9273"}
+                  {selectedBank === "BRI" &&
+                    "8808 2026 0148 9274"}
+                  {selectedBank === "BTN" &&
+                    "8808 2026 0148 9275"}
+                  {selectedBank === "BSI" &&
+                    "8808 2026 0148 9276"}
+                  {selectedBank === "CIMB Niaga" &&
+                    "8808 2026 0148 9277"}
+                  {selectedBank === "Danamon" &&
+                    "8808 2026 0148 9278"}
+                  {selectedBank === "PermataBank" &&
+                    "8808 2026 0148 9279"}
+                  {selectedBank === "OCBC" &&
+                    "8808 2026 0148 9280"}
+                  {selectedBank === "UOB Indonesia" &&
+                    "8808 2026 0148 9281"}
+                  {selectedBank === "Maybank Indonesia" &&
+                    "8808 2026 0148 9282"}
+                </p>
+
+                <p className="mt-1 text-[10px] text-[#857B72]">
+                  {selectedBank}
+                </p>
+
+                <div className="mt-3 rounded-lg bg-[#FFF7F0] px-3 py-2">
+                  <p className="text-[10px] leading-relaxed text-[#8C8074]">
+                    Gunakan nomor Virtual Account di atas untuk
+                    menyelesaikan pembayaran sebesar{" "}
+                    <span className="font-bold text-[#D96B27]">
+                      {formatRupiah(totalPayable)}
+                    </span>
+                    .
+                  </p>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -319,12 +458,12 @@ export default function StorePaymentMobile({
         </div>
 
         <button
-        type="button"
-        onClick={onSuccessPayment}
-        className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:scale-[0.98] active:shadow-xs"
-      >
-        Bayar {formatRupiah(totalPayable)}
-      </button>
+          type="button"
+          onClick={onSuccessPayment}
+          className="w-full cursor-pointer rounded-full border-t border-[#FFE5D4] bg-gradient-to-b from-[#FFC299] to-[#EE6B28] px-5 py-3 text-xs font-bold text-white shadow-[0_4px_12px_rgba(238,107,40,0.25)] transition-all duration-200 hover:-translate-y-0.5 hover:from-[#EE6B28] hover:to-[#C8601D] hover:shadow-[0_6px_16px_rgba(238,107,40,0.35)] active:translate-y-0 active:scale-[0.98] active:shadow-xs"
+        >
+          Bayar {formatRupiah(totalPayable)}
+        </button>
       </div>
     </div>
   );
