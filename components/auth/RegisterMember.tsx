@@ -39,8 +39,20 @@ export default function RegisterMember() {
 
   return (
     <main className="min-h-screen w-full bg-[#FAFAFA] flex flex-col justify-between relative overflow-x-hidden font-sans">
-      {/* Top Bar / Close Button */}
-      <div className="w-full flex justify-end p-6 md:px-12">
+      
+      {/* HEADER BAR MOBILE - TOMBOL KEMBALI KHUSUS MOBILE */}
+      <div className="md:hidden w-full flex items-center justify-between p-4 pt-5 z-30">
+        <Link
+          href="/mobile/register-info?tab=member"
+          className="flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#F7F4F1] active:bg-[#E9E2DC] text-[#7A6E65] text-xs font-bold transition-all shadow-2xs"
+        >
+          <span>←</span>
+          <span>Kembali</span>
+        </Link>
+      </div>
+
+      {/* HEADER BAR DESKTOP - TOMBOL CLOSE (Ke /) */}
+      <div className="hidden md:flex w-full justify-end p-6 md:px-12">
         <Link
           href="/"
           className="w-10 h-10 rounded-full bg-white hover:bg-[#F0EBE6] border border-[#E9E2DC] flex items-center justify-center text-[#7A6E65] hover:text-[#231A14] transition-all shadow-sm font-bold"
@@ -50,79 +62,79 @@ export default function RegisterMember() {
       </div>
 
       {/* Main Stepper Container */}
-      <div className="w-full max-w-4xl mx-auto px-4 pb-16 flex-1 flex flex-col items-center">
+      <div className="w-full max-w-4xl mx-auto px-4 pb-12 sm:pb-16 flex-1 flex flex-col items-center">
         
-        {/* Stepper Header Indicator - Subtle Skeuomorphic Style */}
-<div className="w-full max-w-md mb-10 flex items-center justify-between relative px-2">
-  {/* Step 1 */}
-  <div
-    className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
-      step >= 1
-        ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
-        : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
-    }`}
-  >
-    {step > 1 ? (
-      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="20 6 9 17 4 12" />
-      </svg>
-    ) : (
-      "1"
-    )}
-  </div>
+        {/* Stepper Header Indicator */}
+        <div className="w-full max-w-md mb-8 sm:mb-10 flex items-center justify-between relative px-2">
+          {/* Step 1 */}
+          <div
+            className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
+              step >= 1
+                ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
+                : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
+            }`}
+          >
+            {step > 1 ? (
+              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            ) : (
+              "1"
+            )}
+          </div>
 
-  {/* Garis 1-2 */}
-  <div className="flex-1 h-[3px] mx-1 bg-[#E9E2DC] relative overflow-hidden rounded-full">
-    <div
-      className="absolute inset-0 bg-gradient-to-r from-[#EE6B28] to-[#FFC299] transition-all duration-300"
-      style={{ width: step >= 2 ? "100%" : "0%" }}
-    />
-  </div>
+          {/* Garis 1-2 */}
+          <div className="flex-1 h-[3px] mx-1 bg-[#E9E2DC] relative overflow-hidden rounded-full">
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-[#EE6B28] to-[#FFC299] transition-all duration-300"
+              style={{ width: step >= 2 ? "100%" : "0%" }}
+            />
+          </div>
 
-  {/* Step 2 */}
-  <div
-    className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
-      step >= 2
-        ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
-        : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
-    }`}
-  >
-    {step > 2 ? (
-      <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-        <polyline points="20 6 9 17 4 12" />
-      </svg>
-    ) : (
-      "2"
-    )}
-  </div>
+          {/* Step 2 */}
+          <div
+            className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
+              step >= 2
+                ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
+                : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
+            }`}
+          >
+            {step > 2 ? (
+              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                <polyline points="20 6 9 17 4 12" />
+              </svg>
+            ) : (
+              "2"
+            )}
+          </div>
 
-  {/* Garis 2-3 */}
-  <div className="flex-1 h-[3px] mx-1 bg-[#E9E2DC] relative overflow-hidden rounded-full">
-    <div
-      className="absolute inset-0 bg-gradient-to-r from-[#EE6B28] to-[#FFC299] transition-all duration-300"
-      style={{ width: step >= 3 ? "100%" : "0%" }}
-    />
-  </div>
+          {/* Garis 2-3 */}
+          <div className="flex-1 h-[3px] mx-1 bg-[#E9E2DC] relative overflow-hidden rounded-full">
+            <div
+              className="absolute inset-0 bg-gradient-to-r from-[#EE6B28] to-[#FFC299] transition-all duration-300"
+              style={{ width: step >= 3 ? "100%" : "0%" }}
+            />
+          </div>
 
-  {/* Step 3 */}
-  <div
-    className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
-      step >= 3
-        ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
-        : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
-    }`}
-  >
-    3
-  </div>
-</div>
+          {/* Step 3 */}
+          <div
+            className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
+              step >= 3
+                ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
+                : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
+            }`}
+          >
+            3
+          </div>
+        </div>
 
         {/* Card Content Area */}
-        <div className="w-full bg-white rounded-3xl shadow-sm border border-[#E9E2DC] p-6 md:p-10 transition-all">
+        <div className="w-full bg-white rounded-3xl shadow-sm border border-[#E9E2DC] p-5 sm:p-8 md:p-10 transition-all">
           {/* STEP 1: DATA DIRI */}
           {step === 1 && (
             <form onSubmit={handleNextStep} className="space-y-6">
               <div>
-                <h2 className="text-2xl font-black tracking-tight text-[#231A14]">Data diri</h2>
+                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#231A14]">Data diri</h2>
                 <p className="text-xs text-[#7A6E65] mt-1">Data ini dipakai untuk kartu keanggotaan dan pendaftaran event.</p>
               </div>
 
@@ -251,7 +263,7 @@ export default function RegisterMember() {
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-7 space-y-6">
                 <div>
-                  <h2 className="text-2xl font-black tracking-tight text-[#231A14]">Pembayaran</h2>
+                  <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#231A14]">Pembayaran</h2>
                   <p className="text-xs text-[#7A6E65] mt-1">Pilih metode pembayaran untuk iuran keanggotaan tahun pertama.</p>
                 </div>
 
@@ -351,12 +363,12 @@ export default function RegisterMember() {
 
           {/* STEP 3: SELESAI */}
           {step === 3 && (
-            <div className="text-center py-12 space-y-6">
+            <div className="text-center py-8 sm:py-12 space-y-6">
               <div className="w-16 h-16 bg-[#E6F4EA] text-[#34A853] rounded-full flex items-center justify-center text-2xl mx-auto shadow-sm">
                 ✓
               </div>
               <div className="space-y-2 max-w-md mx-auto">
-                <h2 className="text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">Pendaftaran Berhasil!</h2>
+                <h2 className="text-xl sm:text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">Pendaftaran Berhasil!</h2>
                 <p className="text-xs text-[#7A6E65] leading-relaxed">
                   Data diri dan status pendaftaran anggota kamu telah diproses.
                 </p>

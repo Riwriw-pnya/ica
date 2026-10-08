@@ -6,7 +6,6 @@ import Link from "next/link";
 import { useRouter } from "next/navigation";
 import AuthModal from "@/components/auth/AuthModal";
 
-// Daftar Kode Cattery yang sudah terdaftar di database ICA (Simulasi Data)
 const REGISTERED_CATTERY_CODES = [
   "ICA-8842-BDG",
   "ICA-1234-JKT",
@@ -26,11 +25,9 @@ export default function RegisterCattery() {
 
   const [errorMsg, setErrorMsg] = useState<string | null>(null);
 
-  // State Toast Notification & Progress Bar
   const [toast, setToast] = useState<{ title: string; message: string } | null>(null);
   const [progress, setProgress] = useState(100);
 
-  // Timer animasi Progress Bar Toast
   useEffect(() => {
     if (!toast) return;
     setProgress(100);
@@ -75,7 +72,6 @@ export default function RegisterCattery() {
       return;
     }
 
-    // Cek apakah Kode Cattery terdaftar di list
     const isCodeValid = REGISTERED_CATTERY_CODES.includes(codeTrimmed);
 
     if (!isCodeValid) {
@@ -88,15 +84,15 @@ export default function RegisterCattery() {
       return;
     }
 
-    // Jika berhasil
     setStep(2);
   };
 
   return (
-    <main className="h-screen w-full bg-white flex items-center justify-center relative overflow-hidden font-sans">
-      {/* Toast Error Notification */}
+    <main className="min-h-screen md:h-screen w-full bg-white flex items-center justify-center relative overflow-y-auto md:overflow-hidden font-sans">
+      
+      {/* Toast Error */}
       {toast && (
-        <div className="fixed top-6 right-6 z-[9999] bg-white border border-[#F0E6E6] shadow-xl rounded-xl p-4 max-w-sm w-full overflow-hidden flex items-start gap-3 border-l-4 border-l-[#EA4335] transition-all animate-bounce-once">
+        <div className="fixed top-4 right-4 left-4 md:left-auto md:top-6 md:right-6 z-[9999] bg-white border border-[#F0E6E6] shadow-xl rounded-xl p-4 max-w-sm w-full overflow-hidden flex items-start gap-3 border-l-4 border-l-[#EA4335] transition-all animate-bounce-once">
           <div className="w-5 h-5 rounded-full bg-[#FCE8E6] text-[#EA4335] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
             !
           </div>
@@ -111,8 +107,6 @@ export default function RegisterCattery() {
           >
             ✕
           </button>
-
-          {/* Toast Progress Bar */}
           <div
             className="absolute bottom-0 left-0 h-[3px] bg-[#EA4335] transition-all duration-100 ease-linear"
             style={{ width: `${progress}%` }}
@@ -120,18 +114,28 @@ export default function RegisterCattery() {
         </div>
       )}
 
-      {/* Tombol Close */}
+      {/* TOMBOL BACK KHUSUS MOBILE */}
+      <Link
+        href="/mobile/register-info?tab=cattery"
+        className="md:hidden absolute top-5 left-5 z-30 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#F7F4F1] active:bg-[#E9E2DC] text-[#7A6E65] text-xs font-bold transition-all shadow-2xs"
+      >
+        <span>←</span>
+        <span>Kembali</span>
+      </Link>
+
+      {/* TOMBOL CLOSE DESKTOP */}
       <Link
         href="/"
-        className="absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-[#F7F4F1] hover:bg-[#E9E2DC] flex items-center justify-center text-[#7A6E65] hover:text-[#231A14] transition-all cursor-pointer shadow-sm font-bold"
+        className="hidden md:flex absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-[#F7F4F1] hover:bg-[#E9E2DC] items-center justify-center text-[#7A6E65] hover:text-[#231A14] transition-all cursor-pointer shadow-sm font-bold"
       >
         ✕
       </Link>
 
-      <div className="w-full h-full flex flex-col md:flex-row relative overflow-hidden">
-        {/* SISI KIRI: Banner / Gambar Cattery */}
+      <div className="w-full h-full flex flex-col md:flex-row relative">
+        
+        {/* Left Panel (Desktop Only) */}
         <div
-          className="w-full md:w-5/12 relative p-8 md:p-12 lg:p-16 flex flex-col justify-between h-full overflow-y-auto bg-cover bg-center text-white"
+          className="hidden md:flex w-full md:w-5/12 relative p-8 md:p-12 lg:p-16 flex-col justify-between h-full bg-cover bg-center text-white"
           style={{ backgroundImage: "url('/images/cattt.jpg')" }}
         >
           <div className="absolute inset-0 bg-black/70 z-0" />
@@ -151,13 +155,23 @@ export default function RegisterCattery() {
           <div className="pt-8 text-[11px] text-gray-300 z-10 relative">© {new Date().getFullYear()} Indonesian Cat Association</div>
         </div>
 
-        {/* SISI KANAN: Form Pendaftaran Cattery */}
-        <div className="w-full md:w-7/12 p-8 md:p-16 lg:p-20 flex flex-col justify-between bg-white h-full overflow-y-auto">
-          <div className="max-w-[420px] w-full mx-auto space-y-6 my-auto">
+        {/* Right Panel */}
+        <div className="w-full md:w-7/12 p-6 sm:p-10 md:p-16 lg:p-20 flex flex-col justify-between bg-white min-h-screen md:min-h-0 md:h-full pt-16 md:pt-16 overflow-y-auto">
+          <div className="max-w-[420px] w-full mx-auto space-y-5 sm:space-y-6 my-auto">
             {step === 1 && (
               <>
-                <div className="space-y-1.5">
-                  <h2 className="text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">
+                {/* LOGO ICA KHUSUS MOBILE */}
+                <div className="md:hidden flex justify-center pb-1">
+                  <Image 
+                    src="/images/LOGO-ICA.webp" 
+                    alt="ICA Logo" 
+                    width={60} 
+                    height={60} 
+                    className="object-contain" 
+                  />
+                </div>
+                <div className="space-y-1.5 text-center md:text-left">
+                  <h2 className="text-xl sm:text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">
                     Daftar akun Cattery Portal
                   </h2>
                   <p className="text-xs text-[#7A6E65] leading-relaxed text-justify">
@@ -220,7 +234,7 @@ export default function RegisterCattery() {
                     <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7" />
                   </svg>
                 </div>
-                <h2 className="text-2xl font-bold text-[#231A14]">Pembuatan akun sudah dikirim</h2>
+                <h2 className="text-xl sm:text-2xl font-bold text-[#231A14]">Pembuatan akun sudah dikirim</h2>
                 <p className="text-xs md:text-sm text-[#7A6E65] max-w-sm mx-auto leading-relaxed text-justify">
                   Silakan cek email <span className="font-semibold text-[#231A14]">{formData.email}</span> dan buka tautan pembuatan kata sandi. Dashboard baru dapat diakses setelah kata sandi dibuat.
                 </p>
@@ -243,7 +257,6 @@ export default function RegisterCattery() {
               </div>
             )}
 
-            {/* Footer Demo Helper */}
             <div className="text-center space-y-2 pt-4 border-t border-[#F7F4F1]">
               <p className="text-xs text-[#7A6E65]">
                 Sudah punya akun?{" "}

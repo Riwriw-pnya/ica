@@ -8,24 +8,19 @@ import { useRouter } from "next/navigation";
 export default function LoginMember() {
   const router = useRouter();
 
-  // Mode Tampilan: "login" atau "logs"
   const [viewState, setViewState] = useState<"login" | "logs">("login");
 
-  // State Input
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // State Validasi Error Per Field
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
-  // State Toast Notification & Progress Bar
   const [toast, setToast] = useState<{ title: string; message: string } | null>(null);
   const [progress, setProgress] = useState(100);
 
-  // Timer animasi Progress Bar Toast
   useEffect(() => {
     if (!toast) return;
     setProgress(100);
@@ -43,7 +38,6 @@ export default function LoginMember() {
     return () => clearInterval(timer);
   }, [toast]);
 
-  // Data Simulasi Log Aktivitas
   const [activities] = useState([
     {
       title: "Member berhasil login",
@@ -61,17 +55,8 @@ export default function LoginMember() {
       time: "09:12",
       date: "01 Sep 2026",
     },
-    {
-      title: "Pembaruan Profil Anggota",
-      status: "Terverifikasi",
-      statusType: "success",
-      detail: "Data alamat & sertifikat kucing berhasil diperbarui",
-      time: "16:05",
-      date: "31 Agu 2026",
-    },
   ]);
 
-  // Handler Tombol Demo Cepat
   const handleFillDemo = () => {
     setEmail("member@ica.id");
     setPassword("password123");
@@ -79,7 +64,6 @@ export default function LoginMember() {
     setPasswordError(null);
   };
 
-  // Handler Submit Form Login
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
     setEmailError(null);
@@ -88,7 +72,6 @@ export default function LoginMember() {
 
     let hasError = false;
 
-    // Validasi Email
     if (!email.trim()) {
       setEmailError("Email wajib diisi.");
       hasError = true;
@@ -97,7 +80,6 @@ export default function LoginMember() {
       hasError = true;
     }
 
-    // Validasi Password
     if (!password) {
       setPasswordError("Kata sandi wajib diisi.");
       hasError = true;
@@ -114,7 +96,6 @@ export default function LoginMember() {
       return;
     }
 
-    // Tampilkan loading button tanpa toast sukses
     setIsLoading(true);
 
     setTimeout(() => {
@@ -123,10 +104,11 @@ export default function LoginMember() {
   };
 
   return (
-    <main className="h-screen w-full bg-white flex items-center justify-center relative overflow-hidden font-sans">
-      {/* Toast Notification (Hanya muncul jika ada error) */}
+    <main className="min-h-screen md:h-screen w-full bg-white flex items-center justify-center relative overflow-y-auto md:overflow-hidden font-sans">
+      
+      {/* Toast Error */}
       {toast && (
-        <div className="fixed top-6 right-6 z-[9999] bg-white border border-[#F0E6E6] shadow-xl rounded-xl p-4 max-w-sm w-full overflow-hidden flex items-start gap-3 border-l-4 border-l-[#EA4335] transition-all animate-bounce-once">
+        <div className="fixed top-4 right-4 left-4 md:left-auto md:top-6 md:right-6 z-[9999] bg-white border border-[#F0E6E6] shadow-xl rounded-xl p-4 max-w-sm w-full overflow-hidden flex items-start gap-3 border-l-4 border-l-[#EA4335] transition-all animate-bounce-once">
           <div className="w-5 h-5 rounded-full bg-[#FCE8E6] text-[#EA4335] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
             !
           </div>
@@ -140,8 +122,6 @@ export default function LoginMember() {
           >
             ✕
           </button>
-
-          {/* Toast Progress Bar */}
           <div
             className="absolute bottom-0 left-0 h-[3px] bg-[#EA4335] transition-all duration-100 ease-linear"
             style={{ width: `${progress}%` }}
@@ -149,18 +129,28 @@ export default function LoginMember() {
         </div>
       )}
 
-      {/* Tombol Tutup / Kembali ke Home */}
+      {/* TOMBOL BACK KHUSUS MOBILE */}
+      <Link
+        href="/mobile/login-info?tab=member"
+        className="md:hidden absolute top-5 left-5 z-30 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#F7F4F1] active:bg-[#E9E2DC] text-[#7A6E65] text-xs font-bold transition-all shadow-2xs"
+      >
+        <span>←</span>
+        <span>Kembali</span>
+      </Link>
+
+      {/* TOMBOL CLOSE DESKTOP */}
       <Link
         href="/"
-        className="absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-[#F7F4F1] hover:bg-[#E9E2DC] flex items-center justify-center text-[#7A6E65] hover:text-[#231A14] transition-all cursor-pointer shadow-sm font-bold"
+        className="hidden md:flex absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-[#F7F4F1] hover:bg-[#E9E2DC] items-center justify-center text-[#7A6E65] hover:text-[#231A14] transition-all cursor-pointer shadow-sm font-bold"
       >
         ✕
       </Link>
 
-      <div className="w-full h-full flex flex-col md:flex-row relative overflow-hidden">
-        {/* Panel Kiri (Banner Background) */}
+      <div className="w-full h-full flex flex-col md:flex-row relative">
+        
+        {/* Panel Kiri (Desktop Only) */}
         <div
-          className="w-full md:w-5/12 relative p-8 md:p-12 lg:p-16 flex flex-col justify-between h-full overflow-y-auto bg-cover bg-center text-white"
+          className="hidden md:flex w-full md:w-5/12 relative p-8 md:p-12 lg:p-16 flex-col justify-between h-full bg-cover bg-center text-white"
           style={{ backgroundImage: "url('/images/cattt.jpg')" }}
         >
           <div className="absolute inset-0 bg-black/70 z-0" />
@@ -194,14 +184,24 @@ export default function LoginMember() {
           </div>
         </div>
 
-        {/* Panel Kanan (Form & Log Aktivitas) */}
-        <div className="w-full md:w-7/12 p-8 md:p-16 lg:p-20 flex flex-col justify-between bg-white h-full overflow-hidden">
-          <div className="max-w-[420px] w-full mx-auto my-auto space-y-6">
+        {/* Panel Kanan */}
+        <div className="w-full md:w-7/12 p-6 sm:p-10 md:p-16 lg:p-20 flex flex-col justify-between bg-white min-h-screen md:min-h-0 md:h-full pt-16 md:pt-16">
+          <div className="max-w-[420px] w-full mx-auto my-auto space-y-5 sm:space-y-6">
             {viewState === "login" ? (
-              /* --- VIEW 1: FORM LOGIN --- */
               <>
-                <div className="space-y-1">
-                  <h2 className="text-2xl md:text-[28px] font-bold tracking-tight text-[#231A14]">
+                {/* LOGO ICA KHUSUS MOBILE */}
+                <div className="md:hidden flex justify-center pb-1">
+                  <Image 
+                    src="/images/LOGO-ICA.webp" 
+                    alt="ICA Logo" 
+                    width={60} 
+                    height={60} 
+                    className="object-contain" 
+                  />
+                </div>
+
+                <div className="space-y-1 text-center md:text-left">
+                  <h2 className="text-xl sm:text-2xl md:text-[28px] font-bold tracking-tight text-[#231A14]">
                     Masuk ke Member Portal
                   </h2>
                   <p className="text-xs text-[#7A6E65]">
@@ -210,7 +210,6 @@ export default function LoginMember() {
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Field Email */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-[#4A3D34]">
                       Email Anggota
@@ -240,7 +239,6 @@ export default function LoginMember() {
                     )}
                   </div>
 
-                  {/* Field Password */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center">
                       <label className="text-xs font-semibold text-[#4A3D34]">
@@ -287,7 +285,6 @@ export default function LoginMember() {
                     )}
                   </div>
 
-                  {/* Tombol Submit Login */}
                   <button
                     type="submit"
                     disabled={isLoading}
@@ -320,7 +317,6 @@ export default function LoginMember() {
                 </div>
               </>
             ) : (
-              /* --- VIEW 2: LOG AKTIVITAS --- */
               <div className="space-y-4">
                 <div>
                   <button
@@ -330,13 +326,13 @@ export default function LoginMember() {
                   >
                     ‹ Kembali ke halaman masuk
                   </button>
-                  <h2 className="text-2xl font-bold text-[#231A14]">Log Aktivitas</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-[#231A14]">Log Aktivitas</h2>
                   <p className="text-xs text-[#7A6E65] mt-1">
                     Catatan keamanan dan riwayat akses akun anggota Anda.
                   </p>
                 </div>
 
-                <div className="border border-[#E2DDD7] rounded-2xl p-4 bg-white max-h-[350px] overflow-y-auto space-y-4 pr-3 scrollbar-thin scrollbar-thumb-[#D0C8C0]">
+                <div className="border border-[#E2DDD7] rounded-2xl p-4 bg-white max-h-[320px] sm:max-h-[350px] overflow-y-auto space-y-4 pr-3 scrollbar-thin scrollbar-thumb-[#D0C8C0]">
                   {activities.map((act, idx) => (
                     <div
                       key={idx}
@@ -387,8 +383,7 @@ export default function LoginMember() {
             )}
           </div>
 
-          {/* Footer Switcher & Demo Info */}
-          <div className="w-full text-center space-y-1.5 pt-6 border-t border-[#F5F0EB]">
+          <div className="w-full text-center space-y-1.5 pt-6 pb-4 md:pb-0 border-t border-[#F5F0EB]">
             {viewState === "login" && (
               <div className="flex items-center justify-center gap-1.5">
                 <button
