@@ -18,6 +18,7 @@ export default function RegisterMember() {
     agree: false,
   });
 
+  // State Pembayaran Fitur Teman (QRIS & Virtual Account Bank Dropdown)
   const [paymentMethod, setPaymentMethod] = useState<"qris" | "va">("qris");
   const [selectedBank, setSelectedBank] = useState("");
   const [isBankDropdownOpen, setIsBankDropdownOpen] = useState(false);
@@ -88,29 +89,7 @@ export default function RegisterMember() {
       <div className="w-full max-w-4xl mx-auto px-4 pb-12 sm:pb-16 flex-1 flex flex-col items-center">
         
         {/* Stepper Header Indicator */}
-        <div className="w-full max-w-md mb-8 sm:mb-10 flex items-center justify-between relative px-2">
-          {/* Step 1 */}
-          <div
-            className={`flex items-center justify-center w-9 h-9 rounded-full shrink-0 font-bold text-xs transition-all duration-300 ${
-              step >= 1
-                ? "bg-gradient-to-b from-[#FFA766] to-[#EE6B28] text-white shadow-[0_2px_4px_rgba(214,84,20,0.35)]"
-                : "bg-white border-2 border-[#E9E2DC] text-[#A39991]"
-            }`}
-          >
-            {step > 1 ? (
-              <svg viewBox="0 0 24 24" className="w-4 h-4" fill="none" stroke="currentColor" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
-                <polyline points="20 6 9 17 4 12" />
-              </svg>
-            ) : (
-              "1"
-            )}
-          </div>
-
-          {/* Garis 1-2 */}
-          <div className="flex-1 h-[3px] mx-1 bg-[#E9E2DC] relative overflow-hidden rounded-full">
-      <div className="w-full max-w-4xl mx-auto px-4 pb-16 flex-1 flex flex-col items-center">
-        {/* Stepper Header Indicator */}
-        <div className="w-full max-w-2xl mb-10 flex items-start justify-between relative px-2">
+        <div className="w-full max-w-2xl mb-8 sm:mb-10 flex items-start justify-between relative px-2">
           {/* Step 1 */}
           <div className="flex flex-col items-center shrink-0">
             <div
@@ -225,15 +204,11 @@ export default function RegisterMember() {
           {step === 1 && (
             <form onSubmit={handleNextStep} className="space-y-6">
               <div>
-                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#231A14]">Data diri</h2>
-                <p className="text-xs text-[#7A6E65] mt-1">Data ini dipakai untuk kartu keanggotaan dan pendaftaran event.</p>
-                <h2 className="text-2xl font-black tracking-tight text-[#231A14]">
+                <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#231A14]">
                   Data diri
                 </h2>
-
                 <p className="text-xs text-[#7A6E65] mt-1">
-                  Data ini dipakai untuk kartu keanggotaan dan pendaftaran
-                  event.
+                  Data ini dipakai untuk kartu keanggotaan dan pendaftaran event.
                 </p>
               </div>
 
@@ -242,7 +217,6 @@ export default function RegisterMember() {
                   <label className="text-xs font-semibold text-[#4A3D34]">
                     Nama lengkap
                   </label>
-
                   <input
                     type="text"
                     name="fullName"
@@ -258,7 +232,6 @@ export default function RegisterMember() {
                     <label className="text-xs font-semibold text-[#4A3D34]">
                       Email
                     </label>
-
                     <input
                       type="email"
                       name="email"
@@ -273,7 +246,6 @@ export default function RegisterMember() {
                     <label className="text-xs font-semibold text-[#4A3D34]">
                       Nomor WhatsApp
                     </label>
-
                     <input
                       type="tel"
                       name="phone"
@@ -290,7 +262,6 @@ export default function RegisterMember() {
                     <label className="text-xs font-semibold text-[#4A3D34]">
                       Kota
                     </label>
-
                     <input
                       type="text"
                       name="city"
@@ -305,7 +276,6 @@ export default function RegisterMember() {
                     <label className="text-xs font-semibold text-[#4A3D34]">
                       Wilayah ICA
                     </label>
-
                     <select
                       name="wilayah"
                       value={formData.wilayah}
@@ -324,7 +294,6 @@ export default function RegisterMember() {
                   <label className="text-xs font-semibold text-[#4A3D34]">
                     Kata sandi
                   </label>
-
                   <input
                     type="password"
                     name="password"
@@ -339,19 +308,16 @@ export default function RegisterMember() {
                   <label className="text-xs font-semibold text-[#4A3D34]">
                     Foto profil
                   </label>
-
                   <div className="flex items-center gap-3">
                     <div className="w-10 h-10 rounded-full bg-[#FFF0E6] flex items-center justify-center text-[#EE6B28] shrink-0">
                       👤
                     </div>
-
                     <button
                       type="button"
                       className="px-4 py-2 rounded-xl border border-[#E9E2DC] text-xs font-semibold text-[#231A14] hover:bg-[#F7F4F1] transition"
                     >
                       Unggah foto
                     </button>
-
                     <span className="text-[11px] text-[#7A6E65]">
                       Opsional — tanpa foto, sistem memakai inisial.
                     </span>
@@ -367,13 +333,8 @@ export default function RegisterMember() {
                     onChange={handleChange}
                     className="w-4 h-4 rounded border-[#E9E2DC] text-[#EE6B28] focus:ring-[#EE6B28]"
                   />
-
-                  <label
-                    htmlFor="agree"
-                    className="text-xs text-[#7A6E65]"
-                  >
-                    Saya menyetujui ketentuan keanggotaan dan kebijakan privasi
-                    ICA.
+                  <label htmlFor="agree" className="text-xs text-[#7A6E65]">
+                    Saya menyetujui ketentuan keanggotaan dan kebijakan privasi ICA.
                   </label>
                 </div>
               </div>
@@ -385,7 +346,6 @@ export default function RegisterMember() {
                 >
                   Sudah punya akun
                 </Link>
-
                 <button
                   type="submit"
                   className="px-6 py-3.5 rounded-full bg-gradient-to-b from-[#FFC299] to-[#EE6B28] text-white font-bold text-xs md:text-sm hover:-translate-y-0.5 transition cursor-pointer shadow-sm"
@@ -396,20 +356,23 @@ export default function RegisterMember() {
             </form>
           )}
 
-          {/* STEP 2: PEMBAYARAN */}
+          {/* STEP 2: PEMBAYARAN (Fitur QRIS + Bank VA Teman Kamu) */}
           {step === 2 && (
             <div className="grid grid-cols-1 lg:grid-cols-12 gap-8">
               <div className="lg:col-span-7 space-y-6">
                 <div>
-                  <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#231A14]">Pembayaran</h2>
-                  <p className="text-xs text-[#7A6E65] mt-1">Pilih metode pembayaran untuk iuran keanggotaan tahun pertama.</p>
+                  <h2 className="text-xl sm:text-2xl font-black tracking-tight text-[#231A14]">
+                    Pembayaran
+                  </h2>
+                  <p className="text-xs text-[#7A6E65] mt-1">
+                    Pilih metode pembayaran untuk iuran keanggotaan tahun pertama.
+                  </p>
                 </div>
 
                 <div className="p-4 rounded-2xl bg-[#EBF3FF] border border-[#D0E2FF] flex gap-3 items-start">
                   <div className="w-5 h-5 rounded-full bg-[#1D4ED8] text-white flex items-center justify-center shrink-0 mt-0.5 text-xs font-bold">
                     i
                   </div>
-
                   <p className="text-xs text-[#1E3A8A] leading-relaxed">
                     Payment gateway belum final — tampilan metode dan alur
                     konfirmasi di bawah masih placeholder generik, menunggu
@@ -438,7 +401,6 @@ export default function RegisterMember() {
                       <span className="text-xs font-bold text-[#231A14] block">
                         QRIS
                       </span>
-
                       <span className="text-[11px] text-[#7A6E65]">
                         Bayar menggunakan aplikasi yang mendukung QRIS.
                       </span>
@@ -448,35 +410,25 @@ export default function RegisterMember() {
                           <div className="flex flex-col items-center text-center">
                             <div className="w-44 h-44 rounded-xl border border-[#E4D8D0] bg-white p-3 flex items-center justify-center">
                               <div className="w-full h-full grid grid-cols-9 grid-rows-9 gap-1">
-                                {Array.from({ length: 81 }).map(
-                                  (_, index) => (
-                                    <div
-                                      key={index}
-                                      className={`rounded-[1px] ${
-                                        (
-                                          index * 17 +
-                                          index * index +
-                                          7
-                                        ) %
-                                          5 <
-                                        2
-                                          ? "bg-[#1F1B18]"
-                                          : "bg-white"
-                                      }`}
-                                    />
-                                  )
-                                )}
+                                {Array.from({ length: 81 }).map((_, index) => (
+                                  <div
+                                    key={index}
+                                    className={`rounded-[1px] ${
+                                      (index * 17 + index * index + 7) % 5 < 2
+                                        ? "bg-[#1F1B18]"
+                                        : "bg-white"
+                                    }`}
+                                  />
+                                ))}
                               </div>
                             </div>
 
                             <p className="mt-3 text-xs font-bold text-[#231A14]">
                               Scan QRIS
                             </p>
-
                             <p className="mt-1 text-[10px] text-[#8C8074]">
                               Total pembayaran
                             </p>
-
                             <p className="mt-1 text-sm font-extrabold text-[#EE6B28]">
                               Rp 255.000
                             </p>
@@ -506,7 +458,6 @@ export default function RegisterMember() {
                       <span className="text-xs font-bold text-[#231A14] block">
                         Virtual Account
                       </span>
-
                       <span className="text-[11px] text-[#7A6E65]">
                         Pembayaran otomatis terverifikasi.
                       </span>
@@ -518,9 +469,7 @@ export default function RegisterMember() {
                               type="button"
                               onClick={(e) => {
                                 e.preventDefault();
-                                setIsBankDropdownOpen(
-                                  (prev) => !prev
-                                );
+                                setIsBankDropdownOpen((prev) => !prev);
                               }}
                               className={`w-full flex items-center justify-between gap-3 px-4 py-3 rounded-xl border bg-white text-left transition-all ${
                                 isBankDropdownOpen
@@ -532,7 +481,6 @@ export default function RegisterMember() {
                                 <p className="text-[10px] text-[#8C8074]">
                                   Pilih Bank
                                 </p>
-
                                 <p className="mt-0.5 text-xs font-bold text-[#231A14]">
                                   {selectedBank || "Pilih bank"}
                                 </p>
@@ -540,9 +488,7 @@ export default function RegisterMember() {
 
                               <svg
                                 className={`w-4 h-4 text-[#8C8074] transition-transform ${
-                                  isBankDropdownOpen
-                                    ? "rotate-180"
-                                    : ""
+                                  isBankDropdownOpen ? "rotate-180" : ""
                                 }`}
                                 fill="none"
                                 viewBox="0 0 24 24"
@@ -561,8 +507,7 @@ export default function RegisterMember() {
                               <div className="absolute left-0 right-0 z-30 mt-2 rounded-xl border border-[#EEDFD5] bg-white shadow-lg overflow-hidden">
                                 <div className="max-h-64 overflow-y-auto p-1.5">
                                   {bankOptions.map((bank) => {
-                                    const active =
-                                      selectedBank === bank;
+                                    const active = selectedBank === bank;
 
                                     return (
                                       <button
@@ -609,11 +554,9 @@ export default function RegisterMember() {
                               <p className="text-[10px] text-[#8C8074]">
                                 Nomor Virtual Account
                               </p>
-
                               <p className="mt-1 text-lg font-extrabold tracking-wider text-[#231A14]">
                                 8808 2026 0148 9271
                               </p>
-
                               <p className="mt-1 text-[10px] text-[#8C8074]">
                                 {selectedBank}
                               </p>
@@ -668,7 +611,6 @@ export default function RegisterMember() {
 
                 <div className="flex justify-between text-xs font-bold text-[#231A14]">
                   <span>Total</span>
-
                   <span className="text-sm text-[#EE6B28] text-right">
                     Rp 255.000
                   </span>
@@ -689,11 +631,9 @@ export default function RegisterMember() {
               </div>
 
               <div className="space-y-2 max-w-md mx-auto">
-                <h2 className="text-xl sm:text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">Pendaftaran Berhasil!</h2>
-                <h2 className="text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">
+                <h2 className="text-xl sm:text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">
                   Pendaftaran Berhasil!
                 </h2>
-
                 <p className="text-xs text-[#7A6E65] leading-relaxed">
                   Data diri dan status pendaftaran anggota kamu telah diproses.
                 </p>
