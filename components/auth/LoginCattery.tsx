@@ -13,25 +13,20 @@ interface LoginCatteryProps {
 export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) {
   const router = useRouter();
   
-  // State Modal & View
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [viewState, setViewState] = useState<"login" | "logs">("login");
 
-  // State Form & Loading
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
 
-  // State Error Input
   const [emailError, setEmailError] = useState<string | null>(null);
   const [passwordError, setPasswordError] = useState<string | null>(null);
 
-  // State Toast (Hanya untuk Error)
   const [toast, setToast] = useState<{ title: string; message: string } | null>(null);
   const [progress, setProgress] = useState(100);
 
-  // Timer Toast Error
   useEffect(() => {
     if (!toast) return;
     setProgress(100);
@@ -49,7 +44,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
     return () => clearInterval(timer);
   }, [toast]);
 
-  // Dummy Log Aktivitas Cattery
   const [activities] = useState([
     {
       title: "Cattery berhasil login",
@@ -75,65 +69,8 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
       time: "16:05",
       date: "31 Agu 2026",
     },
-    {
-      title: "Pengajuan Pedigree Kucing",
-      status: "Diproses",
-      statusType: "pending",
-      detail: "Sertifikat Silsilah #PED-9921 · 3 Anakan British Shorthair",
-      time: "14:20",
-      date: "30 Agu 2026",
-    },
-    {
-      title: "Perpanjangan Masa Aktif Cattery",
-      status: "Berhasil",
-      statusType: "success",
-      detail: "Pembayaran terverifikasi · Masa aktif hingga Sep 2027",
-      time: "11:00",
-      date: "28 Agu 2026",
-    },
-    {
-      title: "Laporan Perkawinan (Mating Report)",
-      status: "Terverifikasi",
-      statusType: "success",
-      detail: "Pejantan: Auroria King · Betina: Auroria Queen",
-      time: "08:45",
-      date: "25 Agu 2026",
-    },
-    {
-      title: "Perubahan Data Akun Cattery",
-      status: "Berhasil",
-      statusType: "success",
-      detail: "Update nomor telepon & alamat cattery Bandung",
-      time: "19:30",
-      date: "20 Agu 2026",
-    },
-    {
-      title: "Gagal Verifikasi Dokumen Kucing",
-      status: "Gagal",
-      statusType: "error",
-      detail: "Foto mikrochip kurang jelas, silakan unggah ulang",
-      time: "10:15",
-      date: "15 Agu 2026",
-    },
-    {
-      title: "Transfer Kepemilikan Kucing",
-      status: "Terverifikasi",
-      statusType: "success",
-      detail: "Kucing ID #CAT-4412 berpindah ke Cattery Moonlight",
-      time: "13:10",
-      date: "10 Agu 2026",
-    },
-    {
-      title: "Pendaftaran Cattery Diajukan",
-      status: "Diproses",
-      statusType: "pending",
-      detail: "Pengajuan pendaftaran nama 'Auroria Cattery'",
-      time: "09:00",
-      date: "01 Agu 2026",
-    },
   ]);
 
-  // Handle Switch Register (Mengarahkan langsung ke /auth/regis/cattery)
   const handleRegisterClick = () => {
     if (onSwitchToRegister) {
       onSwitchToRegister();
@@ -142,14 +79,11 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
     }
   };
 
-  // Handle Form Submit
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    
     setEmailError(null);
     setPasswordError(null);
     setToast(null);
-
     setIsLoading(true);
 
     setTimeout(() => {
@@ -158,7 +92,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
 
       if (!isEmailValid || !isPasswordValid) {
         setIsLoading(false);
-
         if (!isEmailValid) setEmailError("Email tidak terdaftar.");
         if (!isPasswordValid) setPasswordError("Kata sandi salah.");
 
@@ -166,7 +99,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
           title: "Login Gagal",
           message: "Email atau password salah, periksa kembali data kamu.",
         });
-
         return;
       }
 
@@ -175,11 +107,11 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
   };
 
   return (
-    <main className="h-screen w-full bg-white flex items-center justify-center relative overflow-hidden font-sans">
+    <main className="min-h-screen md:h-screen w-full bg-white flex items-center justify-center relative overflow-y-auto md:overflow-hidden font-sans">
       
       {/* Toast Error */}
       {toast && (
-        <div className="fixed top-6 right-6 z-[9999] bg-white border border-[#F0E6E6] border-l-4 border-l-[#EA4335] shadow-xl rounded-xl p-4 max-w-sm w-full overflow-hidden flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
+        <div className="fixed top-4 right-4 left-4 md:left-auto md:top-6 md:right-6 z-[9999] bg-white border border-[#F0E6E6] border-l-4 border-l-[#EA4335] shadow-xl rounded-xl p-4 max-w-sm w-full overflow-hidden flex items-start gap-3 animate-in fade-in slide-in-from-top-2 duration-200">
           <div className="w-5 h-5 rounded-full bg-[#FCE8E6] text-[#EA4335] flex items-center justify-center font-bold text-xs shrink-0 mt-0.5">
             !
           </div>
@@ -194,7 +126,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
           >
             ✕
           </button>
-
           <div 
             className="absolute bottom-0 left-0 h-[3px] bg-[#EA4335] transition-all duration-100 ease-linear"
             style={{ width: `${progress}%` }}
@@ -202,19 +133,28 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
         </div>
       )}
 
-      {/* Tombol Close */}
+      {/* TOMBOL BACK KHUSUS MOBILE */}
+      <Link
+        href="/mobile/login-info?tab=cattery"
+        className="md:hidden absolute top-5 left-5 z-30 flex items-center gap-1.5 px-3.5 py-1.5 rounded-full bg-[#F7F4F1] active:bg-[#E9E2DC] text-[#7A6E65] text-xs font-bold transition-all shadow-2xs"
+      >
+        <span>←</span>
+        <span>Kembali</span>
+      </Link>
+
+      {/* TOMBOL CLOSE DESKTOP */}
       <Link
         href="/"
-        className="absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-[#F7F4F1] hover:bg-[#E9E2DC] flex items-center justify-center text-[#7A6E65] hover:text-[#231A14] transition-all cursor-pointer shadow-sm font-bold"
+        className="hidden md:flex absolute top-6 right-6 z-30 w-10 h-10 rounded-full bg-[#F7F4F1] hover:bg-[#E9E2DC] items-center justify-center text-[#7A6E65] hover:text-[#231A14] transition-all cursor-pointer shadow-sm font-bold"
       >
         ✕
       </Link>
 
-      <div className="w-full h-full flex flex-col md:flex-row relative overflow-hidden">
+      <div className="w-full h-full flex flex-col md:flex-row relative">
         
-        {/* Left Panel */}
+        {/* Left Panel (Desktop Only) */}
         <div 
-          className="w-full md:w-5/12 relative p-8 md:p-12 lg:p-16 flex flex-col justify-between h-full overflow-y-auto bg-cover bg-center text-white"
+          className="hidden md:flex w-full md:w-5/12 relative p-8 md:p-12 lg:p-16 flex-col justify-between h-full bg-cover bg-center text-white"
           style={{ backgroundImage: "url('/images/cattt.jpg')" }}
         >
           <div className="absolute inset-0 bg-black/70 z-0" />
@@ -239,22 +179,31 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
         </div>
 
         {/* Right Panel */}
-        <div className="w-full md:w-7/12 p-8 md:p-16 lg:p-20 flex flex-col justify-between bg-white h-full overflow-hidden">
-          <div className="max-w-[420px] w-full mx-auto my-auto space-y-6">
-            
+        <div className="w-full md:w-7/12 p-6 sm:p-10 md:p-16 lg:p-20 flex flex-col justify-between bg-white min-h-screen md:min-h-0 md:h-full pt-16 md:pt-16">
+          <div className="max-w-[420px] w-full mx-auto my-auto space-y-5 sm:space-y-6">
             {viewState === "login" ? (
               <>
-                <div className="space-y-1">
-                  <h2 className="text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">
+                {/* LOGO ICA KHUSUS MOBILE (DI TENGAH ATAS FORM) */}
+                <div className="md:hidden flex justify-center pb-1">
+                  <Image 
+                    src="/images/LOGO-ICA.webp" 
+                    alt="ICA Logo" 
+                    width={60} 
+                    height={60} 
+                    className="object-contain" 
+                  />
+                </div>
+
+                <div className="space-y-1 text-center md:text-left">
+                  <h2 className="text-xl sm:text-2xl md:text-[28px] font-black tracking-tight text-[#231A14]">
                     Masuk ke Cattery Portal
                   </h2>
-                  <p className="text-xs text-[#7A6E65] text-justify">
+                  <p className="text-xs text-[#7A6E65]">
                     Gunakan email dan kata sandi akun cattery Anda.
                   </p>
                 </div>
 
                 <form onSubmit={handleSubmit} className="space-y-4">
-                  {/* Input Email */}
                   <div className="space-y-1.5">
                     <label className="text-xs font-semibold text-[#4A3D34]">Email cattery</label>
                     <input 
@@ -277,7 +226,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
                     )}
                   </div>
 
-                  {/* Input Password */}
                   <div className="space-y-1.5">
                     <div className="flex justify-between items-center">
                       <label className="text-xs font-semibold text-[#4A3D34]">Kata sandi</label>
@@ -312,7 +260,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
                     )}
                   </div>
 
-                  {/* Tombol Submit */}
                   <button 
                     type="submit" 
                     disabled={isLoading}
@@ -332,7 +279,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
                   </button>
                 </form>
 
-                {/* Switch ke Register Cattery */}
                 <div className="text-center space-y-2 pt-1">
                   <p className="text-xs text-[#7A6E65]">
                     Belum mendaftarkan cattery?{" "}
@@ -347,7 +293,6 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
                 </div>
               </>
             ) : (
-              /* Tampilan Log Aktivitas */
               <div className="space-y-4">
                 <div>
                   <button
@@ -357,13 +302,13 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
                   >
                     ‹ Kembali ke halaman masuk
                   </button>
-                  <h2 className="text-2xl font-bold text-[#231A14]">Log aktivitas cattery</h2>
+                  <h2 className="text-xl sm:text-2xl font-bold text-[#231A14]">Log aktivitas cattery</h2>
                   <p className="text-xs text-[#7A6E65] mt-1 text-justify">
                     Catatan login, autentikasi akun, dan status pendaftaran cattery.
                   </p>
                 </div>
 
-                <div className="border border-[#E2DDD7] rounded-2xl p-4 bg-white h-[360px] overflow-y-auto space-y-4 pr-3 scrollbar-thin scrollbar-thumb-[#D0C8C0] scrollbar-track-transparent">
+                <div className="border border-[#E2DDD7] rounded-2xl p-4 bg-white h-[320px] sm:h-[360px] overflow-y-auto space-y-4 pr-3 scrollbar-thin scrollbar-thumb-[#D0C8C0] scrollbar-track-transparent">
                   {activities.map((act, idx) => (
                     <div 
                       key={idx} 
@@ -406,11 +351,9 @@ export default function LoginCattery({ onSwitchToRegister }: LoginCatteryProps) 
                 </div>
               </div>
             )}
-
           </div>
 
-          {/* Footer Bottom */}
-          <div className="w-full text-center space-y-1.5 pt-6">
+          <div className="w-full text-center space-y-1.5 pt-6 pb-4 md:pb-0">
             {viewState === "login" && (
               <div className="flex items-center justify-center gap-1.5">
                 <button

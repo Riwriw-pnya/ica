@@ -62,7 +62,7 @@ export default function DesktopHeader({
   });
 
   return (
-    <div className="hidden md:flex w-full items-center justify-between">
+    <div className="hidden md:flex h-[33px] w-full items-center justify-between">
       {/* SISI KIRI DESKTOP */}
       <div className="flex items-center gap-3">
         <h1 className="font-display text-base font-bold text-[#231A14]">
@@ -151,7 +151,7 @@ export default function DesktopHeader({
                 className="relative flex h-8 w-8 items-center justify-center rounded-lg border border-gray-200 text-[#231A14] transition hover:bg-[#FAF7F2] cursor-pointer"
                 aria-label="Notifikasi Desktop"
               >
-                <DashboardIcon name="bell" size={18} />
+                <DashboardIcon name="bell" size={18} className="text-[#231A14]" />
                 {unreadCount > 0 && (
                   <span className="absolute -top-1 -right-1 flex h-4 min-w-4 items-center justify-center rounded-full bg-[#D95D1E] px-1 text-[9px] font-bold leading-none text-white">
                     {unreadCount}
@@ -174,9 +174,9 @@ export default function DesktopHeader({
               <button
                 type="button"
                 onClick={() => toggleMenu("header")}
-                className="cursor-pointer flex items-center gap-1.5 rounded-lg transition-all hover:opacity-80"
+                className="flex items-center gap-1.5 h-9 w-[66px] cursor-pointer justify-between rounded-full border border-[#D8C9BA] bg-gradient-to-b from-white to-[#F3ECE4] px-2 shadow-[0_2px_5px_rgba(0,0,0,0.07)] transition-all hover:border-[#CBB8A7] hover:opacity-80 hover:from-white hover:to-[#EEE5DB] active:scale-[0.98]"
               >
-                <div className="flex h-8 w-8 items-center justify-center rounded-full bg-[#FFE8DB] text-[11px] font-bold text-[#D95D1E] shrink-0">
+                <div className="flex h-7 w-7 shrink-0 items-center justify-center rounded-full font-bold bg-gradient-to-b from-[#FFD09F] to-[#F27A32] text-[10px] text-white shadow-[inset_0_1px_2px_rgba(255,255,255,0.45),0_1px_3px_rgba(0,0,0,0.08)]">
                   {initials}
                 </div>
                 <span className="text-[#6E6359] flex items-center pr-1">

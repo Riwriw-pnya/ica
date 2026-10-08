@@ -99,7 +99,7 @@ function getBadgesForCat(cat: CatItem): BadgeType[] {
     return ["BoB", "CH", "Pedigree aktif", "Vaksin lengkap"];
   }
   if (cat.name.includes("Kirana")) {
-    return ["NOM", "Pedigree aktif", "Indukan aktif", "Sehat terverifikasi"];
+    return ["NOM", "Pedigree diproses", "Indukan aktif", "Sehat terverifikasi"];
   }
   if (cat.name.includes("Nara")) {
     return ["BoB", "Pedigree diproses", "Vaksin lengkap"];
@@ -111,7 +111,7 @@ function getBadgesForCat(cat: CatItem): BadgeType[] {
     return ["Belum pedigree", "Vaksin lengkap"];
   }
   if (cat.name.includes("Damar")) {
-    return ["Belum pedigree"];
+    return ["Pedigree aktif"];
   }
   return ["Pedigree aktif", "Vaksin lengkap"];
 }
